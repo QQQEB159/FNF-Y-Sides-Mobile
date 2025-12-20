@@ -22,21 +22,30 @@ class LimoStage extends BaseStage
 	{
         sky = new FlxSprite();
         sky.loadGraphic(Paths.image('sky'));
+        sky.scrollFactor.set(0.1, 0.1);
+        sky.x += -1200;
+        sky.y += -650;
         add(sky);
 
         clouds = new FlxBackdrop(Paths.image('clouds'), X, 20, 0);
+        clouds.scrollFactor.set(0.25, 0.25);
+        clouds.y += -300;
         add(clouds);
 
         buildingsBack = new FlxBackdrop(Paths.image('buildingBack'), X, 0, 0);
-        buildingsBack.y = 200;
+        buildingsBack.scrollFactor.set(0.4, 0.4);
+        buildingsBack.y = 80;
         add(buildingsBack);
 
         buildingsFront = new FlxBackdrop(Paths.image('building'), X, 0, 0);
-        buildingsFront.y = 200;
+        buildingsFront.scrollFactor.set(0.6, 0.6);
+        buildingsFront.y = 80;
         add(buildingsFront);
 
-        water = new FlxSprite();
-        water.loadGraphic(Paths.image('water'));
+        water = new FlxBackdrop(Paths.image('water'), X, 0, 0);
+        water.y = 560;
+        water.x = -600;
+        water.scrollFactor.set(0.65, 0.65);
         add(water);
 
         if(ClientPrefs.data.shaders)
@@ -74,6 +83,9 @@ class LimoStage extends BaseStage
         var light:FlxSprite = new FlxSprite();
         light.loadGraphic(Paths.image('light'));
         light.blend = ADD;
+        light.scrollFactor.set(0.1, 0.1);
+        light.x += -1200;
+        light.y += -650;
         add(light);
 
 		if(ClientPrefs.data.shaders)
