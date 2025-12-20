@@ -25,27 +25,32 @@ class LimoStage extends BaseStage
         sky.scrollFactor.set(0.1, 0.1);
         sky.x += -1200;
         sky.y += -650;
+        sky.antialiasing = ClientPrefs.data.antialiasing;
         add(sky);
 
         clouds = new FlxBackdrop(Paths.image('clouds'), X, 20, 0);
         clouds.scrollFactor.set(0.25, 0.25);
         clouds.y += -300;
+        clouds.antialiasing = ClientPrefs.data.antialiasing;
         add(clouds);
 
         buildingsBack = new FlxBackdrop(Paths.image('buildingBack'), X, 0, 0);
         buildingsBack.scrollFactor.set(0.4, 0.4);
         buildingsBack.y = 80;
+        buildingsBack.antialiasing = ClientPrefs.data.antialiasing;
         add(buildingsBack);
 
         buildingsFront = new FlxBackdrop(Paths.image('building'), X, 0, 0);
         buildingsFront.scrollFactor.set(0.6, 0.6);
         buildingsFront.y = 80;
+        buildingsFront.antialiasing = ClientPrefs.data.antialiasing;
         add(buildingsFront);
 
         water = new FlxBackdrop(Paths.image('water'), X, 0, 0);
         water.y = 560;
         water.x = -600;
         water.scrollFactor.set(0.65, 0.65);
+        water.antialiasing = ClientPrefs.data.antialiasing;
         add(water);
 
         if(ClientPrefs.data.shaders)
@@ -56,9 +61,11 @@ class LimoStage extends BaseStage
         }
 
         road = new FlxBackdrop(Paths.image('road'), X, 0, 0);
+        road.antialiasing = ClientPrefs.data.antialiasing;
         add(road);
 
         truck = new FlxSprite();
+        truck.antialiasing = ClientPrefs.data.antialiasing;
         truck.loadGraphic(Paths.image('truck'));
         add(truck);
 
