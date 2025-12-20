@@ -1,0 +1,20 @@
+{
+	"songs": [
+		["Satin Panties", "dad", [254, 0, 103]]
+	],
+
+	"weekCharacters": [
+		"dad",
+		"bf",
+		"gf"
+	],
+	"weekBackground": "stage",
+
+	"storyName": "Mommy Mearest!",
+	"weekBefore": "week3",
+	"weekName": "Week 4",
+	"startUnlocked": false,
+
+	"hideStoryMode": false,
+	"hideFreeplay": false
+}
