@@ -122,3 +122,46 @@
 - [x] RECOMMENDATION: Needs more difficulty, new players ain't playing Y Sides first so we can add something to make it a bit harder (such as health drain)
 - [x] NEW: Add a "Time Played" system, where the game constantly record how much have you been playing the mod
 - [x] NEW: Animated icons
+
+# WEEK 4 & 5 UPDATE
+
+## SONGS
+- [ ] Candy Floss
+- [ ] Satin Panties
+- [ ] High
+- [ ] MILF
+- [ ] Cocoa
+- [ ] Eggnog
+- [ ] Mistletoe
+- [ ] Winter Horrorland
+
+## HUD
+
+- [ ] Mommy icons
+- [ ] Mommy and daddy xmas icons
+- [ ] BF (Xmas Version)
+- [ ] GF (Xmas Version)
+- [ ] Monster (Xmas Version)
+
+## MENUS
+
+- [ ] Save files
+
+## OTHER
+
+- [ ] Week 2 Mechanic
+- [ ] Week 3 Mechanic
+- [ ] Week 4 Mechanic
+- [ ] Week 5 Mechanic
+- [ ] Candy Floss (SONGCARD)
+- [ ] Satin Panties (SONGCARD)
+- [ ] High (SONGCARD)
+- [ ] MILF (SONGCARD)
+- [ ] Cocoa (SONGCARD)
+- [ ] Eggnog (SONGCARD)
+- [ ] Mistletoe (SONGCARD)
+- [ ] Winter Horrorland (SONGCARD)
+
+## SPECIFIC
+
+- [ ] ENHANCEMENT: Mechanics are easier in normal and easy difficulties
