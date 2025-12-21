@@ -155,11 +155,16 @@ class ClientPrefs {
 	}
 
 	public static function saveSettings() {
+
+		var preferences:FlxSave = new FlxSave();
+		preferences.bind('preferences', CoolUtil.getSavePath());
+		preferences.flush();
+
 		for (key in Reflect.fields(data))
-			Reflect.setField(FlxG.save.data, key, Reflect.field(data, key));
+			Reflect.setField(preferences.data, key, Reflect.field(data, key));
 
 		#if ACHIEVEMENTS_ALLOWED Achievements.save(); #end
-		FlxG.save.flush();
+		preferences.flush();
 
 		//Placing this in a separate save so that it can be manually deleted without removing your Score and stuff
 		var save:FlxSave = new FlxSave();
@@ -172,18 +177,21 @@ class ClientPrefs {
 
 	public static function loadPrefs() {
 		#if ACHIEVEMENTS_ALLOWED Achievements.load(); #end
+		
+		var preferences:FlxSave = new FlxSave();
+		preferences.bind('preferences', CoolUtil.getSavePath());
 
 		for (key in Reflect.fields(data))
-			if (key != 'gameplaySettings' && Reflect.hasField(FlxG.save.data, key))
-				Reflect.setField(data, key, Reflect.field(FlxG.save.data, key));
-		
+			if (key != 'gameplaySettings' && Reflect.hasField(preferences.data, key))
+				Reflect.setField(data, key, Reflect.field(preferences.data, key));
+
 		if(Main.fpsVar != null)
 			Main.fpsVar.visible = data.showFPS;
 
 		#if (!html5 && !switch)
 		FlxG.autoPause = ClientPrefs.data.autoPause;
 
-		if(FlxG.save.data.framerate == null) {
+		if(preferences.data.framerate == null) {
 			final refreshRate:Int = FlxG.stage.application.window.displayMode.refreshRate;
 			data.framerate = Std.int(FlxMath.bound(refreshRate, 60, 240));
 		}
@@ -200,9 +208,9 @@ class ClientPrefs {
 			FlxG.updateFramerate = data.framerate;
 		}
 
-		if(FlxG.save.data.gameplaySettings != null)
+		if(preferences.data.gameplaySettings != null)
 		{
-			var savedMap:Map<String, Dynamic> = FlxG.save.data.gameplaySettings;
+			var savedMap:Map<String, Dynamic> = preferences.data.gameplaySettings;
 			for (name => value in savedMap)
 				data.gameplaySettings.set(name, value);
 		}
