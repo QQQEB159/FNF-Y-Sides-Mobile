@@ -31,7 +31,7 @@ class LimoStage extends BaseStage
 
         clouds = new FlxBackdrop(Paths.image('clouds'), X, 20, 0);
         clouds.scrollFactor.set(0.25, 0.25);
-        clouds.y += -1200;
+        clouds.y += -1000;
         clouds.antialiasing = ClientPrefs.data.antialiasing;
         add(clouds);
 
@@ -89,11 +89,11 @@ class LimoStage extends BaseStage
 
         if(isMaximumSpeed)
         {
-            clouds.velocity.set(46.6, 0);
-            buildingsBack2.velocity.set(93.2, 0);
-            buildingsBack.velocity.set(116.5, 0);
-            buildingsFront.velocity.set(174.75, 0);
-            road.velocity.set(7000, 0);
+        clouds.velocity.set(20 * 2.33, 0);
+        buildingsBack2.velocity.set(40 * 2.33, 0);
+        buildingsBack.velocity.set(50 * 2.33, 0);
+        buildingsFront.velocity.set(75 * 2.33, 0);
+        road.velocity.set(3000 * 2.33, 0);
         }
     }
 
