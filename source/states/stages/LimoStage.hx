@@ -76,9 +76,11 @@ class LimoStage extends BaseStage
         truck.loadGraphic(Paths.image('truck'));
         add(truck);
 
-        applyVelocites();
+        applyVelocites(true);
 	}
 
+    var speedMult:Float = 2.33;
+    //var speedMult:Float = 10;
     function applyVelocites(isMaximumSpeed:Bool = false)
     {
         clouds.velocity.set(20, 0);
@@ -89,11 +91,11 @@ class LimoStage extends BaseStage
 
         if(isMaximumSpeed)
         {
-        clouds.velocity.set(20 * 2.33, 0);
-        buildingsBack2.velocity.set(40 * 2.33, 0);
-        buildingsBack.velocity.set(50 * 2.33, 0);
-        buildingsFront.velocity.set(75 * 2.33, 0);
-        road.velocity.set(3000 * 2.33, 0);
+        clouds.velocity.set(20 * speedMult, 0);
+        buildingsBack2.velocity.set(40 * speedMult, 0);
+        buildingsBack.velocity.set(50 * speedMult, 0);
+        buildingsFront.velocity.set(75 * speedMult, 0);
+        road.velocity.set(3000 * speedMult, 0);
         }
     }
 
