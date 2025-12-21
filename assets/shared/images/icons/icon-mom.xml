@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="icon-mom.png">
+	<!-- Created with Adobe Animate version 22.0.2.168 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="lose_loop instancia 10000" x="11" y="11" width="153" height="139"/>
+	<SubTexture name="lose_loop instancia 10001" x="11" y="11" width="153" height="139"/>
+	<SubTexture name="lose_loop instancia 10002" x="11" y="11" width="153" height="139"/>
+	<SubTexture name="lose_loop instancia 10003" x="11" y="11" width="153" height="139"/>
+	<SubTexture name="lose_loop instancia 10004" x="202" y="11" width="153" height="139"/>
+	<SubTexture name="lose_loop instancia 10005" x="202" y="11" width="153" height="139"/>
+	<SubTexture name="lose_loop instancia 10006" x="202" y="11" width="153" height="139"/>
+	<SubTexture name="lose_loop instancia 10007" x="202" y="11" width="153" height="139"/>
+	<SubTexture name="lose_to_normal instancia 10000" x="393" y="11" width="153" height="139"/>
+	<SubTexture name="lose_to_normal instancia 10001" x="393" y="11" width="153" height="139"/>
+	<SubTexture name="lose_to_normal instancia 10002" x="584" y="11" width="153" height="139"/>
+	<SubTexture name="lose_to_normal instancia 10003" x="584" y="11" width="153" height="139"/>
+	<SubTexture name="normal_loop instancia 10000" x="775" y="11" width="153" height="139"/>
+	<SubTexture name="normal_loop instancia 10001" x="775" y="11" width="153" height="139"/>
+	<SubTexture name="normal_loop instancia 10002" x="775" y="11" width="153" height="139"/>
+	<SubTexture name="normal_loop instancia 10003" x="775" y="11" width="153" height="139"/>
+	<SubTexture name="normal_loop instancia 10004" x="11" y="188" width="153" height="139"/>
+	<SubTexture name="normal_loop instancia 10005" x="11" y="188" width="153" height="139"/>
+	<SubTexture name="normal_loop instancia 10006" x="11" y="188" width="153" height="139"/>
+	<SubTexture name="normal_loop instancia 10007" x="11" y="188" width="153" height="139"/>
+	<SubTexture name="normal_to_lose instancia 10000" x="584" y="11" width="153" height="139"/>
+	<SubTexture name="normal_to_lose instancia 10001" x="584" y="11" width="153" height="139"/>
+	<SubTexture name="normal_to_lose instancia 10002" x="393" y="11" width="153" height="139"/>
+	<SubTexture name="normal_to_lose instancia 10003" x="393" y="11" width="153" height="139"/>
+</TextureAtlas>
