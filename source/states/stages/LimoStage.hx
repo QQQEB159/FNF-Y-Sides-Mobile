@@ -12,6 +12,7 @@ class LimoStage extends BaseStage
 
     var sky:FlxSprite;
     var clouds:FlxBackdrop;
+    var buildingsBack2:FlxBackdrop;
     var buildingsBack:FlxBackdrop;
     var buildingsFront:FlxBackdrop;
     var water:FlxSprite;
@@ -33,6 +34,12 @@ class LimoStage extends BaseStage
         clouds.y += -1200;
         clouds.antialiasing = ClientPrefs.data.antialiasing;
         add(clouds);
+
+        buildingsBack2 = new FlxBackdrop(Paths.image('buildingBack2'), X, 0, 0);
+        buildingsBack2.scrollFactor.set(0.4, 0.4);
+        //buildingsBack2.y = 80;
+        buildingsBack2.antialiasing = ClientPrefs.data.antialiasing;
+        add(buildingsBack2);
 
         buildingsBack = new FlxBackdrop(Paths.image('buildingBack'), X, 0, 0);
         buildingsBack.scrollFactor.set(0.4, 0.4);
@@ -75,6 +82,7 @@ class LimoStage extends BaseStage
     function applyVelocites(isMaximumSpeed:Bool = false)
     {
         clouds.velocity.set(20, 0);
+        buildingsBack2.velocity.set(40, 0);
         buildingsBack.velocity.set(50, 0);
         buildingsFront.velocity.set(75, 0);
         road.velocity.set(3000, 0);
@@ -82,6 +90,7 @@ class LimoStage extends BaseStage
         if(isMaximumSpeed)
         {
             clouds.velocity.set(46.6, 0);
+            buildingsBack2.velocity.set(93.2, 0);
             buildingsBack.velocity.set(116.5, 0);
             buildingsFront.velocity.set(174.75, 0);
             road.velocity.set(7000, 0);
