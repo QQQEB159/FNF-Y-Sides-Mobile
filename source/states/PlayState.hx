@@ -3690,7 +3690,7 @@ class PlayState extends MusicBeatState
 
 				var cameraOffset:Float = 10; // 30 is good option
 	
-				if(!SONG.notes[curSection].mustHitSection)
+				if(!SONG.notes[curSection].mustHitSection && !isCameraOnForcedPos)
 				{
 					if(detectedOpponentNote && detectedThirdPlayerNote)
 					{
@@ -3812,7 +3812,7 @@ class PlayState extends MusicBeatState
 					
 					var cameraOffset:Float = 10; // 30 is good option
 
-					if(SONG.notes[curSection].mustHitSection)
+					if(SONG.notes[curSection].mustHitSection && !isCameraOnForcedPos)
 					{
 						switch(animToPlay)
 						{
