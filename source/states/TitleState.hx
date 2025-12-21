@@ -6,6 +6,7 @@ import flixel.input.keyboard.FlxKey;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.graphics.frames.FlxFrame;
 import flixel.group.FlxGroup;
+import flixel.util.FlxSave;
 import flixel.input.gamepad.FlxGamepad;
 import haxe.Json;
 
@@ -107,7 +108,7 @@ class TitleState extends MusicBeatState
 		#elseif CHARTING
 		MusicBeatState.switchState(new ChartingState());
 		#else
-		
+
 		var preferences:FlxSave = new FlxSave();
 		preferences.bind('preferences', CoolUtil.getSavePath());
 		if(preferences.data.flashing == null && !FlashingState.leftState)
