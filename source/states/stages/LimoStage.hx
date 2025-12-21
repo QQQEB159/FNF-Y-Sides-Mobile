@@ -90,7 +90,7 @@ class LimoStage extends BaseStage
 
     override function update(elapsed:Float)
     {
-        waterShader.iTime.value[0] += elapsed;
+        if(ClientPrefs.data.shaders) waterShader.iTime.value[0] += elapsed;
     }
 
     override function createPost() 
