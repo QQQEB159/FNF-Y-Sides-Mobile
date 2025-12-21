@@ -6,7 +6,7 @@ import flixel.addons.display.FlxBackdrop;
 import states.stages.objects.*;
 import objects.Character;
 
-class LimoStage extends BaseStage
+class LimoStageNight extends BaseStage
 {
     var waterShader:WaterShader;
 
@@ -17,19 +17,20 @@ class LimoStage extends BaseStage
     var buildingsFront:FlxBackdrop;
     var water:FlxSprite;
     var road:FlxBackdrop;
+    var roadLights:FlxBackdrop;
     var truck:FlxSprite;
 
 	override function create()
 	{
         sky = new FlxSprite();
-        sky.loadGraphic(Paths.image('sky'));
+        sky.loadGraphic(Paths.image('night/sky'));
         sky.scrollFactor.set(0.1, 0.1);
         sky.x += -1200;
         sky.y += -650;
         sky.antialiasing = ClientPrefs.data.antialiasing;
         add(sky);
 
-        clouds = new FlxBackdrop(Paths.image('clouds'), X, 20, 0);
+        clouds = new FlxBackdrop(Paths.image('night/clouds'), X, 20, 0);
         clouds.scrollFactor.set(0.25, 0.25);
         clouds.y += -1000;
         clouds.antialiasing = ClientPrefs.data.antialiasing;
@@ -67,16 +68,20 @@ class LimoStage extends BaseStage
             water.shader = waterShader;
         }
 
-        road = new FlxBackdrop(Paths.image('road'), X, 0, 0);
+        road = new FlxBackdrop(Paths.image('night/road'), X, 0, 0);
         road.antialiasing = ClientPrefs.data.antialiasing;
         add(road);
 
+        roadLights = new FlxBackdrop(Paths.image('night/roadLights'), X, 0, 0);
+        roadLights.antialiasing = ClientPrefs.data.antialiasing;
+        add(roadLights);
+
         truck = new FlxSprite();
         truck.antialiasing = ClientPrefs.data.antialiasing;
-        truck.loadGraphic(Paths.image('truck'));
+        truck.loadGraphic(Paths.image('night/truck'));
         add(truck);
 
-        applyVelocites();
+        applyVelocites(true);
 	}
 
     var speedMult:Float = 2.33;
@@ -88,14 +93,16 @@ class LimoStage extends BaseStage
         buildingsBack.velocity.set(50, 0);
         buildingsFront.velocity.set(75, 0);
         road.velocity.set(3000, 0);
+        roadLights.velocity.set(3000, 0);
 
         if(isMaximumSpeed)
         {
-        clouds.velocity.set(20 * speedMult, 0);
-        buildingsBack2.velocity.set(40 * speedMult, 0);
-        buildingsBack.velocity.set(50 * speedMult, 0);
-        buildingsFront.velocity.set(75 * speedMult, 0);
-        road.velocity.set(3000 * speedMult, 0);
+            clouds.velocity.set(20 * speedMult, 0);
+            buildingsBack2.velocity.set(40 * speedMult, 0);
+            buildingsBack.velocity.set(50 * speedMult, 0);
+            buildingsFront.velocity.set(75 * speedMult, 0);
+            road.velocity.set(3000 * speedMult, 0);
+            roadLights.velocity.set(3000 * speedMult, 0);
         }
     }
 
@@ -107,7 +114,7 @@ class LimoStage extends BaseStage
     override function createPost() 
     {
         var light:FlxSprite = new FlxSprite();
-        light.loadGraphic(Paths.image('light'));
+        light.loadGraphic(Paths.image('night/light'));
         light.blend = ADD;
         light.scrollFactor.set(0.1, 0.1);
         light.x += -1200;
@@ -118,8 +125,8 @@ class LimoStage extends BaseStage
 		{
 			// lights on characters
 			var rimBF = new DropShadowShader();
-			rimBF.setAdjustColor(0, 10, 0, 0);
-			rimBF.color = 0xFFFEF9AA;
+			rimBF.setAdjustColor(0, -10, 0, 0);
+			rimBF.color = 0xFFFFFFFF;
 			game.boyfriend.shader = rimBF;
 			rimBF.attachedSprite = game.boyfriend;
 			rimBF.angle = 90;
@@ -133,8 +140,8 @@ class LimoStage extends BaseStage
 			};
 
 			var rimGF = new DropShadowShader();
-			rimGF.setAdjustColor(0, 10, 0, 0);
-			rimGF.color = 0xFFFEF9AA;
+			rimGF.setAdjustColor(0, -10, 0, 0);
+			rimGF.color = 0xFFFFFFFF;
 			game.gf.shader = rimGF;
 			rimGF.attachedSprite = game.gf;
 			rimGF.distance = 10;
@@ -149,8 +156,8 @@ class LimoStage extends BaseStage
 			};
 
 			var rimDad = new DropShadowShader();
-			rimDad.setAdjustColor(0, 10, 0, 0);
-			rimDad.color = 0xFFFEF9AA;
+			rimDad.setAdjustColor(0, -10, 0, 0);
+			rimDad.color = 0xFFFFFFFF;
 			game.dad.shader = rimDad;
 			rimDad.attachedSprite = game.dad;
 			rimDad.angle = 90;
