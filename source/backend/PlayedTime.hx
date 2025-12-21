@@ -15,10 +15,8 @@ class PlayedTime
 
     public static function loadPlayedTime():Void
     {
-        timeSave = new FlxSave();
-        timeSave.bind('playedTime', CoolUtil.getSavePath());
-        timeSave.data.playedTime = timeSave.data.playedTime == null ? 0 : timeSave.data.playedTime;
-        time = timeSave.data.playedTime;
+        FlxG.save.data.playedTime = FlxG.save.data.playedTime == null ? 0 : FlxG.save.data.playedTime;
+        time = FlxG.save.data.playedTime;
 
         #if debug 
         trace('Loaded play time (current played time is $time seconds)');
@@ -28,12 +26,12 @@ class PlayedTime
     public static function updateTime():Void
     {
         // avoid crash (just in case)
-        if(timeSave == null) return;
+        if(FlxG.save == null) return;
 
         time++;
-        timeSave.data.playedTime = time;
-        timeSave.flush();
-
+        FlxG.save.data.playedTime = time;
+        FlxG.save.flush();
+        
         #if debug 
         trace('You have played for $time seconds! (${time/60} minutes) (${time/3600} hours)');
         #end
