@@ -36,13 +36,13 @@ class LimoStage extends BaseStage
 
         buildingsBack = new FlxBackdrop(Paths.image('buildingBack'), X, 0, 0);
         buildingsBack.scrollFactor.set(0.4, 0.4);
-        buildingsBack.y = 80;
+        //buildingsBack.y = 80;
         buildingsBack.antialiasing = ClientPrefs.data.antialiasing;
         add(buildingsBack);
 
         buildingsFront = new FlxBackdrop(Paths.image('building'), X, 0, 0);
         buildingsFront.scrollFactor.set(0.6, 0.6);
-        buildingsFront.y = 80;
+        //buildingsFront.y = 80;
         buildingsFront.antialiasing = ClientPrefs.data.antialiasing;
         add(buildingsFront);
 
