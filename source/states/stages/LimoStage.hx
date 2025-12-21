@@ -30,7 +30,7 @@ class LimoStage extends BaseStage
 
         clouds = new FlxBackdrop(Paths.image('clouds'), X, 20, 0);
         clouds.scrollFactor.set(0.25, 0.25);
-        clouds.y += -300;
+        clouds.y += -1200;
         clouds.antialiasing = ClientPrefs.data.antialiasing;
         add(clouds);
 
