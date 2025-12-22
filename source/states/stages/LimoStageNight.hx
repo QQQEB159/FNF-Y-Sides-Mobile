@@ -111,6 +111,39 @@ class LimoStageNight extends BaseStage
         if(ClientPrefs.data.shaders) waterShader.iTime.value[0] += elapsed;
     }
 
+    override function stepHit()
+    {
+        switch(curStep)
+        {
+            case 1312:
+                FlxTween.tween(windLmao, {alpha: 1}, 1.2, {ease: FlxEase.quartOut});
+                FlxTween.num(speedMult, 7, 1.2, {ease: FlxEase.quartOut}, function(v:Float)
+                {
+                    speedMult = v;
+                    clouds.velocity.set(20 * v, 0);
+                    buildingsBack2.velocity.set(40 * v, 0);
+                    buildingsBack.velocity.set(50 * v, 0);
+                    buildingsFront.velocity.set(75 * v, 0);
+                    road.velocity.set(3000 * v, 0);
+                    roadLights.velocity.set(3000 * v, 0);
+                    windLmao.velocity.set(5000 * v, 0);
+                });
+            case 1440:
+                FlxTween.tween(windLmao, {alpha: 0}, 1.2, {ease: FlxEase.quartOut});
+                FlxTween.num(speedMult, 2.33, 1.2, {ease: FlxEase.quartOut}, function(v:Float)
+                {
+                    clouds.velocity.set(20 * v, 0);
+                    buildingsBack2.velocity.set(40 * v, 0);
+                    buildingsBack.velocity.set(50 * v, 0);
+                    buildingsFront.velocity.set(75 * v, 0);
+                    road.velocity.set(3000 * v, 0);
+                    roadLights.velocity.set(3000 * v, 0);
+                    windLmao.velocity.set(5000 * v, 0);
+                });
+        }
+    }
+
+    var windLmao:FlxBackdrop;
     override function createPost() 
     {
         var light:FlxSprite = new FlxSprite();
@@ -120,6 +153,12 @@ class LimoStageNight extends BaseStage
         light.x += -1200;
         light.y += -650;
         add(light);
+
+        windLmao = new FlxBackdrop(Paths.image('night/windlmao'), XY, 0, 0);
+        //windLmao.alpha = 0;
+        windLmao.velocity.set(5000 * speedMult, 0);
+        windLmao.scrollFactor.set(0, 0);
+        add(windLmao);
 
 		if(ClientPrefs.data.shaders)
 		{
