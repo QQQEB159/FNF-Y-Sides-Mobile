@@ -3071,6 +3071,11 @@ class PlayState extends MusicBeatState
 					MusicBeatState.switchState(new StoryMenuState());
 					*/
 
+       				LimoStage.buildingsBack2XPos = 0;
+       				LimoStage.buildingsBackXPos = 0;
+       				LimoStage.buildingsFrontXPos = 0;
+					LimoStage.cloudsXPos = 0;
+
 					// if ()
 					if(!ClientPrefs.getGameplaySetting('practice') && !ClientPrefs.getGameplaySetting('botplay')) {
 						StoryMenuState.weekCompleted.set(WeekData.weeksList[storyWeek], true);
@@ -3094,6 +3099,11 @@ class PlayState extends MusicBeatState
 
 					Song.loadFromJson(PlayState.storyPlaylist[0] + difficulty, PlayState.storyPlaylist[0]);
 					FlxG.sound.music.stop();
+
+       				LimoStage.buildingsBack2XPos = LimoStage.buildingsBack2.x;
+       				LimoStage.buildingsBackXPos = LimoStage.buildingsBack.x;
+       				LimoStage.buildingsFrontXPos = LimoStage.buildingsFront.x;
+					LimoStage.cloudsXPos = LimoStage.clouds.x;
 
 					canResync = false;
 					LoadingState.prepareToSong();

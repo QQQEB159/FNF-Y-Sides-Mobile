@@ -33,23 +33,27 @@ class LimoStageNight extends BaseStage
         clouds = new FlxBackdrop(Paths.image('night/clouds'), X, 20, 0);
         clouds.scrollFactor.set(0.25, 0.25);
         clouds.y += -1000;
+        clouds.x = LimoStage.cloudsXPos;
         clouds.antialiasing = ClientPrefs.data.antialiasing;
         add(clouds);
 
         buildingsBack2 = new FlxBackdrop(Paths.image('night/buildingBack2'), X, 0, 0);
         buildingsBack2.scrollFactor.set(0.4, 0.4);
+        buildingsBack2.x = LimoStage.buildingsBack2XPos;
         //buildingsBack2.y = 80;
         buildingsBack2.antialiasing = ClientPrefs.data.antialiasing;
         add(buildingsBack2);
 
         buildingsBack = new FlxBackdrop(Paths.image('night/buildingBack'), X, 0, 0);
         buildingsBack.scrollFactor.set(0.4, 0.4);
+        buildingsBack.x = LimoStage.buildingsBackXPos;
         //buildingsBack.y = 80;
         buildingsBack.antialiasing = ClientPrefs.data.antialiasing;
         add(buildingsBack);
 
         buildingsFront = new FlxBackdrop(Paths.image('night/building'), X, 0, 0);
         buildingsFront.scrollFactor.set(0.6, 0.6);
+        buildingsFront.x = LimoStage.buildingsFrontXPos;
         //buildingsFront.y = 80;
         buildingsFront.antialiasing = ClientPrefs.data.antialiasing;
         add(buildingsFront);

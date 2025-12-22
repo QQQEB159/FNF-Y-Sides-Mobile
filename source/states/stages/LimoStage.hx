@@ -11,13 +11,18 @@ class LimoStage extends BaseStage
     var waterShader:WaterShader;
 
     var sky:FlxSprite;
-    var clouds:FlxBackdrop;
-    var buildingsBack2:FlxBackdrop;
-    var buildingsBack:FlxBackdrop;
-    var buildingsFront:FlxBackdrop;
+    public static var clouds:FlxBackdrop;
+    public static var buildingsBack2:FlxBackdrop;
+    public static var buildingsBack:FlxBackdrop;
+    public static var buildingsFront:FlxBackdrop;
     var water:FlxSprite;
     var road:FlxBackdrop;
     var truck:FlxSprite;
+
+    public static var buildingsBack2XPos:Float = 0;
+    public static var buildingsBackXPos:Float = 0;
+    public static var buildingsFrontXPos:Float = 0;
+    public static var cloudsXPos:Float = 0;
 
 	override function create()
 	{
@@ -32,23 +37,27 @@ class LimoStage extends BaseStage
         clouds = new FlxBackdrop(Paths.image('clouds'), X, 20, 0);
         clouds.scrollFactor.set(0.25, 0.25);
         clouds.y += -1000;
+        clouds.x = cloudsXPos;
         clouds.antialiasing = ClientPrefs.data.antialiasing;
         add(clouds);
 
         buildingsBack2 = new FlxBackdrop(Paths.image('buildingBack2'), X, 0, 0);
         buildingsBack2.scrollFactor.set(0.4, 0.4);
+        buildingsBack2.x = buildingsBack2XPos;
         //buildingsBack2.y = 80;
         buildingsBack2.antialiasing = ClientPrefs.data.antialiasing;
         add(buildingsBack2);
 
         buildingsBack = new FlxBackdrop(Paths.image('buildingBack'), X, 0, 0);
         buildingsBack.scrollFactor.set(0.4, 0.4);
+        buildingsBack.x = buildingsBackXPos;
         //buildingsBack.y = 80;
         buildingsBack.antialiasing = ClientPrefs.data.antialiasing;
         add(buildingsBack);
 
         buildingsFront = new FlxBackdrop(Paths.image('building'), X, 0, 0);
         buildingsFront.scrollFactor.set(0.6, 0.6);
+        buildingsFront.x = buildingsFrontXPos;
         //buildingsFront.y = 80;
         buildingsFront.antialiasing = ClientPrefs.data.antialiasing;
         add(buildingsFront);
@@ -118,7 +127,7 @@ class LimoStage extends BaseStage
 		{
 			// lights on characters
 			var rimBF = new DropShadowShader();
-			rimBF.setAdjustColor(0, 10, 0, 0);
+			rimBF.setAdjustColor(0, 0, 0, 0);
 			rimBF.color = 0xFFFEF9AA;
 			game.boyfriend.shader = rimBF;
 			rimBF.attachedSprite = game.boyfriend;
@@ -133,7 +142,7 @@ class LimoStage extends BaseStage
 			};
 
 			var rimGF = new DropShadowShader();
-			rimGF.setAdjustColor(0, 10, 0, 0);
+			rimGF.setAdjustColor(0, 0, 0, 0);
 			rimGF.color = 0xFFFEF9AA;
 			game.gf.shader = rimGF;
 			rimGF.attachedSprite = game.gf;
@@ -149,7 +158,7 @@ class LimoStage extends BaseStage
 			};
 
 			var rimDad = new DropShadowShader();
-			rimDad.setAdjustColor(0, 10, 0, 0);
+			rimDad.setAdjustColor(0, 0, 0, 0);
 			rimDad.color = 0xFFFEF9AA;
 			game.dad.shader = rimDad;
 			rimDad.attachedSprite = game.dad;
