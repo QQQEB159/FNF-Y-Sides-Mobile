@@ -1,5 +1,6 @@
 package states.gallery;
 
+import sys.thread.Thread;
 import flixel.util.helpers.FlxBounds;
 import haxe.Json;
 import flixel.addons.display.FlxBackdrop;
@@ -40,11 +41,13 @@ class GalleryStateMusic extends MusicBeatState
         'test',
     ];
 
+    var loadMusicTxt:FlxText;
+    var progressMusicTxt:FlxText;
     public function new()
     {
         super();
 
-        preloadMusic();
+        //preloadMusic();
         lockedWeeks(#if debug true #else false #end);
 
 		wiggle = new WiggleEffect(2, 4, 0.002, WiggleEffectType.DREAMY);
@@ -107,6 +110,8 @@ class GalleryStateMusic extends MusicBeatState
 
         for(i in 0...musicSongsArray.length)
         {
+            if(!hasPreloadedMusic) break;
+
             var spr = new GalleryMusicObject();
 		    spr.loadGraphic(Paths.image('songCards/${Paths.formatToSongPath(musicSongsArray[i])}'));
             spr.scale.set(0.6, 0.6);
@@ -121,7 +126,28 @@ class GalleryStateMusic extends MusicBeatState
             musicSongsGrp.add(spr);
         }
 
-        changeSelect(0, true);
+        if(hasPreloadedMusic) changeSelect(0, true);
+        else
+        {
+            var string = "Music gallery hasn't loaded yet. Please wait a moment!";
+
+            loadMusicTxt = new FlxText(0, 0, FlxG.width, string, 12);
+            loadMusicTxt.setFormat(Paths.font("FredokaOne-Regular.ttf"), 32, FlxColor.WHITE, CENTER);
+            loadMusicTxt.screenCenter(Y);
+            loadMusicTxt.antialiasing = ClientPrefs.data.antialiasing;
+            add(loadMusicTxt);
+
+            progressMusicTxt = new FlxText(0, 0, FlxG.width, "", 12);
+            progressMusicTxt.setFormat(Paths.font("FredokaOne-Regular.ttf"), 24, FlxColor.WHITE, CENTER);
+            progressMusicTxt.y = loadMusicTxt.y + loadMusicTxt.height + 10;
+            progressMusicTxt.antialiasing = ClientPrefs.data.antialiasing;
+            add(progressMusicTxt);
+
+            bf.visible = false;
+            panel.visible = false;
+            arrowDown.visible = false;
+            arrowUp.visible = false;
+        }
     }
 
     function lockedWeeks(unlockEverything:Bool = false)
@@ -167,20 +193,32 @@ class GalleryStateMusic extends MusicBeatState
         musicSongsArray.push('test');
     }
 
+    public static var hasPreloadedMusic:Bool = false;
+    public static var preloadProgress:Int = 0;
     static var preloadedInstMap:Map<String, FlxSound> = new Map<String, FlxSound>();
 
     public static function preloadMusic()
     {
-        for(song in musicSongsArrayFull)
-        {
-            if(!FileSystem.exists('assets/songs/$song/Inst.ogg')) continue;
+        Thread.create(() -> {
+            for(song in musicSongsArrayFull)
+            {
+                if(!FileSystem.exists('assets/songs/$song/Inst.ogg')) continue;
 
-            var embedInst = new FlxSound();
-            embedInst.loadEmbedded('assets/songs/$song/Inst.ogg');
-            preloadedInstMap.set(song, embedInst);
+                var embedInst = new FlxSound();
+                embedInst.loadEmbedded('assets/songs/$song/Inst.ogg');
+                preloadedInstMap.set(song, embedInst);
 
-            #if debug trace('Loaded $song (INST)!'); #end
-        }
+                trace('Loaded $song (INST)!');
+                preloadProgress++;
+
+                if(song == musicSongsArrayFull[musicSongsArrayFull.length-1]) //last song
+                {
+                    hasPreloadedMusic = true;
+                }
+
+                Sys.sleep(4);
+            }
+        });
     }
 
     override function create()
@@ -221,6 +259,11 @@ class GalleryStateMusic extends MusicBeatState
     {
         super.update(elapsed);
 
+        if(progressMusicTxt != null)
+        {
+            progressMusicTxt.text = 'Current progress: $preloadProgress/${musicSongsArrayFull.length}';
+        }
+
 		if (wiggle != null) {
 			wiggle.update(elapsed);
 		}
@@ -239,11 +282,15 @@ class GalleryStateMusic extends MusicBeatState
         {
             if(controls.UI_DOWN_P)
             {
+                if(!hasPreloadedMusic) return;
+
                 changeSelect(1);
                 arrowDown.scale.set(0.9, 0.85);
             }
             if(controls.UI_UP_P)
             {
+                if(!hasPreloadedMusic) return;
+                
                 changeSelect(-1);
                 arrowUp.scale.set(0.9, 0.85);
             }
@@ -271,6 +318,8 @@ class GalleryStateMusic extends MusicBeatState
         FlxTween.tween(bf, {y: bf.y - 10, alpha: 0}, tweenDuration, {ease: FlxEase.quartOut});
         FlxTween.tween(arrowUp, {alpha: 0}, tweenDuration, {ease: FlxEase.quartOut});
         FlxTween.tween(arrowDown, {alpha: 0}, tweenDuration, {ease: FlxEase.quartOut});
+        if(loadMusicTxt != null) FlxTween.tween(loadMusicTxt, {alpha: 0}, tweenDuration, {ease: FlxEase.quartOut});
+        if(progressMusicTxt != null) FlxTween.tween(progressMusicTxt, {alpha: 0}, tweenDuration, {ease: FlxEase.quartOut});
         for(obj in musicSongsGrp)
         {
             FlxTween.tween(obj, {y: obj.y - 10, alpha: 0}, tweenDuration, {ease: FlxEase.quartOut});
@@ -291,6 +340,8 @@ class GalleryStateMusic extends MusicBeatState
 
     function changeSelect(change:Int = 0, firstTime:Bool = false)
     {
+        if(!hasPreloadedMusic) return;
+
         curSelected = FlxMath.wrap(curSelected + change, 0, musicSongsGrp.length - 1);
 
 		for (num => item in musicSongsGrp.members)
