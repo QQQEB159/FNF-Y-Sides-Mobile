@@ -10,7 +10,7 @@ class LimoStageNight extends BaseStage
 {
     var waterShader:WaterShader;
 
-    var sky:FlxSprite;
+    var skyNight:FlxSprite;
     var clouds:FlxBackdrop;
     var buildingsBack2:FlxBackdrop;
     var buildingsBack:FlxBackdrop;
@@ -22,13 +22,13 @@ class LimoStageNight extends BaseStage
 
 	override function create()
 	{
-        sky = new FlxSprite();
-        sky.loadGraphic(Paths.image('night/sky'));
-        sky.scrollFactor.set(0.1, 0.1);
-        sky.x += -1200;
-        sky.y += -650;
-        sky.antialiasing = ClientPrefs.data.antialiasing;
-        add(sky);
+        skyNight = new FlxSprite();
+        skyNight.loadGraphic(Paths.image('night/skyNight'));
+        skyNight.scrollFactor.set(0.1, 0.1);
+        skyNight.x += -1200;
+        skyNight.y += -650;
+        skyNight.antialiasing = ClientPrefs.data.antialiasing;
+        add(skyNight);
 
         clouds = new FlxBackdrop(Paths.image('night/clouds'), X, 20, 0);
         clouds.scrollFactor.set(0.25, 0.25);
