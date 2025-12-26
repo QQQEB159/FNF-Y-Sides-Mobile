@@ -622,7 +622,7 @@ class PlayState extends MusicBeatState
 		var hbOffset:Float = 10;
 
 		healthBarGlow = new FlxSprite();
-		healthBarGlow.loadGraphic('hud/hbglow');
+		healthBarGlow.loadGraphic(Paths.image('hud/hbglow'));
 		healthBarGlow.antialiasing = ClientPrefs.data.antialiasing;
 		healthBarGlow.visible = !ClientPrefs.data.hideHud;
 		healthBarGlow.scrollFactor.set();
