@@ -4137,6 +4137,12 @@ class PlayState extends MusicBeatState
 						FlxTween.tween(spaceMechanicButton, {alpha: 0}, 0.3);
 						forcedLiftingSection = false;
 						startedLift = false;
+						liftingTime = 0;
+						liftAmount = 10;
+						boyfriend.playAnim('hey', true);
+						gf.playAnim('hey', true);
+						alredyLiftAnim = true;
+						new FlxTimer().start(0.35, (_) -> alredyLiftAnim = false);
 				}
 			case 'Test':
 				switch(curStep)
