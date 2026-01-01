@@ -4,6 +4,8 @@ import flixel.addons.display.FlxBackdrop;
 
 class SaveFilesMenu extends MusicBeatState
 {
+    var saveFilesAmount:Int = 3;
+    var saveFilesGrp:FlxTypedGroup<FlxSprite>;
     override function create()
     {
         super.create();
@@ -17,6 +19,9 @@ class SaveFilesMenu extends MusicBeatState
 		bg.screenCenter();
 		add(bg);
 
+        saveFilesGrp = new FlxTypedGroup<FlxSprite>();
+        add(saveFilesGrp);
+
         var triangleTop:FlxBackdrop = new FlxBackdrop(Paths.image('resultsScreen/newResultsScreen/lettaBoxDark'), X, 0, 0);
         triangleTop.velocity.set(10, 0);
         triangleTop.angle = 180;
@@ -26,6 +31,20 @@ class SaveFilesMenu extends MusicBeatState
         triangleBottom.velocity.set(-10, 0);
         triangleBottom.y = FlxG.height - triangleBottom.height;
         add(triangleBottom);
+
+        for(i in 0...saveFilesAmount)
+        {
+            var spr = new FlxSprite();
+            spr.makeGraphic(700, 100, 0xFF000000);
+            spr.screenCenter(X);
+            //spr.y = triangleTop.y + triangleTop.height + 10 + (i * 120);
+            saveFilesGrp.add(spr);
+        }
+
+        // tiny offset lmao so always centered
+        saveFilesGrp.members[1].screenCenter();
+        saveFilesGrp.members[0].y = saveFilesGrp.members[1].y - 120;
+        saveFilesGrp.members[2].y = saveFilesGrp.members[1].y + 120; 
     }
 
     override function update(elapsed:Float):Void
