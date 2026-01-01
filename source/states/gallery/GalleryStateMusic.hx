@@ -215,8 +215,6 @@ class GalleryStateMusic extends MusicBeatState
                 {
                     hasPreloadedMusic = true;
                 }
-
-                Sys.sleep(4);
             }
         });
     }

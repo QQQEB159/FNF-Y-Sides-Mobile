@@ -1,6 +1,7 @@
 package states;
 
 import states.gallery.GalleryStateMusic;
+import states.gallery.GalleryState.GalleryStateImages;
 import flixel.FlxSubState;
 
 import flixel.effects.FlxFlicker;
@@ -19,6 +20,8 @@ class PerformanceWarning extends MusicBeatState
 		super.create();
 
 		GalleryStateMusic.preloadMusic();
+		GalleryStateImages.preloadImages('outdated_concepts');
+		GalleryStateImages.preloadImages('bored');
 
 		bg = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		add(bg);
