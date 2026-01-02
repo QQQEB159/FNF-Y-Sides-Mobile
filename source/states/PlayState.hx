@@ -3101,10 +3101,13 @@ class PlayState extends MusicBeatState
 					MusicBeatState.switchState(new StoryMenuState());
 					*/
 
-       				LimoStage.buildingsBack2XPos = 0;
-       				LimoStage.buildingsBackXPos = 0;
-       				LimoStage.buildingsFrontXPos = 0;
-					LimoStage.cloudsXPos = 0;
+					if(curStage == 'limo' || curStage == 'limoNight')
+					{
+       					LimoStage.buildingsBack2XPos = 0;
+       					LimoStage.buildingsBackXPos = 0;
+       					LimoStage.buildingsFrontXPos = 0;
+						LimoStage.cloudsXPos = 0;
+					}
 
 					// if ()
 					if(!ClientPrefs.getGameplaySetting('practice') && !ClientPrefs.getGameplaySetting('botplay')) {
