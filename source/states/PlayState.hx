@@ -3133,10 +3133,13 @@ class PlayState extends MusicBeatState
 					Song.loadFromJson(PlayState.storyPlaylist[0] + difficulty, PlayState.storyPlaylist[0]);
 					FlxG.sound.music.stop();
 
-       				LimoStage.buildingsBack2XPos = LimoStage.buildingsBack2.x;
-       				LimoStage.buildingsBackXPos = LimoStage.buildingsBack.x;
-       				LimoStage.buildingsFrontXPos = LimoStage.buildingsFront.x;
-					LimoStage.cloudsXPos = LimoStage.clouds.x;
+					if(curStage == 'limo' || curStage == 'limoNight')
+					{
+       					LimoStage.buildingsBack2XPos = LimoStage.buildingsBack2.x;
+       					LimoStage.buildingsBackXPos = LimoStage.buildingsBack.x;
+       					LimoStage.buildingsFrontXPos = LimoStage.buildingsFront.x;
+						LimoStage.cloudsXPos = LimoStage.clouds.x;
+					}
 
 					canResync = false;
 					LoadingState.prepareToSong();
