@@ -127,9 +127,9 @@
 
 ## SONGS
 - [ ] Candy Floss
-- [ ] Satin Panties
-- [ ] High
-- [ ] MILF
+- [x] Satin Panties
+- [x] High
+- [x] MILF
 - [ ] Cocoa
 - [ ] Eggnog
 - [ ] Mistletoe
@@ -137,8 +137,12 @@
 
 ## HUD
 
-- [ ] Mommy icons
+- [x] Mommy sprites
+- [x] Mommy icons
+- [ ] Mommy and daddy xmas sprites
 - [ ] Mommy and daddy xmas icons
+- [ ] BF (Hair Blow Version)
+- [ ] GF (Hair Blow Version)
 - [ ] BF (Xmas Version)
 - [ ] GF (Xmas Version)
 - [ ] Monster (Xmas Version)
@@ -164,4 +168,4 @@
 
 ## SPECIFIC
 
-- [ ] ENHANCEMENT: Mechanics are easier in normal and easy difficulties
+- [x] ENHANCEMENT: Mechanics are easier in normal and easy difficulties
