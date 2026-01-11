@@ -14,7 +14,7 @@ class CreditsStateYSides extends MusicBeatState
 
     var developers:Array<Dynamic> = [
         ['gBv2209',         'gbv',      ['Director', 'Concept Artist', 'Artist', 'Animator', 'Musician', 'Charter', 'Coder'], 		[['yt', 'https://www.youtube.com/@gBv2209'], ['x', 'https://x.com/gbv2209']], 0xFF2F6662],
-        ['Mr. Madera',      'madera',   ['Director', 'Main Coder', 'Charter', 'Musician'], 						                                [['yt', 'https://www.youtube.com/@mrmadera1235'], ['x', 'https://x.com/MrMadera625']], 0xFF8ACCE1],
+        ['Mr. Madera',      'madera',   ['Director', 'Main Coder', 'Charter', 'Musician'], 						                                [['yt', 'https://www.youtube.com/@mrmadera1237'], ['x', 'https://x.com/MrMadera625']], 0xFF8ACCE1],
         ['Heromax',         'hero',     ['Co-Director', 'Concept Artist', 'Artist', 'Charter'], 			                            [['x', 'https://x.com/heromax_2498']], 0xFF424452],
 		['SFoxyDAC',        'foxy',     ['Co-Director', 'Artist', 'Animator', 'Musician', 'Voice Actor'], 					                                    [['yt', 'https://www.youtube.com/@SFoxyDAC'], ['x', 'https://x.com/SFoxyDAC']], 0xFFDC7D6F],
         ['ItsTapiiii',      'tapi',     ['Co-Director', 'Musician'], 					                                                [['yt', 'https://www.youtube.com/@ItsTapiiii']], 0xFF363676],
