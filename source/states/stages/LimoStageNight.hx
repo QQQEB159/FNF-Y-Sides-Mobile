@@ -23,42 +23,42 @@ class LimoStageNight extends BaseStage
 	override function create()
 	{
         skyNight = new FlxSprite();
-        skyNight.loadGraphic(Paths.image('night/skyNight'));
+        skyNight.loadGraphic(Paths.image('stages/limoStage/night/skyNight'));
         skyNight.scrollFactor.set(0.1, 0.1);
         skyNight.x += -1200;
         skyNight.y += -650;
         skyNight.antialiasing = ClientPrefs.data.antialiasing;
         add(skyNight);
 
-        clouds = new FlxBackdrop(Paths.image('night/clouds'), X, 20, 0);
+        clouds = new FlxBackdrop(Paths.image('stages/limoStage/night/clouds'), X, 20, 0);
         clouds.scrollFactor.set(0.25, 0.25);
         clouds.y += -1000;
         clouds.x = LimoStage.cloudsXPos;
         clouds.antialiasing = ClientPrefs.data.antialiasing;
         add(clouds);
 
-        buildingsBack2 = new FlxBackdrop(Paths.image('night/buildingBack2'), X, 0, 0);
+        buildingsBack2 = new FlxBackdrop(Paths.image('stages/limoStage/night/buildingBack2'), X, 0, 0);
         buildingsBack2.scrollFactor.set(0.4, 0.4);
         buildingsBack2.x = LimoStage.buildingsBack2XPos;
         //buildingsBack2.y = 80;
         buildingsBack2.antialiasing = ClientPrefs.data.antialiasing;
         add(buildingsBack2);
 
-        buildingsBack = new FlxBackdrop(Paths.image('night/buildingBack'), X, 0, 0);
+        buildingsBack = new FlxBackdrop(Paths.image('stages/limoStage/night/buildingBack'), X, 0, 0);
         buildingsBack.scrollFactor.set(0.4, 0.4);
         buildingsBack.x = LimoStage.buildingsBackXPos;
         //buildingsBack.y = 80;
         buildingsBack.antialiasing = ClientPrefs.data.antialiasing;
         add(buildingsBack);
 
-        buildingsFront = new FlxBackdrop(Paths.image('night/building'), X, 0, 0);
+        buildingsFront = new FlxBackdrop(Paths.image('stages/limoStage/night/building'), X, 0, 0);
         buildingsFront.scrollFactor.set(0.6, 0.6);
         buildingsFront.x = LimoStage.buildingsFrontXPos;
         //buildingsFront.y = 80;
         buildingsFront.antialiasing = ClientPrefs.data.antialiasing;
         add(buildingsFront);
 
-        water = new FlxBackdrop(Paths.image('night/water'), X, 0, 0);
+        water = new FlxBackdrop(Paths.image('stages/limoStage/night/water'), X, 0, 0);
         water.y = 560;
         water.x = -600;
         water.scrollFactor.set(0.65, 0.65);
@@ -72,17 +72,17 @@ class LimoStageNight extends BaseStage
             water.shader = waterShader;
         }
 
-        road = new FlxBackdrop(Paths.image('night/road'), X, 0, 0);
+        road = new FlxBackdrop(Paths.image('stages/limoStage/night/road'), X, 0, 0);
         road.antialiasing = ClientPrefs.data.antialiasing;
         add(road);
 
-        roadLights = new FlxBackdrop(Paths.image('night/roadLights'), X, 0, 0);
+        roadLights = new FlxBackdrop(Paths.image('stages/limoStage/night/roadLights'), X, 0, 0);
         roadLights.antialiasing = ClientPrefs.data.antialiasing;
         add(roadLights);
 
         truck = new FlxSprite();
         truck.antialiasing = ClientPrefs.data.antialiasing;
-        truck.loadGraphic(Paths.image('night/truck'));
+        truck.loadGraphic(Paths.image('stages/limoStage/night/truck'));
         add(truck);
 
         applyVelocites(true);
@@ -151,14 +151,14 @@ class LimoStageNight extends BaseStage
     override function createPost() 
     {
         var light:FlxSprite = new FlxSprite();
-        light.loadGraphic(Paths.image('night/lights'));
+        light.loadGraphic(Paths.image('stages/limoStage/night/lights'));
         light.blend = ADD;
         light.scrollFactor.set(0.1, 0.1);
         light.x += -1200;
         light.y += -650;
         add(light);
 
-        windLmao = new FlxBackdrop(Paths.image('night/windlmao'), XY, 0, 0);
+        windLmao = new FlxBackdrop(Paths.image('stages/limoStage/night/windlmao'), XY, 0, 0);
         windLmao.alpha = 0;
         windLmao.velocity.set(5000 * speedMult, 0);
         windLmao.scrollFactor.set(0, 0);
