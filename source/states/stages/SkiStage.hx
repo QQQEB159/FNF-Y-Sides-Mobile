@@ -1,5 +1,6 @@
 package states.stages;
 
+import flixel.addons.display.FlxBackdrop;
 import states.stages.objects.*;
 import objects.Character;
 
@@ -12,6 +13,12 @@ class SkiStage extends BaseStage
 
 		var sun:BGSprite = new BGSprite('stages/skiStage/sun', -1000, -1000, 0, 0);
 		add(sun);
+
+		var clouds:FlxBackdrop = new FlxBackdrop(Paths.image('stages/skiStage/clouds'));
+		clouds.scrollFactor.set(0.1, 0.1);
+		clouds.setPosition(-1000, -1000);
+		clouds.velocity.set(10, 0);
+		add(clouds);
 
 		var sunLight:BGSprite = new BGSprite('stages/skiStage/sun_light', -1000, -1000, 0, 0);
 		add(sunLight);
