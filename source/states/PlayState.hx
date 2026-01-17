@@ -427,6 +427,7 @@ class PlayState extends MusicBeatState
 			case 'picoBG': new PicoStage();
 			case 'limo': new LimoStage();
 			case 'limoNight': new LimoStageNight();
+			case 'skiingStage': new SkiStage();
 		}
 		if(isPixelStage) introSoundsSuffix = '-pixel';
 

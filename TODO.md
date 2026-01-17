@@ -141,6 +141,8 @@
 - [x] Mommy icons
 - [ ] Mommy and daddy xmas sprites
 - [ ] Mommy and daddy xmas icons
+- [x] Boyfriend Death (WEEK 4)
+- [x] Boyfriend Death (WEEK 5)
 - [ ] BF (Hair Blow Version)
 - [ ] GF (Hair Blow Version)
 - [ ] BF (Xmas Version)
