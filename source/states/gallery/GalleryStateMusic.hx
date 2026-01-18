@@ -232,7 +232,7 @@ class GalleryStateMusic extends MusicBeatState
 
         if(progressMusicTxt != null)
         {
-            progressMusicTxt.text = 'Current progress: ${GalleryPreload.preloadProgress}/${musicSongsArrayFull.length}';
+            progressMusicTxt.text = 'Current progress: ${GalleryPreload.musicPreloadProgress}/${musicSongsArrayFull.length}';
         }
 
 		if (wiggle != null) {
