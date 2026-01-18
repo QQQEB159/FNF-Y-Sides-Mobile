@@ -181,7 +181,7 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 	var alreadyTalked:Bool = false;
 	function playNoteSplashes()
 	{
-		if(ClientPrefs.data.splashAlpha == 0)
+		if(ClientPrefs.data.splashAlpha == 0 && !alreadyTalked)
 		{
 			alreadyTalked = true;
 			startDialogue('laugh');
@@ -240,7 +240,7 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 	var alreadyTalked2:Bool = false;
 	function playHealthBarOpacity()
 	{
-		if(ClientPrefs.data.healthBarAlpha < 1)
+		if(ClientPrefs.data.healthBarAlpha < 1 && !alreadyTalked2)
 		{
 			alreadyTalked2 = true;
 			startDialogue('question');
