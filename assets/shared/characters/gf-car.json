@@ -8,6 +8,14 @@
 			"name": "idle",
 			"indices": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
 		},
+				{
+			"offsets": [-7, 34],
+			"loop": true,
+			"fps": 24,
+			"anim": "idle-alt",
+			"indices": [],
+			"name": "idle-alt"
+		},
 		{
 			"loop": false,
 			"offsets": [0, 0],

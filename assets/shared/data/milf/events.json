@@ -93,7 +93,7 @@
 		[
 			115764.705882360,
 			[
-				["Change Character", "gf", "gf-car alt"]
+				["Alt Idle Animation", "gf", "idle-alt"]
 			]
 		],
 		[
@@ -351,7 +351,7 @@
 		[
 			127088.235294117,
 			[
-				["Change Character", "gf", "gf-car"]
+				["Alt Idle Animation", "gf", ""]
 			]
 		]
 	],
