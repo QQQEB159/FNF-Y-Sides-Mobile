@@ -9,11 +9,27 @@
 			"name": "idle"
 		},
 		{
+			"offsets": [4, 9],
+			"loop": true,
+			"fps": 24,
+			"anim": "idle-loop",
+			"indices": [11, 12, 13, 14, 15],
+			"name": "idle"
+		},
+		{
 			"offsets": [47, 7],
 			"loop": false,
 			"fps": 24,
 			"anim": "singLEFT",
 			"indices": [],
+			"name": "left0"
+		},
+				{
+			"offsets": [47, 7],
+			"loop": true,
+			"fps": 24,
+			"anim": "singLEFT-loop",
+			"indices": [8, 9, 10, 11, 12, 13],
 			"name": "left0"
 		},
 		{
@@ -24,12 +40,28 @@
 			"indices": [],
 			"name": "down0"
 		},
+				{
+			"offsets": [13, -16],
+			"loop": true,
+			"fps": 24,
+			"anim": "singDOWN-loop",
+			"indices": [8, 9, 10, 11, 12, 13],
+			"name": "down0"
+		},
 		{
 			"offsets": [3, 57],
 			"loop": false,
 			"fps": 24,
 			"anim": "singUP",
 			"indices": [],
+			"name": "up0"
+		},
+				{
+			"offsets": [3, 57],
+			"loop": true,
+			"fps": 24,
+			"anim": "singUP-loop",
+			"indices": [8, 9, 10, 11, 12, 13],
 			"name": "up0"
 		},
 		{
@@ -41,11 +73,27 @@
 			"name": "left alt0"
 		},
 		{
+			"offsets": [49, 7],
+			"loop": true,
+			"fps": 24,
+			"anim": "singLEFT-alt-loop",
+			"indices": [8, 9, 10, 11, 12, 13],
+			"name": "left alt0"
+		},
+		{
 			"offsets": [13, -16],
 			"loop": false,
 			"fps": 24,
 			"anim": "singDOWN-alt",
 			"indices": [],
+			"name": "down alt0"
+		},
+		{
+			"offsets": [13, -16],
+			"loop": true,
+			"fps": 24,
+			"anim": "singDOWN-alt-loop",
+			"indices": [8, 9, 10, 11, 12, 13],
 			"name": "down alt0"
 		},
 		{
@@ -57,6 +105,14 @@
 			"name": "up alt0"
 		},
 		{
+			"offsets": [-13, 57],
+			"loop": true,
+			"fps": 24,
+			"anim": "singUP-alt-loop",
+			"indices": [8, 9, 10, 11, 12, 13],
+			"name": "up alt0"
+		},
+		{
 			"offsets": [1, 18],
 			"loop": false,
 			"fps": 24,
@@ -64,29 +120,13 @@
 			"indices": [],
 			"name": "hey"
 		},
-		{
-			"offsets": [9, 2],
+				{
+			"offsets": [1, 18],
 			"loop": true,
 			"fps": 24,
-			"anim": "lift",
-			"indices": [0, 1, 2],
-			"name": "pesa"
-		},
-		{
-			"offsets": [3, 19],
-			"loop": false,
-			"fps": 24,
-			"anim": "liftUp",
-			"indices": [],
-			"name": "pesaF"
-		},
-		{
-			"loop": false,
-			"offsets": [20, -13],
-			"anim": "liftFail",
-			"fps": 24,
-			"name": "pesaM",
-			"indices": []
+			"anim": "hey-loop",
+			"indices": [8, 9, 10, 11, 12, 13],
+			"name": "hey"
 		},
 		{
 			"offsets": [55, 8],
@@ -120,12 +160,28 @@
 			"indices": [],
 			"name": "right0"
 		},
+				{
+			"offsets": [-42, 10],
+			"loop": true,
+			"fps": 24,
+			"anim": "singRIGHT-loop",
+			"indices": [8, 9, 10, 11, 12, 13],
+			"name": "right0"
+		},
 		{
 			"offsets": [-45, 10],
 			"loop": false,
 			"fps": 24,
 			"anim": "singRIGHT-alt",
 			"indices": [],
+			"name": "right alt0"
+		},
+		{
+			"offsets": [-45, 10],
+			"loop": true,
+			"fps": 24,
+			"anim": "singRIGHT-alt-loop",
+			"indices": [8, 9, 10, 11, 12, 13],
 			"name": "right alt0"
 		},
 		{
@@ -139,13 +195,13 @@
 	],
 	"vocals_file": "",
 	"no_antialiasing": false,
-	"image": "characters/bf_HALLOWEEN v2",
+	"image": "characters/bfysidesbutwithmovinghairomg",
 	"position": [0, 20],
 	"healthicon": "bf",
 	"flip_x": true,
 	"healthbar_colors": [255, 189, 36],
 	"camera_position": [100, 50],
 	"sing_duration": 4,
-	"scale": 1,
+	"scale": 0.95,
 	"_editor_isPlayer": true
 }
