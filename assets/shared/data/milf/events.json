@@ -93,7 +93,7 @@
 		[
 			115764.705882360,
 			[
-				["Alt Idle Animation", "gf", "idle-alt"]
+				["Alt Idle Animation", "gf", "-alt"]
 			]
 		],
 		[
@@ -337,6 +337,12 @@
 			]
 		],
 		[
+			127058.823529413,
+			[
+				["Alt Idle Animation", "gf", ""]
+			]
+		],
+		[
 			127064.338235294,
 			[
 				["Change Scroll Speed", "1", "1"]
@@ -347,13 +353,8 @@
 			[
 				["smooth_camera_zoom", "0.6", "1.2, quartOut"]
 			]
-		],
-		[
-			127088.235294117,
-			[
-				["Alt Idle Animation", "gf", "-alt"]
-			]
 		]
+
 	],
 	"format": "psych_v1"
 }
