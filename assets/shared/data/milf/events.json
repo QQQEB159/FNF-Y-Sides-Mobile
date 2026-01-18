@@ -91,6 +91,12 @@
 			]
 		],
 		[
+			115764.705882360,
+			[
+				["Change Character", "gf", "gf-car alt"]
+			]
+		],
+		[
 			115768.382352941,
 			[
 				["Add Camera Zoom", "0.02", "0.02"]
@@ -340,6 +346,12 @@
 			127088.235294117,
 			[
 				["smooth_camera_zoom", "0.6", "1.2, quartOut"]
+			]
+		],
+		[
+			127088.235294117,
+			[
+				["Change Character", "gf", "gf-car"]
 			]
 		]
 	],

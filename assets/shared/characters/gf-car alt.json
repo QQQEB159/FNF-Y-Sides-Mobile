@@ -1,0 +1,23 @@
+{
+	"animations": [
+		{
+			"offsets": [-7, 34],
+			"loop": true,
+			"fps": 24,
+			"anim": "idle",
+			"indices": [],
+			"name": "idle-alt"
+		}
+	],
+	"vocals_file": "",
+	"no_antialiasing": false,
+	"image": "characters/gf-Ysides-car",
+	"position": [-5, 15],
+	"healthicon": "gf",
+	"flip_x": false,
+	"healthbar_colors": [44, 84, 134],
+	"camera_position": [-180, 80],
+	"sing_duration": 6.1,
+	"scale": 0.86,
+	"_editor_isPlayer": false
+}
