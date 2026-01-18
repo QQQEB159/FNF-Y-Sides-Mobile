@@ -629,7 +629,7 @@ class PlayState extends MusicBeatState
 		healthBarGlow.scrollFactor.set();
 		uiGroup.add(healthBarGlow);
 
-		healthBar = new Bar(0, FlxG.height * (!ClientPrefs.data.downScroll ? 0.805 : 0.032), 'hud/hb', function() return healthShower, 0, 2, true, 'hud/hbfill');
+		healthBar = new Bar(0, FlxG.height * (!ClientPrefs.data.downScroll ? 0.805 : 0.032) + 13, 'hud/hb', function() return healthShower, 0, 2, true, 'hud/hbfill');
 		if(ClientPrefs.data.downScroll) healthBar.y += hbOffset;
 		healthBar.screenCenter(X);
 		healthBar.barOffset = new FlxPoint(0, 0);
@@ -667,7 +667,7 @@ class PlayState extends MusicBeatState
 		uiGroup.add(fcSprite);
 
 		iconP1 = new HealthIcon(boyfriend.healthIcon, true);
-		iconP1.x = healthBar.x + healthBar.width - 20 + boyfriend.iconOffset[0];
+		iconP1.x = healthBar.x + healthBar.width - 5 + boyfriend.iconOffset[0];
 		iconP1.y = healthBar.y + (healthBar.height / 2) - (iconP1.height / 2) + boyfriend.iconOffset[1];
 		iconP1.visible = !ClientPrefs.data.hideHud;
 		iconP1.alpha = ClientPrefs.data.healthBarAlpha;
@@ -700,11 +700,11 @@ class PlayState extends MusicBeatState
 		healthBarArrow = new FlxSprite();
 		healthBarArrow.loadGraphic(Paths.image('hud/healthBar_arrow'));
 		healthBarArrow.antialiasing = ClientPrefs.data.antialiasing;
-		healthBarArrow.y = healthBar.y - healthBarArrow.height - 5;
+		healthBarArrow.y = healthBar.y - healthBarArrow.height - 10;
 		//healthBarArrow.y = healthBar.y + 10;
 		uiGroup.add(healthBarArrow);
 
-		scoreTxt = new FlxText(0, healthBar.y + healthBar.height + 17, FlxG.width, "", 18);
+		scoreTxt = new FlxText(0, healthBar.y + healthBar.height + 35, FlxG.width, "", 18);
 		scoreTxt.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		scoreTxt.scrollFactor.set();
 		scoreTxt.borderSize = 1.25;
