@@ -130,13 +130,7 @@ class OptionsState extends MusicBeatState
 			//optionText.y = 160;
 			//optionText.y += (92 * (num - (options.length / 2)));
 			optionText.alpha = 0;
-			FlxTween.tween(optionText, {alpha: num == curSelected ? 1 : 0.6}, 0.2, {startDelay: 0.1 + (0.03 * num), onComplete: function(t:FlxTween)
-			{
-				if(num == options.length - 1)
-				{
-					changeSelection();
-				}
-			}});
+			FlxTween.tween(optionText, {alpha: num == curSelected ? 1 : 0.6}, 0.2, {startDelay: 0.1 + (0.03 * num)});
 			grpOptions.add(optionText);
 		}
 
