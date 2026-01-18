@@ -1,6 +1,5 @@
 package states.gallery;
 
-import sys.thread.Thread;
 import haxe.Json;
 import flixel.addons.display.FlxBackdrop;
 import shaders.WiggleEffect;
@@ -338,31 +337,6 @@ class GalleryState extends MusicBeatState
     }
 }
 
-class GalleryObject extends FlxSprite
-{
-    public var targetX:Float = 0;
-    public var distancePerItem:FlxPoint = new FlxPoint(1280, 0);
-    public var startPosition:FlxPoint = new FlxPoint(0, 0);
-    
-    public function new(x:Float = 0, y:Float = 0, ?graphic:Dynamic = null)
-    {
-        super(x, y, graphic);
-    }
-
-    override function update(elapsed:Float)
-    {
-        super.update(elapsed);
-
-		var lerpVal:Float = Math.exp(-elapsed * 9.6);
-		x = FlxMath.lerp((targetX * distancePerItem.x) + startPosition.x, x, lerpVal);
-    }
-
-    public function snapToPosition()
-    {
-        x = startPosition.x + (targetX * distancePerItem.x);
-    }
-}
-
 typedef ImageData = 
 {
     var name:String;
@@ -506,44 +480,6 @@ class GalleryStateImages extends MusicBeatState
         }
 
         changeSelect(0, true);
-    }
-
-    static var preloadedImages:Map<String, GalleryObject> = new Map<String, GalleryObject>();
-    public static function preloadImages(galleryDirectory:String)
-    {
-        Thread.create(() -> {
-            var imagesOnFolder = FileSystem.readDirectory('assets/shared/images/gallery/$galleryDirectory');
-
-            // remove objects that aren't IMAGES (like .jsons which contain metadata)
-            for(obj in imagesOnFolder)
-            {
-                if(StringTools.endsWith(obj, '.json'))
-                {
-                    imagesOnFolder.remove(obj);
-                }
-            }
-
-            for(num => image in imagesOnFolder)
-            {
-                // remove extension
-                var imageName = StringTools.replace(image, '.png', '');
-
-                try {
-                    var content = File.getContent('assets/shared/images/gallery/$galleryDirectory/$imageName.json');
-                    var imageData = Json.parse(content);
-
-                    trace('Preloaded ${imageData.name} at index $num');
-                } 
-                catch(exc)
-                {
-                    #if debug trace('No json has been found for the image with ID $num'); #end
-                }
-
-                var spr = new GalleryObject();
-                spr.loadGraphic(Paths.image('gallery/$galleryDirectory/$imageName'));
-                preloadedImages.set(imageName, spr);
-            }
-        });
     }
 
     override function create() 
