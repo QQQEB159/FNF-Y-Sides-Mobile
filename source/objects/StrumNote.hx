@@ -144,7 +144,7 @@ class StrumNote extends FlxSprite
 	public function playerPosition()
 	{
 		x += Note.swagWidth * noteData;
-		x += 50;
+		x += 40;
 		x += ((FlxG.width / 2) * player);
 	}
 

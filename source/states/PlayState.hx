@@ -1236,11 +1236,16 @@ class PlayState extends MusicBeatState
 			for (i in 0...playerStrums.length) {
 				setOnScripts('defaultPlayerStrumX' + i, playerStrums.members[i].x);
 				setOnScripts('defaultPlayerStrumY' + i, playerStrums.members[i].y);
+
+				//playerStrums.members[i].x += FlxG.width - opponentStrums.members[i].x - opponentStrums.members[i].x - opponentStrums.members[i].x - opponentStrums.members[i].x - 150 * i;
 			}
 			for (i in 0...opponentStrums.length) {
 				setOnScripts('defaultOpponentStrumX' + i, opponentStrums.members[i].x);
 				setOnScripts('defaultOpponentStrumY' + i, opponentStrums.members[i].y);
+
 				//if(ClientPrefs.data.middleScroll) opponentStrums.members[i].visible = false;
+
+				//opponentStrums.members[i].x += 150 * i;
 			}
 
 			startedCountdown = true;
