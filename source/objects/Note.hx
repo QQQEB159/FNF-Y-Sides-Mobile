@@ -77,6 +77,8 @@ class Note extends FlxSprite
 
 	public var sustainLength:Float = 0;
 	public var isSustainNote:Bool = false;
+	public var isHoldNote:Bool = false;
+	public var holdSplashCreated:Bool = false;
 	public var noteType(default, set):String = null;
 
 	public var eventName:String = '';

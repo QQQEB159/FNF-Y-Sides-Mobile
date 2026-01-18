@@ -306,6 +306,11 @@ class PlayState extends MusicBeatState
 	var blackThing:FlxSprite;
 	var vignette:FlxSprite;
 
+	var noteSplashHoldPurple:FlxSprite;
+	var noteSplashHoldBlue:FlxSprite;
+	var noteSplashHoldGreen:FlxSprite;
+	var noteSplashHoldRed:FlxSprite;
+
 	private static var _lastLoadedModDirectory:String = '';
 	public static var nextReloadAll:Bool = false;
 	override public function create()
@@ -873,6 +878,46 @@ class PlayState extends MusicBeatState
 		var splash:NoteSplash = new NoteSplash();
 		grpNoteSplashes.add(splash);
 		splash.alpha = 0.000001; //cant make it invisible or it won't allow precaching
+
+		noteSplashHoldPurple = new FlxSprite();
+		noteSplashHoldPurple.frames = Paths.getSparrowAtlas('noteSplashes/noteSplashesHold-psych');
+		noteSplashHoldPurple.animation.addByPrefix('holdCoverStart', 'holdCoverStartBlue', 24, false);
+		noteSplashHoldPurple.animation.addByPrefix('holdCover', 'holdCoverBlue', 24, true);
+		noteSplashHoldPurple.animation.addByPrefix('holdCoverEnd', 'holdCoverEndBlue', 24, false);
+		noteSplashHoldPurple.animation.play('holdCoverStart');
+		noteSplashHoldPurple.antialiasing = ClientPrefs.data.antialiasing;
+		noteSplashHoldPurple.visible = false;
+		noteGroup.add(noteSplashHoldPurple);
+
+		noteSplashHoldBlue = new FlxSprite();
+		noteSplashHoldBlue.frames = Paths.getSparrowAtlas('noteSplashes/noteSplashesHold-psych');
+		noteSplashHoldBlue.animation.addByPrefix('holdCoverStart', 'holdCoverStartBlue', 24, false);
+		noteSplashHoldBlue.animation.addByPrefix('holdCover', 'holdCoverBlue', 24, true);
+		noteSplashHoldBlue.animation.addByPrefix('holdCoverEnd', 'holdCoverEndBlue', 24, false);
+		noteSplashHoldBlue.animation.play('holdCoverStart');
+		noteSplashHoldBlue.antialiasing = ClientPrefs.data.antialiasing;
+		noteSplashHoldBlue.visible = false;
+		noteGroup.add(noteSplashHoldBlue);
+
+		noteSplashHoldGreen = new FlxSprite();
+		noteSplashHoldGreen.frames = Paths.getSparrowAtlas('noteSplashes/noteSplashesHold-psych');
+		noteSplashHoldGreen.animation.addByPrefix('holdCoverStart', 'holdCoverStartBlue', 24, false);
+		noteSplashHoldGreen.animation.addByPrefix('holdCover', 'holdCoverBlue', 24, true);
+		noteSplashHoldGreen.animation.addByPrefix('holdCoverEnd', 'holdCoverEndBlue', 24, false);
+		noteSplashHoldGreen.animation.play('holdCoverStart');
+		noteSplashHoldGreen.antialiasing = ClientPrefs.data.antialiasing;
+		noteSplashHoldGreen.visible = false;
+		noteGroup.add(noteSplashHoldGreen);
+
+		noteSplashHoldRed = new FlxSprite();
+		noteSplashHoldRed.frames = Paths.getSparrowAtlas('noteSplashes/noteSplashesHold-psych');
+		noteSplashHoldRed.animation.addByPrefix('holdCoverStart', 'holdCoverStartBlue', 24, false);
+		noteSplashHoldRed.animation.addByPrefix('holdCover', 'holdCoverBlue', 24, true);
+		noteSplashHoldRed.animation.addByPrefix('holdCoverEnd', 'holdCoverEndBlue', 24, false);
+		noteSplashHoldRed.animation.play('holdCoverStart');
+		noteSplashHoldRed.antialiasing = ClientPrefs.data.antialiasing;
+		noteSplashHoldRed.visible = false;
+		noteGroup.add(noteSplashHoldRed);
 
 		super.create();
 		Paths.clearUnusedMemory();
@@ -1674,6 +1719,7 @@ class PlayState extends MusicBeatState
 				swagNote.animSuffix = isAlt ? "-alt" : "";
 				swagNote.mustPress = gottaHitNote;
 				swagNote.sustainLength = holdLength;
+				swagNote.isHoldNote = (swagNote.sustainLength > 0);
 				swagNote.noteType = noteType;
 	
 				swagNote.scrollFactor.set();
@@ -3917,13 +3963,16 @@ class PlayState extends MusicBeatState
 			}
 			else strumPlayAnim(false, Std.int(Math.abs(note.noteData)), Conductor.stepCrochet * 1.25 / 1000 / playbackRate);
 			vocals.volume = 1;
-
+			
 			if (!note.isSustainNote)
 			{
 				combo++;
 				if(combo > 9999) combo = 9999;
 				popUpScore(note);
 			}
+
+			if(!note.noteSplashData.disabled && (note.tail.length > 0)) spawnNoteSplashHoldOnNote(note);
+
 			var gainHealth:Bool = true; // prevent health gain, *if* sustains are treated as a singular note
 			if (guitarHeroSustains && note.isSustainNote) gainHealth = false;
 			if (gainHealth) health += note.hitHealth * healthGain;
@@ -4106,6 +4155,78 @@ class PlayState extends MusicBeatState
 		splash.babyArrow = strum;
 		splash.spawnSplashNote(x, y, data, note);
 		grpNoteSplashes.add(splash);
+	}
+
+	public function spawnNoteSplashHoldOnNote(note:Note) {
+		if(note != null) {
+			var strum:StrumNote = playerStrums.members[note.noteData];
+			if(strum != null)
+			{
+				switch(note.noteData)
+				{
+					// TO DO:
+					// find out why animations doesn't update properly
+					case 0: 
+						if(!noteSplashHoldPurple.visible) noteSplashHoldPurple.animation.play('holdCoverStart', true);
+						else noteSplashHoldPurple.animation.play('holdCover', true);
+
+						noteSplashHoldPurple.visible = true;
+						noteSplashHoldPurple.setPosition(strum.x - 70, strum.y - 70);
+					case 1: 
+						if(!noteSplashHoldBlue.visible) noteSplashHoldBlue.animation.play('holdCoverStart', true);
+						else noteSplashHoldBlue.animation.play('holdCover', true);
+
+						noteSplashHoldBlue.visible = true;
+						noteSplashHoldBlue.setPosition(strum.x - 70, strum.y - 70);
+					case 2: 
+						if(!noteSplashHoldGreen.visible) noteSplashHoldGreen.animation.play('holdCoverStart', true);
+						else noteSplashHoldGreen.animation.play('holdCover', true);
+
+						noteSplashHoldGreen.visible = true;
+						noteSplashHoldGreen.setPosition(strum.x - 70, strum.y - 70);
+					case 3: 
+						if(!noteSplashHoldRed.visible) noteSplashHoldRed.animation.play('holdCoverStart', true);
+						else noteSplashHoldRed.animation.play('holdCover', true);
+
+						noteSplashHoldRed.visible = true;
+						noteSplashHoldRed.setPosition(strum.x - 70, strum.y - 70);
+				}
+				
+				// TO DO:
+				// find a way to detect the last note of the tail and verify its animation name
+				if(StringTools.endsWith(notes.members[notes.members.indexOf(note)].animation.curAnim.name, 'holdend') && note.isSustainNote)
+				{
+					trace('END NOTE!');
+					switch(note.noteData)
+					{
+						case 0: 
+							noteSplashHoldPurple.animation.play('holdCoverEnd', true); 
+							noteSplashHoldPurple.animation.finishCallback = function(name:String)
+							{
+								if(name == 'holdCoverEnd') noteSplashHoldPurple.visible = false;
+							}
+						case 1: 
+							noteSplashHoldBlue.animation.play('holdCoverEnd', true); 
+							noteSplashHoldBlue.animation.finishCallback = function(name:String)
+							{
+								if(name == 'holdCoverEnd') noteSplashHoldBlue.visible = false;
+							}
+						case 2: 
+							noteSplashHoldGreen.animation.play('holdCoverEnd', true);
+							noteSplashHoldGreen.animation.finishCallback = function(name:String)
+							{
+								if(name == 'holdCoverEnd') noteSplashHoldGreen.visible = false;
+							} 
+						case 3: 
+							noteSplashHoldRed.animation.play('holdCoverEnd', true);
+							noteSplashHoldRed.animation.finishCallback = function(name:String)
+							{
+								if(name == 'holdCoverEnd') noteSplashHoldRed.visible = false;
+							} 
+					}
+				}
+			}
+		}
 	}
 
 	override function destroy() {
