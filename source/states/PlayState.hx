@@ -1739,7 +1739,6 @@ class PlayState extends MusicBeatState
 						sustainNote.gfNote = swagNote.gfNote;
 						sustainNote.noteType = swagNote.noteType;
 						sustainNote.isTailNote = true;
-						trace('susNote (${susNote+1}) == roundSus ($roundSus) -> (${(susNote + 1 == roundSus)})');
 						if(susNote + 1 == roundSus) sustainNote.isLastTailNote = true;
 						sustainNote.scrollFactor.set();
 						sustainNote.parent = swagNote;

@@ -9,15 +9,15 @@
 			"name": "idle"
 		},
 		{
-			"offsets": [47, 6],
+			"offsets": [66, 1],
 			"loop": false,
 			"fps": 24,
 			"anim": "singLEFT",
 			"indices": [],
-			"name": "left"
+			"name": "right"
 		},
 		{
-			"offsets": [8, -19],
+			"offsets": [27, -19],
 			"loop": false,
 			"fps": 24,
 			"anim": "singDOWN",
@@ -25,7 +25,7 @@
 			"name": "down"
 		},
 		{
-			"offsets": [-16, 30],
+			"offsets": [5, 29],
 			"loop": false,
 			"fps": 24,
 			"anim": "singUP",
@@ -33,25 +33,25 @@
 			"name": "up"
 		},
 		{
-			"offsets": [-55, 1],
+			"offsets": [-3, 7],
 			"loop": false,
 			"fps": 24,
 			"anim": "singRIGHT",
 			"indices": [],
-			"name": "right"
+			"name": "left"
 		}
 	],
 	"vocals_file": "",
 	"no_antialiasing": false,
 	"image": "characters/Pico-Ysides",
-	"position": [120, -50],
+	"position": [70, 0],
 	"healthicon": "pico",
 	"flip_x": false,
 	"healthbar_colors": [254, 0, 103],
+	"camera_position": [0, 0],
 	"icon_offset": [0, -25],
 	"flip_health_icon": true,
-	"camera_position": [0, 0],
 	"sing_duration": 4,
 	"scale": 1,
-	"_editor_isPlayer": false
+	"_editor_isPlayer": true
 }

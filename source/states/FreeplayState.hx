@@ -61,6 +61,8 @@ class FreeplayState extends MusicBeatState
 	var diffArrowUp:FlxSprite;
 	var diffArrowDown:FlxSprite;
 
+	var characterPrefix:String = '';
+
 	override function create()
 	{
 		//Paths.clearStoredMemory();
@@ -404,6 +406,9 @@ class FreeplayState extends MusicBeatState
 			}
 		}
 
+		if(FlxG.keys.pressed.SHIFT) characterPrefix = '-pico';
+		else characterPrefix = '';
+
 		if (controls.BACK)
 		{
 			if (player.playingMusic)
@@ -484,7 +489,7 @@ class FreeplayState extends MusicBeatState
 				FlxG.sound.music.volume = 0;
 
 				Mods.currentModDirectory = songs[curSelected].folder;
-				var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase(), curDifficulty);
+				var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase() + characterPrefix, curDifficulty);
 				Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase());
 				if (PlayState.SONG.needsVoices)
 				{
@@ -555,11 +560,12 @@ class FreeplayState extends MusicBeatState
 		{
 			persistentUpdate = false;
 			var songLowercase:String = Paths.formatToSongPath(songs[curSelected].songName);
-			var poop:String = Highscore.formatSong(songLowercase, curDifficulty);
+			var poop:String = Highscore.formatSong(songLowercase + characterPrefix, curDifficulty);
 
 			try
 			{
 				Song.loadFromJson(poop, songLowercase);
+				trace('Loading song: $poop');
 				PlayState.isStoryMode = false;
 				PlayState.storyDifficulty = curDifficulty;
 
