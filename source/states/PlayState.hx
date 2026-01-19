@@ -1738,6 +1738,9 @@ class PlayState extends MusicBeatState
 						sustainNote.mustPress = swagNote.mustPress;
 						sustainNote.gfNote = swagNote.gfNote;
 						sustainNote.noteType = swagNote.noteType;
+						sustainNote.isTailNote = true;
+						trace('susNote (${susNote+1}) == roundSus ($roundSus) -> (${(susNote + 1 == roundSus)})');
+						if(susNote + 1 == roundSus) sustainNote.isLastTailNote = true;
 						sustainNote.scrollFactor.set();
 						sustainNote.parent = swagNote;
 						unspawnNotes.push(sustainNote);
@@ -3971,7 +3974,7 @@ class PlayState extends MusicBeatState
 				popUpScore(note);
 			}
 
-			if(!note.noteSplashData.disabled && (note.tail.length > 0)) spawnNoteSplashHoldOnNote(note);
+			if(!note.noteSplashData.disabled && note.isSustainNote) spawnNoteSplashHoldOnNote(note);
 
 			var gainHealth:Bool = true; // prevent health gain, *if* sustains are treated as a singular note
 			if (guitarHeroSustains && note.isSustainNote) gainHealth = false;
@@ -4162,39 +4165,41 @@ class PlayState extends MusicBeatState
 			var strum:StrumNote = playerStrums.members[note.noteData];
 			if(strum != null)
 			{
+				trace('hold splasha active!');
+				var noteOffset:Array<Float> = [-110, -90];
 				switch(note.noteData)
 				{
 					// TO DO:
 					// find out why animations doesn't update properly
 					case 0: 
-						if(!noteSplashHoldPurple.visible) noteSplashHoldPurple.animation.play('holdCoverStart', true);
+						if(note.isHoldNote) noteSplashHoldPurple.animation.play('holdCoverStart', true);
 						else noteSplashHoldPurple.animation.play('holdCover', true);
 
 						noteSplashHoldPurple.visible = true;
-						noteSplashHoldPurple.setPosition(strum.x - 70, strum.y - 70);
+						noteSplashHoldPurple.setPosition(strum.x + noteOffset[0], strum.y + noteOffset[1]);
 					case 1: 
-						if(!noteSplashHoldBlue.visible) noteSplashHoldBlue.animation.play('holdCoverStart', true);
+						if(note.isHoldNote) noteSplashHoldBlue.animation.play('holdCoverStart', true);
 						else noteSplashHoldBlue.animation.play('holdCover', true);
 
 						noteSplashHoldBlue.visible = true;
-						noteSplashHoldBlue.setPosition(strum.x - 70, strum.y - 70);
+						noteSplashHoldBlue.setPosition(strum.x + noteOffset[0], strum.y + noteOffset[1]);
 					case 2: 
-						if(!noteSplashHoldGreen.visible) noteSplashHoldGreen.animation.play('holdCoverStart', true);
+						if(note.isHoldNote) noteSplashHoldGreen.animation.play('holdCoverStart', true);
 						else noteSplashHoldGreen.animation.play('holdCover', true);
 
 						noteSplashHoldGreen.visible = true;
-						noteSplashHoldGreen.setPosition(strum.x - 70, strum.y - 70);
+						noteSplashHoldGreen.setPosition(strum.x + noteOffset[0], strum.y + noteOffset[1]);
 					case 3: 
-						if(!noteSplashHoldRed.visible) noteSplashHoldRed.animation.play('holdCoverStart', true);
+						if(note.isHoldNote) noteSplashHoldRed.animation.play('holdCoverStart', true);
 						else noteSplashHoldRed.animation.play('holdCover', true);
 
 						noteSplashHoldRed.visible = true;
-						noteSplashHoldRed.setPosition(strum.x - 70, strum.y - 70);
+						noteSplashHoldRed.setPosition(strum.x + noteOffset[0], strum.y + noteOffset[1]);
 				}
 				
 				// TO DO:
 				// find a way to detect the last note of the tail and verify its animation name
-				if(StringTools.endsWith(notes.members[notes.members.indexOf(note)].animation.curAnim.name, 'holdend') && note.isSustainNote)
+				if(note.isLastTailNote)
 				{
 					trace('END NOTE!');
 					switch(note.noteData)
