@@ -680,7 +680,7 @@ class PlayState extends MusicBeatState
 
 		iconP2 = new HealthIcon(dad.healthIcon, false);
 		iconP2.flipX = iconP2.isAnimated;
-		iconP2.x = healthBar.x - iconOffset - 105 + dad.iconOffset[0];
+		iconP2.x = healthBar.x - iconOffset - 120 + dad.iconOffset[0];
 		iconP2.y = healthBar.y + (healthBar.height / 2) - (iconP2.height / 2) + dad.iconOffset[1];
 		iconP2.flipX = dad.flipHealthIcon;
 		iconP2.visible = !ClientPrefs.data.hideHud;
