@@ -4169,8 +4169,6 @@ class PlayState extends MusicBeatState
 				var noteOffset:Array<Float> = [-110, -90];
 				switch(note.noteData)
 				{
-					// TO DO:
-					// find out why animations doesn't update properly
 					case 0: 
 						if(note.isHoldNote) noteSplashHoldPurple.animation.play('holdCoverStart', true);
 						else noteSplashHoldPurple.animation.play('holdCover', true);
@@ -4197,8 +4195,6 @@ class PlayState extends MusicBeatState
 						noteSplashHoldRed.setPosition(strum.x + noteOffset[0], strum.y + noteOffset[1]);
 				}
 				
-				// TO DO:
-				// find a way to detect the last note of the tail and verify its animation name
 				if(note.isLastTailNote)
 				{
 					trace('END NOTE!');
