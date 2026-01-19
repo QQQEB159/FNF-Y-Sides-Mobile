@@ -3640,6 +3640,11 @@ class PlayState extends MusicBeatState
 		var subtract:Float = pressMissDamage;
 		if(note != null) subtract = note.missHealth;
 
+		noteSplashHoldPurple.visible = false;
+		noteSplashHoldBlue.visible = false;
+		noteSplashHoldGreen.visible = false;
+		noteSplashHoldRed.visible = false;
+
 		// GUITAR HERO SUSTAIN CHECK LOL!!!!
 		if (note != null && guitarHeroSustains && note.parent == null) {
 			if(note.tail.length > 0) {
