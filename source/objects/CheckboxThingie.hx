@@ -39,11 +39,11 @@ class CheckboxThingie extends FlxSprite
 		if(check) {
 			if(animation.curAnim.name != 'checked' && animation.curAnim.name != 'checking') {
 				animation.play('checking', true);
-				offset.set(34, 25);
+				offset.set(16, 3);
 			}
 		} else if(animation.curAnim.name != 'unchecked' && animation.curAnim.name != 'unchecking') {
 			animation.play("unchecking", true);
-			offset.set(25, 28);
+			offset.set(23, 18);
 		}
 		return check;
 	}
@@ -54,11 +54,11 @@ class CheckboxThingie extends FlxSprite
 		{
 			case 'checking':
 				animation.play('checked', true);
-				offset.set(3, 12);
+				offset.set(8, -1);
 
 			case 'unchecking':
 				animation.play('unchecked', true);
-				offset.set(0, 2);
+				offset.set(0, 0);
 		}
 	}
 }
