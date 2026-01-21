@@ -42,6 +42,7 @@ import openfl.filters.ShaderFilter;
 
 import shaders.ErrorHandledShader;
 
+import objects.HoldNoteSplash;
 import objects.VideoSprite;
 import objects.Note.EventNote;
 import objects.*;
@@ -306,10 +307,10 @@ class PlayState extends MusicBeatState
 	var blackThing:FlxSprite;
 	var vignette:FlxSprite;
 
-	var noteSplashHoldPurple:FlxSprite;
-	var noteSplashHoldBlue:FlxSprite;
-	var noteSplashHoldGreen:FlxSprite;
-	var noteSplashHoldRed:FlxSprite;
+	var noteSplashHoldPurple:HoldNoteSplash;
+	var noteSplashHoldBlue:HoldNoteSplash;
+	var noteSplashHoldGreen:HoldNoteSplash;
+	var noteSplashHoldRed:HoldNoteSplash;
 
 	private static var _lastLoadedModDirectory:String = '';
 	public static var nextReloadAll:Bool = false;
@@ -880,41 +881,41 @@ class PlayState extends MusicBeatState
 		grpNoteSplashes.add(splash);
 		splash.alpha = 0.000001; //cant make it invisible or it won't allow precaching
 
-		noteSplashHoldPurple = new FlxSprite();
+		noteSplashHoldPurple = new HoldNoteSplash(0, 0, 0);
 		noteSplashHoldPurple.frames = Paths.getSparrowAtlas('noteSplashes/noteSplashesHold-psych');
-		noteSplashHoldPurple.animation.addByPrefix('holdCoverStart', 'holdCoverStartBlue', 24, false);
-		noteSplashHoldPurple.animation.addByPrefix('holdCover', 'holdCoverBlue', 24, true);
-		noteSplashHoldPurple.animation.addByPrefix('holdCoverEnd', 'holdCoverEndBlue', 24, false);
+		noteSplashHoldPurple.animation.addByPrefix('holdCoverStart', 'holdCoverStart', 24, false);
+		noteSplashHoldPurple.animation.addByPrefix('holdCover', 'holdCover0', 24, true);
+		noteSplashHoldPurple.animation.addByPrefix('holdCoverEnd', 'holdCoverEnd', 24, false);
 		noteSplashHoldPurple.animation.play('holdCoverStart');
 		noteSplashHoldPurple.antialiasing = ClientPrefs.data.antialiasing;
 		noteSplashHoldPurple.visible = false;
 		noteGroup.add(noteSplashHoldPurple);
 
-		noteSplashHoldBlue = new FlxSprite();
+		noteSplashHoldBlue = new HoldNoteSplash(0, 0, 1);
 		noteSplashHoldBlue.frames = Paths.getSparrowAtlas('noteSplashes/noteSplashesHold-psych');
-		noteSplashHoldBlue.animation.addByPrefix('holdCoverStart', 'holdCoverStartBlue', 24, false);
-		noteSplashHoldBlue.animation.addByPrefix('holdCover', 'holdCoverBlue', 24, true);
-		noteSplashHoldBlue.animation.addByPrefix('holdCoverEnd', 'holdCoverEndBlue', 24, false);
+		noteSplashHoldBlue.animation.addByPrefix('holdCoverStart', 'holdCoverStart', 24, false);
+		noteSplashHoldBlue.animation.addByPrefix('holdCover', 'holdCover0', 24, true);
+		noteSplashHoldBlue.animation.addByPrefix('holdCoverEnd', 'holdCoverEnd', 24, false);
 		noteSplashHoldBlue.animation.play('holdCoverStart');
 		noteSplashHoldBlue.antialiasing = ClientPrefs.data.antialiasing;
 		noteSplashHoldBlue.visible = false;
 		noteGroup.add(noteSplashHoldBlue);
 
-		noteSplashHoldGreen = new FlxSprite();
+		noteSplashHoldGreen = new HoldNoteSplash(0, 0, 2);
 		noteSplashHoldGreen.frames = Paths.getSparrowAtlas('noteSplashes/noteSplashesHold-psych');
-		noteSplashHoldGreen.animation.addByPrefix('holdCoverStart', 'holdCoverStartBlue', 24, false);
-		noteSplashHoldGreen.animation.addByPrefix('holdCover', 'holdCoverBlue', 24, true);
-		noteSplashHoldGreen.animation.addByPrefix('holdCoverEnd', 'holdCoverEndBlue', 24, false);
+		noteSplashHoldGreen.animation.addByPrefix('holdCoverStart', 'holdCoverStart', 24, false);
+		noteSplashHoldGreen.animation.addByPrefix('holdCover', 'holdCover0', 24, true);
+		noteSplashHoldGreen.animation.addByPrefix('holdCoverEnd', 'holdCoverEnd', 24, false);
 		noteSplashHoldGreen.animation.play('holdCoverStart');
 		noteSplashHoldGreen.antialiasing = ClientPrefs.data.antialiasing;
 		noteSplashHoldGreen.visible = false;
 		noteGroup.add(noteSplashHoldGreen);
 
-		noteSplashHoldRed = new FlxSprite();
+		noteSplashHoldRed = new HoldNoteSplash(0, 0, 3);
 		noteSplashHoldRed.frames = Paths.getSparrowAtlas('noteSplashes/noteSplashesHold-psych');
-		noteSplashHoldRed.animation.addByPrefix('holdCoverStart', 'holdCoverStartBlue', 24, false);
-		noteSplashHoldRed.animation.addByPrefix('holdCover', 'holdCoverBlue', 24, true);
-		noteSplashHoldRed.animation.addByPrefix('holdCoverEnd', 'holdCoverEndBlue', 24, false);
+		noteSplashHoldRed.animation.addByPrefix('holdCoverStart', 'holdCoverStart', 24, false);
+		noteSplashHoldRed.animation.addByPrefix('holdCover', 'holdCover0', 24, true);
+		noteSplashHoldRed.animation.addByPrefix('holdCoverEnd', 'holdCoverEnd', 24, false);
 		noteSplashHoldRed.animation.play('holdCoverStart');
 		noteSplashHoldRed.antialiasing = ClientPrefs.data.antialiasing;
 		noteSplashHoldRed.visible = false;
@@ -4171,7 +4172,7 @@ class PlayState extends MusicBeatState
 			if(strum != null)
 			{
 				trace('hold splasha active!');
-				var noteOffset:Array<Float> = [-110, -90];
+				var noteOffset:Array<Float> = [0, 0];
 				switch(note.noteData)
 				{
 					case 0: 
