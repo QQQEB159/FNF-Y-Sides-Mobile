@@ -4173,6 +4173,8 @@ class PlayState extends MusicBeatState
 			{
 				trace('hold splasha active!');
 				var noteOffset:Array<Float> = [0, 0];
+				var holdCoverOffsets:Array<Float> = [20, -25];
+				var holdCoverEndOffsets:Array<Float> = [0, 0];
 				switch(note.noteData)
 				{
 					case 0: 
@@ -4181,24 +4183,28 @@ class PlayState extends MusicBeatState
 
 						noteSplashHoldPurple.visible = true;
 						noteSplashHoldPurple.setPosition(strum.x + noteOffset[0], strum.y + noteOffset[1]);
+						noteSplashHoldPurple.offset.set(holdCoverOffsets[0], holdCoverOffsets[1]);
 					case 1: 
 						if(note.isHoldNote) noteSplashHoldBlue.animation.play('holdCoverStart', true);
 						else noteSplashHoldBlue.animation.play('holdCover', true);
 
 						noteSplashHoldBlue.visible = true;
 						noteSplashHoldBlue.setPosition(strum.x + noteOffset[0], strum.y + noteOffset[1]);
+						noteSplashHoldBlue.offset.set(holdCoverOffsets[0], holdCoverOffsets[1]);
 					case 2: 
 						if(note.isHoldNote) noteSplashHoldGreen.animation.play('holdCoverStart', true);
 						else noteSplashHoldGreen.animation.play('holdCover', true);
 
 						noteSplashHoldGreen.visible = true;
 						noteSplashHoldGreen.setPosition(strum.x + noteOffset[0], strum.y + noteOffset[1]);
+						noteSplashHoldGreen.offset.set(holdCoverOffsets[0], holdCoverOffsets[1]);
 					case 3: 
 						if(note.isHoldNote) noteSplashHoldRed.animation.play('holdCoverStart', true);
 						else noteSplashHoldRed.animation.play('holdCover', true);
 
 						noteSplashHoldRed.visible = true;
 						noteSplashHoldRed.setPosition(strum.x + noteOffset[0], strum.y + noteOffset[1]);
+						noteSplashHoldRed.offset.set(holdCoverOffsets[0], holdCoverOffsets[1]);
 				}
 				
 				if(note.isLastTailNote)
@@ -4212,24 +4218,32 @@ class PlayState extends MusicBeatState
 							{
 								if(name == 'holdCoverEnd') noteSplashHoldPurple.visible = false;
 							}
+
+							noteSplashHoldPurple.offset.set(holdCoverEndOffsets[0], holdCoverEndOffsets[1]);
 						case 1: 
 							noteSplashHoldBlue.animation.play('holdCoverEnd', true); 
 							noteSplashHoldBlue.animation.finishCallback = function(name:String)
 							{
 								if(name == 'holdCoverEnd') noteSplashHoldBlue.visible = false;
 							}
+
+							noteSplashHoldBlue.offset.set(holdCoverEndOffsets[0], holdCoverEndOffsets[1]);
 						case 2: 
 							noteSplashHoldGreen.animation.play('holdCoverEnd', true);
 							noteSplashHoldGreen.animation.finishCallback = function(name:String)
 							{
 								if(name == 'holdCoverEnd') noteSplashHoldGreen.visible = false;
 							} 
+
+							noteSplashHoldGreen.offset.set(holdCoverEndOffsets[0], holdCoverEndOffsets[1]);
 						case 3: 
 							noteSplashHoldRed.animation.play('holdCoverEnd', true);
 							noteSplashHoldRed.animation.finishCallback = function(name:String)
 							{
 								if(name == 'holdCoverEnd') noteSplashHoldRed.visible = false;
 							} 
+
+							noteSplashHoldRed.offset.set(holdCoverEndOffsets[0], holdCoverEndOffsets[1]);
 					}
 				}
 			}
