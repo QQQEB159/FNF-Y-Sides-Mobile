@@ -34,12 +34,15 @@ class LimoStage extends BaseStage
         skySunset.antialiasing = ClientPrefs.data.antialiasing;
         add(skySunset);
 
-        clouds = new FlxBackdrop(Paths.image('stages/limoStage/clouds'), X, 20, 0);
-        clouds.scrollFactor.set(0.25, 0.25);
-        clouds.y += -1000;
-        clouds.x = cloudsXPos;
-        clouds.antialiasing = ClientPrefs.data.antialiasing;
-        add(clouds);
+        if(!ClientPrefs.data.lowQuality)
+        {
+            clouds = new FlxBackdrop(Paths.image('stages/limoStage/clouds'), X, 20, 0);
+            clouds.scrollFactor.set(0.25, 0.25);
+            clouds.y += -1000;
+            clouds.x = cloudsXPos;
+            clouds.antialiasing = ClientPrefs.data.antialiasing;
+            add(clouds);
+        }
 
         buildingsBack2 = new FlxBackdrop(Paths.image('stages/limoStage/buildingBack2'), X, 0, 0);
         buildingsBack2.scrollFactor.set(0.4, 0.4);
@@ -73,7 +76,7 @@ class LimoStage extends BaseStage
         {
             waterShader = new WaterShader();
             waterShader.iTime.value = [0];
-            water.shader = waterShader;
+            if(!ClientPrefs.data.lowQuality) water.shader = waterShader;
         }
 
         road = new FlxBackdrop(Paths.image('stages/limoStage/road'), X, 0, 0);
@@ -92,7 +95,7 @@ class LimoStage extends BaseStage
     //var speedMult:Float = 10;
     function applyVelocites(isMaximumSpeed:Bool = false)
     {
-        clouds.velocity.set(20, 0);
+        if(clouds != null) clouds.velocity.set(20, 0);
         buildingsBack2.velocity.set(40, 0);
         buildingsBack.velocity.set(50, 0);
         buildingsFront.velocity.set(75, 0);
@@ -100,11 +103,11 @@ class LimoStage extends BaseStage
 
         if(isMaximumSpeed)
         {
-        clouds.velocity.set(20 * speedMult, 0);
-        buildingsBack2.velocity.set(40 * speedMult, 0);
-        buildingsBack.velocity.set(50 * speedMult, 0);
-        buildingsFront.velocity.set(75 * speedMult, 0);
-        road.velocity.set(3000 * speedMult, 0);
+            if(clouds != null) clouds.velocity.set(20 * speedMult, 0);
+            buildingsBack2.velocity.set(40 * speedMult, 0);
+            buildingsBack.velocity.set(50 * speedMult, 0);
+            buildingsFront.velocity.set(75 * speedMult, 0);
+            road.velocity.set(3000 * speedMult, 0);
         }
     }
 
@@ -115,13 +118,16 @@ class LimoStage extends BaseStage
 
     override function createPost() 
     {
-        var light:FlxSprite = new FlxSprite();
-        light.loadGraphic(Paths.image('stages/limoStage/light'));
-        light.blend = ADD;
-        light.scrollFactor.set(0.1, 0.1);
-        light.x += -1200;
-        light.y += -650;
-        add(light);
+        if(!ClientPrefs.data.lowQuality)
+        {
+            var light:FlxSprite = new FlxSprite();
+            light.loadGraphic(Paths.image('stages/limoStage/light'));
+            light.blend = ADD;
+            light.scrollFactor.set(0.1, 0.1);
+            light.x += -1200;
+            light.y += -650;
+            add(light);
+        }
 
 		if(ClientPrefs.data.shaders)
 		{

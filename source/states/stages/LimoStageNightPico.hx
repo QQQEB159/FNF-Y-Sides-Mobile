@@ -30,12 +30,15 @@ class LimoStageNightPico extends BaseStage
         skyNight.antialiasing = ClientPrefs.data.antialiasing;
         add(skyNight);
 
-        clouds = new FlxBackdrop(Paths.image('stages/limoStage/night/clouds'), X, 20, 0);
-        clouds.scrollFactor.set(0.25, 0.25);
-        clouds.y += -1000;
-        clouds.x = LimoStage.cloudsXPos;
-        clouds.antialiasing = ClientPrefs.data.antialiasing;
-        add(clouds);
+        if(!ClientPrefs.data.lowQuality)
+        {
+            clouds = new FlxBackdrop(Paths.image('stages/limoStage/night/clouds'), X, 20, 0);
+            clouds.scrollFactor.set(0.25, 0.25);
+            clouds.y += -1000;
+            clouds.x = LimoStage.cloudsXPos;
+            clouds.antialiasing = ClientPrefs.data.antialiasing;
+            add(clouds);
+        }
 
         buildingsBack2 = new FlxBackdrop(Paths.image('stages/limoStage/night/buildingBack2'), X, 0, 0);
         buildingsBack2.scrollFactor.set(0.4, 0.4);
@@ -69,16 +72,19 @@ class LimoStageNightPico extends BaseStage
         {
             waterShader = new WaterShader();
             waterShader.iTime.value = [0];
-            water.shader = waterShader;
+            if(!ClientPrefs.data.lowQuality) water.shader = waterShader;
         }
 
         road = new FlxBackdrop(Paths.image('stages/limoStage/night/road'), X, 0, 0);
         road.antialiasing = ClientPrefs.data.antialiasing;
         add(road);
 
-        roadLights = new FlxBackdrop(Paths.image('stages/limoStage/night/roadLights'), X, 0, 0);
-        roadLights.antialiasing = ClientPrefs.data.antialiasing;
-        add(roadLights);
+        if(!ClientPrefs.data.lowQuality)
+        {
+            roadLights = new FlxBackdrop(Paths.image('stages/limoStage/night/roadLights'), X, 0, 0);
+            roadLights.antialiasing = ClientPrefs.data.antialiasing;
+            add(roadLights);
+        }
 
         truck = new FlxSprite();
         truck.antialiasing = ClientPrefs.data.antialiasing;
@@ -94,22 +100,22 @@ class LimoStageNightPico extends BaseStage
     //var speedMult:Float = 10;
     function applyVelocites(isMaximumSpeed:Bool = false)
     {
-        clouds.velocity.set(targetSpeed, 0);
+        if(clouds != null) clouds.velocity.set(targetSpeed, 0);
         buildingsBack2.velocity.set(targetSpeed * 2, 0); // 2x faster
         buildingsBack.velocity.set(targetSpeed * 2.5, 0); // 2.5 faster
         buildingsFront.velocity.set(targetSpeed * 3.75, 0); // 3.75 faster
         road.velocity.set(targetSpeed * 150, 0); // 150x faster
-        roadLights.velocity.set(targetSpeed * 150, 0); // 150x faster
+        if(roadLights != null) roadLights.velocity.set(targetSpeed * 150, 0); // 150x faster
         // wind is 250x faster lmao
 
         if(isMaximumSpeed)
         {
-            clouds.velocity.set(targetSpeed * speedMult, 0);
+            if(clouds != null) clouds.velocity.set(targetSpeed * speedMult, 0);
             buildingsBack2.velocity.set(targetSpeed * 2 * speedMult, 0);
             buildingsBack.velocity.set(targetSpeed * 2.5 * speedMult, 0);
             buildingsFront.velocity.set(targetSpeed * 3.75 * speedMult, 0);
             road.velocity.set(targetSpeed * 150 * speedMult, 0);
-            roadLights.velocity.set(targetSpeed * 150 * speedMult, 0);
+            if(roadLights != null) roadLights.velocity.set(targetSpeed * 150 * speedMult, 0);
         }
     }
 
@@ -123,29 +129,29 @@ class LimoStageNightPico extends BaseStage
         switch(curStep)
         {
             case 1312:
-                FlxTween.tween(windLmao, {alpha: 1}, 1.2, {ease: FlxEase.quartOut});
+                if(windLmao != null) FlxTween.tween(windLmao, {alpha: 1}, 1.2, {ease: FlxEase.quartOut});
                 FlxTween.num(speedMult, 7, 1.2, {ease: FlxEase.quartOut}, function(v:Float)
                 {
                     speedMult = v;
-                    clouds.velocity.set(targetSpeed * v, 0);
+                    if(clouds != null) clouds.velocity.set(targetSpeed * v, 0);
                     buildingsBack2.velocity.set(targetSpeed * 2 * v, 0);
                     buildingsBack.velocity.set(targetSpeed * 2.5 * v, 0);
                     buildingsFront.velocity.set(targetSpeed * 3.75 * v, 0);
                     road.velocity.set(targetSpeed * 150 * v, 0);
-                    roadLights.velocity.set(targetSpeed * 150 * v, 0);
-                    windLmao.velocity.set(targetSpeed * 250 * v, 0);
+                    if(roadLights != null) roadLights.velocity.set(targetSpeed * 150 * v, 0);
+                    if(windLmao != null) windLmao.velocity.set(targetSpeed * 250 * v, 0);
                 });
             case 1440:
-                FlxTween.tween(windLmao, {alpha: 0}, 1.2, {ease: FlxEase.quartOut});
+                if(windLmao != null) FlxTween.tween(windLmao, {alpha: 0}, 1.2, {ease: FlxEase.quartOut});
                 FlxTween.num(speedMult, 2.33, 1.2, {ease: FlxEase.quartOut}, function(v:Float)
                 {
-                    clouds.velocity.set(targetSpeed * v, 0);
+                    if(clouds != null) clouds.velocity.set(targetSpeed * v, 0);
                     buildingsBack2.velocity.set(targetSpeed * 2 * v, 0);
                     buildingsBack.velocity.set(targetSpeed * 2.5 * v, 0);
                     buildingsFront.velocity.set(targetSpeed * 3.75 * v, 0);
                     road.velocity.set(targetSpeed * 150 * v, 0);
-                    roadLights.velocity.set(targetSpeed * 150 * v, 0);
-                    windLmao.velocity.set(targetSpeed * 250 * v, 0);
+                    if(roadLights != null) roadLights.velocity.set(targetSpeed * 150 * v, 0);
+                    if(windLmao != null) windLmao.velocity.set(targetSpeed * 250 * v, 0);
                 });
         }
     }
@@ -153,19 +159,22 @@ class LimoStageNightPico extends BaseStage
     var windLmao:FlxBackdrop;
     override function createPost() 
     {
-        var light:FlxSprite = new FlxSprite();
-        light.loadGraphic(Paths.image('stages/limoStage/night/lights'));
-        light.blend = ADD;
-        light.scrollFactor.set(0.1, 0.1);
-        light.x += -1200;
-        light.y += -650;
-        add(light);
+        if(!ClientPrefs.data.lowQuality)
+        {
+            var light:FlxSprite = new FlxSprite();
+            light.loadGraphic(Paths.image('stages/limoStage/night/lights'));
+            light.blend = ADD;
+            light.scrollFactor.set(0.1, 0.1);
+            light.x += -1200;
+            light.y += -650;
+            add(light);
 
-        windLmao = new FlxBackdrop(Paths.image('stages/limoStage/night/windlmao'), XY, 0, 0);
-        windLmao.alpha = 0;
-        windLmao.velocity.set(5000 * speedMult, 0);
-        windLmao.scrollFactor.set(0, 0);
-        add(windLmao);
+            windLmao = new FlxBackdrop(Paths.image('stages/limoStage/night/windlmao'), XY, 0, 0);
+            windLmao.alpha = 0;
+            windLmao.velocity.set(5000 * speedMult, 0);
+            windLmao.scrollFactor.set(0, 0);
+            add(windLmao);
+        }
 
 		if(ClientPrefs.data.shaders)
 		{

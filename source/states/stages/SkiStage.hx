@@ -11,23 +11,29 @@ class SkiStage extends BaseStage
 		var sky:BGSprite = new BGSprite('stages/skiStage/sky', -1000, -1000, 0, 0);
 		add(sky);
 
-		var sun:BGSprite = new BGSprite('stages/skiStage/sun', -1000, -1000, 0, 0);
-		add(sun);
+		if(!ClientPrefs.data.lowQuality)
+		{
+			var sun:BGSprite = new BGSprite('stages/skiStage/sun', -1000, -1000, 0, 0);
+			add(sun);
 
-		var clouds:FlxBackdrop = new FlxBackdrop(Paths.image('stages/skiStage/clouds'));
-		clouds.scrollFactor.set(0.1, 0.1);
-		clouds.setPosition(-1000, -1000);
-		clouds.velocity.set(10, 0);
-		add(clouds);
+			var clouds:FlxBackdrop = new FlxBackdrop(Paths.image('stages/skiStage/clouds'));
+			clouds.scrollFactor.set(0.1, 0.1);
+			clouds.setPosition(-1000, -1000);
+			clouds.velocity.set(10, 0);
+			add(clouds);
 
-		var sunLight:BGSprite = new BGSprite('stages/skiStage/sun_light', -1000, -1000, 0, 0);
-		add(sunLight);
+			var sunLight:BGSprite = new BGSprite('stages/skiStage/sun_light', -1000, -1000, 0, 0);
+			add(sunLight);
+		}
 
 		var mountains:BGSprite = new BGSprite('stages/skiStage/mountains', -600, -500, 0.3, 0.3);
 		add(mountains);
 
-		var mountainsFront:BGSprite = new BGSprite('stages/skiStage/mountainsFront', -550, -450, 0.4, 0.4);
-		add(mountainsFront);
+		if(!ClientPrefs.data.lowQuality)
+		{
+			var mountainsFront:BGSprite = new BGSprite('stages/skiStage/mountainsFront', -550, -450, 0.4, 0.4);
+			add(mountainsFront);
+		}
 
 		var city:BGSprite = new BGSprite('stages/skiStage/city', -400, -200, 0.6, 0.6);
 		add(city);
@@ -44,17 +50,23 @@ class SkiStage extends BaseStage
 		var buildings:BGSprite = new BGSprite('stages/skiStage/buildings', 0, 0, 1, 1);
 		add(buildings);
 		
-		var snowboards:BGSprite = new BGSprite('stages/skiStage/snowboards', 0, 0, 1, 1);
-		add(snowboards);
+		if(!ClientPrefs.data.lowQuality)
+		{
+			var snowboards:BGSprite = new BGSprite('stages/skiStage/snowboards', 0, 0, 1, 1);
+			add(snowboards);
+		}
 	}
 
 	override function createPost()
 	{
-		var lights:BGSprite = new BGSprite('stages/skiStage/lights', 0, 0, 1, 1);
-		lights.blend = ADD;
-		add(lights);
-
-		var shadow:BGSprite = new BGSprite('stages/skiStage/shadow', 0, 0, 1, 1);
-		add(shadow);
+		if(!ClientPrefs.data.lowQuality)
+		{
+			var lights:BGSprite = new BGSprite('stages/skiStage/lights', 0, 0, 1, 1);
+			lights.blend = ADD;
+			add(lights);
+			
+			var shadow:BGSprite = new BGSprite('stages/skiStage/shadow', 0, 0, 1, 1);
+			add(shadow);
+		}
 	}
 }

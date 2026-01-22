@@ -34,18 +34,21 @@ class PicoStage extends BaseStage
 
     override function createPost() 
     {
-		var lights2:BGSprite = new BGSprite('stages/picoStage/lightsfr', -1079, -808, 1, 1);
-        lights2.antialiasing = ClientPrefs.data.antialiasing;
-        lights2.updateHitbox();
-        lights2.blend = ADD;
-        lights2.alpha = 0.5;
-		add(lights2);
+		if(!ClientPrefs.data.lowQuality)
+		{
+		    var lights2:BGSprite = new BGSprite('stages/picoStage/lightsfr', -1079, -808, 1, 1);
+            lights2.antialiasing = ClientPrefs.data.antialiasing;
+            lights2.updateHitbox();
+            lights2.blend = ADD;
+            lights2.alpha = 0.5;
+		    add(lights2);
 
-		signs = new BGSprite('stages/picoStage/signs', -1168, -959, 1.5, 1.5);
-        signs.alpha = 0.95;
-        signs.updateHitbox();
-        signs.antialiasing = ClientPrefs.data.antialiasing;
-		add(signs);
+		    signs = new BGSprite('stages/picoStage/signs', -1168, -959, 1.5, 1.5);
+            signs.alpha = 0.95;
+            signs.updateHitbox();
+            signs.antialiasing = ClientPrefs.data.antialiasing;
+		    add(signs);
+        }
     }
 
     var signsVisible:Bool = true;
@@ -54,11 +57,15 @@ class PicoStage extends BaseStage
         if(game.camGame.zoom > 0.65 && signsVisible) {
             signsVisible = false;
 
+            if(signs == null) return;
+
             FlxTween.cancelTweensOf(signs);
             FlxTween.tween(signs, {alpha: 0}, 0.5, {ease: FlxEase.circInOut});
         }
         else if(game.camGame.zoom <= 0.65 && !signsVisible) {
             signsVisible = true;
+            
+            if(signs == null) return;
 
             FlxTween.cancelTweensOf(signs);
             FlxTween.tween(signs, {alpha: 0}, 0.5, {ease: FlxEase.circInOut});
