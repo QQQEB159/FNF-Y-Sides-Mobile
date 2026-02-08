@@ -1,5 +1,6 @@
 package options;
 
+import flixel.util.FlxSave;
 import flixel.addons.display.FlxBackdrop;
 
 class SaveFilesMenu extends MusicBeatState
@@ -7,6 +8,8 @@ class SaveFilesMenu extends MusicBeatState
     var saveFilesAmount:Int = 3;
     var saveFilesSprGrp:FlxTypedGroup<FlxSprite>;
     var saveFilesTxtGrp:FlxTypedGroup<FlxText>;
+    var saveFilesPlayedTimeTxtGrp:FlxTypedGroup<FlxText>;
+    var saveFilesDataArr:Array<Dynamic> = [];
     override function create()
     {
         super.create();
@@ -25,6 +28,9 @@ class SaveFilesMenu extends MusicBeatState
 
         saveFilesTxtGrp = new FlxTypedGroup<FlxText>();
         add(saveFilesTxtGrp);
+
+        saveFilesPlayedTimeTxtGrp = new FlxTypedGroup<FlxText>();
+        add(saveFilesPlayedTimeTxtGrp);
 
         var triangleTop:FlxBackdrop = new FlxBackdrop(Paths.image('resultsScreen/newResultsScreen/lettaBoxDark'), X, 0, 0);
         triangleTop.velocity.set(10, 0);
@@ -54,6 +60,23 @@ class SaveFilesMenu extends MusicBeatState
             txt.ID = i;
             txt.antialiasing = ClientPrefs.data.antialiasing;
             saveFilesTxtGrp.add(txt);
+
+            var save = new FlxSave();
+            save.bind('funkin$i', CoolUtil.getSavePath());
+            saveFilesDataArr.push(save.data);
+
+            var playedTime:Float = 0;
+            playedTime = save.data.playedTime;
+            var hours = FlxMath.roundDecimal(playedTime / 3600, 2);
+
+            var playedTimeTxt = new FlxText(0, 0, spr.width, '');
+            playedTimeTxt.setFormat(Paths.font('FredokaOne-Regular.ttf'), 18, 0xFF000000);
+            playedTimeTxt.text = '$hours hours';
+            playedTimeTxt.x = spr.x + 10;
+            playedTimeTxt.y = txt.y + txt.height + 10;
+            playedTimeTxt.ID = i;
+            playedTimeTxt.antialiasing = ClientPrefs.data.antialiasing;
+            saveFilesPlayedTimeTxtGrp.add(playedTimeTxt);
         }
 
         // tiny offset lmao so always centered
