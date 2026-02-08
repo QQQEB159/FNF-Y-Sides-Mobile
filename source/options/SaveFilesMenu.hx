@@ -92,7 +92,9 @@ class SaveFilesMenu extends MusicBeatState
 
         if (FlxG.keys.justPressed.ESCAPE)
         {
-            MusicBeatState.switchState(new OptionsState());
+			FlxTransitionableState.skipNextTransIn = true;
+			FlxTransitionableState.skipNextTransOut = true;
+            MusicBeatState.switchState(new OptionsState(true));
         }
 
         saveFilesSprGrp.forEach(function(spr:FlxSprite)

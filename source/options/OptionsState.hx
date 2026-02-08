@@ -72,6 +72,14 @@ class OptionsState extends MusicBeatState
 	var welcomeBack2:String = 'Welcome back! Looks like you wanna change something here...';
 	var welcomeBack3:String = 'Hey! How are you doing with the mod?';
 
+	var skipTransition:Bool = false;
+	public function new(skipTrans:Bool = false)
+	{
+		super();
+
+		skipTransition = skipTrans;
+	}
+
 	override function create()
 	{
 		#if DISCORD_ALLOWED
@@ -208,7 +216,7 @@ class OptionsState extends MusicBeatState
 
 		add(dialogueText);
 
-		if(!onPlayState)
+		if(!onPlayState && !skipTransition)
 		{
 			boardThing.alpha = 0;
 			verticalTriangleLeft.alpha = 0;
