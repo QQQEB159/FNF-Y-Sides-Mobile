@@ -43,6 +43,8 @@ class Achievements {
 		
 		//dont delete this thing below
 		_originalLength = _sortID + 1;
+
+		FlxG.save.data.gotPlatiniumAchievement = FlxG.save.data.gotPlatiniumAchievement == null ? false : FlxG.save.data.gotPlatiniumAchievement;
 	}
 
 	public static var achievements:Map<String, Achievement> = new Map<String, Achievement>();
@@ -137,6 +139,17 @@ class Achievements {
 		return -1;
 	}
 
+	public static function checkPlatiniumAchievement():Bool
+	{
+		for(achievement => data in Achievements.achievements)
+		{
+			if(data.hidden) continue;
+			if(!Achievements.isUnlocked(achievement))
+				return false;
+		}
+		return true;
+	}
+
 	static var _lastUnlock:Int = -999;
 	public static function unlock(name:String, autoStartPopup:Bool = true):String {
 		if(!achievements.exists(name))
@@ -158,6 +171,8 @@ class Achievements {
 			FlxG.sound.play(Paths.sound('confirmMenu'), 0.5);
 			_lastUnlock = time;
 		}
+
+		if(checkPlatiniumAchievement()) FlxG.save.data.gotPlatiniumAchievement = true;
 
 		Achievements.save();
 		FlxG.save.flush();

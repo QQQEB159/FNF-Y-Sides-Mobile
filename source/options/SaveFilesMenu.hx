@@ -77,6 +77,19 @@ class SaveFilesMenu extends MusicBeatState
             playedTimeTxt.ID = i;
             playedTimeTxt.antialiasing = ClientPrefs.data.antialiasing;
             saveFilesPlayedTimeTxtGrp.add(playedTimeTxt);
+
+		    var platiniumAchievement = new FlxSprite();
+		    platiniumAchievement.loadGraphic(Paths.image('achievements/platiniumTrophie'));
+		    platiniumAchievement.scrollFactor.set(0, 0);
+		    //platiniumAchievement.scale.set(0.35, 0.35);
+            platiniumAchievement.setGraphicSize(40, 40);
+		    platiniumAchievement.updateHitbox();
+		    platiniumAchievement.antialiasing = ClientPrefs.data.antialiasing;
+		    platiniumAchievement.x = spr.x + spr.width - platiniumAchievement.width - 10;
+		    platiniumAchievement.y = spr.y + 10;
+		    add(platiniumAchievement);
+
+            platiniumAchievement.color = Achievements.checkPlatiniumAchievement() ? 0xFFFFFFFF : 0xFF000000;
         }
 
         // tiny offset lmao so always centered

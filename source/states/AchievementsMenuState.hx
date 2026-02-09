@@ -179,7 +179,7 @@ class AchievementsMenuState extends MusicBeatState
 		//confetti.screenCenter();
 		add(confetti);
 
-		gotPlatinium = checkPlatiniumAchievement();
+		gotPlatinium = Achievements.checkPlatiniumAchievement();
 		if(!gotPlatinium) platiniumAchievement.color = 0xFF000000;
 		
 		_changeSelection();
@@ -369,17 +369,6 @@ class AchievementsMenuState extends MusicBeatState
 			if(spr.ID == curSelected) spr.alpha = 1;
 		});
 	}	
-	
-	function checkPlatiniumAchievement():Bool
-	{
-		for(achievement => data in Achievements.achievements)
-		{
-			if(data.hidden) continue;
-			if(!Achievements.isUnlocked(achievement))
-				return false;
-		}
-		return true;
-	}
 }
 
 class ResetAchievementSubstate extends MusicBeatSubstate
