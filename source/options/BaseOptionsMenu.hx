@@ -69,6 +69,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 		verticalTriangleLeft = new FlxBackdrop(Paths.image('optionsMenu/verticalTriangleThing'), Y);
 		verticalTriangleLeft.velocity.set(0, 20);
 		verticalTriangleLeft.x = 138;
+		verticalTriangleLeft.y = OptionsState.verticalTriangleLeftPos;
 		verticalTriangleLeft.antialiasing = ClientPrefs.data.antialiasing;
 		add(verticalTriangleLeft);
 
@@ -80,6 +81,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 
 		verticalTriangleRight.velocity.set(0, -20);
 		verticalTriangleRight.x = FlxG.width - verticalTriangleRight.width - 138;
+		verticalTriangleRight.y = OptionsState.verticalTriangleRightPos;
 		verticalTriangleRight.antialiasing = ClientPrefs.data.antialiasing;
 		add(verticalTriangleRight);
 
@@ -99,7 +101,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 		add(boardThing);
 
 		character = new Character(800, 200, 'options-guy');
-		character.playAnim('idle');
+		character.playAnim('idle', false, false, OptionsState.currentFrame);
 		character.antialiasing = ClientPrefs.data.antialiasing;
 		add(character);
 
@@ -172,6 +174,11 @@ class BaseOptionsMenu extends MusicBeatSubstate
 	{
 		super.update(elapsed);
 
+		if(character != null)
+		{
+			OptionsState.currentFrame = character.animation.curAnim.name == 'idle' ? character.animation.curAnim.curFrame : 0;
+		}
+
 		if(bindingKey)
 		{
 			bindingKeyUpdate(elapsed);
@@ -190,6 +197,9 @@ class BaseOptionsMenu extends MusicBeatSubstate
 		if (controls.BACK) {
 			OptionsState.iconsPos.insert(0, icons.x);
 			OptionsState.iconsPos.insert(1, icons.y);
+
+			OptionsState.verticalTriangleLeftPos = verticalTriangleLeft.y;
+			OptionsState.verticalTriangleRightPos = verticalTriangleRight.y;
 
 			close();
 			FlxG.sound.play(Paths.sound('cancelMenu'));
@@ -360,7 +370,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 	public function endDialogue()
 	{
 		if(character != null) try {
-			character.playAnim('idle');
+			character.playAnim('idle', false, false, OptionsState.currentFrame);
 		}
 		catch(exc) { trace ('Error: $exc'); }
 		

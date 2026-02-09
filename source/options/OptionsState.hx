@@ -12,6 +12,9 @@ class OptionsState extends MusicBeatState
 {
 	public static var comingFromOptions:Bool = false;
 	public static var iconsPos:Array<Float> = [0, 0];
+	public static var verticalTriangleLeftPos:Float = 0;
+	public static var verticalTriangleRightPos:Float = 0;
+	public static var currentFrame:Int = 0;
 
 	var options:Array<String> = [
 		'Controls',
@@ -27,7 +30,15 @@ class OptionsState extends MusicBeatState
 	public static var menuBG:FlxSprite;
 	public static var onPlayState:Bool = false;
 
-	function openSelectedSubstate(label:String) {
+	function openSelectedSubstate(label:String) 
+	{
+		
+		iconsPos.insert(0, icons.x);
+		iconsPos.insert(1, icons.y);
+
+		verticalTriangleLeftPos = verticalTriangleLeft.y;
+		verticalTriangleRightPos = verticalTriangleRight.y;
+
 		switch(label)
 		{
 			case 'Note Colors':
@@ -50,9 +61,6 @@ class OptionsState extends MusicBeatState
 				
 				MusicBeatState.switchState(new options.SaveFilesMenu());
 		}
-
-		iconsPos.insert(0, icons.x);
-		iconsPos.insert(1, icons.y);
 	}
 
 	var icons:FlxBackdrop;
@@ -71,6 +79,14 @@ class OptionsState extends MusicBeatState
 	var welcomeBack1:String = 'Hello again!';
 	var welcomeBack2:String = 'Welcome back! Looks like you wanna change something here...';
 	var welcomeBack3:String = 'Hey! How are you doing with the mod?';
+
+	var skipTransition:Bool = false;
+	public function new(skipTrans:Bool = false)
+	{
+		super();
+
+		skipTransition = skipTrans;
+	}
 
 	override function create()
 	{
@@ -98,8 +114,9 @@ class OptionsState extends MusicBeatState
 		FlxTween.tween(icons, {alpha: 0.2}, 0.7);
 
 		verticalTriangleLeft = new FlxBackdrop(Paths.image('optionsMenu/verticalTriangleThing'), Y);
-		verticalTriangleLeft.velocity.set(0, 20);
 		verticalTriangleLeft.x = 138;
+		verticalTriangleLeft.y = verticalTriangleLeftPos;
+		verticalTriangleLeft.velocity.set(0, 20);
 		verticalTriangleLeft.antialiasing = ClientPrefs.data.antialiasing;
 		add(verticalTriangleLeft);
 
@@ -109,8 +126,9 @@ class OptionsState extends MusicBeatState
 		//verticalTriangleRight.flipX = true;
 		verticalTriangleRight.updateHitbox();
 
-		verticalTriangleRight.velocity.set(0, -20);
 		verticalTriangleRight.x = FlxG.width - verticalTriangleRight.width - 138;
+		verticalTriangleRight.y = verticalTriangleRightPos;
+		verticalTriangleRight.velocity.set(0, -20);
 		verticalTriangleRight.antialiasing = ClientPrefs.data.antialiasing;
 		add(verticalTriangleRight);
 
@@ -145,7 +163,7 @@ class OptionsState extends MusicBeatState
 		add(boardThing);
 
 		character = new Character(800, 200, 'options-guy');
-		character.playAnim('idle');
+		character.playAnim('idle', false, false, OptionsState.currentFrame);
 		character.antialiasing = ClientPrefs.data.antialiasing;
 		add(character);
 
@@ -176,7 +194,7 @@ class OptionsState extends MusicBeatState
 				new FlxTimer().start(1.8, function(t:FlxTimer)
 				{
 					if(character != null) try {
-						character.playAnim('idle');
+						character.playAnim('idle', false, false, OptionsState.currentFrame);
 					}
 					catch(exc) { trace ('Error: $exc'); }
 					FlxTween.tween(dialogueBox, {alpha: 0, y: dialogueBox.y + 10}, 0.35, {ease: FlxEase.linear});
@@ -197,7 +215,7 @@ class OptionsState extends MusicBeatState
 				new FlxTimer().start(1.8, function(t:FlxTimer)
 				{
 					if(character != null) try {
-						character.playAnim('idle');
+						character.playAnim('idle', false, false, OptionsState.currentFrame);
 					}
 					catch(exc) { trace ('Error: $exc'); }
 					FlxTween.tween(dialogueBox, {alpha: 0, y: dialogueBox.y + 10}, 0.35, {ease: FlxEase.linear});
@@ -208,7 +226,7 @@ class OptionsState extends MusicBeatState
 
 		add(dialogueText);
 
-		if(!onPlayState)
+		if(!onPlayState && !skipTransition)
 		{
 			boardThing.alpha = 0;
 			verticalTriangleLeft.alpha = 0;
@@ -238,7 +256,7 @@ class OptionsState extends MusicBeatState
 						new FlxTimer().start(1.8, function(t:FlxTimer)
 						{
 							if(character != null) try {
-								character.playAnim('idle');
+								character.playAnim('idle', false, false, currentFrame);
 							}
 							catch(exc) { trace ('Error: $exc'); }
 							FlxTween.tween(dialogueBox, {alpha: 0, y: dialogueBox.y + 10}, 0.35, {ease: FlxEase.linear});
@@ -259,7 +277,7 @@ class OptionsState extends MusicBeatState
 						new FlxTimer().start(1.8, function(t:FlxTimer)
 						{
 							if(character != null) try {
-								character.playAnim('idle');
+								character.playAnim('idle', false, false, OptionsState.currentFrame);
 							}
 							catch(exc) { trace ('Error: $exc'); }
 							FlxTween.tween(dialogueBox, {alpha: 0, y: dialogueBox.y + 10}, 0.35, {ease: FlxEase.linear});
@@ -281,6 +299,8 @@ class OptionsState extends MusicBeatState
 		super.closeSubState();
 
 		icons.setPosition(iconsPos[0], iconsPos[1]);
+		verticalTriangleLeft.y = verticalTriangleLeftPos;
+		verticalTriangleRight.y = verticalTriangleRightPos;
 
 		ClientPrefs.saveSettings();
 		#if DISCORD_ALLOWED
@@ -288,8 +308,15 @@ class OptionsState extends MusicBeatState
 		#end
 	}
 
-	override function update(elapsed:Float) {
+	override function update(elapsed:Float) 
+	{
+
 		super.update(elapsed);
+
+		if(character != null)
+		{
+			currentFrame = character.animation.curAnim.name == 'idle' ? character.animation.curAnim.curFrame : 0;
+		}
 
 		if (FlxG.sound.music != null)
 			Conductor.songPosition = FlxG.sound.music.time;
