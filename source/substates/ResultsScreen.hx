@@ -54,6 +54,14 @@ class ResultsScreen extends MusicBeatSubstate
     var totalMisses:Int = 0;
     var totalRating:Float = 0;
 
+    public var picoMix:Bool = false;
+
+    public function new(_picoMix)
+    {
+        picoMix = _picoMix;
+        super();
+    }
+
     override function create() 
     {
         super.create();
@@ -267,7 +275,9 @@ class ResultsScreen extends MusicBeatSubstate
 
             new FlxTimer().start(1, (_) -> {
                 startBeating = true;
-                FlxG.sound.playMusic(Paths.music(getRankName() == 'e' ? 'winScreenbad' : 'winScreen'));
+                var musicPath:String = getRankName() == 'e' ? 'winScreenbad' : 'winScreen';
+                if(PlayState.isPicoMix) musicPath += '-pico';
+                FlxG.sound.playMusic(Paths.music(musicPath));
                 Conductor.bpm = getRankName() == 'e' ? 100 : 127;
 
                 if(getRankName() == 'e')

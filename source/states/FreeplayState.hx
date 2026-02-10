@@ -561,6 +561,11 @@ class FreeplayState extends MusicBeatState
 			persistentUpdate = false;
 			var songLowercase:String = Paths.formatToSongPath(songs[curSelected].songName);
 			var poop:String = Highscore.formatSong(songLowercase + characterPrefix, curDifficulty);
+			switch(characterPrefix)
+			{
+				case '-pico': PlayState.isPicoMix = true;
+				default: PlayState.isPicoMix = false;
+			}
 
 			try
 			{

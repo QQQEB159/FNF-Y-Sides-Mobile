@@ -3227,6 +3227,7 @@ class PlayState extends MusicBeatState
 		return true;
 	}
 
+	public static var isPicoMix:Bool = false;
 	public function openResultsScreen():Void
 	{
 		persistentUpdate = false;
@@ -3240,7 +3241,7 @@ class PlayState extends MusicBeatState
 
 		FlxTween.tween(shit, {alpha: 1}, 0.4);
 			
-		var resultsScreen = new ResultsScreen();
+		var resultsScreen = new ResultsScreen(isPicoMix);
 		resultsScreen.cameras = [camOther];
 		openSubState(resultsScreen);
 
