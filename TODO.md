@@ -168,6 +168,8 @@
 - [ ] Mistletoe (SONGCARD)
 - [ ] Winter Horrorland (SONGCARD)
 
+- [ ] Pico resulsts screen sprites
+
 ## SPECIFIC
 
 - [x] ENHANCEMENT: Mechanics are easier in normal and easy difficulties
