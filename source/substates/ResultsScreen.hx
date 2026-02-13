@@ -276,7 +276,7 @@ class ResultsScreen extends MusicBeatSubstate
             new FlxTimer().start(1, (_) -> {
                 startBeating = true;
                 var musicPath:String = getRankName() == 'e' ? 'winScreenbad' : 'winScreen';
-                if(PlayState.isPicoMix) musicPath += '-pico';
+                musicPath += FreeplayState.characterPrefix;
                 FlxG.sound.playMusic(Paths.music(musicPath));
                 Conductor.bpm = getRankName() == 'e' ? 100 : 127;
 

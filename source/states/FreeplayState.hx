@@ -61,7 +61,7 @@ class FreeplayState extends MusicBeatState
 	var diffArrowUp:FlxSprite;
 	var diffArrowDown:FlxSprite;
 
-	var characterPrefix:String = '';
+	public static var characterPrefix:String = '';
 
 	override function create()
 	{
@@ -561,11 +561,6 @@ class FreeplayState extends MusicBeatState
 			persistentUpdate = false;
 			var songLowercase:String = Paths.formatToSongPath(songs[curSelected].songName);
 			var poop:String = Highscore.formatSong(songLowercase + characterPrefix, curDifficulty);
-			switch(characterPrefix)
-			{
-				case '-pico': PlayState.isPicoMix = true;
-				default: PlayState.isPicoMix = false;
-			}
 
 			try
 			{
