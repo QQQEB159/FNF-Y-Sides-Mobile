@@ -1656,6 +1656,8 @@ class PlayState extends MusicBeatState
 		inst = new FlxSound();
 		try
 		{
+			trace(songData.song);
+			trace(Paths.inst(songData.song));
 			inst.loadEmbedded(Paths.inst(songData.song));
 		}
 		catch (e:Dynamic) {}
