@@ -81,6 +81,9 @@ class GameOverSubstate extends MusicBeatSubstate
 		FlxG.camera.focusOn(new FlxPoint(FlxG.camera.scroll.x + (FlxG.camera.width / 2), FlxG.camera.scroll.y + (FlxG.camera.height / 2)));
 		FlxG.camera.follow(camFollow, LOCKON, 0.01);
 		add(camFollow);
+
+		FlxTween.cancelTweensOf(FlxG.camera);
+		FlxTween.tween(FlxG.camera, {zoom: 0.9}, 3, {ease: FlxEase.smoothStepInOut});
 		
 		PlayState.instance.setOnScripts('inGameOver', true);
 		PlayState.instance.callOnScripts('onGameOverStart', []);
