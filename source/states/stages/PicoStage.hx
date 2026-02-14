@@ -5,12 +5,14 @@ import objects.Character;
 
 class PicoStage extends BaseStage
 {
+    var bg:BGSprite;
     var guards:BGSprite;
     var signs:BGSprite;
+    var car:FlxSprite;
 
 	override function create()
 	{
-		var bg:BGSprite = new BGSprite('stages/picoStage/bg_pico', -1009, -728, 1, 1);
+		bg = new BGSprite('stages/picoStage/bg_pico', -1009, -728, 1, 1);
         bg.scale.set(0.9, 0.9);
         bg.updateHitbox();
         bg.antialiasing = ClientPrefs.data.antialiasing;
@@ -36,6 +38,13 @@ class PicoStage extends BaseStage
     {
 		if(!ClientPrefs.data.lowQuality)
 		{
+            car = new FlxSprite();
+            car.makeGraphic(350, 350);
+            car.antialiasing = ClientPrefs.data.antialiasing;
+            car.x = 2000;
+            car.y = bg.y + 1100;
+            add(car);
+
 		    var lights2:BGSprite = new BGSprite('stages/picoStage/lightsfr', -1079, -808, 1, 1);
             lights2.antialiasing = ClientPrefs.data.antialiasing;
             lights2.updateHitbox();
@@ -84,5 +93,23 @@ class PicoStage extends BaseStage
             guards.animation.play('idle2');
             guards.offset.set(guards.animOffsets[1][0], guards.animOffsets[1][1]);
         }
+
+        if(curBeat == 3) spawnCar();
+    }
+
+    function spawnCar()
+    {
+        if(ClientPrefs.data.lowQuality) return;
+
+        FlxG.sound.play(Paths.sound('car_passing'));
+        new FlxTimer().start(3.5, function(tmr:FlxTimer)
+        {
+            FlxTween.tween(car, {x: -1000}, 0.3, {ease: FlxEase.linear});
+        });
+        new FlxTimer().start(7, function(tmr:FlxTimer)
+        {
+            // reset
+            car.x = 2000;
+        });
     }
 }
