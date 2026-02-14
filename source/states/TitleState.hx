@@ -71,12 +71,16 @@ class TitleState extends MusicBeatState
 	#end
 
 	var bloom:BloomShader;
+	var bg:FlxSprite;
 
 	override public function create():Void
 	{
 		Paths.clearStoredMemory();
 		super.create();
 		Paths.clearUnusedMemory();
+
+		bg = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, 0xFF030007);
+		add(bg);
 
 		if(!initialized)
 		{
@@ -218,8 +222,8 @@ class TitleState extends MusicBeatState
 		titleText.screenCenter(X);
 		titleText.updateHitbox();
 
-		blackScreen = new FlxSprite().makeGraphic(1, 1, FlxColor.BLACK);
-		blackScreen.scale.set(FlxG.width, FlxG.height);
+		blackScreen = new FlxSprite().makeGraphic(Std.int(FlxG.width * 1.2), Std.int(FlxG.height * 1.2), 0xFF030007);
+		//blackScreen.scale.set(FlxG.width, FlxG.height);
 		blackScreen.updateHitbox();
 		credGroup.add(blackScreen);
 

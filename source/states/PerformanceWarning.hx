@@ -22,7 +22,7 @@ class PerformanceWarning extends MusicBeatState
 		GalleryPreload.preloadImages('outdated_concepts');
 		GalleryPreload.preloadImages('bored');
 
-		bg = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		bg = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, 0xFF030007);
 		add(bg);
 
 		warnText = new FlxText(0, 0, FlxG.width,
@@ -31,6 +31,7 @@ class PerformanceWarning extends MusicBeatState
 			We recommend you to activate the low quality setting in the options menu to avoid them");
 		warnText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER);
 		warnText.screenCenter(Y);
+		warnText.antialiasing = ClientPrefs.data.antialiasing;
 		warnText.alpha = 0;
 		warnText.y += 10;
 		add(warnText);
@@ -44,6 +45,7 @@ class PerformanceWarning extends MusicBeatState
         iUnderstand.screenCenter(X);
 		iUnderstand.y += 10;
 		iUnderstand.alpha = 0;
+		iUnderstand.antialiasing = ClientPrefs.data.antialiasing;
 		add(iUnderstand);
 
 		FlxTween.tween(iUnderstand, {alpha: 1, y: iUnderstand.y - 10}, 0.2);
