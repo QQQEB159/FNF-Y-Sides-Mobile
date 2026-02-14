@@ -340,10 +340,15 @@ class StoryMenuState extends MusicBeatState
 			var changeDiff = false;
 			if (controls.UI_UP_P)
 			{
-				weekArrowUp.animation.play('press');
+				weekArrowUp.animation.play('press', true);
+				weekArrowUp.offset.set(5, 10);
 				weekArrowUp.animation.finishCallback = function(name:String)
 				{
-					if(name == 'press') weekArrowUp.animation.play('idle');
+					if(name == 'press') 
+					{
+						weekArrowUp.animation.play('idle', true);
+						weekArrowUp.offset.set(0, 0);
+					}
 				}
 				changeWeek(-1);
 				FlxG.sound.play(Paths.sound('scrollMenu'));
@@ -352,10 +357,10 @@ class StoryMenuState extends MusicBeatState
 
 			if (controls.UI_DOWN_P)
 			{
-				weekArrowDown.animation.play('press');
+				weekArrowDown.animation.play('press', true);
 				weekArrowDown.animation.finishCallback = function(name:String)
 				{
-					if(name == 'press') weekArrowDown.animation.play('idle');
+					if(name == 'press') weekArrowDown.animation.play('idle', true);
 				}
 				changeWeek(1);
 				FlxG.sound.play(Paths.sound('scrollMenu'));
