@@ -279,6 +279,7 @@ class ResultsScreen extends MusicBeatSubstate
                 musicPath += FreeplayState.characterPrefix;
                 FlxG.sound.playMusic(Paths.music(musicPath));
                 Conductor.bpm = getRankName() == 'e' ? 100 : 127;
+                if(FreeplayState.characterPrefix == '-pico') Conductor.bpm = getRankName() == 'e' ? 100 : 105;
 
                 if(getRankName() == 'e')
                 {
