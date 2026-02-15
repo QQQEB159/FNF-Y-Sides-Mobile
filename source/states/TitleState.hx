@@ -263,7 +263,7 @@ class TitleState extends MusicBeatState
 		//particles.y = FlxG.height - particles.height;
 		particles.startY = FlxG.height;
 		particles.endY = FlxG.height - 450;
-		particles.initialScale = 0.7;
+		particles.initialScale = 0.4;
 		particles.fadeSpeed = 0.8;
 		particles.randomX = 90;
 		particles.randomY = 90;
@@ -703,9 +703,9 @@ class TitleState extends MusicBeatState
 					deleteCoolText();
 
 					var tweenDuration:Float = 3.15;
-					FlxTween.tween(FlxG.camera, {zoom: 1.3}, tweenDuration / 0.8, {ease: FlxEase.cubeIn});
+					FlxTween.tween(FlxG.camera, {zoom: 1.35}, tweenDuration / 0.8, {ease: FlxEase.cubeIn});
 
-					deflectiveLensTween = FlxTween.num(0, 1.9, tweenDuration, {ease: FlxEase.cubeIn, onComplete: function(twn:FlxTween)
+					deflectiveLensTween = FlxTween.num(0, 1.8, tweenDuration, {ease: FlxEase.cubeIn, onComplete: function(twn:FlxTween)
 					{
 						deflectiveLensTween = null;	
 					}}, function(v:Float)
@@ -723,7 +723,7 @@ class TitleState extends MusicBeatState
 						rgbShader.bOffset.value[0] = -v;
             		});
 
-					bloomTween = FlxTween.num(10, 1.65, tweenDuration, {ease: FlxEase.cubeIn, onComplete: function(twn:FlxTween)
+					bloomTween = FlxTween.num(10, 1.55, tweenDuration, {ease: FlxEase.cubeIn, onComplete: function(twn:FlxTween)
 					{
 						bloomTween = null;	
 					}}, function(v:Float)
@@ -731,7 +731,7 @@ class TitleState extends MusicBeatState
 						bloomShader.Directions.value[0] = v;
             		});
 
-					bloomTween2 = FlxTween.num(2, 1.55, tweenDuration, {ease: FlxEase.cubeIn, onComplete: function(twn:FlxTween)
+					bloomTween2 = FlxTween.num(2, 1.45, tweenDuration, {ease: FlxEase.cubeIn, onComplete: function(twn:FlxTween)
 					{
 						bloomTween2 = null;	
 					}}, function(v:Float)
