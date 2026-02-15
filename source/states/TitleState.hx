@@ -97,6 +97,8 @@ class TitleState extends MusicBeatState
 		super.create();
 		Paths.clearUnusedMemory();
 
+		FlxG.save.data.firstTimeTitleState = FlxG.save.data.firstTimeTitleState != null ? FlxG.save.data.firstTimeTitleState : true;
+
 		bg = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, 0xFF030007);
 		add(bg);
 
@@ -597,6 +599,8 @@ class TitleState extends MusicBeatState
 
 		if (initialized && pressedEnter && !skippedIntro)
 		{
+			if(FlxG.save.data.firstTimeTitleState) return;
+
 			skipIntro();
 		}
 
@@ -771,6 +775,8 @@ class TitleState extends MusicBeatState
 	{
 		if (!skippedIntro)
 		{
+			FlxG.save.data.firstTimeTitleState = false;
+			FlxG.save.flush();
 			FlxTween.cancelTweensOf(FlxG.camera);
 			FlxG.camera.zoom = 1;
 
