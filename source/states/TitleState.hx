@@ -513,7 +513,7 @@ class TitleState extends MusicBeatState
 					bloomShader.dim.value[0] = v;
 				});
 
-				FlxTween.num(1.7, 10, 1.3, {ease: FlxEase.quartOut}, function(v:Float)
+				FlxTween.num(1.55, 10, 1.3, {ease: FlxEase.quartOut}, function(v:Float)
 				{
 					bloomShader.Directions.value[0] = v;
 				});
