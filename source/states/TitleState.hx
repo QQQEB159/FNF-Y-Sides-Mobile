@@ -14,6 +14,8 @@ import haxe.Json;
 import openfl.filters.ShaderFilter;
 import shaders.BloomShader;
 
+import objects.ParticleGroup;
+
 import openfl.Assets;
 import openfl.display.Bitmap;
 import openfl.display.BitmapData;
@@ -55,6 +57,7 @@ class TitleState extends MusicBeatState
 	var credGroup:FlxGroup = new FlxGroup();
 	var textGroup:FlxTypedGroup<FlxSprite> = new FlxTypedGroup<FlxSprite>();
 	var blackScreen:FlxSprite;
+	var particles:ParticleGroup;
 	var blackScreenGradient:FlxSprite;
 	var blackScreenGradient2:FlxSprite;
 	var credTextShit:Alphabet;
@@ -253,6 +256,16 @@ class TitleState extends MusicBeatState
 		//blackScreen.scale.set(FlxG.width, FlxG.height);
 		blackScreen.updateHitbox();
 		credGroup.add(blackScreen);
+
+		particles = new ParticleGroup(0, 0, FlxG.width, 400, 'particle');
+		//particles.y = FlxG.height - particles.height;
+		particles.startY = FlxG.height;
+		particles.endY = FlxG.height - 450;
+		particles.initialScale = 0.7;
+		particles.fadeSpeed = 0.8;
+		particles.randomX = 90;
+		particles.randomY = 90;
+		credGroup.add(particles);
 
 		blackScreenGradient = FlxGradient.createGradientFlxSprite(FlxG.width, FlxG.height, ([0xFF030007, 0xFF4B2E71]));
 		//blackScreenGradient.alpha = 0.45;
