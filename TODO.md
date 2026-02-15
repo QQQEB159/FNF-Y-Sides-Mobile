@@ -130,7 +130,7 @@
 - [x] Satin Panties
 - [x] High
 - [x] MILF
-- [ ] Cocoa
+- [x] Cocoa
 - [ ] Eggnog
 - [ ] Mistletoe
 - [ ] Winter Horrorland
