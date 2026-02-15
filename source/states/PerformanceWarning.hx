@@ -5,7 +5,7 @@ import flixel.FlxSubState;
 import flixel.util.FlxGradient;
 import flixel.addons.display.FlxBackdrop;
 import objects.ParticleGroup;
-import objects.CheckboxThingie;
+import objects.CheckOptionObject;
 
 import openfl.filters.ShaderFilter;
 import shaders.DeflectiveLens;
@@ -202,6 +202,7 @@ class PerformanceWarning extends MusicBeatState
 			FlxTween.tween(flashingLightsOpt.background, {alpha: 0.3}, 0.05);
 			if(FlxG.mouse.justPressed)
 			{
+				FlxG.sound.play(Paths.sound('scrollMenu'));
 				trace('Changing from ${flashingLightsOpt.value} to ${!flashingLightsOpt.value}');
 				flashingLightsOpt.value = !flashingLightsOpt.value;
 			}
@@ -218,6 +219,7 @@ class PerformanceWarning extends MusicBeatState
 			FlxTween.tween(shadersOpt.background, {alpha: 0.3}, 0.05);
 			if(FlxG.mouse.justPressed)
 			{
+				FlxG.sound.play(Paths.sound('scrollMenu'));
 				trace('Changing from ${shadersOpt.value} to ${!shadersOpt.value}');
 				shadersOpt.value = !shadersOpt.value;
 			}
@@ -267,6 +269,20 @@ class PerformanceWarning extends MusicBeatState
 				bloomShader.dim.value[0] = v;
             });
 
+			FlxTween.cancelTweensOf(gradient);
+			FlxTween.cancelTweensOf(gradient2);
+			FlxTween.cancelTweensOf(particles);
+			FlxTween.cancelTweensOf(infoText);
+			FlxTween.cancelTweensOf(infoText2);
+			FlxTween.cancelTweensOf(infoText3);
+			FlxTween.cancelTweensOf(flashingLightsOpt.checkbox);
+			FlxTween.cancelTweensOf(flashingLightsOpt.optionText);
+			FlxTween.cancelTweensOf(flashingLightsOpt.background);
+			FlxTween.cancelTweensOf(shadersOpt.checkbox);
+			FlxTween.cancelTweensOf(shadersOpt.optionText);
+			FlxTween.cancelTweensOf(shadersOpt.background);
+			FlxTween.cancelTweensOf(pressEnterToContinueText);
+
 			FlxTween.tween(gradient, {alpha: 0}, tweenDuration, {ease: FlxEase.cubeOut});
 			FlxTween.tween(gradient2, {alpha: 0}, tweenDuration, {ease: FlxEase.cubeOut});
 			FlxTween.tween(particles, {alpha: 0}, tweenDuration, {ease: FlxEase.cubeOut});
@@ -277,8 +293,10 @@ class PerformanceWarning extends MusicBeatState
 			FlxTween.tween(infoText3, {alpha: 0, y: infoText3.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
 			FlxTween.tween(flashingLightsOpt.checkbox, {alpha: 0, y: flashingLightsOpt.checkbox.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
 			FlxTween.tween(flashingLightsOpt.optionText, {alpha: 0, y: flashingLightsOpt.optionText.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
+			FlxTween.tween(flashingLightsOpt.background, {alpha: 0, y: flashingLightsOpt.background.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
 			FlxTween.tween(shadersOpt.checkbox, {alpha: 0, y: shadersOpt.checkbox.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
 			FlxTween.tween(shadersOpt.optionText, {alpha: 0, y: shadersOpt.optionText.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
+			FlxTween.tween(shadersOpt.background, {alpha: 0, y: shadersOpt.background.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
 			FlxTween.tween(pressEnterToContinueText, {alpha: 0, y: pressEnterToContinueText.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
 
 			new FlxTimer().start(1.5, function(t:FlxTimer)
@@ -287,49 +305,5 @@ class PerformanceWarning extends MusicBeatState
 			});
 		}
 		super.update(elapsed);
-	}
-}
-
-class CheckOptionObject extends FlxSpriteGroup
-{
-	public var background:FlxSprite;
-	public var optionText:Alphabet;
-	public var checkbox:CheckboxThingie;
-	public var value(default, set):Bool = false;
-
-	public function set_value(v:Bool)
-	{
-		checkbox.daValue = v;
-		value = v;
-		return v;
-	}
-
-	public function new(x:Float, y:Float, name:String, initialValue:Bool)
-	{
-		super(x, y);
-
-		background = new FlxSprite();
-		background.alpha = 0;
-		add(background);
-
-		optionText = new Alphabet(0, 0, name, true);
-		optionText.setScale(0.5);
-		add(optionText);
-
-		checkbox = new CheckboxThingie(0, 0, initialValue);
-		checkbox.scale.set(0.6, 0.6);
-		//checkbox.updateHitbox();
-		//checkbox.sprTracker = optionText;
-		checkbox.y += -40;
-		checkbox.x += -(checkbox.width + 20);
-		checkbox.offsetX -= optionText.width + checkbox.width + 40;
-		checkbox.offsetY = -52;
-		add(checkbox);
-
-		background.makeGraphic(Std.int(checkbox.width + 20 + optionText.width + 20), Std.int(checkbox.height - 10));
-		background.x += -(checkbox.width + 20);
-		background.y += -25;
-
-		value = initialValue;
 	}
 }
