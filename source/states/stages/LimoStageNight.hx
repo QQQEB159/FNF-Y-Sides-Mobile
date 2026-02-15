@@ -100,22 +100,22 @@ class LimoStageNight extends BaseStage
     //var speedMult:Float = 10;
     function applyVelocites(isMaximumSpeed:Bool = false)
     {
-        if(clouds != null) clouds.velocity.set(targetSpeed, 0);
+        if(!ClientPrefs.data.lowQuality) clouds.velocity.set(targetSpeed, 0);
         buildingsBack2.velocity.set(targetSpeed * 2, 0); // 2x faster
         buildingsBack.velocity.set(targetSpeed * 2.5, 0); // 2.5 faster
         buildingsFront.velocity.set(targetSpeed * 3.75, 0); // 3.75 faster
         road.velocity.set(targetSpeed * 150, 0); // 150x faster
-        if(roadLights != null) roadLights.velocity.set(targetSpeed * 150, 0); // 150x faster
+        if(!ClientPrefs.data.lowQuality) roadLights.velocity.set(targetSpeed * 150, 0); // 150x faster
         // wind is 250x faster lmao
 
         if(isMaximumSpeed)
         {
-            if(clouds != null) clouds.velocity.set(targetSpeed * speedMult, 0);
+            if(!ClientPrefs.data.lowQuality) clouds.velocity.set(targetSpeed * speedMult, 0);
             buildingsBack2.velocity.set(targetSpeed * 2 * speedMult, 0);
             buildingsBack.velocity.set(targetSpeed * 2.5 * speedMult, 0);
             buildingsFront.velocity.set(targetSpeed * 3.75 * speedMult, 0);
             road.velocity.set(targetSpeed * 150 * speedMult, 0);
-            if(roadLights != null) roadLights.velocity.set(targetSpeed * 150 * speedMult, 0);
+            if(!ClientPrefs.data.lowQuality) roadLights.velocity.set(targetSpeed * 150 * speedMult, 0);
         }
     }
 

@@ -95,7 +95,7 @@ class LimoStage extends BaseStage
     //var speedMult:Float = 10;
     function applyVelocites(isMaximumSpeed:Bool = false)
     {
-        if(clouds != null) clouds.velocity.set(20, 0);
+        if(!ClientPrefs.data.lowQuality) clouds.velocity.set(20, 0);
         buildingsBack2.velocity.set(40, 0);
         buildingsBack.velocity.set(50, 0);
         buildingsFront.velocity.set(75, 0);
@@ -103,7 +103,7 @@ class LimoStage extends BaseStage
 
         if(isMaximumSpeed)
         {
-            if(clouds != null) clouds.velocity.set(20 * speedMult, 0);
+            if(!ClientPrefs.data.lowQuality) clouds.velocity.set(20 * speedMult, 0);
             buildingsBack2.velocity.set(40 * speedMult, 0);
             buildingsBack.velocity.set(50 * speedMult, 0);
             buildingsFront.velocity.set(75 * speedMult, 0);
