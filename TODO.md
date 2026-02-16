@@ -168,6 +168,7 @@
 - [ ] Mistletoe (SONGCARD)
 - [ ] Winter Horrorland (SONGCARD)
 
+- [ ] Performance menu overhaul
 - [ ] Pico resulsts screen sprites
 - [x] New simple events for Pico (+ speed up chart)
 

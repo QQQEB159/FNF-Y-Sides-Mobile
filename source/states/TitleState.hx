@@ -152,7 +152,7 @@ class TitleState extends MusicBeatState
 		rgbShader.bOffset.value = [0.0];
 		rgbFilter = new ShaderFilter(rgbShader);
 
-		FlxG.camera.filters = [bloomFilter, deflectiveLensFilter, rgbFilter];
+		if(ClientPrefs.data.shaders) FlxG.camera.filters = [bloomFilter, deflectiveLensFilter, rgbFilter];
 
 		var preferences:FlxSave = new FlxSave();
 		preferences.bind('preferences', CoolUtil.getSavePath());
@@ -873,7 +873,7 @@ class TitleState extends MusicBeatState
 			{
 				remove(ngSpr);
 				remove(credGroup);
-				FlxG.camera.flash(FlxColor.WHITE, 0.8);
+				if(ClientPrefs.data.flashing) FlxG.camera.flash(FlxColor.WHITE, 0.8);
 
 				var easteregg:String = FlxG.save.data.psychDevsEasterEgg;
 				if (easteregg == null) easteregg = '';
