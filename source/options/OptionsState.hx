@@ -369,6 +369,22 @@ class OptionsState extends MusicBeatState
 			}
 		}
 		else if (controls.ACCEPT) openSelectedSubstate(options[curSelected]);
+
+		if(grpOptions != null)
+		{
+			for (num => item in grpOptions.members)
+			{
+				item.alpha = 0.6;
+				if (item.ID == curSelected)
+				{
+					item.alpha = 1;
+					selectorLeft.x = item.x - 63;
+					selectorLeft.y = item.y;
+					selectorRight.x = item.x + item.width + 15;
+					selectorRight.y = item.y;
+				}
+			}
+		}
 	}
 	
 	function changeSelection(change:Int = 0)
@@ -390,16 +406,6 @@ class OptionsState extends MusicBeatState
 			}
 
 			if(change == 0) item.snapToPosition();
-
-			item.alpha = 0.6;
-			if (item.ID == curSelected)
-			{
-				item.alpha = 1;
-				selectorLeft.x = item.x - 63;
-				selectorLeft.y = item.y;
-				selectorRight.x = item.x + item.width + 15;
-				selectorRight.y = item.y;
-			}
 		}
 		FlxG.sound.play(Paths.sound('scrollMenu'));
 	}
