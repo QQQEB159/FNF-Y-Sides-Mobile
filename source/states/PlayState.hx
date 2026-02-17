@@ -888,7 +888,6 @@ class PlayState extends MusicBeatState
 
 		noteSplashHoldPurple = new HoldNoteSplash(0, 0, 0);
 		noteSplashHoldPurple.frames = Paths.getSparrowAtlas('noteSplashes/noteSplashesHold-psych');
-		noteSplashHoldPurple.animation.addByPrefix('holdCoverStart', 'holdCoverStart', 24, false);
 		noteSplashHoldPurple.animation.addByPrefix('holdCover', 'holdCover0', 24, true);
 		noteSplashHoldPurple.animation.addByPrefix('holdCoverEnd', 'holdCoverEnd', 24, false);
 		noteSplashHoldPurple.animation.play('holdCoverStart');
@@ -898,7 +897,6 @@ class PlayState extends MusicBeatState
 
 		noteSplashHoldBlue = new HoldNoteSplash(0, 0, 1);
 		noteSplashHoldBlue.frames = Paths.getSparrowAtlas('noteSplashes/noteSplashesHold-psych');
-		noteSplashHoldBlue.animation.addByPrefix('holdCoverStart', 'holdCoverStart', 24, false);
 		noteSplashHoldBlue.animation.addByPrefix('holdCover', 'holdCover0', 24, true);
 		noteSplashHoldBlue.animation.addByPrefix('holdCoverEnd', 'holdCoverEnd', 24, false);
 		noteSplashHoldBlue.animation.play('holdCoverStart');
@@ -908,7 +906,6 @@ class PlayState extends MusicBeatState
 
 		noteSplashHoldGreen = new HoldNoteSplash(0, 0, 2);
 		noteSplashHoldGreen.frames = Paths.getSparrowAtlas('noteSplashes/noteSplashesHold-psych');
-		noteSplashHoldGreen.animation.addByPrefix('holdCoverStart', 'holdCoverStart', 24, false);
 		noteSplashHoldGreen.animation.addByPrefix('holdCover', 'holdCover0', 24, true);
 		noteSplashHoldGreen.animation.addByPrefix('holdCoverEnd', 'holdCoverEnd', 24, false);
 		noteSplashHoldGreen.animation.play('holdCoverStart');
@@ -918,7 +915,6 @@ class PlayState extends MusicBeatState
 
 		noteSplashHoldRed = new HoldNoteSplash(0, 0, 3);
 		noteSplashHoldRed.frames = Paths.getSparrowAtlas('noteSplashes/noteSplashesHold-psych');
-		noteSplashHoldRed.animation.addByPrefix('holdCoverStart', 'holdCoverStart', 24, false);
 		noteSplashHoldRed.animation.addByPrefix('holdCover', 'holdCover0', 24, true);
 		noteSplashHoldRed.animation.addByPrefix('holdCoverEnd', 'holdCoverEnd', 24, false);
 		noteSplashHoldRed.animation.play('holdCoverStart');
@@ -4186,29 +4182,25 @@ class PlayState extends MusicBeatState
 				switch(note.noteData)
 				{
 					case 0: 
-						if(note.isHoldNote) noteSplashHoldPurple.animation.play('holdCoverStart', true);
-						else noteSplashHoldPurple.animation.play('holdCover', true);
+						noteSplashHoldPurple.animation.play('holdCover', true);
 
 						noteSplashHoldPurple.visible = true;
 						noteSplashHoldPurple.setPosition(strum.x + noteOffset[0], strum.y + noteOffset[1]);
 						noteSplashHoldPurple.offset.set(holdCoverOffsets[0], holdCoverOffsets[1]);
 					case 1: 
-						if(note.isHoldNote) noteSplashHoldBlue.animation.play('holdCoverStart', true);
-						else noteSplashHoldBlue.animation.play('holdCover', true);
+						noteSplashHoldBlue.animation.play('holdCover', true);
 
 						noteSplashHoldBlue.visible = true;
 						noteSplashHoldBlue.setPosition(strum.x + noteOffset[0], strum.y + noteOffset[1]);
 						noteSplashHoldBlue.offset.set(holdCoverOffsets[0], holdCoverOffsets[1]);
 					case 2: 
-						if(note.isHoldNote) noteSplashHoldGreen.animation.play('holdCoverStart', true);
-						else noteSplashHoldGreen.animation.play('holdCover', true);
+						noteSplashHoldGreen.animation.play('holdCover', true);
 
 						noteSplashHoldGreen.visible = true;
 						noteSplashHoldGreen.setPosition(strum.x + noteOffset[0], strum.y + noteOffset[1]);
 						noteSplashHoldGreen.offset.set(holdCoverOffsets[0], holdCoverOffsets[1]);
 					case 3: 
-						if(note.isHoldNote) noteSplashHoldRed.animation.play('holdCoverStart', true);
-						else noteSplashHoldRed.animation.play('holdCover', true);
+						noteSplashHoldRed.animation.play('holdCover', true);
 
 						noteSplashHoldRed.visible = true;
 						noteSplashHoldRed.setPosition(strum.x + noteOffset[0], strum.y + noteOffset[1]);

@@ -10,7 +10,4 @@
 	<SubTexture name="holdCoverEnd0001" x="375" y="127" width="66" height="77" frameX="-14" frameY="-11" frameWidth="87" frameHeight="97"/>
 	<SubTexture name="holdCoverEnd0002" x="133" y="24" width="78" height="89" frameX="-5" frameY="-3" frameWidth="87" frameHeight="97"/>
 	<SubTexture name="holdCoverEnd0003" x="24" y="24" width="85" height="97" frameX="-2" frameY="0" frameWidth="87" frameHeight="97"/>
-	<SubTexture name="holdCoverEnd0004" x="24" y="24" width="85" height="97" frameX="-2" frameY="0" frameWidth="87" frameHeight="97"/>
-	<SubTexture name="holdCoverEnd0005" x="24" y="24" width="0" height="0" frameX="-135" frameY="-187" frameWidth="87" frameHeight="97"/>
-	<SubTexture name="holdCoverStart0000" x="390" y="24" width="73" height="79"/>
 </TextureAtlas>
