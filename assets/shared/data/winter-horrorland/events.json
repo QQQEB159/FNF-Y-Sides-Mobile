@@ -1,0 +1,11 @@
+{
+	"events": [
+		[
+			27692.3076923077,
+			[
+				["smooth_camera_zoom", "0.65", "5, cubeInOut"]
+			]
+		]
+	],
+	"format": "psych_v1"
+}

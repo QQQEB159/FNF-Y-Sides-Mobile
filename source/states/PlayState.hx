@@ -435,6 +435,7 @@ class PlayState extends MusicBeatState
 			case 'limoNight': new LimoStageNight();
 			case 'limoNightPico': new LimoStageNightPico();
 			case 'skiingStage': new SkiStage();
+			case 'skiingStageCreepy': new SkiCreepyStage();
 		}
 		if(isPixelStage) introSoundsSuffix = '-pixel';
 
@@ -536,11 +537,15 @@ class PlayState extends MusicBeatState
 		vignette = new FlxSprite().loadGraphic(Paths.image('vignette'));
 		vignette.alpha = 0.25;
 		vignette.cameras = [camHUD];
-		if(SONG.song != 'Monster') vignette.alpha = 0;
+		vignette.alpha = 0;
+		if(SONG.song == 'Monster') vignette.alpha = 1;
+		if(SONG.song == 'Winter Horrorland') vignette.alpha = 1;
 		add(vignette);
 
 		blackThingBelow = new FlxSprite().makeGraphic(1480, 1280, 0xFF000000);
-		if(SONG.song != 'Monster') blackThingBelow.alpha = 0;
+		blackThingBelow.alpha = 0;
+		if(SONG.song == 'Monster') blackThingBelow.alpha = 1;
+		if(SONG.song == 'Winter Horrorland') blackThingBelow.alpha = 1;
 		blackThingBelow.cameras = [camHUD];
 		add(blackThingBelow);
 
@@ -784,11 +789,11 @@ class PlayState extends MusicBeatState
 		comboGroup.cameras = [camHUD];
 
 		blackThing = new FlxSprite().makeGraphic(1480, 1280, 0xFF000000);
-		if(curSong != 'Monster') blackThing.alpha = 0;
+		if(curSong != 'Monster' || curSong != 'Winter Horrorland') blackThing.alpha = 0;
 		blackThing.cameras = [camHUD];
 		add(blackThing);
 
-		if(curSong == 'Monster') skipCountdown = true;
+		if(curSong == 'Monster' || curSong == 'Winter Horrorland') skipCountdown = true;
 
 		startingSong = true;
 
@@ -2015,6 +2020,7 @@ class PlayState extends MusicBeatState
 	var startedCountdown:Bool = false;
 	var canPause:Bool = true;
 	var freezeCamera:Bool = false;
+	var cameraFollowInstant:Bool = false;
 	//var allowDebugKeys:Bool = #if debug true #else false #end; 
 	var allowDebugKeys:Bool = true;
 
@@ -2029,7 +2035,7 @@ class PlayState extends MusicBeatState
 	override public function update(elapsed:Float)
 	{
 		if(!inCutscene && !paused && !freezeCamera) {
-			FlxG.camera.followLerp = 0.04 * cameraSpeed * playbackRate;
+			FlxG.camera.followLerp = cameraFollowInstant ? 1 : 0.04 * cameraSpeed * playbackRate;
 			var idleAnim:Bool = (boyfriend.getAnimationName().startsWith('idle') || boyfriend.getAnimationName().startsWith('danceLeft') || boyfriend.getAnimationName().startsWith('danceRight'));
 			if(!startingSong && !endingSong && idleAnim) {
 				boyfriendIdleTime += elapsed;
@@ -4473,6 +4479,46 @@ class PlayState extends MusicBeatState
 						constantHealthDrainActive = false;
 						glowHealthBarEffect = false;
 						FlxTween.tween(healthBarGlow, {alpha: 0}, 1, {ease: FlxEase.quartOut});
+				}
+			case 'Winter Horrorland':
+				switch(curStep)
+				{
+					case 1:
+						blackThing.alpha = 0;
+						FlxTween.tween(blackThingBelow, {alpha: 0}, 15);
+
+						vignette.alpha = 0.65;
+						dad.alpha = 0;
+
+						cameraFollowInstant = true;
+						isCameraOnForcedPos = true;
+						FlxG.camera.followLerp = 1;
+						camFollow.x = 2000;
+						camFollow.y = -400;
+
+						FlxTween.tween(
+							camFollow, 
+							{x: boyfriend.getMidpoint().x - 100 - (boyfriend.cameraPosition[0] - boyfriendCameraOffset[0]), y: boyfriend.getMidpoint().y - 100 + (boyfriend.cameraPosition[1] + boyfriendCameraOffset[1])}, 
+							15, 
+							{ease: FlxEase.cubeOut}
+						);
+					case 240:
+						//cameraFollowInstant = false;
+						FlxTween.tween(dad, {alpha: 1}, 15);
+
+						FlxTween.tween(
+							camFollow, 
+							{x: dad.getMidpoint().x + 150 + (dad.cameraPosition[0] + opponentCameraOffset[0]), y: dad.getMidpoint().y - 100 + (dad.cameraPosition[1] + opponentCameraOffset[1])}, 
+							10, 
+							{ease: FlxEase.cubeInOut}
+						);
+					case 432:
+						blackThing.alpha = 1;
+						FlxTween.tween(blackThing, {alpha: 1}, 2);
+					case 480:
+						isCameraOnForcedPos = false;
+						cameraFollowInstant = false;
+						blackThing.alpha = 0;
 				}
 		}
 
