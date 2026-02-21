@@ -38,12 +38,6 @@ class SkiCreepyStage extends BaseStage
 		var mountains:BGSprite = new BGSprite('stages/skiStage/mountains', -600, -500, 0.3, 0.3);
 		add(mountains);
 
-		if(!ClientPrefs.data.lowQuality)
-		{
-			var mountainsFront:BGSprite = new BGSprite('stages/skiStage/mountainsFront', -550, -450, 0.4, 0.4);
-			add(mountainsFront);
-		}
-
 		var snowBack2:BGSprite = new BGSprite('stages/skiStage/snowBack2', -400, -200, 0.6, 0.6);
 		add(snowBack2);
 

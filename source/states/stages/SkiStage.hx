@@ -9,32 +9,26 @@ class SkiStage extends BaseStage
 {
 	override function create()
 	{
-		var sky:BGSprite = new BGSprite('stages/skiStage/sky', -1000, -1000, 0, 0);
+		var sky:BGSprite = new BGSprite('stages/skiStage/sky', -1000, -700, 0, 0);
 		add(sky);
 
 		if(!ClientPrefs.data.lowQuality)
 		{
-			var sun:BGSprite = new BGSprite('stages/skiStage/sun', -1000, -1000, 0, 0);
+			var sun:BGSprite = new BGSprite('stages/skiStage/sun', -1000, -700, 0, 0);
 			add(sun);
 
 			var clouds:FlxBackdrop = new FlxBackdrop(Paths.image('stages/skiStage/clouds'));
 			clouds.scrollFactor.set(0.1, 0.1);
-			clouds.setPosition(-1000, -1000);
+			clouds.setPosition(-1000, -1200);
 			clouds.velocity.set(10, 0);
 			add(clouds);
 
-			var sunLight:BGSprite = new BGSprite('stages/skiStage/sun_light', -1000, -1000, 0, 0);
+			var sunLight:BGSprite = new BGSprite('stages/skiStage/sun_light', -1000, -700, 0, 0);
 			add(sunLight);
 		}
 
-		var mountains:BGSprite = new BGSprite('stages/skiStage/mountains', -600, -500, 0.3, 0.3);
+		var mountains:BGSprite = new BGSprite('stages/skiStage/mountains', -600, -200, 0.3, 0.3);
 		add(mountains);
-
-		if(!ClientPrefs.data.lowQuality)
-		{
-			var mountainsFront:BGSprite = new BGSprite('stages/skiStage/mountainsFront', -550, -450, 0.4, 0.4);
-			add(mountainsFront);
-		}
 
 		var snowBack2:BGSprite = new BGSprite('stages/skiStage/snowBack2', -400, -200, 0.6, 0.6);
 		add(snowBack2);
@@ -59,7 +53,7 @@ class SkiStage extends BaseStage
 			var snow:SnowParticles = new SnowParticles(0, 0, 3840, 400, 'stages/skiStage/snowParticle');
 			snow.startY = 300;
 			snow.endY = 1500;
-			snow.intensity = 9;
+			snow.intensity = 6; // snow intensity = 9 is like too much (eggnog.. ) for cocoa i would like less snow and sunnier weather
 			snow.xIntensity = -500;
 			snow.endScale = 1;
 			snow.randomX = 150;
@@ -69,7 +63,7 @@ class SkiStage extends BaseStage
 			snow.endScale = 0.55;
 			snow.fadeSpeed = 1.5;
 			add(snow);
-			
+
 			var snowboards:BGSprite = new BGSprite('stages/skiStage/snowboards', 0, 0, 1, 1);
 			add(snowboards);
 
