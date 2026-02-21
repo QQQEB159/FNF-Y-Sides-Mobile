@@ -6,6 +6,7 @@ import shaders.ColorSwap.ColorSwapShader;
 import openfl.filters.ShaderFilter;
 import states.stages.objects.*;
 import objects.Character;
+import objects.SnowParticles;
 
 class SkiCreepyStage extends BaseStage
 {
@@ -74,6 +75,20 @@ class SkiCreepyStage extends BaseStage
 	{
 		if(!ClientPrefs.data.lowQuality)
 		{
+			var snow:SnowParticles = new SnowParticles(0, 0, 3840, 400, 'stages/skiStage/snowParticle');
+			snow.startY = -2000;
+			snow.endY = 1500;
+			snow.intensity = 14;
+			snow.xIntensity = -700;
+			snow.endScale = 1;
+			snow.randomX = 150;
+			snow.randomY = 150;
+			snow.spawnDelay = 0.1;
+			snow.initialScale = 0.8;
+			snow.endScale = 0.6;
+			snow.fadeSpeed = 1.3;
+			add(snow);
+
 			var snowboards:BGSprite = new BGSprite('stages/skiStage/snowboards', 0, 0, 1, 1);
 			add(snowboards);
 

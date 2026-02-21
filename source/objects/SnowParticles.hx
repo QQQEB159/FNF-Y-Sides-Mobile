@@ -50,7 +50,7 @@ class SnowParticles extends FlxSpriteGroup
                 spr.scale.set(initialScale, initialScale);
                 spr.updateHitbox();
 
-                trace('Initial x: ${spr.x} (($particleWidthField / $intensity) * ${i+1})');
+                //trace('Initial x: ${spr.x} (($particleWidthField / $intensity) * ${i+1})');
 
                 spr.x += FlxG.random.float(-randomX, randomX);
                 spr.y += FlxG.random.float(-randomY, randomY);
