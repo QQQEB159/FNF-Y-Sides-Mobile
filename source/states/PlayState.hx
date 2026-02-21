@@ -3543,6 +3543,12 @@ class PlayState extends MusicBeatState
 		{
 			spr.playAnim('static');
 			spr.resetAnim = 0;
+
+			// make note splashes hold dissapear
+			noteSplashHoldPurple.visible = false;
+			noteSplashHoldBlue.visible = false;
+			noteSplashHoldGreen.visible = false;
+			noteSplashHoldRed.visible = false;
 		}
 		callOnScripts('onKeyRelease', [key]);
 	}
