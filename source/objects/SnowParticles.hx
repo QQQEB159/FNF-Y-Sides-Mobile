@@ -49,6 +49,7 @@ class SnowParticles extends FlxSpriteGroup
                 spr.loadGraphic(Paths.image(imagePath));
                 spr.scale.set(initialScale, initialScale);
                 spr.updateHitbox();
+			    spr.blend = ADD;
 
                 //trace('Initial x: ${spr.x} (($particleWidthField / $intensity) * ${i+1})');
 

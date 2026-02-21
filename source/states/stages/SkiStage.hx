@@ -20,7 +20,7 @@ class SkiStage extends BaseStage
 			var clouds:FlxBackdrop = new FlxBackdrop(Paths.image('stages/skiStage/clouds'));
 			clouds.scrollFactor.set(0.1, 0.1);
 			clouds.setPosition(-1000, -1200);
-			clouds.velocity.set(10, 0);
+			clouds.velocity.set(20, 0);
 			add(clouds);
 
 			var sunLight:BGSprite = new BGSprite('stages/skiStage/sun_light', -1000, -700, 0, 0);
@@ -53,11 +53,11 @@ class SkiStage extends BaseStage
 			var snow:SnowParticles = new SnowParticles(0, 0, 3840, 400, 'stages/skiStage/snowParticle');
 			snow.startY = 300;
 			snow.endY = 1500;
-			snow.intensity = 6; // snow intensity = 9 is like too much (eggnog.. ) for cocoa i would like less snow and sunnier weather
+			snow.intensity = 5; // snow intensity = 9 is like too much (eggnog.. ) for cocoa i would like less snow and sunnier weather
 			snow.xIntensity = -500;
 			snow.endScale = 1;
-			snow.randomX = 150;
-			snow.randomY = 150;
+			snow.randomX = 300;
+			snow.randomY = 200;
 			snow.spawnDelay = 0.15;
 			snow.initialScale = 0.75;
 			snow.endScale = 0.55;
