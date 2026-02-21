@@ -3,6 +3,7 @@ package states.stages;
 import flixel.addons.display.FlxBackdrop;
 import states.stages.objects.*;
 import objects.Character;
+import objects.SnowParticles;
 
 class SkiStage extends BaseStage
 {
@@ -55,6 +56,20 @@ class SkiStage extends BaseStage
 	{
 		if(!ClientPrefs.data.lowQuality)
 		{
+			var snow:SnowParticles = new SnowParticles(0, 0, 3840, 400, 'stages/skiStage/snowParticle');
+			snow.startY = 300;
+			snow.endY = 1500;
+			snow.intensity = 9;
+			snow.xIntensity = -500;
+			snow.endScale = 1;
+			snow.randomX = 150;
+			snow.randomY = 150;
+			snow.spawnDelay = 0.15;
+			snow.initialScale = 0.75;
+			snow.endScale = 0.55;
+			snow.fadeSpeed = 1.5;
+			add(snow);
+			
 			var snowboards:BGSprite = new BGSprite('stages/skiStage/snowboards', 0, 0, 1, 1);
 			add(snowboards);
 
