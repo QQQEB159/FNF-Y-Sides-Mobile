@@ -36,6 +36,9 @@ class SkiStage extends BaseStage
 		var snowBack:BGSprite = new BGSprite('stages/skiStage/snowBack', -300, -100, 0.75, 0.75);
 		add(snowBack);
 
+		var elevatorLines:BGSprite = new BGSprite('stages/skiStage/elevatorLines', -300, -100, 0.75, 0.75);
+		add(elevatorLines);
+
 		var fence:BGSprite = new BGSprite('stages/skiStage/fence', 0, 0, 1, 1);
 		add(fence);
 
