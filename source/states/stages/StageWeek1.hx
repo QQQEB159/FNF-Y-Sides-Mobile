@@ -9,11 +9,11 @@ class StageWeek1 extends BaseStage
 	{
 		if(!ClientPrefs.data.lowQuality)
 		{
-			var sky:BGSprite = new BGSprite('stages/stage/sky', -1300, -840, 0.8, 0.8);
+			var sky:BGSprite = new BGSprite('stages/stage/sky', -120, -620, 0.8, 0.8);
 			add(sky);
 		}
 
-		var gym:BGSprite = new BGSprite('stages/stage/gym', -1300, -840, 1, 1);
+		var gym:BGSprite = new BGSprite('stages/stage/gym', -720, -620, 1, 1);
 		add(gym);
 	}
 
@@ -21,7 +21,7 @@ class StageWeek1 extends BaseStage
 	{
 		if(!ClientPrefs.data.lowQuality)
 		{
-			var front:BGSprite = new BGSprite('stages/stage/front', -1300, -840, 1.1, 1.1);
+			var front:BGSprite = new BGSprite('stages/stage/front', -720, 400, 1.1, 1.1);
 			add(front);
 		}
 	}
