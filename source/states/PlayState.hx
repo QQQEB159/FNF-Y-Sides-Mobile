@@ -789,7 +789,9 @@ class PlayState extends MusicBeatState
 		comboGroup.cameras = [camHUD];
 
 		blackThing = new FlxSprite().makeGraphic(1480, 1280, 0xFF000000);
-		if(curSong != 'Monster' || curSong != 'Winter Horrorland') blackThing.alpha = 0;
+		blackThing.alpha = 0;
+		if(curSong == 'Monster') blackThing.alpha = 1;
+		if(curSong == 'Winter Horrorland') blackThing.alpha = 1;
 		blackThing.cameras = [camHUD];
 		add(blackThing);
 

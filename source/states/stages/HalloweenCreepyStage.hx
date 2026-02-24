@@ -11,20 +11,20 @@ class HalloweenCreepyStage extends BaseStage
 	{
 		if(!ClientPrefs.data.lowQuality)
 		{
-			var sky:BGSprite = new BGSprite('stages/halloweenStage/monster/sky', -1248, -1041, 1, 1);
+			var sky:BGSprite = new BGSprite('stages/halloweenStage/monster/sky', -1248 + 250, -1041, 1, 1);
 			add(sky);
 
-			var moon:BGSprite = new BGSprite('stages/halloweenStage/monster/moon', -1315, -995, 0.1, 0.1);
+			var moon:BGSprite = new BGSprite('stages/halloweenStage/monster/moon', 485, -805, 0.1, 0.1);
 			add(moon);
 
 			var clouds:BGSprite = new BGSprite('stages/halloweenStage/monster/clouds', -1286, -1146, 0.2, 0.2);
 			add(clouds);
 		}
 
-		var buildings:BGSprite = new BGSprite('stages/halloweenStage/monster/buildings', -1288, -1235, 0.6, 0.6);
+		var buildings:BGSprite = new BGSprite('stages/halloweenStage/monster/buildings', -1038, -885, 0.6, 0.6);
 		add(buildings);
 
-		var bgmain:BGSprite = new BGSprite('stages/halloweenStage/monster/bgmain', -1230, -1378, 1, 1);
+		var bgmain:BGSprite = new BGSprite('stages/halloweenStage/monster/bgmain', -730, -878, 1, 1);
 		add(bgmain);
 
 	}
@@ -35,7 +35,7 @@ class HalloweenCreepyStage extends BaseStage
 
 		if(!ClientPrefs.data.lowQuality)
 		{
-			var gradient:BGSprite = new BGSprite('stages/halloweenStage/monster/gradient', -1230, -1378, 1, 1);
+			var gradient:BGSprite = new BGSprite('stages/halloweenStage/monster/gradient', -230, -628, 1, 1);
 			gradient.blend = ADD;
 			add(gradient);
 		}
