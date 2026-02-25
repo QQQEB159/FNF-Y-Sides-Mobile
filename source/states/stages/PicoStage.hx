@@ -27,7 +27,7 @@ class PicoStage extends BaseStage
         guards.offset.set(guards.animOffsets[0][0], guards.animOffsets[0][1]);
 		add(guards);
 
-		var lights:BGSprite = new BGSprite('stages/picoStage/lightslol', -1016, -737, 1, 1);
+		var lights:BGSprite = new BGSprite('stages/picoStage/lightslol', -1016 + 1120, -737 + 540, 1, 1);
         lights.scale.set(0.9, 0.9);
         lights.updateHitbox();
         lights.antialiasing = ClientPrefs.data.antialiasing;
