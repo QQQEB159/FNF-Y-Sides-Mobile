@@ -30,6 +30,8 @@ class OptionsState extends MusicBeatState
 	public static var menuBG:FlxSprite;
 	public static var onPlayState:Bool = false;
 
+	var blackBackgroundOver:FlxSprite;
+
 	function openSelectedSubstate(label:String) 
 	{
 		
@@ -58,8 +60,17 @@ class OptionsState extends MusicBeatState
 			case 'Save Files':
 				FlxTransitionableState.skipNextTransIn = true;
 				FlxTransitionableState.skipNextTransOut = true;
-				
-				MusicBeatState.switchState(new options.SaveFilesMenu());
+
+				FlxG.sound.play(Paths.sound('scrollMenu'));
+
+          		FlxTween.cancelTweensOf(FlxG.camera);
+          		FlxTween.cancelTweensOf(blackBackgroundOver);
+
+				FlxTween.tween(FlxG.camera, {zoom: 1.15}, 0.7, {ease: FlxEase.expoOut});
+				FlxTween.tween(blackBackgroundOver, {alpha: 1}, 0.7, {ease: FlxEase.expoOut, onComplete: function(t:FlxTween)
+				{
+					MusicBeatState.switchState(new options.SaveFilesMenu());
+				}});
 		}
 	}
 
@@ -313,6 +324,22 @@ class OptionsState extends MusicBeatState
 
 		changeSelection();
 		ClientPrefs.saveSettings();
+
+		blackBackgroundOver = new FlxSprite();
+		blackBackgroundOver.makeGraphic(1280, 720, FlxColor.BLACK);
+		blackBackgroundOver.alpha = 0;
+		add(blackBackgroundOver);
+
+		if(SaveFilesMenu.comingFromSaveFilesMenu)
+		{
+			SaveFilesMenu.comingFromSaveFilesMenu = false;
+
+			blackBackgroundOver.alpha = 1;
+			FlxG.camera.zoom = 1.15;
+
+			FlxTween.tween(FlxG.camera, {zoom: 1}, 0.9, {ease: FlxEase.expoOut});
+			FlxTween.tween(blackBackgroundOver, {alpha: 0}, 0.7, {ease: FlxEase.expoOut});
+		}
 
 		super.create();
 	}

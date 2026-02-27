@@ -22,6 +22,9 @@ class SaveFilesMenu extends MusicBeatState
     var camNormal:FlxCamera;
     var camPrompt:FlxCamera;
 
+    public static var comingFromSaveFilesMenu:Bool = false;
+    var blackBackgroundOver:FlxSprite;
+
     override function create()
     {
         super.create();
@@ -70,6 +73,8 @@ class SaveFilesMenu extends MusicBeatState
             spr.screenCenter(X);
             spr.y = 200 + (i * 120);
             spr.updateHitbox();
+            spr.alpha = 0;
+            FlxTween.tween(spr, {alpha: 1}, 0.5, {ease: FlxEase.circOut, startDelay: i * 0.1});
             //spr.y = triangleTop.y + triangleTop.height + 10 + (i * 120);
             saveFilesSprGrp.add(spr);
 
@@ -79,6 +84,8 @@ class SaveFilesMenu extends MusicBeatState
             txt.y = spr.y + 10;
             txt.ID = i;
             txt.antialiasing = ClientPrefs.data.antialiasing;
+            txt.alpha = 0;
+            FlxTween.tween(txt, {alpha: 1}, 0.5, {ease: FlxEase.circOut, startDelay: i * 0.1});
             saveFilesTxtGrp.add(txt);
 
             var save = new FlxSave();
@@ -95,6 +102,8 @@ class SaveFilesMenu extends MusicBeatState
             playedTimeTxt.x = spr.x + 10;
             playedTimeTxt.y = txt.y + txt.height + 10;
             playedTimeTxt.ID = i;
+            playedTimeTxt.alpha = 0;
+            FlxTween.tween(playedTimeTxt, {alpha: 1}, 0.5, {ease: FlxEase.circOut, startDelay: i * 0.1});
             playedTimeTxt.antialiasing = ClientPrefs.data.antialiasing;
             saveFilesPlayedTimeTxtGrp.add(playedTimeTxt);
 
@@ -107,6 +116,8 @@ class SaveFilesMenu extends MusicBeatState
 		    platiniumAchievement.antialiasing = ClientPrefs.data.antialiasing;
 		    platiniumAchievement.x = spr.x + spr.width - platiniumAchievement.width - 10;
 		    platiniumAchievement.y = spr.y + 10;
+            platiniumAchievement.alpha = 0;
+            FlxTween.tween(platiniumAchievement, {alpha: 1}, 0.5, {ease: FlxEase.circOut, startDelay: i * 0.1});
 		    add(platiniumAchievement);
 
             platiniumAchievement.color = Achievements.checkPlatiniumAchievementFromSave(i) ? 0xFFFFFFFF : 0xFF000000;
@@ -123,6 +134,15 @@ class SaveFilesMenu extends MusicBeatState
         //saveFilesGrp.members[0].y = saveFilesGrp.members[1].y - 120;
         //saveFilesGrp.members[2].y = saveFilesGrp.members[1].y + 120; 
 
+		blackBackgroundOver = new FlxSprite();
+		blackBackgroundOver.makeGraphic(1280, 720, FlxColor.BLACK);
+		add(blackBackgroundOver);
+
+		FlxTween.tween(blackBackgroundOver, {alpha: 0}, 0.7, {ease: FlxEase.expoOut});
+
+		FlxG.camera.zoom = 1.15;
+		FlxTween.tween(FlxG.camera, {zoom: 1}, 0.9, {ease: FlxEase.expoOut});
+
         blurShader = new BlurShader();
         blurShader.radius.value = [0];
 
@@ -138,9 +158,21 @@ class SaveFilesMenu extends MusicBeatState
         if (FlxG.keys.justPressed.ESCAPE)
         {
             if(!canInteract) return;
+            comingFromSaveFilesMenu = true;
+
+            FlxG.sound.play(Paths.sound('cancelMenu'));
+
 			FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;
-            MusicBeatState.switchState(new OptionsState(true));
+            
+            FlxTween.cancelTweensOf(FlxG.camera);
+            FlxTween.cancelTweensOf(blackBackgroundOver);
+            
+			FlxTween.tween(FlxG.camera, {zoom: 1.15}, 0.7, {ease: FlxEase.expoOut});
+			FlxTween.tween(blackBackgroundOver, {alpha: 1}, 0.7, {ease: FlxEase.expoOut, onComplete: function(t:FlxTween)
+			{
+                MusicBeatState.switchState(new OptionsState(true));
+			}});
         }
 
         saveFilesSprGrp.forEach(function(spr:FlxSprite)
