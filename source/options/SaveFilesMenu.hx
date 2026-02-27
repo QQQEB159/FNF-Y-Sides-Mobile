@@ -2,6 +2,8 @@ package options;
 
 import flixel.util.FlxSave;
 import flixel.addons.display.FlxBackdrop;
+import shaders.BlurShader;
+import openfl.filters.ShaderFilter;
 
 class SaveFilesMenu extends MusicBeatState
 {
@@ -13,11 +15,26 @@ class SaveFilesMenu extends MusicBeatState
 
     var alreadySelectedSlot:FlxText;
 
+    public static var canInteract:Bool = true;
+    public static var blurShader:BlurShader;
+    var blurFilter:ShaderFilter;
+
+    var camNormal:FlxCamera;
+    var camPrompt:FlxCamera;
+
     override function create()
     {
         super.create();
 
         FlxG.mouse.visible = true;
+
+        camNormal = initPsychCamera();
+
+        camPrompt = new FlxCamera();
+        camPrompt.bgColor.alpha = 0;
+        add(camPrompt);
+
+		FlxG.cameras.add(camPrompt, false);
 
 		var bg:FlxSprite = new FlxSprite().makeGraphic(1280, 720, 0xFFBFB4F1);
 		bg.antialiasing = ClientPrefs.data.antialiasing;
@@ -105,6 +122,12 @@ class SaveFilesMenu extends MusicBeatState
         //saveFilesGrp.members[1].screenCenter();
         //saveFilesGrp.members[0].y = saveFilesGrp.members[1].y - 120;
         //saveFilesGrp.members[2].y = saveFilesGrp.members[1].y + 120; 
+
+        blurShader = new BlurShader();
+        blurShader.radius.value = [0];
+
+        blurFilter = new ShaderFilter(blurShader);
+        FlxG.camera.filters = [blurFilter];
     }
 
     var curSelected:Int = 0;
@@ -114,6 +137,7 @@ class SaveFilesMenu extends MusicBeatState
 
         if (FlxG.keys.justPressed.ESCAPE)
         {
+            if(!canInteract) return;
 			FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;
             MusicBeatState.switchState(new OptionsState(true));
@@ -121,6 +145,8 @@ class SaveFilesMenu extends MusicBeatState
 
         saveFilesSprGrp.forEach(function(spr:FlxSprite)
         {
+            if(!canInteract) return;
+
             if(FlxG.mouse.overlaps(spr))
             {
                 // code here...
@@ -137,8 +163,20 @@ class SaveFilesMenu extends MusicBeatState
                     }
                     else
                     {
-                        Saves.loadSlot(curSelected);
-                        Sys.exit(0);
+                        var prompt = new SaveFilePrompt(curSelected);
+                        prompt.cameras = [camPrompt];
+                        openSubState(prompt);
+
+                        FlxTween.num(0, 7, 0.5, {ease: FlxEase.linear}, function(v:Float)
+                        {
+                            blurShader.radius.value[0] = v;
+                        });
+
+                        persistentDraw = true;
+                        persistentUpdate = true;
+
+                        //Saves.loadSlot(curSelected);
+                        //Sys.exit(0);
                     }
                 }
             }
@@ -147,5 +185,160 @@ class SaveFilesMenu extends MusicBeatState
                 spr.color = FlxColor.WHITE;
             }
         });
+    }
+}
+
+class SaveFilePrompt extends MusicBeatSubstate
+{
+    var blackBackground:FlxSprite;
+    var promptObject:PromptObject;
+    public static var blackBackgroundOver:FlxSprite;
+
+    public function new(curSlot:Int)
+    {
+        super();
+
+        blackBackground = new FlxSprite();
+        blackBackground.makeGraphic(FlxG.width, FlxG.height, 0xFF000000);
+        blackBackground.alpha = 0;
+        add(blackBackground);
+
+        FlxTween.tween(blackBackground, {alpha: 0.55}, 1);
+
+        var promptY:Float = 0;
+        promptObject = new PromptObject(0, 0, curSlot);
+        promptObject.screenCenter();
+        promptObject.closePromptCallback = closePrompt;
+        promptY = promptObject.y;
+        add(promptObject);
+
+        promptObject.y = -400;
+        FlxTween.tween(promptObject, {y: promptY}, 1, {ease: FlxEase.quartOut});
+
+        SaveFilesMenu.canInteract = false;
+
+        blackBackgroundOver = new FlxSprite();
+        blackBackgroundOver.makeGraphic(FlxG.width, FlxG.height, 0xFF000000);
+        blackBackgroundOver.alpha = 0;
+        add(blackBackgroundOver);
+    }
+
+    override function update(elapsed:Float)
+    {
+        super.update(elapsed);
+
+        if(FlxG.keys.justPressed.ESCAPE)
+        {
+            closePrompt();
+        }
+    }
+
+    public function closePrompt()
+    {
+        FlxTween.num(7, 0, 0.5, {ease: FlxEase.linear}, function(v:Float)
+        {
+            if (SaveFilesMenu.blurShader != null && SaveFilesMenu.blurShader.radius != null)
+                SaveFilesMenu.blurShader.radius.value[0] = v;
+        });
+        FlxTween.tween(blackBackground, {alpha: 0}, 0.5, {onComplete: function(twn:FlxTween)
+        {
+            close();
+            SaveFilesMenu.canInteract = true;
+        }});
+        FlxTween.cancelTweensOf(promptObject);
+        FlxTween.tween(promptObject, {y: FlxG.height + 100}, 0.5, {ease: FlxEase.quartOut});
+    }
+}
+
+class PromptObject extends FlxSpriteGroup
+{
+    public var closePromptCallback:Void->Void;
+    var yesText:Alphabet;
+    var noText:Alphabet;
+    var curSlot:Int;
+
+    public function new(x:Float = 0, y:Float = 0, _curSlot:Int)
+    {
+        super(x, y);
+
+        curSlot = _curSlot;
+
+        var spr = new FlxSprite();
+        //spr.makeGraphic(650, 260, 0xFFFFFFFF);
+        spr.loadGraphic(Paths.image('saveFileMenu/prompt'));
+        add(spr);
+
+        var warningText = new Alphabet(0, 0, 'Warning!');
+		warningText.color = 0xFFFF877E;
+        warningText.setScale(0.7, 0.7);
+        warningText.x = spr.width / 2 - warningText.width / 2;
+        warningText.y = spr.y + 10;
+        add(warningText);
+
+        var infoText = new Alphabet(0, 0, 'This action will load the selected save file');
+        infoText.setScale(0.35, 0.35);
+        infoText.x = spr.width / 2 - infoText.width / 2;
+        infoText.y = spr.y + warningText.height + 10;
+        add(infoText);
+
+        var infoText2 = new Alphabet(0, 0, 'and CLOSE the game');
+        infoText2.setScale(0.35, 0.35);
+        infoText2.x = spr.width / 2 - infoText2.width / 2;
+        infoText2.y = infoText.y + infoText.height + 10;
+        add(infoText2);
+
+        var infoText3 = new Alphabet(0, 0, 'Are you sure?');
+        infoText3.setScale(0.35, 0.35);
+        infoText3.x = spr.width / 2 - infoText3.width / 2;
+        infoText3.y = infoText2.y + infoText2.height + 10;
+        add(infoText3);
+
+        yesText = new Alphabet(0, 0, 'Yes', true);
+        yesText.setScale(0.65, 0.65);
+        yesText.x = spr.width / 2 - yesText.width / 2 - 250;
+        yesText.y = spr.height - yesText.height - 20;
+        add(yesText);
+
+        noText = new Alphabet(0, 0, 'No', true);
+        noText.setScale(0.65, 0.65);
+        noText.x = spr.width / 2 - noText.width / 2 + 250;
+        noText.y = spr.height - noText.height - 20;
+        add(noText);
+    }
+
+    override function update(elapsed:Float)
+    {
+        super.update(elapsed);
+
+        if(FlxG.mouse.overlaps(yesText))
+        {
+            yesText.color = 0xFF7EFFAD;
+            if(FlxG.mouse.justPressed)
+            {
+                FlxTween.tween(SaveFilePrompt.blackBackgroundOver, {alpha: 1}, 1, {onComplete: function(twn:FlxTween)
+                {
+                    Saves.loadSlot(curSlot);
+                    Sys.exit(0);
+                }});
+            }
+        }
+        else
+        {
+            yesText.color = 0xFFFFFFFF;
+        }
+        
+        if(FlxG.mouse.overlaps(noText))
+        {
+            noText.color = 0xFFFF877E;
+            if(FlxG.mouse.justPressed)
+            {
+                //SaveFilePrompt.closePrompt();
+                if(closePromptCallback != null) closePromptCallback();
+            }
+        }
+        else
+        {
+            noText.color = 0xFFFFFFFF;
+        }
     }
 }
