@@ -23,6 +23,14 @@ class SaveFilesMenu extends MusicBeatState
     var camPrompt:FlxCamera;
 
     public static var comingFromSaveFilesMenu:Bool = false;
+    
+	var backgroundGradientBottom:FlxSprite;
+	var icons:FlxBackdrop;
+    var targetAngle:Int = 0;
+
+    public static var triangleTop:FlxBackdrop;
+    public static var triangleBottom:FlxBackdrop;
+
     var blackBackgroundOver:FlxSprite;
 
     override function create()
@@ -46,6 +54,26 @@ class SaveFilesMenu extends MusicBeatState
 		bg.screenCenter();
 		add(bg);
 
+		backgroundGradientBottom = new FlxSprite();
+		backgroundGradientBottom.loadGraphic(Paths.image('titleState/gradientBottom'));
+		backgroundGradientBottom.antialiasing = ClientPrefs.data.antialiasing;
+		backgroundGradientBottom.scale.set(1, 1.3);
+		backgroundGradientBottom.blend = ADD;
+		backgroundGradientBottom.alpha = 0.38;
+		backgroundGradientBottom.y = FlxG.height - backgroundGradientBottom.height;
+		add(backgroundGradientBottom);
+
+		icons = new FlxBackdrop(Paths.image('mainmenu/icons'), XY);
+		icons.velocity.set(10, 10);
+		icons.alpha = 0.25;
+		icons.antialiasing = ClientPrefs.data.antialiasing;
+		add(icons);
+
+		// new FlxTimer().start(0.5, function(t:FlxTimer)
+		// {
+		// 	 icons.angle = icons.angle == targetAngle ? -targetAngle : targetAngle;
+		// }, 0);
+
         saveFilesSprGrp = new FlxTypedGroup<FlxSprite>();
         add(saveFilesSprGrp);
 
@@ -55,12 +83,12 @@ class SaveFilesMenu extends MusicBeatState
         saveFilesPlayedTimeTxtGrp = new FlxTypedGroup<FlxText>();
         add(saveFilesPlayedTimeTxtGrp);
 
-        var triangleTop:FlxBackdrop = new FlxBackdrop(Paths.image('resultsScreen/newResultsScreen/lettaBoxDark'), X, 0, 0);
+        triangleTop = new FlxBackdrop(Paths.image('resultsScreen/newResultsScreen/lettaBoxDark'), X, 0, 0);
         triangleTop.velocity.set(20, 0);
         triangleTop.angle = 180;
         add(triangleTop);
 
-        var triangleBottom:FlxBackdrop = new FlxBackdrop(Paths.image('resultsScreen/newResultsScreen/lettaBoxDark'), X, 0, 0);
+        triangleBottom = new FlxBackdrop(Paths.image('resultsScreen/newResultsScreen/lettaBoxDark'), X, 0, 0);
         triangleBottom.velocity.set(-20, 0);
         triangleBottom.y = FlxG.height - triangleBottom.height;
         add(triangleBottom);
@@ -200,7 +228,7 @@ class SaveFilesMenu extends MusicBeatState
                         openSubState(prompt);
 
                         FlxG.sound.music.fadeOut(0.5, 0.35);
-                        FlxG.sound.play(Paths.sound('saveFilesWarning'), 0.7);
+                        FlxG.sound.play(Paths.sound('saveFilesWarning'), 0.9);
 
                         FlxTween.num(0, 7, 0.5, {ease: FlxEase.linear}, function(v:Float)
                         {
@@ -271,6 +299,7 @@ class SaveFilePrompt extends MusicBeatSubstate
     public function closePrompt()
     {
         FlxG.sound.music.fadeIn(0.35, 0.35, 1);
+
         FlxTween.num(7, 0, 0.5, {ease: FlxEase.linear}, function(v:Float)
         {
             if (SaveFilesMenu.blurShader != null && SaveFilesMenu.blurShader.radius != null)
