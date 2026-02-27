@@ -167,6 +167,9 @@ class SaveFilesMenu extends MusicBeatState
                         prompt.cameras = [camPrompt];
                         openSubState(prompt);
 
+                        FlxG.sound.music.fadeOut(0.5, 0.35);
+                        FlxG.sound.play(Paths.sound('saveFilesWarning'), 0.7);
+
                         FlxTween.num(0, 7, 0.5, {ease: FlxEase.linear}, function(v:Float)
                         {
                             blurShader.radius.value[0] = v;
@@ -235,6 +238,7 @@ class SaveFilePrompt extends MusicBeatSubstate
 
     public function closePrompt()
     {
+        FlxG.sound.music.fadeIn(0.35, 0.35, 1);
         FlxTween.num(7, 0, 0.5, {ease: FlxEase.linear}, function(v:Float)
         {
             if (SaveFilesMenu.blurShader != null && SaveFilesMenu.blurShader.radius != null)
