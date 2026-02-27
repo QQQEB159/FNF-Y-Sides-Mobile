@@ -115,6 +115,7 @@ class MusicBeatState extends FlxState
 		splash.animation.play('s');
 		splash.offset.set(30, 35);
 		splash.antialiasing = ClientPrefs.data.antialiasing;
+		splash.cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]]; // add to the last camera (the one that draws on top of the others)
 		add(splash);
 
 		trace('splash position: ${splash.x}, ${splash.y} | mouse position: ${FlxG.mouse.x}, ${FlxG.mouse.y}');

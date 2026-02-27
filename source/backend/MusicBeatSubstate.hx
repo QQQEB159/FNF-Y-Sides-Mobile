@@ -48,6 +48,13 @@ class MusicBeatSubstate extends FlxSubState
 			}
 		}
 
+		if(FlxG.mouse.visible)
+		{
+			if(FlxG.mouse.justPressed) {
+				createSplash();
+			}
+		}
+
 		super.update(elapsed);
 	}
 
@@ -62,6 +69,30 @@ class MusicBeatSubstate extends FlxSubState
 			sectionHit();
 		}
 	}
+	
+    function createSplash()
+	{
+        trace('creating splash (substate)');
+		var splash = new FlxSprite(FlxG.mouse.x, FlxG.mouse.y);
+		splash.frames = Paths.getSparrowAtlas("boing");
+		splash.animation.addByPrefix('s', 'boing', 24, false);
+		splash.animation.play('s');
+		splash.offset.set(30, 35);
+		splash.antialiasing = ClientPrefs.data.antialiasing;
+		splash.cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]]; // add to the last camera (the one that draws on top of the others)
+		add(splash);
+
+		trace('splash position: ${splash.x}, ${splash.y} | mouse position: ${FlxG.mouse.x}, ${FlxG.mouse.y}');
+
+		splash.animation.finishCallback = function(name:String)
+		{
+            if(name == 's')
+            {
+                splash.kill();
+                trace('killin splash');
+            }
+        }
+    }
 
 	private function rollbackSection():Void
 	{
