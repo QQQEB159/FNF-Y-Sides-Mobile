@@ -10,6 +10,9 @@ class SaveFilesMenu extends MusicBeatState
     var saveFilesTxtGrp:FlxTypedGroup<FlxText>;
     var saveFilesPlayedTimeTxtGrp:FlxTypedGroup<FlxText>;
     var saveFilesDataArr:Array<Dynamic> = [];
+
+    var alreadySelectedSlot:FlxText;
+
     override function create()
     {
         super.create();
@@ -92,6 +95,12 @@ class SaveFilesMenu extends MusicBeatState
             platiniumAchievement.color = Achievements.checkPlatiniumAchievement() ? 0xFFFFFFFF : 0xFF000000;
         }
 
+        alreadySelectedSlot = new FlxText(0, 0, FlxG.width, 'You are currently on this save file!');
+        alreadySelectedSlot.setFormat(Paths.font('FredokaOne-Regular.ttf'), 20, FlxColor.RED, CENTER);
+        alreadySelectedSlot.y = FlxG.height - alreadySelectedSlot.height - 140;
+        alreadySelectedSlot.alpha = 0;
+        add(alreadySelectedSlot);
+
         // tiny offset lmao so always centered
         //saveFilesGrp.members[1].screenCenter();
         //saveFilesGrp.members[0].y = saveFilesGrp.members[1].y - 120;
@@ -119,8 +128,18 @@ class SaveFilesMenu extends MusicBeatState
                 curSelected = spr.ID;
                 if(FlxG.mouse.justPressed)
                 {
-                    Saves.loadSlot(curSelected);
-                    Sys.exit(0);
+                    if(Saves.currentSaveSlot == curSelected)
+                    {
+                        FlxTween.cancelTweensOf(alreadySelectedSlot);
+
+                        alreadySelectedSlot.alpha = 1;
+                        FlxTween.tween(alreadySelectedSlot, {alpha: 0}, 1, {ease: FlxEase.circOut});
+                    }
+                    else
+                    {
+                        Saves.loadSlot(curSelected);
+                        Sys.exit(0);
+                    }
                 }
             }
             else
