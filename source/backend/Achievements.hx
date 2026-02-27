@@ -9,6 +9,8 @@ import haxe.Json;
 import psychlua.FunkinLua;
 #end
 
+import flixel.util.FlxSave;
+
 typedef Achievement =
 {
 	var name:String;
@@ -150,6 +152,24 @@ class Achievements {
 		return true;
 	}
 
+	public static function checkPlatiniumAchievementFromSave(saveSlot:Int):Bool
+	{
+		var saveData = new FlxSave();
+		saveData.bind('funkin$saveSlot', CoolUtil.getSavePath());
+		var achievementsData:Array<String> = saveData.data.achievementsUnlocked;
+		trace('$achievementsData from slot $saveSlot');
+		if(achievementsData == null || achievementsData.length == 0) return false; // literally no achievements lmao
+		for(achievement in achievementsData)
+		{
+        	var data = achievements.get(achievement);
+			if(data.hidden) continue;
+			trace('Checking achievement $data from slot $saveSlot and its unlocked state is ${Achievements.isUnlockedFromSave(achievement, saveSlot)} (hidden: ${data.hidden})');
+			if(!Achievements.isUnlockedFromSave(achievement, saveSlot))
+				return false;
+		}
+		return true;
+	}
+
 	static var _lastUnlock:Int = -999;
 	public static function unlock(name:String, autoStartPopup:Bool = true):String {
 		if(!achievements.exists(name))
@@ -183,6 +203,16 @@ class Achievements {
 
 	inline public static function isUnlocked(name:String)
 		return achievementsUnlocked.contains(name);
+
+	inline public static function isUnlockedFromSave(name:String, saveSlot:Int)
+	{
+		var saveData = new FlxSave();
+		saveData.bind('funkin$saveSlot', CoolUtil.getSavePath());
+		var achievementsData:Array<String> = saveData.data.achievementsUnlocked;
+		if(achievementsData == null || achievementsData.length == 0) return false; // literally no achievements lmao
+		//return achievementsData != null && achievementsData.contains(name);
+		return achievementsData.contains(name);
+	}
 
 	@:allow(objects.AchievementPopup)
 	private static var _popups:Array<AchievementPopup> = [];
