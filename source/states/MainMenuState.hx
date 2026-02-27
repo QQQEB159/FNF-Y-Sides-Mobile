@@ -550,7 +550,11 @@ class MainMenuState extends MusicBeatState
 
 	function transitionToOptions()
 	{
-		FlxG.sound.music.fadeOut(0.65);
+		FlxG.sound.music.fadeOut(0.65, 0, function(twn:FlxTween)
+		{
+			FlxG.sound.music.stop();
+		});
+
 		new FlxTimer().start(0.4, function(tmr:FlxTimer)
 		{
 			FlxTween.cancelTweensOf(characters);
