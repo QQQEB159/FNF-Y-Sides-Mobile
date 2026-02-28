@@ -4077,6 +4077,7 @@ class PlayState extends MusicBeatState
 			FlxTween.cancelTweensOf(healthBar.leftBar);
 			var icon3Color = FlxColor.fromRGB(player3.healthColorArray[0], player3.healthColorArray[1], player3.healthColorArray[2]);
 			FlxTween.color(healthBar.leftBar, time, healthBar.leftBar.color, icon3Color, {ease: FlxEase.quartOut});
+			if(glowHealthBarEffect) FlxTween.color(healthBarGlow, time, healthBarGlow.color, icon3Color, {ease: FlxEase.quartOut});
 
 			FlxTween.cancelTweensOf(iconP2);
 			FlxTween.color(iconP2, time, iconP2.color, 0xFF666666, {ease: FlxEase.quartOut});
@@ -4103,6 +4104,7 @@ class PlayState extends MusicBeatState
 			FlxTween.cancelTweensOf(healthBar.leftBar);
 			var dadColor = FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]);
 			FlxTween.color(healthBar.leftBar, time, healthBar.leftBar.color, dadColor, {ease: FlxEase.quartOut});
+			if(glowHealthBarEffect) FlxTween.color(healthBarGlow, time, healthBarGlow.color, dadColor, {ease: FlxEase.quartOut});
 
 			FlxTween.cancelTweensOf(iconP2);
 			FlxTween.color(iconP2, time, 0xFF666666, 0xFFFFFFFF, {ease: FlxEase.quartOut});
@@ -4416,6 +4418,14 @@ class PlayState extends MusicBeatState
 						FlxTween.tween(songCard, {alpha: 1, y: songCard.y - 10}, 0.3);
 					case 64:
 						FlxTween.tween(songCard, {alpha: 0, y: songCard.y - 10}, 0.3);
+					case 448:
+						constantHealthDrainActive = true;
+						glowHealthBarEffect = true;
+						FlxTween.tween(healthBarGlow, {alpha: 1}, 1, {ease: FlxEase.quartOut});
+					case 704:
+						constantHealthDrainActive = false;
+						glowHealthBarEffect = false;
+						FlxTween.tween(healthBarGlow, {alpha: 0}, 1, {ease: FlxEase.quartOut});
 				}
 			case 'Monster':
 				switch(curStep)
@@ -4447,7 +4457,16 @@ class PlayState extends MusicBeatState
 						blackThingBelow.alpha = 0;
 						//uiGroup.alpha = 1;
 						vignette.alpha = 0.65;
+
+						constantHealthDrainAmount = 0.0006;
+						constantHealthDrainActive = true;
+						glowHealthBarEffect = true;
+						FlxTween.tween(healthBarGlow, {alpha: 1}, 1, {ease: FlxEase.quartOut});
 					case 1504:
+						constantHealthDrainActive = false;
+						glowHealthBarEffect = false;
+						FlxTween.tween(healthBarGlow, {alpha: 0}, 1, {ease: FlxEase.quartOut});
+
 						FlxTween.tween(blackThing, {alpha: 1}, 1);
 				}
 			case 'Pico':
@@ -4476,6 +4495,14 @@ class PlayState extends MusicBeatState
 						FlxTween.tween(songCard, {alpha: 1, y: songCard.y - 10}, 0.3);
 					case 64:
 						FlxTween.tween(songCard, {alpha: 0, y: songCard.y - 10}, 0.3);
+					case 576:
+						constantHealthDrainActive = true;
+						glowHealthBarEffect = true;
+						FlxTween.tween(healthBarGlow, {alpha: 1}, 1, {ease: FlxEase.quartOut});
+					case 704:
+						constantHealthDrainActive = false;
+						glowHealthBarEffect = false;
+						FlxTween.tween(healthBarGlow, {alpha: 0}, 1, {ease: FlxEase.quartOut});
 				}
 			case 'Milf':
 				switch(curStep)
