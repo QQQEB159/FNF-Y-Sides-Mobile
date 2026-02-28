@@ -4361,6 +4361,14 @@ class PlayState extends MusicBeatState
 						FlxTween.tween(songCard, {alpha: 1, y: songCard.y - 10}, 0.3);
 					case 64:
 						FlxTween.tween(songCard, {alpha: 0, y: songCard.y - 10}, 0.3);
+					case 256:
+						constantHealthDrainActive = true;
+						glowHealthBarEffect = true;
+						FlxTween.tween(healthBarGlow, {alpha: 1}, 1, {ease: FlxEase.quartOut});
+					case 384:
+						constantHealthDrainActive = false;
+						glowHealthBarEffect = false;
+						FlxTween.tween(healthBarGlow, {alpha: 0}, 1, {ease: FlxEase.quartOut});
 				}
 			case 'Bopeebo':
 				switch(curStep)
