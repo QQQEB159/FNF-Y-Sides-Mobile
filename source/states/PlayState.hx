@@ -4360,6 +4360,10 @@ class PlayState extends MusicBeatState
 					case 528:
 						forcedLiftingSection = true;
 
+						constantHealthDrainActive = true;
+						glowHealthBarEffect = true;
+						FlxTween.tween(healthBarGlow, {alpha: 1}, 1, {ease: FlxEase.quartOut});
+
 						startedLift = true;
 						isPressingSpace = true;
 						pressConditionSample = pressConditionTime;
@@ -4373,6 +4377,11 @@ class PlayState extends MusicBeatState
 					case 656:
 						FlxTween.tween(spaceMechanicButton, {alpha: 0}, 0.3);
 						forcedLiftingSection = false;
+
+						constantHealthDrainActive = false;
+						glowHealthBarEffect = false;
+						FlxTween.tween(healthBarGlow, {alpha: 0}, 1, {ease: FlxEase.quartOut});
+						
 						startedLift = false;
 						liftingTime = 0;
 						liftAmount = 10;
