@@ -561,7 +561,7 @@ class NewMainMenuState extends MusicBeatState
             {
                 if(FlxG.mouse.overlaps(spr))
                 {
-                    if(spr.ID == curSelected) return;
+                    if(spr.ID == curSelected && curColumn == LEFT) return;
 
                     curColumn = LEFT;
                     curSelected = spr.ID;
@@ -578,7 +578,7 @@ class NewMainMenuState extends MusicBeatState
             {
                 if(FlxG.mouse.overlaps(spr))
                 {
-                    if(spr.ID == curSelected) return;
+                    if(spr.ID == curSelected && curColumn == RIGHT) return;
 
                     curColumn = RIGHT;
                     curSelected = spr.ID;
