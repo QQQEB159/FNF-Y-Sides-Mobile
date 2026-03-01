@@ -25,7 +25,7 @@ import shaders.DeflectiveLens;
 import shaders.ChromaticAberration;
 
 import states.StoryMenuState;
-import states.MainMenuState;
+import states.NewMainMenuState;
 
 import flixel.addons.display.FlxBackdrop;
 
@@ -536,7 +536,7 @@ class TitleState extends MusicBeatState
 							StoryMenuState.backFromStoryMode = true;
 							FlxTransitionableState.skipNextTransIn = true;
 							FlxTransitionableState.skipNextTransOut = true;
-							MusicBeatState.switchState(new MainMenuState());
+							MusicBeatState.switchState(new NewMainMenuState());
 							closedState = true;
 						}});
 					FlxTween.tween(bfRight, {alpha: 0, y: bfRight.y - 10}, 0.6, {ease: FlxEase.quartOut, startDelay: 0.3});
