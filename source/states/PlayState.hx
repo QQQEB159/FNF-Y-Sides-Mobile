@@ -3576,10 +3576,17 @@ class PlayState extends MusicBeatState
 			spr.resetAnim = 0;
 
 			// make note splashes hold dissapear
-			noteSplashHoldPurple.visible = false;
-			noteSplashHoldBlue.visible = false;
-			noteSplashHoldGreen.visible = false;
-			noteSplashHoldRed.visible = false;
+			switch(key)
+			{
+				case 0:
+					noteSplashHoldPurple.visible = false;
+				case 1:
+					noteSplashHoldBlue.visible = false;
+				case 2:
+					noteSplashHoldGreen.visible = false;
+				case 3:
+					noteSplashHoldRed.visible = false;
+			}
 		}
 		callOnScripts('onKeyRelease', [key]);
 	}
