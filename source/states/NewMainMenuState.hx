@@ -453,9 +453,10 @@ class NewMainMenuState extends MusicBeatState
         characterY = character.y;
 
         character.y = characterY + 10;
+        character.angle = FlxG.random.bool(50) ? 1 : -1;
 
         FlxTween.cancelTweensOf(character);
-        FlxTween.tween(character, {alpha: 1, y: characterY}, 0.25, {ease: FlxEase.quartOut});
+        FlxTween.tween(character, {alpha: 1, y: characterY, angle: 0}, 0.25, {ease: FlxEase.quartOut});
 
         switch(curColumn)
         {
@@ -559,7 +560,8 @@ class NewMainMenuState extends MusicBeatState
 			allowMouse = false;
 			FlxG.mouse.visible = true;
 			timeNotMoving = 0;
-			var selectedItem:FlxSprite;
+
+			var selectedItem:MenuItemObj;
 			switch(curColumn)
 			{
 				case LEFT:
@@ -571,7 +573,7 @@ class NewMainMenuState extends MusicBeatState
 			var distItem2:Int = -1;
 			for (i in 0...menuItemsRightArr.length)
 			{
-				var memb2:FlxSprite = menuItemsRightGrp.members[i];
+				var memb2:MenuItemObj = menuItemsRightGrp.members[i];
 				if(FlxG.mouse.overlaps(memb2))
 				{
 					var distance:Float = Math.sqrt(Math.pow(memb2.getGraphicMidpoint().x - FlxG.mouse.screenX, 2) + Math.pow(memb2.getGraphicMidpoint().y - FlxG.mouse.screenY, 2));
@@ -585,7 +587,7 @@ class NewMainMenuState extends MusicBeatState
 			}
 			if(distItem2 != -1 && selectedItem != menuItemsRightGrp.members[distItem2])
 			{
-				curColumn = RIGHT;
+				changeColumn(RIGHT);
 				curSelected = distItem2;
 				changeSelection();
 			}
@@ -594,7 +596,7 @@ class NewMainMenuState extends MusicBeatState
 			var distItem:Int = -1;
 			for (i in 0...menuItemsLeftArr.length)
 			{
-				var memb:FlxSprite = menuItemsLeftGrp.members[i];
+				var memb:MenuItemObj = menuItemsLeftGrp.members[i];
 				if(FlxG.mouse.overlaps(memb))
 				{
 					var distance:Float = Math.sqrt(Math.pow(memb.getGraphicMidpoint().x - FlxG.mouse.screenX, 2) + Math.pow(memb.getGraphicMidpoint().y - FlxG.mouse.screenY, 2));
