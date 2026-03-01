@@ -2,6 +2,12 @@ package states;
 
 import flixel.addons.display.FlxBackdrop;
 
+enum Column
+{
+    LEFT;
+    RIGHT;
+}
+
 class NewMainMenuState extends MusicBeatState 
 {
 	var bg:FlxSprite;
@@ -12,6 +18,7 @@ class NewMainMenuState extends MusicBeatState
     var circle:FlxSprite;
     var circle2:FlxSprite;
     var character:FlxSprite;
+    var characterY:Float = 0;
     var leftBar:FlxSprite;
     var leftBarThorns:FlxBackdrop; // THORNS?!
     var rightBarThorns:FlxBackdrop; // THORNS 2?!
@@ -31,6 +38,8 @@ class NewMainMenuState extends MusicBeatState
         'gallery'
     ];
     var menuItemsRightGrp:FlxTypedGroup<FlxSprite>;
+    var curSelected:Int = 0;
+    var curColumn:Column = LEFT;
 
     override function create()
     {
@@ -100,7 +109,10 @@ class NewMainMenuState extends MusicBeatState
         character.animation.play('story');
         character.updateHitbox();
         character.screenCenter();
+        character.antialiasing = ClientPrefs.data.antialiasing;
         add(character);
+
+        characterY = character.y;
 
         leftBarThorns = new FlxBackdrop(Paths.image('resultsScreen/lettabox'), Y);
         leftBarThorns.velocity.set(0, thornsSpeed);
@@ -167,6 +179,8 @@ class NewMainMenuState extends MusicBeatState
             item.antialiasing = ClientPrefs.data.antialiasing;
             menuItemsRightGrp.add(item);
         }
+
+        changeSelection(0, true);
     }
 
     var circleAngleSpeed:Float = 10;
@@ -195,6 +209,142 @@ class NewMainMenuState extends MusicBeatState
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 			transitionBack();
 		}
+
+        if(!selectedSomethin)
+        {
+            if(controls.UI_UP_P)
+            {
+                changeSelection(-1);
+            }
+
+            if(controls.UI_DOWN_P)
+            {
+                changeSelection(1);
+            }
+
+            if(controls.UI_LEFT_P || controls.UI_RIGHT_P)
+            {
+                changeColumn();
+            }
+
+            if(controls.ACCEPT)
+            {
+				FlxG.sound.play(Paths.sound('confirmMenu'));
+                selectedSomethin = true;
+				FlxG.mouse.visible = false;
+
+                var option = curColumn == LEFT ? menuItemsLeftArr[curSelected] : menuItemsRightArr[curSelected];
+                var item = curColumn == LEFT ? menuItemsLeftGrp.members[curSelected] : menuItemsRightGrp.members[curSelected];
+                switch(option)
+                {
+                    case 'freeplay' | 'credits' | 'options' | 'awards' | 'gallery': // default transitions
+                        trace('Transitioning to $option');
+                        var state = getTargetState(option);
+
+                        new FlxTimer().start(1, function(tmr:FlxTimer)
+                        {
+						    FlxTransitionableState.skipNextTransIn = true;
+						    FlxTransitionableState.skipNextTransOut = true;
+                            MusicBeatState.switchState(state);
+                        });
+                    default:
+						trace('Menu Item ${option} doesn\'t do anything');
+						selectedSomethin = false;
+						item.visible = true;
+                        return;
+                }
+
+                for(obj in menuItemsLeftGrp)
+                {
+                    if(obj == item) continue;
+
+                    FlxTween.tween(obj, {alpha: 0, y: obj.y + 10}, 0.2);
+                }
+
+                for(obj in menuItemsRightGrp)
+                {
+                    if(obj == item) continue;
+
+                    FlxTween.tween(obj, {alpha: 0, y: obj.y + 10}, 0.2);
+                }
+            }
+        }
+    }
+
+    function changeSelection(change:Int = 0, firstTime:Bool = false)
+    {
+        FlxG.sound.play(Paths.sound('scrollMenu'));
+        curSelected = FlxMath.wrap(curSelected + change, 0, curColumn == LEFT ? menuItemsLeftArr.length - 1 : menuItemsRightArr.length - 1);
+
+        character.animation.play(curColumn == LEFT ? menuItemsLeftArr[curSelected] : menuItemsRightArr[curSelected]);
+        character.updateHitbox();
+        character.screenCenter();
+        character.y = characterY + 10;
+        character.alpha = 0;
+
+        FlxTween.cancelTweensOf(character);
+        FlxTween.tween(character, {alpha: 1, y: characterY}, 0.25, {ease: FlxEase.quartOut});
+
+        switch(curColumn)
+        {
+            case LEFT:
+                for(obj in menuItemsLeftGrp)
+                {
+                    if(obj.ID == curSelected)
+                    {
+                        obj.color = 0xFFFFFFFF;
+                    }
+                    else
+                    {
+                        obj.color = 0xFF666666;
+                    }
+                }
+
+                for(obj in menuItemsRightGrp)
+                {
+                    obj.color = 0xFF666666;
+                }
+            case RIGHT:
+                for(obj in menuItemsRightGrp)
+                {
+                    if(obj.ID == curSelected)
+                    {
+                        obj.color = 0xFFFFFFFF;
+                    }
+                    else
+                    {
+                        obj.color = 0xFF666666;
+                    }
+                }
+
+                for(obj in menuItemsLeftGrp)
+                {
+                    obj.color = 0xFF666666;
+                }
+        }
+    }
+
+    function changeColumn() {
+        curColumn = curColumn == LEFT ? RIGHT : LEFT;
+        changeSelection();
+    }
+
+    function getTargetState(opt:String):Dynamic {
+        return switch(opt)
+        {
+            case 'freeplay':
+                new FreeplayState();
+            case 'credits':
+                new CreditsStateYSides();
+            case 'options':
+                new options.OptionsState();
+            case 'awards':
+                new AchievementsMenuState();
+            case 'gallery': 
+                new states.gallery.GalleryState();
+            default:
+                null;
+        }
     }
     
 	var selectedSomethin:Bool = false;
