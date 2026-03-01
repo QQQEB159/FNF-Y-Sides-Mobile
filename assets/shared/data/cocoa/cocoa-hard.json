@@ -1,5 +1,5 @@
 {
-	"player1": "bf",
+	"player1": "bf-christmas",
 	"player2": "dad",
 	"events": [
 		[
@@ -1252,7 +1252,7 @@
 			"bpm": 100
 		}
 	],
-	"gfVersion": "gf",
+	"gfVersion": "gf-christmas",
 	"song": "Cocoa",
 	"validScore": false,
 	"stage": "skiingStage",
