@@ -7,6 +7,10 @@ class NewMainMenuState extends MusicBeatState
 	var bg:FlxSprite;
 	var backgroundGradientBottom:FlxSprite;
 	var icons:FlxBackdrop;
+    var lines:FlxBackdrop;
+    var linesSpeed:Float = 20;
+    var circle:FlxSprite;
+    var circle2:FlxSprite;
     var character:FlxSprite;
     var leftBar:FlxSprite;
     var leftBarThorns:FlxBackdrop; // THORNS?!
@@ -64,11 +68,27 @@ class NewMainMenuState extends MusicBeatState
 
 		icons = new FlxBackdrop(Paths.image('mainmenu/icons'), XY);
 		icons.velocity.set(10, 10);
-		icons.alpha = 0.45;
+		icons.alpha = 0.3;
 		icons.antialiasing = ClientPrefs.data.antialiasing;
 		add(icons);
 		
 		icons.setPosition(MainMenuState.iconsPos[0], MainMenuState.iconsPos[1]);
+
+        lines = new FlxBackdrop(Paths.image('mainmenu/new/lines'), X);
+        lines.antialiasing = ClientPrefs.data.antialiasing;
+        lines.y = 10;
+        lines.velocity.set(linesSpeed, 0);
+        add(lines);
+
+        circle = new FlxSprite();
+        circle.loadGraphic(Paths.image('mainmenu/new/circle'));
+        circle.antialiasing = ClientPrefs.data.antialiasing;
+        add(circle);
+
+        circle2 = new FlxSprite();
+        circle2.loadGraphic(Paths.image('mainmenu/new/circle'));
+        circle2.antialiasing = ClientPrefs.data.antialiasing;
+        add(circle2);
 
         character = new FlxSprite();
         character.frames = Paths.getSparrowAtlas('mainmenu/new/menu_characters');
@@ -94,6 +114,8 @@ class NewMainMenuState extends MusicBeatState
         add(leftBar);
 
         leftBarThorns.x = leftBar.x + leftBar.width - 1;
+        circle.x = leftBar.x + leftBar.width - (circle.width / 2);
+        circle.y = leftBar.y + -100;
 
         rightBarThorns = new FlxBackdrop(Paths.image('resultsScreen/lettabox'), Y);
         rightBarThorns.velocity.set(0, -thornsSpeed);
@@ -108,6 +130,10 @@ class NewMainMenuState extends MusicBeatState
         add(rightBar);
 
         rightBarThorns.x = rightBar.x - rightBarThorns.width + 1;
+        circle2.scale.set(1.15, 1.15);
+        circle2.updateHitbox();
+        circle2.x = rightBar.x - (circle2.width / 1.8);
+        circle2.y = FlxG.height - circle2.height + 210;
 
         menuItemsLeftGrp = new FlxTypedGroup<FlxSprite>();
         add(menuItemsLeftGrp);
@@ -143,10 +169,16 @@ class NewMainMenuState extends MusicBeatState
         }
     }
 
+    var circleAngleSpeed:Float = 10;
+    var circle2AngleSpeed:Float = -8;
 	var scrollMultiplier:Float = 3;
     override function update(elapsed:Float)
     {
         super.update(elapsed);
+
+        // spin anim
+        circle.angle += circleAngleSpeed * elapsed;
+        circle2.angle += circle2AngleSpeed * elapsed;
 
 		final hudMousePos = FlxG.mouse.getScreenPosition(FlxG.cameras.list[FlxG.cameras.list.length - 1]);
 
