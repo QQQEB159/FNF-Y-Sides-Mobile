@@ -316,111 +316,9 @@ class NewMainMenuState extends MusicBeatState
                 changeColumn();
             }
 
-            if(controls.ACCEPT || (FlxG.mouse.justPressed && allowMouse))
+            if(controls.ACCEPT)
             {
-				FlxG.sound.play(Paths.sound('confirmMenu'));
-                selectedSomethin = true;
-				FlxG.mouse.visible = false;
-
-                var option = curColumn == LEFT ? menuItemsLeftArr[curSelected] : menuItemsRightArr[curSelected];
-                var item = curColumn == LEFT ? menuItemsLeftGrp.members[curSelected] : menuItemsRightGrp.members[curSelected];
-                switch(option)
-                {
-                    // default transitions
-                    case 'freeplay' | 'options' | 'awards' | 'gallery':
-                        trace('Transitioning to $option');
-                        var state = getTargetState(option);
-
-                        new FlxTimer().start(0.4, function(tmr:FlxTimer)
-                        {
-			                FlxTween.cancelTweensOf(character);
-                            FlxTween.cancelTweensOf(lines);
-                            FlxTween.cancelTweensOf(circle);
-                            FlxTween.cancelTweensOf(circle2);
-			                FlxTween.cancelTweensOf(leftBar);
-			                FlxTween.cancelTweensOf(leftBarThorns);
-			                FlxTween.cancelTweensOf(rightBar);
-			                FlxTween.cancelTweensOf(rightBarThorns);
-                            FlxTween.tween(character, {alpha: 0, y: characterY - 100}, 0.35, {ease: FlxEase.quartIn, onComplete: function(twn:FlxTween)
-                            {
-                                new FlxTimer().start(0.15, function(tmr:FlxTimer)
-                                {
-						            FlxTransitionableState.skipNextTransIn = true;
-						            FlxTransitionableState.skipNextTransOut = true;
-                                    MusicBeatState.switchState(state);
-                                });
-                            }});
-                            FlxTween.tween(lines, {alpha: 0}, 0.35, {ease: FlxEase.quartIn});
-
-                            FlxTween.tween(leftBar, {x: -450}, 0.35, {ease: FlxEase.quartIn});
-                            FlxTween.tween(leftBarThorns, {x: -79}, 0.35, {ease: FlxEase.quartIn});
-                            FlxTween.tween(circle, {x: -80 - (circle.width / 2)}, 0.35, {ease: FlxEase.quartIn});
-
-                            FlxTween.tween(rightBar, {x: FlxG.width + 80}, 0.35, {ease: FlxEase.quartIn});
-                            FlxTween.tween(rightBarThorns, {x: FlxG.width + 80 - rightBarThorns.width + 1}, 0.35, {ease: FlxEase.quartIn});
-                            FlxTween.tween(circle2, {x: FlxG.width + 80 - (circle2.width / 1.8)}, 0.35, {ease: FlxEase.quartIn});
-
-                            FlxTween.tween(item, {x: curColumn == LEFT ? item.x - 450 : item.x + 450}, 0.35, {ease: FlxEase.quartIn});
-                        });
-
-                    // special anims
-                    case 'story':
-                        new FlxTimer().start(0.4, function(tmr:FlxTimer)
-                        {
-                            FlxTween.tween(characterWhite, {alpha: 1}, 0.25, {onComplete: function(twn:FlxTween)
-                            {
-				                new FlxTimer().start(0.35, function(tmr:FlxTimer)
-				                {
-				                	FlxTween.tween(icons, {alpha: 0}, 0.3, {ease: FlxEase.quartIn});
-				                	FlxTween.tween(characterWhite, {"scale.x": 15, "scale.y": 15}, 0.3, {ease: FlxEase.quartIn, onComplete: function(twn2:FlxTween) {
-				                		FlxTransitionableState.skipNextTransIn = true;
-				                		FlxTransitionableState.skipNextTransOut = true;
-				                		MusicBeatState.switchState(new StoryMenuState());
-				                	}});
-				                });
-                            }});
-                        });
-                    case 'credits':
-		                FlxG.sound.music.fadeOut(0.65);
-		                new FlxTimer().start(0.4, function(tmr:FlxTimer)
-		                {
-		                	FlxTween.tween(transition, {x: -650}, 1, {ease: FlxEase.quartOut});
-		                	FlxTween.cancelTweensOf(character);
-		                	FlxTween.tween(character, {alpha: 0, y: character.y + 10}, 0.35, {ease: FlxEase.quartIn, onComplete: function(twn:FlxTween)
-		                	{
-		                		new FlxTimer().start(1, function(tmr:FlxTimer)
-		                		{
-		                			#if ACHIEVEMENTS_ALLOWED
-		                				FlxTransitionableState.skipNextTransIn = true;
-		                				FlxTransitionableState.skipNextTransOut = true;
-		                				MusicBeatState.switchState(new CreditsStateYSides());
-                                
-		                				MainMenuState.iconsPos.insert(0, icons.x);
-		                				MainMenuState.iconsPos.insert(1, icons.y);
-		                			#end
-		                		});
-		                	}});
-		                });
-                    default:
-						trace('Menu Item ${option} doesn\'t do anything');
-						selectedSomethin = false;
-						item.visible = true;
-                        return;
-                }
-
-                for(obj in menuItemsLeftGrp)
-                {
-                    if(obj == item) continue;
-
-                    FlxTween.tween(obj, {alpha: 0, y: obj.y + 10}, 0.2);
-                }
-
-                for(obj in menuItemsRightGrp)
-                {
-                    if(obj == item) continue;
-
-                    FlxTween.tween(obj, {alpha: 0, y: obj.y + 10}, 0.2);
-                }
+                pressAccept();
             }
 
 		    if (controls.BACK)
@@ -511,6 +409,107 @@ class NewMainMenuState extends MusicBeatState
         changeSelection(0, firstTime);
     }
 
+    function pressAccept()
+    {
+		FlxG.sound.play(Paths.sound('confirmMenu'));
+        selectedSomethin = true;
+		FlxG.mouse.visible = false;
+
+        var option = curColumn == LEFT ? menuItemsLeftArr[curSelected] : menuItemsRightArr[curSelected];
+        var item = curColumn == LEFT ? menuItemsLeftGrp.members[curSelected] : menuItemsRightGrp.members[curSelected];
+        switch(option)
+        {
+            // default transitions
+            case 'freeplay' | 'options' | 'awards' | 'gallery':
+                trace('Transitioning to $option');
+                var state = getTargetState(option);
+                new FlxTimer().start(0.4, function(tmr:FlxTimer)
+                {
+		            FlxTween.cancelTweensOf(character);
+                    FlxTween.cancelTweensOf(lines);
+                    FlxTween.cancelTweensOf(circle);
+                    FlxTween.cancelTweensOf(circle2);
+		            FlxTween.cancelTweensOf(leftBar);
+		            FlxTween.cancelTweensOf(leftBarThorns);
+		            FlxTween.cancelTweensOf(rightBar);
+		            FlxTween.cancelTweensOf(rightBarThorns);
+                    FlxTween.tween(character, {alpha: 0, y: characterY - 100}, 0.35, {ease: FlxEase.quartIn, onComplete: function(twn:FlxTween)
+                    {
+                        new FlxTimer().start(0.15, function(tmr:FlxTimer)
+                        {
+				            FlxTransitionableState.skipNextTransIn = true;
+				            FlxTransitionableState.skipNextTransOut = true;
+                            MusicBeatState.switchState(state);
+                        });
+                    }});
+                    FlxTween.tween(lines, {alpha: 0}, 0.35, {ease: FlxEase.quartIn});
+                    FlxTween.tween(leftBar, {x: -450}, 0.35, {ease: FlxEase.quartIn});
+                    FlxTween.tween(leftBarThorns, {x: -79}, 0.35, {ease: FlxEase.quartIn});
+                    FlxTween.tween(circle, {x: -80 - (circle.width / 2)}, 0.35, {ease: FlxEase.quartIn});
+                    FlxTween.tween(rightBar, {x: FlxG.width + 80}, 0.35, {ease: FlxEase.quartIn});
+                    FlxTween.tween(rightBarThorns, {x: FlxG.width + 80 - rightBarThorns.width + 1}, 0.35, {ease: FlxEase.quartIn});
+                    FlxTween.tween(circle2, {x: FlxG.width + 80 - (circle2.width / 1.8)}, 0.35, {ease: FlxEase.quartIn});
+                    FlxTween.tween(item, {x: curColumn == LEFT ? item.x - 450 : item.x + 450}, 0.35, {ease: FlxEase.quartIn});
+                });
+
+            // special anims
+            case 'story':
+                new FlxTimer().start(0.4, function(tmr:FlxTimer)
+                {
+                    FlxTween.tween(characterWhite, {alpha: 1}, 0.25, {onComplete: function(twn:FlxTween)
+                    {
+		                new FlxTimer().start(0.35, function(tmr:FlxTimer)
+		                {
+		                	FlxTween.tween(icons, {alpha: 0}, 0.3, {ease: FlxEase.quartIn});
+		                	FlxTween.tween(characterWhite, {"scale.x": 15, "scale.y": 15}, 0.3, {ease: FlxEase.quartIn, onComplete: function(twn2:FlxTween) {
+		                		FlxTransitionableState.skipNextTransIn = true;
+		                		FlxTransitionableState.skipNextTransOut = true;
+		                		MusicBeatState.switchState(new StoryMenuState());
+		                	}});
+		                });
+                    }});
+                });
+            case 'credits':
+		        FlxG.sound.music.fadeOut(0.65);
+		        new FlxTimer().start(0.4, function(tmr:FlxTimer)
+		        {
+		        	FlxTween.tween(transition, {x: -650}, 1, {ease: FlxEase.quartOut});
+		        	FlxTween.cancelTweensOf(character);
+		        	FlxTween.tween(character, {alpha: 0, y: character.y + 10}, 0.35, {ease: FlxEase.quartIn, onComplete: function(twn:FlxTween)
+		        	{
+		        		new FlxTimer().start(1, function(tmr:FlxTimer)
+		        		{
+		        			#if ACHIEVEMENTS_ALLOWED
+		        				FlxTransitionableState.skipNextTransIn = true;
+		        				FlxTransitionableState.skipNextTransOut = true;
+		        				MusicBeatState.switchState(new CreditsStateYSides());
+                        
+		        				MainMenuState.iconsPos.insert(0, icons.x);
+		        				MainMenuState.iconsPos.insert(1, icons.y);
+		        			#end
+		        		});
+		        	}});
+		        });
+            default:
+				trace('Menu Item ${option} doesn\'t do anything');
+				selectedSomethin = false;
+				item.visible = true;
+                return;
+        }
+
+        for(obj in menuItemsLeftGrp)
+        {
+            if(obj == item) continue;
+            FlxTween.tween(obj, {alpha: 0, y: obj.y + 10}, 0.2);
+        }
+        
+        for(obj in menuItemsRightGrp)
+        {
+            if(obj == item) continue;
+            FlxTween.tween(obj, {alpha: 0, y: obj.y + 10}, 0.2);
+        }
+    }
+
     function getTargetState(opt:String):Dynamic {
         return switch(opt)
         {
@@ -561,6 +560,10 @@ class NewMainMenuState extends MusicBeatState
             {
                 if(FlxG.mouse.overlaps(spr))
                 {
+                    if(FlxG.mouse.justPressed)
+                    {
+                        pressAccept();
+                    }
                     if(spr.ID == curSelected && curColumn == LEFT) return;
 
                     curColumn = LEFT;
@@ -578,6 +581,10 @@ class NewMainMenuState extends MusicBeatState
             {
                 if(FlxG.mouse.overlaps(spr))
                 {
+                    if(FlxG.mouse.justPressed)
+                    {
+                        pressAccept();
+                    }
                     if(spr.ID == curSelected && curColumn == RIGHT) return;
 
                     curColumn = RIGHT;
