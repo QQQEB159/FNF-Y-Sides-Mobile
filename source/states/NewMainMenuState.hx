@@ -360,7 +360,7 @@ class NewMainMenuState extends MusicBeatState
                             FlxTween.tween(rightBarThorns, {x: FlxG.width + 80 - rightBarThorns.width + 1}, 0.35, {ease: FlxEase.quartIn});
                             FlxTween.tween(circle2, {x: FlxG.width + 80 - (circle2.width / 1.8)}, 0.35, {ease: FlxEase.quartIn});
 
-                            FlxTween.tween(item, {x: item.x - 450}, 0.35, {ease: FlxEase.quartIn});
+                            FlxTween.tween(item, {x: curColumn == LEFT ? item.x - 450 : item.x + 450}, 0.35, {ease: FlxEase.quartIn});
                         });
 
                     // special anims
@@ -562,7 +562,7 @@ class NewMainMenuState extends MusicBeatState
                 if(FlxG.mouse.overlaps(spr))
                 {
                     if(spr.ID == curSelected) return;
-                    
+
                     curColumn = LEFT;
                     curSelected = spr.ID;
                     if(!spr.overlaping) changeSelection();
