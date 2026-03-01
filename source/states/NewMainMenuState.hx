@@ -84,17 +84,22 @@ class NewMainMenuState extends MusicBeatState
 
 		icons = new FlxBackdrop(Paths.image('mainmenu/icons'), XY);
 		icons.velocity.set(10, 10);
-		icons.alpha = 0.3;
 		icons.antialiasing = ClientPrefs.data.antialiasing;
 		add(icons);
 		
 		icons.setPosition(MainMenuState.iconsPos[0], MainMenuState.iconsPos[1]);
+
+		icons.alpha = 0;
+        FlxTween.tween(icons, {alpha: 0.3}, 0.7, {ease: FlxEase.quartOut});
 
         lines = new FlxBackdrop(Paths.image('mainmenu/new/lines'), X);
         lines.antialiasing = ClientPrefs.data.antialiasing;
         lines.y = 10;
         lines.velocity.set(linesSpeed, 0);
         add(lines);
+
+        lines.alpha = 0;
+        FlxTween.tween(lines, {alpha: 1}, 0.7, {ease: FlxEase.quartOut});
 
         circle = new FlxSprite();
         circle.loadGraphic(Paths.image('mainmenu/new/circle'));
@@ -132,8 +137,15 @@ class NewMainMenuState extends MusicBeatState
         leftBar.y = -20;
         add(leftBar);
 
+        leftBar.x = -450;
+        FlxTween.tween(leftBar, {x: -20}, 0.7, {ease: FlxEase.quartOut});
+
         leftBarThorns.x = leftBar.x + leftBar.width - 1;
+        FlxTween.tween(leftBarThorns, {x: 349}, 0.7, {ease: FlxEase.quartOut});
+
         circle.x = leftBar.x + leftBar.width - (circle.width / 2);
+        FlxTween.tween(circle, {x: 370 - (circle.width / 2)}, 0.7, {ease: FlxEase.quartOut});
+
         circle.y = leftBar.y + -100;
 
         rightBarThorns = new FlxBackdrop(Paths.image('mainmenu/new/lettabox'), Y);
@@ -144,14 +156,21 @@ class NewMainMenuState extends MusicBeatState
 
         rightBar = new FlxSprite();
         rightBar.makeGraphic(370, Std.int(FlxG.height * 1.2), 0xFF130024);
-        rightBar.x = FlxG.width - rightBar.width + (rightBar.width - 350);
         rightBar.y = -20;
         add(rightBar);
 
+        rightBar.x = FlxG.width + 80;
+        FlxTween.tween(rightBar, {x: FlxG.width - rightBar.width + (rightBar.width - 350)}, 0.7, {ease: FlxEase.quartOut});
+
         rightBarThorns.x = rightBar.x - rightBarThorns.width + 1;
+        FlxTween.tween(rightBarThorns, {x: FlxG.width - rightBar.width + (rightBar.width - 350) - rightBarThorns.width + 1}, 0.7, {ease: FlxEase.quartOut});
+
         circle2.scale.set(1.15, 1.15);
         circle2.updateHitbox();
+
         circle2.x = rightBar.x - (circle2.width / 1.8);
+        FlxTween.tween(circle2, {x: FlxG.width - rightBar.width + (rightBar.width - 350) - (circle2.width / 1.8)}, 0.7, {ease: FlxEase.quartOut});
+
         circle2.y = FlxG.height - circle2.height + 210;
 
         menuItemsLeftGrp = new FlxTypedGroup<MenuItemObj>();
@@ -172,6 +191,8 @@ class NewMainMenuState extends MusicBeatState
             item.antialiasing = ClientPrefs.data.antialiasing;
             item.angle = i == 1 ? menuItemsAngleReverse : menuItemsAngle;
             menuItemsLeftGrp.add(item);
+
+            FlxTween.tween(item, {x: -20 + (leftBar.width / 2) - (item.width / 2)}, 0.7, {ease: FlxEase.quartOut, startDelay: 0.01 * i});
 
             new FlxTimer().start(1, function(tmr:FlxTimer)
             {
@@ -212,8 +233,12 @@ class NewMainMenuState extends MusicBeatState
             item.x = rightBar.x + (rightBar.width / 2) - (item.width / 2) - 30;
             item.ID = i;
             item.angle = i == 1 ? menuItemsAngleReverse : menuItemsAngle;
+
+            var targetX:Float = FlxG.width - rightBar.width + (rightBar.width - 350) + (rightBar.width / 2) - (item.width / 2) - 30;
+            if(i == 1) targetX += 70; // lil offset :)
+
+            FlxTween.tween(item, {x: targetX}, 0.7, {ease: FlxEase.quartOut, startDelay: 0.03 * i});
             
-            if(i == 1) item.x += 70; // lil offset :)
 
             item.antialiasing = ClientPrefs.data.antialiasing;
             menuItemsRightGrp.add(item);
