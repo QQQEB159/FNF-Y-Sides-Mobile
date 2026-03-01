@@ -131,9 +131,9 @@
 - [x] High
 - [x] MILF
 - [x] Cocoa
-- [ ] Eggnog
+- [x] Eggnog
 - [ ] Mistletoe
-- [ ] Winter Horrorland
+- [x] Winter Horrorland
 
 ## HUD
 
@@ -145,8 +145,8 @@
 - [ ] Boyfriend Death (WEEK 5)
 - [x] BF (Hair Blow Version)
 - [x] GF (Hair Blow Version)
-- [ ] BF (Xmas Version)
-- [ ] GF (Xmas Version)
+- [x] BF (Xmas Version)
+- [x] GF (Xmas Version)
 - [ ] Monster (Xmas Version)
 
 ## MENUS
