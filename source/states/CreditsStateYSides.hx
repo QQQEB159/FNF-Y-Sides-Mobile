@@ -21,7 +21,6 @@ class CreditsStateYSides extends MusicBeatState
 		['Zhadnii',         'ema',  	['Musician'], 					                                                [['yt', 'https://youtube.com/@zhadnii_']], 0xFF3A3A75],
         ['FlashMan07',      'flash',    ['Musician', 'Concept Artist', 'Artist'],                                       [['yt', 'https://www.youtube.com/@FlashMan07']], 0xFF912197],
         ['Snowlui',         'snowlui',  ['Musician'], 			                            							[['yt', 'https://www.youtube.com/channel/UCSt4Fyu2syVMeGBHeZaWzyA'], ['x', 'https://x.com/Snowlui0831']], 0xFF9C0053],
-        ['EmmaPSX',      	'emma',     ['Charter'], 					                                                [['yt', 'https://www.youtube.com/channel/UCbTvTX7u7sYJfS5fIriLc_g'], ['x', 'https://x.com/emmapsx20']], 0xFFB56134],
         ['E1000MC',           'emil',    ['Artist', 'Charter'], 					                                        [['yt', 'https://www.youtube.com/@E1000YT/videos'], ['x', 'https://x.com/E1000TWOF ']], 0xFF1A8758],
 		['Saturn',           'sas',    ['- Me composer... -', 'drawer', 'I not cook'],                                                             [['yt', 'https://youtu.be/-ThnaxyC6J8?si=1IuB_kx1GUeJ-4Ad'], ['x', 'https://youtu.be/MvRARbFMCBI?si=bfBbcig20FQwUgGL']], 0xFF45725F]
     ];
