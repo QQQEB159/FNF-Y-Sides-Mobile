@@ -17,6 +17,7 @@ import flixel.util.FlxStringUtil;
 import flixel.util.FlxSave;
 import flixel.input.keyboard.FlxKey;
 import flixel.animation.FlxAnimationController;
+import flixel.effects.FlxFlicker;
 import lime.utils.Assets;
 import openfl.utils.Assets as OpenFlAssets;
 import openfl.events.KeyboardEvent;
@@ -193,6 +194,7 @@ class PlayState extends MusicBeatState
 	public var timeBar:FlxSprite;
 	public var songPercent:Float = 0;
 
+	public var liftMechanicTimeBar:FlxSprite;
 	public var spaceMechanicButton:FlxSprite;
 	public var watchingMechanicInfo:Bool = false;
 	public var thisShittyBackground:FlxSprite;
@@ -732,6 +734,13 @@ class PlayState extends MusicBeatState
 
 			scoreTxt.y = healthBar.y - scoreTxt.height - 7;
 		}
+
+		liftMechanicTimeBar = new FlxSprite(boyfriend.getGraphicMidpoint().x + 15, boyfriend.y - 40);
+		liftMechanicTimeBar.makeGraphic(200, 40, 0xFFFFFFFF);
+		liftMechanicTimeBar.x -= liftMechanicTimeBar.width / 2;
+		//liftMechanicTimeBar.alpha = 0;
+		liftMechanicTimeBar.visible = false;
+		add(liftMechanicTimeBar);
 
 		spaceMechanicButton = new FlxSprite(boyfriend.x - 210, boyfriend.y - 100);
 		spaceMechanicButton.frames = Paths.getSparrowAtlas('hud/mechanic/space_button');
@@ -2098,6 +2107,10 @@ class PlayState extends MusicBeatState
 				if(startedLift)
 				{
 					liftingTime += elapsed;
+					if(!FlxFlicker.isFlickering(liftMechanicTimeBar)) liftMechanicTimeBar.visible = true;
+					liftMechanicTimeBar.setGraphicSize(200 * (1.5 - liftingTime), 20);
+					liftMechanicTimeBar.updateHitbox();
+					if(liftingTime > 1 && !FlxFlicker.isFlickering(liftMechanicTimeBar)) FlxFlicker.flicker(liftMechanicTimeBar, 0.5, 0.04, false);
 
 					if(liftingTime > 1.5)
 					{
@@ -2105,6 +2118,8 @@ class PlayState extends MusicBeatState
 						startedLift = false;
 						liftingTime = 0;
 
+						FlxFlicker.stopFlickering(liftMechanicTimeBar);
+						liftMechanicTimeBar.visible = false;
 						boyfriend.playAnim('liftFail', true);
 						alredyLiftAnim = true;
 						trace('FAILED!');
@@ -2177,6 +2192,8 @@ class PlayState extends MusicBeatState
 	
 								FlxG.sound.play(Paths.sound('liftDumbellsSuccess'));
 
+								FlxFlicker.stopFlickering(liftMechanicTimeBar);
+								liftMechanicTimeBar.visible = false;
 								gf.playAnim('hey', true);
 								boyfriend.playAnim('liftUp', true);
 								spaceMechanicButton.animation.play('confirm');
@@ -4438,6 +4455,10 @@ class PlayState extends MusicBeatState
 						FlxTween.tween(healthBarGlow, {alpha: 0}, 1, {ease: FlxEase.quartOut});
 						
 						startedLift = false;
+						
+						FlxFlicker.stopFlickering(liftMechanicTimeBar);
+						liftMechanicTimeBar.visible = false;
+
 						liftingTime = 0;
 						liftAmount = 10;
 						boyfriend.playAnim('hey', true);
