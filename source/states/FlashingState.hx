@@ -49,10 +49,6 @@ class FlashingState extends MusicBeatState
 
 		FlxG.mouse.visible = true;
 
-		GalleryPreload.preloadMusic();
-		GalleryPreload.preloadImages('outdated_concepts');
-		GalleryPreload.preloadImages('bored');
-
 		bg = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, 0xFF030007);
 		add(bg);
 

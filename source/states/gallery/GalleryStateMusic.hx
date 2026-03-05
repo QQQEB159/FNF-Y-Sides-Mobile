@@ -37,7 +37,13 @@ class GalleryStateMusic extends MusicBeatState
         'pico',
         'philly-nice',
         'blammed',
-        'test',
+        'satin-panties',
+        'high',
+        'milf',
+        'cocoa',
+        'eggnog',
+        'winter-horrorland',
+        'test'
     ];
 
     var loadMusicTxt:FlxText;
@@ -164,6 +170,12 @@ class GalleryStateMusic extends MusicBeatState
             musicSongsArray.push('pico');
             musicSongsArray.push('philly-nice');
             musicSongsArray.push('blammed');
+            musicSongsArray.push('satin-panties');
+            musicSongsArray.push('high');
+            musicSongsArray.push('milf');
+            musicSongsArray.push('cocoa');
+            musicSongsArray.push('eggnog');
+            musicSongsArray.push('winter-horrorland');
             return;
         }
 
@@ -186,6 +198,20 @@ class GalleryStateMusic extends MusicBeatState
             musicSongsArray.push('pico');
             musicSongsArray.push('philly-nice');
             musicSongsArray.push('blammed');
+        }
+
+        if(StoryMenuState.weekCompleted.exists('week4'))
+        {
+            musicSongsArray.push('satin-panties');
+            musicSongsArray.push('high');
+            musicSongsArray.push('milf');
+        }
+
+        if(StoryMenuState.weekCompleted.exists('week5'))
+        {
+            musicSongsArray.push('cocoa');
+            musicSongsArray.push('eggnog');
+            musicSongsArray.push('winter-horrorland');
         }
 
         // last song on the playlist

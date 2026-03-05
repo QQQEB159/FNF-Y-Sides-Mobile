@@ -19,6 +19,16 @@ class PerformanceWarning extends MusicBeatState
 {
 	public static var leftState:Bool = false;
 
+	public function new()
+	{
+		super();
+		
+		// preload gallery stuff
+		GalleryPreload.preloadMusic();
+		GalleryPreload.preloadImages('outdated_concepts');
+		GalleryPreload.preloadImages('bored');
+	}
+
 	override function create()
 	{
 		super.create();
