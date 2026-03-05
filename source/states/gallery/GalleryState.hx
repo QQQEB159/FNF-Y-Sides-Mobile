@@ -40,7 +40,7 @@ class GalleryState extends MusicBeatState
 			if(!FlxG.sound.music.playing)
 			{
 				trace('Main menu music is not playing, starting gallery menu music!');
-                FlxG.sound.playMusic(Paths.music('galleryMenu'));
+                FlxG.sound.playMusic(Paths.music('galleryMenu'), 0);
 				FlxG.sound.music.fadeIn(1);
 			}
 		}

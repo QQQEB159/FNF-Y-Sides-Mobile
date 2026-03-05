@@ -110,7 +110,7 @@ class OptionsState extends MusicBeatState
 			if(!FlxG.sound.music.playing)
 			{
 				trace('Main menu music is not playing, starting options menu music!');
-				FlxG.sound.playMusic(Paths.music('optionsMenu'));
+				FlxG.sound.playMusic(Paths.music('optionsMenu'), 0);
 				FlxG.sound.music.fadeIn(1);
 			}
 		}
