@@ -401,6 +401,9 @@ class ResultsScreen extends MusicBeatSubstate
                 {
                     startBfAnim();
 
+                    var pathSound = 'resultsScreenBadRanking';
+                    FlxG.sound.play(Paths.sound(pathSound), 0.7);
+
                     boyfriend.scale.set(1.05, 1.05);
                     FlxTween.tween(boyfriend, {"scale.x": 1, "scale.y": 1}, 1, {ease: FlxEase.quartOut});
                     FlxTween.angle(boyfriend, -3, 3, 3, {ease: FlxEase.cubeInOut, type: PINGPONG});
@@ -421,6 +424,9 @@ class ResultsScreen extends MusicBeatSubstate
                 if(getRankName() == 'e') return;
 
                 startBfAnim();
+
+                var pathSound = 'resultsScreenGoodRanking';
+                FlxG.sound.play(Paths.sound(pathSound), 0.7);
 
                 boyfriend.scale.set(1.05, 1.05);
                 FlxTween.tween(boyfriend, {"scale.x": 1, "scale.y": 1}, 1, {ease: FlxEase.quartOut});
