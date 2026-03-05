@@ -237,10 +237,12 @@ class ResultsScreen extends MusicBeatSubstate
         //startBfAnim();
 
         new FlxTimer().start(2, (_) -> {
-            var tweenDur:Float = 1;
+            var tweenDur:Float = 1.5;
+            FlxG.sound.play(Paths.sound('resultsScreenScoreUp'));
             FlxTween.num(0, totalScore, tweenDur, {ease: FlxEase.linear}, function(value:Float)
             {
                 scoreTxt.text = 'SCORE: ${Std.int(value)}';
+                //FlxG.sound.play(Paths.sound('scrollMenu'), 0.5);
             });
 
             FlxTween.num(0, totalMisses, tweenDur, {ease: FlxEase.linear}, function(value:Float)
@@ -273,7 +275,7 @@ class ResultsScreen extends MusicBeatSubstate
                 shitsTxt.text = 'Shits: ${Std.int(value)}';
             });
 
-            new FlxTimer().start(1, (_) -> {
+            new FlxTimer().start(tweenDur + 0.4, (_) -> {
                 startBeating = true;
                 var musicPath:String = getRankName() == 'e' ? 'winScreenbad' : 'winScreen';
                 musicPath += FreeplayState.characterPrefix;
