@@ -4451,11 +4451,13 @@ class PlayState extends MusicBeatState
 						constantHealthDrainAmount = 0.0004;
 						constantHealthDrainActive = true;
 						glowHealthBarEffect = true;
+						FlxTween.tween(healthBarFireBlur, {alpha: 1}, 1, {ease: FlxEase.quartOut});
 						FlxTween.tween(healthBarFire, {alpha: 0.6}, 1, {ease: FlxEase.quartOut});
 						FlxTween.tween(healthBarGlow, {alpha: 1}, 1, {ease: FlxEase.quartOut});
 					case 384:
 						constantHealthDrainActive = false;
 						glowHealthBarEffect = false;
+						FlxTween.tween(healthBarFireBlur, {alpha: 0}, 1, {ease: FlxEase.quartOut});
 						FlxTween.tween(healthBarFire, {alpha: 0}, 1, {ease: FlxEase.quartOut});
 						FlxTween.tween(healthBarGlow, {alpha: 0}, 1, {ease: FlxEase.quartOut});
 				}
@@ -4490,6 +4492,7 @@ class PlayState extends MusicBeatState
 
 						constantHealthDrainActive = true;
 						glowHealthBarEffect = true;
+						FlxTween.tween(healthBarFireBlur, {alpha: 1}, 1, {ease: FlxEase.quartOut});
 						FlxTween.tween(healthBarFire, {alpha: 0.6}, 1, {ease: FlxEase.quartOut});
 						FlxTween.tween(healthBarGlow, {alpha: 1}, 1, {ease: FlxEase.quartOut});
 
@@ -4509,6 +4512,7 @@ class PlayState extends MusicBeatState
 
 						constantHealthDrainActive = false;
 						glowHealthBarEffect = false;
+						FlxTween.tween(healthBarFireBlur, {alpha: 0}, 1, {ease: FlxEase.quartOut});
 						FlxTween.tween(healthBarFire, {alpha: 0}, 1, {ease: FlxEase.quartOut});
 						FlxTween.tween(healthBarGlow, {alpha: 0}, 1, {ease: FlxEase.quartOut});
 						
@@ -4553,11 +4557,13 @@ class PlayState extends MusicBeatState
 					case 448:
 						constantHealthDrainActive = true;
 						glowHealthBarEffect = true;
+						FlxTween.tween(healthBarFireBlur, {alpha: 1}, 1, {ease: FlxEase.quartOut});
 						FlxTween.tween(healthBarFire, {alpha: 0.6}, 1, {ease: FlxEase.quartOut});
 						FlxTween.tween(healthBarGlow, {alpha: 1}, 1, {ease: FlxEase.quartOut});
 					case 704:
 						constantHealthDrainActive = false;
 						glowHealthBarEffect = false;
+						FlxTween.tween(healthBarFireBlur, {alpha: 0}, 1, {ease: FlxEase.quartOut});
 						FlxTween.tween(healthBarFire, {alpha: 0}, 1, {ease: FlxEase.quartOut});
 						FlxTween.tween(healthBarGlow, {alpha: 0}, 1, {ease: FlxEase.quartOut});
 				}
@@ -4595,11 +4601,13 @@ class PlayState extends MusicBeatState
 						constantHealthDrainAmount = 0.0006;
 						constantHealthDrainActive = true;
 						glowHealthBarEffect = true;
+						FlxTween.tween(healthBarFireBlur, {alpha: 1}, 1, {ease: FlxEase.quartOut});
 						FlxTween.tween(healthBarFire, {alpha: 0.6}, 1, {ease: FlxEase.quartOut});
 						FlxTween.tween(healthBarGlow, {alpha: 1}, 1, {ease: FlxEase.quartOut});
 					case 1504:
 						constantHealthDrainActive = false;
 						glowHealthBarEffect = false;
+						FlxTween.tween(healthBarFireBlur, {alpha: 0}, 1, {ease: FlxEase.quartOut});
 						FlxTween.tween(healthBarFire, {alpha: 0}, 1, {ease: FlxEase.quartOut});
 						FlxTween.tween(healthBarGlow, {alpha: 0}, 1, {ease: FlxEase.quartOut});
 
@@ -4634,11 +4642,13 @@ class PlayState extends MusicBeatState
 					case 576:
 						constantHealthDrainActive = true;
 						glowHealthBarEffect = true;
+						FlxTween.tween(healthBarFireBlur, {alpha: 1}, 1, {ease: FlxEase.quartOut});
 						FlxTween.tween(healthBarFire, {alpha: 0.6}, 1, {ease: FlxEase.quartOut});
 						FlxTween.tween(healthBarGlow, {alpha: 1}, 1, {ease: FlxEase.quartOut});
 					case 704:
 						constantHealthDrainActive = false;
 						glowHealthBarEffect = false;
+						FlxTween.tween(healthBarFireBlur, {alpha: 0}, 1, {ease: FlxEase.quartOut});
 						FlxTween.tween(healthBarFire, {alpha: 0}, 1, {ease: FlxEase.quartOut});
 						FlxTween.tween(healthBarGlow, {alpha: 0}, 1, {ease: FlxEase.quartOut});
 				}
