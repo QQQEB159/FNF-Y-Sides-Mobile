@@ -148,7 +148,7 @@ class SaveFilesMenu extends MusicBeatState
             FlxTween.tween(platiniumAchievement, {alpha: 1}, 0.5, {ease: FlxEase.circOut, startDelay: i * 0.1});
 		    add(platiniumAchievement);
 
-            platiniumAchievement.color = Achievements.checkPlatiniumAchievementFromSave(i) ? 0xFFFFFFFF : 0xFF000000;
+            platiniumAchievement.color = save.data.gotPlatiniumAchievement ? 0xFFFFFFFF : 0xFF000000;
         }
 
         alreadySelectedSlot = new FlxText(0, 0, FlxG.width, 'You are currently on this save file!');

@@ -38,7 +38,9 @@ class Achievements {
 		createAchievement('week1_nomiss',				{name: "She Calls Me Daddy Too", description: "Beat Week 1 on Hard with no Misses."});
 		createAchievement('week2_nomiss',				{name: "SPOOKY MONTH!!!", description: "Beat Week 2 on Hard with no Misses."});
 		createAchievement('week3_nomiss',				{name: "No money needed to beat you!", description: "Beat Week 3 on Hard with no Misses."});
-		createAchievement('weekTest_nomissfreeplay',	{name: "You definitely tested it", description: "Play test with no Misses."});
+		createAchievement('week4_nomiss',				{name: "Mom said to Full Combo", description: "Beat Week 4 on Hard with no Misses."});
+		createAchievement('week5_nomiss',				{name: "Santa, gimme gifts!", description: "Beat Week 5 on Hard with no Misses."});
+		createAchievement('weekTest_nomissfreeplay',	{name: "Thanks for testing!", description: "Play test with no Misses."});
 		createAchievement('dumbbells',					{name: "Stop playing with those dumbbells", description: "Lift dumbbells 50 times.", maxScore: 50, maxDecimals: 0});
 		createAchievement('click',						{name: "The art of clicks", description: "Click 1000 times", maxScore: 1000, maxDecimals: 0, hidden: true});
 		createAchievement('click2',						{name: "Are you seriously still clicking?", description: "Click 2000 times", maxScore: 2000, maxDecimals: 0, hidden: true});
