@@ -736,7 +736,7 @@ class PlayState extends MusicBeatState
 		}
 
 		liftMechanicTimeBar = new FlxSprite(boyfriend.getGraphicMidpoint().x + 15, boyfriend.y - 40);
-		liftMechanicTimeBar.makeGraphic(200, 40, 0xFFFFFFFF);
+		liftMechanicTimeBar.makeGraphic(200, 15, 0xFFFFFFFF);
 		liftMechanicTimeBar.x -= liftMechanicTimeBar.width / 2;
 		//liftMechanicTimeBar.alpha = 0;
 		liftMechanicTimeBar.visible = false;
@@ -2108,9 +2108,22 @@ class PlayState extends MusicBeatState
 				{
 					liftingTime += elapsed;
 					if(!FlxFlicker.isFlickering(liftMechanicTimeBar)) liftMechanicTimeBar.visible = true;
-					liftMechanicTimeBar.setGraphicSize(200 * (1.5 - liftingTime), 20);
+					liftMechanicTimeBar.setGraphicSize(200 * (1.5 - liftingTime), 15);
 					liftMechanicTimeBar.updateHitbox();
 					if(liftingTime > 1 && !FlxFlicker.isFlickering(liftMechanicTimeBar)) FlxFlicker.flicker(liftMechanicTimeBar, 0.5, 0.04, false);
+
+					if(liftingTime > 1)
+					{
+						liftMechanicTimeBar.color = 0xFFCC3535; // red
+					}
+					else if(liftingTime > 0.5)
+					{
+						liftMechanicTimeBar.color = 0xFFCC8135; // yellow / orange
+					}
+					else
+					{
+						liftMechanicTimeBar.color = 0xFF74CC35; // green
+					}
 
 					if(liftingTime > 1.5)
 					{
