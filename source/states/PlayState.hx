@@ -641,7 +641,7 @@ class PlayState extends MusicBeatState
 
 		healthBarFire = new FlxSprite();
 		healthBarFire.frames = Paths.getSparrowAtlas('hud/fireanim');
-		healthBarFire.animation.addByPrefix('idle', 'fire', 12, true);
+		healthBarFire.animation.addByPrefix('idle', 'fire', 20, true);
 		healthBarFire.animation.play('idle');
 		healthBarFire.antialiasing = ClientPrefs.data.antialiasing;
 		healthBarFire.visible = !ClientPrefs.data.hideHud;
@@ -650,7 +650,7 @@ class PlayState extends MusicBeatState
 
 		healthBarFireBlur = new FlxSprite();
 		healthBarFireBlur.frames = Paths.getSparrowAtlas('hud/fireanimBlur');
-		healthBarFireBlur.animation.addByPrefix('idle', 'fire', 12, true);
+		healthBarFireBlur.animation.addByPrefix('idle', 'fire', 20, true);
 		healthBarFireBlur.animation.play('idle');
 		healthBarFireBlur.antialiasing = ClientPrefs.data.antialiasing;
 		healthBarFireBlur.visible = !ClientPrefs.data.hideHud;
