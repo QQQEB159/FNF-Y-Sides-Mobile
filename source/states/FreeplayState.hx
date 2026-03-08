@@ -67,6 +67,15 @@ class FreeplayState extends MusicBeatState
 	{
 		//Paths.clearStoredMemory();
 		//Paths.clearUnusedMemory();
+
+		if(FlxG.sound.music != null)
+		{
+			if(!FlxG.sound.music.playing)
+			{
+				FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+				FlxG.sound.music.fadeIn(1);
+			}
+		}
 		
 		persistentUpdate = true;
 		PlayState.isStoryMode = false;
@@ -407,7 +416,11 @@ class FreeplayState extends MusicBeatState
 
 			if(FlxG.keys.justPressed.TAB)
 			{
-				MusicBeatState.switchState(new CharSelectState());
+				FlxG.sound.music.fadeOut(0.1, 0, function(twn:FlxTween) {FlxG.sound.music.stop();});
+				new FlxTimer().start(0.15, function(tmr:FlxTimer)
+				{
+					MusicBeatState.switchState(new CharSelectState());
+				});
 			}
 		}
 

@@ -14,6 +14,22 @@ class CharSelectState extends MusicBeatState
     {
         super.create();
 
+		if(FlxG.sound.music != null)
+		{
+            trace('music not null');
+            /*
+			if(!FlxG.sound.music.playing)
+			{
+                trace('music not playing');
+				FlxG.sound.playMusic(Paths.music('charSelect/stayFunky'), 0);
+				FlxG.sound.music.fadeIn(1);
+			}
+            */
+
+			FlxG.sound.playMusic(Paths.music('charSelect/stayFunky'), 0);
+			FlxG.sound.music.fadeIn(1);
+		}
+
         var bg = new FlxSprite();
         bg.loadGraphic(Paths.image('charSelect/bglol'));
         add(bg);
@@ -96,6 +112,7 @@ class CharSelectState extends MusicBeatState
 
                 acceptTimer = new FlxTimer().start(2, function(tmr:FlxTimer)
                 {
+                    FlxG.sound.music.stop();
                     MusicBeatState.switchState(new FreeplayState());
                 });
             }
