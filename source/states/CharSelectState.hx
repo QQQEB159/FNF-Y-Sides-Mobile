@@ -5,13 +5,18 @@ import shaders.WaterShader;
 class CharSelectState extends MusicBeatState
 {
     var avaibleCharactersGrp:FlxTypedGroup<CharSelectObject>;
-    var avaibleCharactersArr:Array<String> = [
-        'bf',
-        'bf'
+    var avaibleCharactersArr:Array<Dynamic> = [
+        ['bf', 0xFFFFFFFF],
+        ['pico', 0xFFFFFFFF]
     ];
 
     static var curSelected:Int = 0;
+
+    var bg:FlxSprite;
+    var blackBg:FlxSprite;
     var waterShader:WaterShader;
+    var gradient:FlxSprite;
+    var light:FlxSprite;
 
     override function create()
     {
@@ -36,7 +41,7 @@ class CharSelectState extends MusicBeatState
         waterShader = new WaterShader();
         waterShader.iTime.value = [0];
 
-        var bg = new FlxSprite();
+        bg = new FlxSprite();
         bg.loadGraphic(Paths.image('charSelect/bglol'));
         bg.screenCenter();
         bg.x += 10;
@@ -45,13 +50,13 @@ class CharSelectState extends MusicBeatState
         bg.antialiasing = ClientPrefs.data.antialiasing;
         add(bg);
 
-        var blackBg = new FlxSprite();
+        blackBg = new FlxSprite();
         blackBg.makeGraphic(FlxG.width, FlxG.height, 0xFF000000);
         blackBg.screenCenter();
         blackBg.alpha = 0.4;
         add(blackBg);
         
-        var gradient = new FlxSprite();
+        gradient = new FlxSprite();
         gradient.loadGraphic(Paths.image('charSelect/gradient'));
         gradient.antialiasing = ClientPrefs.data.antialiasing;
         add(gradient);
@@ -59,7 +64,7 @@ class CharSelectState extends MusicBeatState
         avaibleCharactersGrp = new FlxTypedGroup<CharSelectObject>();
         add(avaibleCharactersGrp);
 
-        var light = new FlxSprite();
+        light = new FlxSprite();
         light.loadGraphic(Paths.image('charSelect/light'));
         light.blend = ADD;
         light.alpha = 0.55;
@@ -77,7 +82,7 @@ class CharSelectState extends MusicBeatState
 
         for(i in 0...avaibleCharactersArr.length)
         {
-            var char = new CharSelectObject(0, 0, avaibleCharactersArr[i]);
+            var char = new CharSelectObject(0, 0, avaibleCharactersArr[i][0], avaibleCharactersArr[i][1]);
             char.useTargets = true;
             char.screenCenter();
             char.startPosition = new FlxPoint(char.x, char.y);
@@ -120,6 +125,14 @@ class CharSelectState extends MusicBeatState
                 FlxG.sound.music.fadeOut(1);
                 FlxG.sound.play(Paths.sound('charSelect/CS_confirm'));
 
+                FlxTween.cancelTweensOf(FlxG.camera);
+                FlxTween.cancelTweensOf(blackBg);
+                FlxTween.cancelTweensOf(light);
+
+                FlxTween.tween(FlxG.camera, {zoom: 1.1}, 0.4, {ease: FlxEase.quartOut});
+                FlxTween.tween(blackBg, {alpha: 0.7}, 0.4, {ease: FlxEase.quartOut});
+                FlxTween.tween(light, {alpha: 0.65}, 0.4, {ease: FlxEase.quartOut});
+
                 avaibleCharactersGrp.forEach(function(obj:CharSelectObject)
                 {
                     if(obj.ID == curSelected)
@@ -132,6 +145,7 @@ class CharSelectState extends MusicBeatState
                     }
                 });
 
+                // TO DO: make a cool transition with the icon and a mask (yk what i mean, hmmm... cuphead, hmm... winter gamejam delivery guy.. hmm.....)
                 acceptTimer = new FlxTimer().start(2, function(tmr:FlxTimer)
                 {
                     FlxG.sound.music.stop();
@@ -152,6 +166,14 @@ class CharSelectState extends MusicBeatState
                 FlxG.sound.music.fadeIn(0.6, FlxG.sound.music.volume);
                 FlxG.sound.music.pitch = 0.4;
                 FlxTween.tween(FlxG.sound.music, {pitch: 1}, 0.6);
+
+                FlxTween.cancelTweensOf(FlxG.camera);
+                FlxTween.cancelTweensOf(blackBg);
+                FlxTween.cancelTweensOf(light);
+
+                FlxTween.tween(FlxG.camera, {zoom: 1}, 0.25, {ease: FlxEase.quartOut});
+                FlxTween.tween(blackBg, {alpha: 0.4}, 0.25, {ease: FlxEase.quartOut});
+                FlxTween.tween(light, {alpha: 0.55}, 0.25, {ease: FlxEase.quartOut});
 
                 // cancel anim
                 if(currentCharacter == null) throw "Ermm, what the hell? currentCharacter seems to be null.";
@@ -183,6 +205,12 @@ class CharSelectState extends MusicBeatState
 
         if(change != 0) FlxG.sound.play(Paths.sound('scrollMenu'));
 
+        FlxTween.cancelTweensOf(bg);
+        FlxTween.cancelTweensOf(gradient);
+
+        FlxTween.color(bg, 0.2, bg.color, avaibleCharactersGrp.members[curSelected].charColor);
+        FlxTween.color(gradient, 0.2, gradient.color, avaibleCharactersGrp.members[curSelected].charColor);
+
         avaibleCharactersGrp.forEach(function(obj:CharSelectObject)
         {
             obj.targetX = obj.ID - curSelected;
@@ -201,8 +229,9 @@ class CharSelectObject extends FlxSprite
     public var targetY:Float = 0;
     public var elapsedSpeed:Float = 8;
     public var useTargets:Bool = true;
+    public var charColor:FlxColor = 0xFFFFFFFF;
 
-    public function new(x:Float = 0, y:Float = 0, name:String = '')
+    public function new(x:Float = 0, y:Float = 0, name:String = '', _charColor:FlxColor = 0xFFFFFFFF)
     {
         super(x, y);
 
@@ -210,6 +239,8 @@ class CharSelectObject extends FlxSprite
         animation.addByPrefix('idle', 'bf', 24, true);
         animation.addByPrefix('accept', 'accept', 24, false);
         animation.play('idle');
+
+        charColor = _charColor;
 
         antialiasing = ClientPrefs.data.antialiasing;
     }
