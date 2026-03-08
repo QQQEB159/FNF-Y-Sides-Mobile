@@ -28,6 +28,7 @@ class CharSelectState extends MusicBeatState
         var light = new FlxSprite();
         light.loadGraphic(Paths.image('charSelect/light'));
         light.blend = ADD;
+        light.alpha = 0.85;
         add(light);
 
         var selectorLeft = new Alphabet(300, 0, '<', true);
@@ -62,39 +63,42 @@ class CharSelectState extends MusicBeatState
     {
         super.update(elapsed);
 
-        if(controls.UI_LEFT_P)
+        if(!selectedCharacter)
         {
-            changeSelect(-1);
-        }
-
-        if(controls.UI_RIGHT_P)
-        {
-            changeSelect(1);
-        }
-        
-        if(controls.ACCEPT)
-        {
-            selectedCharacter = true;
-
-            FlxG.sound.music.fadeOut(1);
-            FlxG.sound.play(Paths.sound('charSelect/CS_confirm'));
-
-            avaibleCharactersGrp.forEach(function(obj:CharSelectObject)
+            if(controls.UI_LEFT_P)
             {
-                if(obj.ID == curSelected)
+                changeSelect(-1);
+            }
+
+            if(controls.UI_RIGHT_P)
+            {
+                changeSelect(1);
+            }
+
+            if(controls.ACCEPT)
+            {
+                selectedCharacter = true;
+
+                FlxG.sound.music.fadeOut(1);
+                FlxG.sound.play(Paths.sound('charSelect/CS_confirm'));
+
+                avaibleCharactersGrp.forEach(function(obj:CharSelectObject)
                 {
-                    if(currentCharacter != null) currentCharacter.animation.finishCallback = null;
-                    currentCharacter = obj;
+                    if(obj.ID == curSelected)
+                    {
+                        if(currentCharacter != null) currentCharacter.animation.finishCallback = null;
+                        currentCharacter = obj;
 
-                    obj.animation.finishCallback = null;
-                    obj.animation.play('accept', true);
-                }
-            });
+                        obj.animation.finishCallback = null;
+                        obj.animation.play('accept', true);
+                    }
+                });
 
-            acceptTimer = new FlxTimer().start(2, function(tmr:FlxTimer)
-            {
-                MusicBeatState.switchState(new FreeplayState());
-            });
+                acceptTimer = new FlxTimer().start(2, function(tmr:FlxTimer)
+                {
+                    MusicBeatState.switchState(new FreeplayState());
+                });
+            }
         }
 
         if(controls.BACK)
@@ -137,6 +141,8 @@ class CharSelectState extends MusicBeatState
     function changeSelect(change:Int = 0)
     {
         curSelected = FlxMath.wrap(curSelected + change, 0, avaibleCharactersArr.length - 1);
+
+        if(change != 0) FlxG.sound.play(Paths.sound('scrollMenu'));
 
         avaibleCharactersGrp.forEach(function(obj:CharSelectObject)
         {
