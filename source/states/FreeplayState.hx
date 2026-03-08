@@ -404,6 +404,11 @@ class FreeplayState extends MusicBeatState
 				changeDiff(-1);
 				_updateSongLastDifficulty();
 			}
+
+			if(FlxG.keys.justPressed.TAB)
+			{
+				MusicBeatState.switchState(new CharSelectState());
+			}
 		}
 
 		if(FlxG.keys.pressed.SHIFT) characterPrefix = '-pico';

@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="chahcah.png">
+	<!-- Created with Adobe Animate version 22.0.2.168 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="accept0000" x="24" y="1180" width="413" height="554" frameX="-4" frameY="0" frameWidth="417" frameHeight="554"/>
+	<SubTexture name="accept0001" x="24" y="1180" width="413" height="554" frameX="-4" frameY="0" frameWidth="417" frameHeight="554"/>
+	<SubTexture name="accept0002" x="24" y="24" width="417" height="554"/>
+	<SubTexture name="accept0003" x="24" y="24" width="417" height="554"/>
+	<SubTexture name="accept0004" x="461" y="602" width="413" height="554" frameX="-4" frameY="0" frameWidth="417" frameHeight="554"/>
+	<SubTexture name="accept0005" x="465" y="24" width="413" height="554" frameX="-4" frameY="0" frameWidth="417" frameHeight="554"/>
+	<SubTexture name="accept0006" x="465" y="24" width="413" height="554" frameX="-4" frameY="0" frameWidth="417" frameHeight="554"/>
+	<SubTexture name="accept0007" x="461" y="1180" width="413" height="554" frameX="-4" frameY="0" frameWidth="417" frameHeight="554"/>
+	<SubTexture name="bf0000" x="24" y="602" width="413" height="554"/>
+</TextureAtlas>
