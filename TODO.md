@@ -171,9 +171,15 @@
 - [] Week 4 Award
 - [] Week 5 Award
 
-- [ ] Performance menu overhaul
 - [ ] Pico resulsts screen sprites
 - [x] New simple events for Pico (+ speed up chart)
+
+- [ ] Performance Menu overhaul
+- [x] Main Menu Overhaul
+- [ ] Story Menu Overhaul
+- [ ] Freeplay Menu Overhaul
+    - [ ] Character selector
+- [ ] Gallery Overhaul
 
 ## SPECIFIC
 
