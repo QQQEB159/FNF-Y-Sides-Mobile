@@ -3924,7 +3924,7 @@ class PlayState extends MusicBeatState
 					if(char.getAnimationName() == holdAnim || char.getAnimationName() == holdAnim + '-loop') canPlay = false;
 				}
 
-				var cameraOffset:Float = 10; // 30 is good option
+				var cameraOffset:Float = 12; // 30 is good option
 	
 				if(!SONG.notes[curSection].mustHitSection && !isCameraOnForcedPos)
 				{
@@ -4048,7 +4048,7 @@ class PlayState extends MusicBeatState
 					}
 
 					
-					var cameraOffset:Float = 10; // 30 is good option
+					var cameraOffset:Float = 12; // 30 is good option
 
 					if(SONG.notes[curSection].mustHitSection && !isCameraOnForcedPos)
 					{
