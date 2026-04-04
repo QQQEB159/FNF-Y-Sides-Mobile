@@ -48,6 +48,9 @@ class NewGalleryState extends MusicBeatState
     var disk:FlxSprite;
     var leftArrow:FlxSprite;
     var rightArrow:FlxSprite;
+    var infoButton:FlxSprite;
+    var infoBackground:FlxSprite;
+    var infoText:FlxText;
 
     var waterShader:WaterShader;
 
@@ -61,6 +64,8 @@ class NewGalleryState extends MusicBeatState
     override function create()
     {
         super.create();
+
+        FlxG.mouse.visible = true;
 
         lockedWeeks(#if debug true #else false #end);
 		if(FlxG.sound.music != null)
@@ -166,6 +171,25 @@ class NewGalleryState extends MusicBeatState
             icons.angle = icons.angle == angleTarget ? -angleTarget : angleTarget;
         }, 0);
 
+        infoButton = new FlxSprite();
+        infoButton.loadGraphic(Paths.image('gallery/NEW/infoButton'));
+        infoButton.x = FlxG.width - infoButton.width - 10;
+        infoButton.y = 90;
+        infoButton.alpha = 0;
+        infoButton.active = false;
+        add(infoButton);
+
+        infoBackground = new FlxSprite();
+        infoBackground.makeGraphic(400, 40, 0xFF000000);
+        infoBackground.alpha = 0.5;
+        infoBackground.visible = false;
+        add(infoBackground);
+
+        infoText = new FlxText(0, 0, 0, '');
+        infoText.setFormat(Paths.font("vcr.ttf"), 36, 0xFFFFFFFF);
+        infoText.visible = false;
+        add(infoText);
+
         changeSelect(0, true);
     }
 
@@ -210,6 +234,14 @@ class NewGalleryState extends MusicBeatState
             if(controls.BACK)
             {
                 FlxG.sound.play(Paths.sound('cancelMenu'));
+
+                FlxTween.tween(infoButton, {alpha: 0}, tweenTransSpeed, {ease: FlxEase.quartInOut, onComplete: function(twn:FlxTween)
+                {
+                    infoButton.active = false;
+                    infoBackground.visible = false;
+                    infoText.visible = false;
+                }});
+
                 for(obj in imagesGrp)
                 {
                     FlxTween.cancelTweensOf(obj);
@@ -220,6 +252,32 @@ class NewGalleryState extends MusicBeatState
 
                 isPreviewingImages = false;
                 isPreviewingMusics = false;
+            }
+
+            if(infoButton.active)
+            {
+                if(FlxG.mouse.overlaps(infoButton))
+                {
+                    infoBackground.visible = true;
+                    infoText.visible = true;
+
+                    infoText.text = imageDataArray[curSelectedImages].description;
+                    infoBackground.makeGraphic(Std.int(infoText.width + 4), Std.int(infoText.height + 4), 0xFF000000);
+
+                    final mousePos = FlxG.mouse.getWorldPosition();
+                    infoBackground.setPosition(mousePos.x - infoBackground.width - 10, mousePos.y);
+                    infoText.setPosition(infoBackground.x + 2, infoBackground.y + 2);
+                }
+                else
+                {
+                    infoBackground.visible = false;
+                    infoText.visible = false;
+                }
+            }
+            else
+            {
+                infoBackground.visible = false;
+                infoText.visible = false;
             }
         }
         else
@@ -426,6 +484,11 @@ class NewGalleryState extends MusicBeatState
             obj.y = 1280;
             FlxTween.tween(obj, {y: obj.startPosition.y}, tweenTransSpeed, {ease: FlxEase.quartInOut});
         }
+
+        FlxTween.tween(infoButton, {alpha: 1}, tweenTransSpeed, {ease: FlxEase.quartInOut, onComplete: function(twn:FlxTween)
+        {
+            infoButton.active = true;
+        }});
     }
 
     function disposeImages()
