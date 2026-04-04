@@ -174,7 +174,7 @@
 - [ ] Pico resulsts screen sprites
 - [x] New simple events for Pico (+ speed up chart)
 
-- [ ] Performance Menu overhaul
+- [x] Performance Menu overhaul
 - [x] Main Menu Overhaul
 - [ ] Story Menu Overhaul
 - [ ] Freeplay Menu Overhaul

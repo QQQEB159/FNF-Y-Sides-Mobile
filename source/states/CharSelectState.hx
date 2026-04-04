@@ -123,7 +123,7 @@ class CharSelectState extends MusicBeatState
             {
                 selectedCharacter = true;
 
-                FlxG.sound.music.fadeOut(1);
+                FlxG.sound.music.fadeOut(0.5);
                 FlxG.sound.play(Paths.sound('charSelect/CS_confirm'));
 
                 FlxTween.cancelTweensOf(FlxG.camera);
@@ -206,7 +206,7 @@ class CharSelectState extends MusicBeatState
     {
         curSelected = FlxMath.wrap(curSelected + change, 0, avaibleCharactersArr.length - 1);
 
-        if(change != 0) FlxG.sound.play(Paths.sound('scrollMenu'));
+        if(change != 0) FlxG.sound.play(Paths.sound('charSelect/CS_select'));
 
         FlxTween.cancelTweensOf(bg);
         FlxTween.cancelTweensOf(gradient);
