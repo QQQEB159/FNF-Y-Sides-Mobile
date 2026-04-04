@@ -559,7 +559,7 @@ class MainMenuState extends MusicBeatState
         return switch(opt)
         {
             case 'freeplay':
-                new FreeplayState(CharSelectState.currentFreeplaySelectedName == 'pico');
+                new NewFreeplayState(CharSelectState.currentFreeplaySelectedName == 'pico');
             case 'credits':
                 new CreditsStateYSides();
             case 'options':
