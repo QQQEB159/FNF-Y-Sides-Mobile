@@ -2,10 +2,19 @@ package states;
 
 import flixel.addons.display.FlxBackdrop;
 import states.FreeplayState.SongMetadata;
+
 import backend.WeekData;
+import backend.Highscore;
+import backend.Song;
 
 class NewFreeplayState extends MusicBeatState
 {
+    private static var curSelected:Int = 0;
+	private static var lastDifficultyName:String = Difficulty.getDefault();
+	var curDifficulty:Int = -1;
+	var lerpScore:Int = 0;
+	var intendedScore:Int = 0;
+
 	var songs:Array<SongMetadata> = [];
     var background:FlxSprite;
     var checker:FlxBackdrop;
@@ -18,6 +27,8 @@ class NewFreeplayState extends MusicBeatState
     var bombox:FlxSprite;
     var character:FlxSprite;
     var grpSongs:FlxTypedGroup<FreeplayCapsule>;
+    var scoreText:FlxText;
+    var difText:FlxSprite;
 
 	public var isPicoMix:Bool = false;
 	public function new(_isPicoMix:Bool = false)
@@ -126,6 +137,10 @@ class NewFreeplayState extends MusicBeatState
         backgroundDiff.antialiasing = ClientPrefs.data.antialiasing;
         add(backgroundDiff);
 
+        difText = new FlxSprite(0, 55);
+        difText.loadGraphic(Paths.image('freePlay/NEW/diff/hard'));
+        add(difText);
+
         backgroundDiffLight = new FlxSprite();
         backgroundDiffLight.loadGraphic(Paths.image('freePlay/NEW/light'));
         backgroundDiffLight.antialiasing = ClientPrefs.data.antialiasing;
@@ -151,26 +166,115 @@ class NewFreeplayState extends MusicBeatState
         character.antialiasing = ClientPrefs.data.antialiasing;
         add(character);
 
+        scoreText = new FlxText(0, 0, 0, 'Score: 0');
+        scoreText.setFormat(Paths.font('GAU_pop_magic.ttf'), 28, 0xFFFFFFFF);
+        scoreText.x = backgroundDiff.x + 130;
+        scoreText.y = backgroundDiff.y + backgroundDiff.height - scoreText.height - 10;
+        add(scoreText);
+
         for(i in 0...songs.length)
         {
-            var capsule = new FreeplayCapsule(0, 0, songs[i].songName);
+            var capsule = new FreeplayCapsule(0, 0, songs[i].songName, songs[i].songCharacter);
 			capsule.targetX = i;
 			capsule.targetY = i;
-            capsule.x = 0;
+            capsule.x = 120;
             capsule.screenCenter(Y);
+            capsule.y += 40;
             capsule.startPosition.x = capsule.x;
             capsule.startPosition.y = capsule.y;
 			capsule.snapToPosition();
-            add(capsule);
+            grpSongs.add(capsule);
         }
+
+		curDifficulty = Math.round(Math.max(0, Difficulty.defaultList.indexOf(lastDifficultyName)));
+        changeSelect(0, true);
     }
 
+	var stopMusicPlay:Bool = false;
     override function update(elapsed:Float)
     {
         super.update(elapsed);
 
 		if (FlxG.sound.music != null)
 			Conductor.songPosition = FlxG.sound.music.time;
+
+		lerpScore = Math.floor(FlxMath.lerp(intendedScore, lerpScore, Math.exp(-elapsed * 24)));
+
+		if (Math.abs(lerpScore - intendedScore) <= 10)
+			lerpScore = intendedScore;
+
+		scoreText.text = 'Score: $lerpScore';
+
+        if(controls.UI_UP_P)
+        {
+            changeSelect(-1);
+        }
+
+        if(controls.UI_DOWN_P)
+        {
+            changeSelect(1);
+        }
+
+        if(controls.UI_LEFT_P)
+        {
+            changeDiff(-1);
+		    _updateSongLastDifficulty();
+        }
+
+        if(controls.UI_RIGHT_P)
+        {
+            changeDiff(1);
+		    _updateSongLastDifficulty();
+        }
+
+        if(controls.BACK)
+        {
+			FlxG.sound.play(Paths.sound('cancelMenu'));
+
+            new FlxTimer().start(0.6, function(tmr:FlxTimer)
+            {
+                FlxTransitionableState.skipNextTransIn = true;
+                FlxTransitionableState.skipNextTransOut = true;
+                MusicBeatState.switchState(new MainMenuState());
+            });
+        }
+
+        if(controls.ACCEPT)
+        {
+			persistentUpdate = false;
+			var songLowercase:String = Paths.formatToSongPath(songs[curSelected].songName);
+			var poop:String = Highscore.formatSong(songLowercase + '-' + CharSelectState.currentFreeplaySelectedName, curDifficulty);
+
+			try
+			{
+				Song.loadFromJson(poop, songLowercase);
+				trace('Loading song: $poop');
+				PlayState.isStoryMode = false;
+				PlayState.storyDifficulty = curDifficulty;
+
+				trace('CURRENT WEEK: ' + WeekData.getWeekFileName());
+			}
+			catch(e:haxe.Exception)
+			{
+				super.update(elapsed);
+				return;
+			}
+
+			@:privateAccess
+			if(PlayState._lastLoadedModDirectory != Mods.currentModDirectory)
+			{
+				trace('CHANGED MOD DIRECTORY, RELOADING STUFF');
+				Paths.freeGraphicsFromMemory();
+			}
+			#if !debug LoadingState.prepareToSong(); #end
+			LoadingState.loadAndSwitchState(new PlayState());
+			#if !SHOW_LOADING_SCREEN FlxG.sound.music.stop(); #end
+			stopMusicPlay = true;
+
+			#if (MODS_ALLOWED && DISCORD_ALLOWED)
+			DiscordClient.loadModRPC();
+			#end
+        }
 
 		if(FlxG.keys.justPressed.TAB)
 		{
@@ -181,6 +285,51 @@ class NewFreeplayState extends MusicBeatState
 			});
 		}
     }
+
+    function changeSelect(change:Int = 0, firstTime:Bool = false)
+    {
+        if(change != 0) FlxG.sound.play(Paths.sound('scrollMenu'));
+        curSelected = FlxMath.wrap(curSelected + change, 0, songs.length - 1);
+        
+		for (num => item in grpSongs.members)
+		{
+			item.targetY = num - curSelected;
+			item.targetX = num - curSelected;
+			item.alpha = 0.6;
+			if (item.targetY == 0) item.alpha = 1;
+            if(firstTime) item.snapToPosition();
+		}
+
+		Mods.currentModDirectory = songs[curSelected].folder;
+		PlayState.storyWeek = songs[curSelected].week;
+		Difficulty.loadFromWeek();
+
+		changeDiff();
+		_updateSongLastDifficulty();
+    }
+
+	function changeDiff(change:Int = 0)
+	{
+		curDifficulty = FlxMath.wrap(curDifficulty + change, 0, Difficulty.list.length-1);
+		#if !switch
+		intendedScore = Highscore.getScore(songs[curSelected].songName, curDifficulty);
+		#end
+
+		lastDifficultyName = Difficulty.getString(curDifficulty, false);
+		var displayDiff:String = Difficulty.getString(curDifficulty);
+        difText.loadGraphic(Paths.image('freePlay/NEW/diff/$displayDiff'));
+        difText.x = 1020 - difText.width / 2;
+        difText.y = 55;
+        if(change != 0)
+        {
+            difText.y += 10;
+            difText.alpha = 0;
+            FlxTween.tween(difText, {alpha: 1, y: 55}, 0.1, {ease: FlxEase.quartOut});
+        }
+	}
+
+	inline private function _updateSongLastDifficulty()
+		songs[curSelected].lastDifficulty = Difficulty.getString(curDifficulty, false);
 
 	public function addSong(songName:String, weekNum:Int, songCharacter:String, color:Int)
 	{
@@ -200,19 +349,28 @@ class NewFreeplayState extends MusicBeatState
         bombox.animation.play('idle', true, true);
         character.animation.play('idle', true);
     }
+
+	override function destroy():Void
+	{
+		super.destroy();
+
+		FlxG.autoPause = ClientPrefs.data.autoPause;
+		if (!FlxG.sound.music.playing && !stopMusicPlay)
+			FlxG.sound.playMusic(Paths.music('freakyMenu'));
+	}
 }
 
 class FreeplayCapsule extends FlxSpriteGroup
 {
     public var targetX:Float = 0;
     public var targetY:Float = 0;
-    public var distancePerItem:FlxPoint = new FlxPoint(120, 270);
+    public var distancePerItem:FlxPoint = new FlxPoint(120, 230);
     public var startPosition:FlxPoint = new FlxPoint(0, 0);
 
     public var background:FlxSprite;
     public var text:FlxText;
     public var icon:FlxSprite;
-    public function new(x:Float, y:Float, songName:String)
+    public function new(x:Float, y:Float, songName:String, songCharacter:String)
     {
         super(x, y);
 
@@ -220,14 +378,14 @@ class FreeplayCapsule extends FlxSpriteGroup
         background.loadGraphic(Paths.image('freePlay/NEW/capsule'));
         add(background);
 
-        text = new FlxText(0, 0, background.width, songName, 32);
-        text.setFormat(Paths.font('GAU_pop_magic.ttf'), 32, 0xFFFFFFFF);
-        text.x += 80;
-        text.y += background.height / 2 - text.height / 2;
+        text = new FlxText(0, 0, background.width, songName, 28);
+        text.setFormat(Paths.font('GAU_pop_magic.ttf'), 28, 0xFFFFFFFF);
+        text.x += 70;
+        text.y += background.height / 2 - text.height / 2 - 10;
         add(text);
 
         icon = new FlxSprite();
-        icon.loadGraphic(Paths.image('freePlay/NEW/icons/dad'));
+        icon.loadGraphic(Paths.image('freePlay/NEW/icons/$songCharacter'));
         icon.y += -(icon.height / 2);
         icon.x += -(icon.width / 2);
         add(icon);
@@ -238,7 +396,11 @@ class FreeplayCapsule extends FlxSpriteGroup
         super.update(elapsed);
 
 		var lerpVal:Float = Math.exp(-elapsed * 9.6);
-		x = FlxMath.lerp((targetX * distancePerItem.x) + startPosition.x, x, lerpVal);
+
+        var realTargetX = targetX;
+        if(realTargetX > 0) realTargetX *= -1;
+
+		x = FlxMath.lerp((realTargetX * distancePerItem.x) + startPosition.x, x, lerpVal);
 		y = FlxMath.lerp((targetY * distancePerItem.y) + startPosition.y, y, lerpVal);
     }
 
