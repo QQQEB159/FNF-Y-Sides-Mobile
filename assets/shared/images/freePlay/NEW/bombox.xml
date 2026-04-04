@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TextureAtlas imagePath="parlante.png">
+<SubTexture name="idle0000" x="278" y="0" width="279" height="230" frameX="-19" frameY="-32" frameWidth="311" frameHeight="265" />
+<SubTexture name="idle0001" x="0" y="254" width="293" height="226" frameX="-11" frameY="-36" frameWidth="311" frameHeight="265" />
+<SubTexture name="idle0002" x="0" y="0" width="278" height="254" frameX="-19" frameY="-8" frameWidth="311" frameHeight="265" />
+</TextureAtlas>
