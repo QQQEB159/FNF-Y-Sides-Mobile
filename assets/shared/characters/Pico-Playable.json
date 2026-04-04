@@ -2,119 +2,85 @@
 	"animations": [
 		{
 			"offsets": [0, 0],
-			"loop": false,
-			"fps": 24,
-			"anim": "idle",
 			"indices": [],
+			"fps": 12,
+			"anim": "idle",
+			"loop": false,
 			"name": "idle"
 		},
 		{
-			"offsets": [66, 1],
+			"offsets": [-8, -2],
 			"indices": [],
-			"fps": 24,
+			"fps": 12,
 			"anim": "singLEFT",
 			"loop": false,
 			"name": "right0"
 		},
 		{
-			"offsets": [78, 5],
+			"offsets": [-8, -1],
 			"indices": [],
-			"fps": 24,
-			"anim": "singLEFT-alt",
-			"loop": false,
-			"name": "right alt"
-		},
-		{
-			"offsets": [27, -19],
-			"indices": [],
-			"fps": 24,
-			"anim": "singDOWN-alt",
-			"loop": false,
-			"name": "down alt"
-		},
-		{
-			"offsets": [2, 36],
-			"indices": [],
-			"fps": 24,
-			"anim": "singUP-alt",
-			"loop": false,
-			"name": "up alt"
-		},
-		{
-			"offsets": [-9, 9],
-			"indices": [],
-			"fps": 24,
-			"anim": "singRIGHT-alt",
-			"loop": false,
-			"name": "left alt"
-		},
-		{
-			"offsets": [64, 1],
-			"indices": [],
-			"fps": 24,
+			"fps": 12,
 			"anim": "singLEFTmiss",
 			"loop": false,
-			"name": "rm"
+			"name": "rightmiss"
 		},
 		{
-			"offsets": [27, -19],
+			"offsets": [-3, 1],
 			"indices": [],
-			"fps": 24,
+			"fps": 12,
 			"anim": "singDOWN",
 			"loop": false,
 			"name": "down0"
 		},
 		{
-			"offsets": [5, 29],
+			"offsets": [-4, -4],
 			"indices": [],
-			"fps": 24,
+			"fps": 12,
 			"anim": "singUP",
 			"loop": false,
 			"name": "up0"
 		},
 		{
-			"offsets": [-3, 7],
+			"offsets": [-56, 3],
 			"indices": [],
-			"fps": 24,
+			"fps": 12,
 			"anim": "singRIGHT",
 			"loop": false,
 			"name": "left0"
 		},
 		{
-			"offsets": [27, -19],
+			"offsets": [-3, 1],
 			"indices": [],
-			"fps": 24,
+			"fps": 12,
 			"anim": "singDOWNmiss",
 			"loop": false,
-			"name": "dm"
+			"name": "downmiss"
 		},
 		{
-			"offsets": [3, 29],
+			"offsets": [-4, -3],
 			"indices": [],
-			"fps": 24,
+			"fps": 12,
 			"anim": "singUPmiss",
 			"loop": false,
-			"name": "um"
+			"name": "upmiss"
 		},
 		{
-			"offsets": [-3, 7],
+			"offsets": [-57, 3],
 			"indices": [],
-			"fps": 24,
+			"fps": 12,
 			"anim": "singRIGHTmiss",
 			"loop": false,
-			"name": "lm"
+			"name": "leftmiss"
 		}
 	],
 	"vocals_file": "",
 	"no_antialiasing": false,
 	"image": "characters/picoYsuides-player",
-	"position": [70, 0],
+	"position": [0, 0],
 	"healthicon": "pico",
 	"flip_x": false,
 	"healthbar_colors": [254, 0, 103],
-	"camera_position": [100, 50],
-	"icon_offset": [0, -25],
-	"flip_health_icon": true,
+	"camera_position": [-40, 50],
 	"sing_duration": 4,
 	"scale": 1,
 	"_editor_isPlayer": true
