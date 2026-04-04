@@ -33,11 +33,11 @@ class GalleryPreload
     public static function preloadMusic():Void
     {
         Thread.create(() -> {
-            totalMusicItems = GalleryStateMusic.musicSongsArrayFull.length;
+            totalMusicItems = NewGalleryState.musicSongsArrayFull.length;
             
-            for (i in 0...GalleryStateMusic.musicSongsArrayFull.length)
+            for (i in 0...NewGalleryState.musicSongsArrayFull.length)
             {
-                var song = GalleryStateMusic.musicSongsArrayFull[i];
+                var song = NewGalleryState.musicSongsArrayFull[i];
                 var instPath = 'assets/songs/$song/Inst.ogg';
                 
                 if (!FileSystem.exists(instPath)) 
