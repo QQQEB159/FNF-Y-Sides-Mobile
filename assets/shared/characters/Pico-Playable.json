@@ -1,76 +1,84 @@
 {
 	"animations": [
 		{
+			"loop": false,
 			"offsets": [0, 0],
-			"indices": [],
-			"fps": 12,
 			"anim": "idle",
-			"loop": false,
-			"name": "idle"
+			"fps": 12,
+			"name": "idle",
+			"indices": []
 		},
 		{
+			"loop": false,
 			"offsets": [-8, -2],
-			"indices": [],
-			"fps": 12,
 			"anim": "singLEFT",
-			"loop": false,
-			"name": "right0"
+			"fps": 12,
+			"name": "right0",
+			"indices": []
 		},
 		{
+			"loop": false,
 			"offsets": [-8, -1],
-			"indices": [],
-			"fps": 12,
 			"anim": "singLEFTmiss",
-			"loop": false,
-			"name": "rightmiss"
+			"fps": 12,
+			"name": "rightmiss",
+			"indices": []
 		},
 		{
+			"loop": false,
 			"offsets": [-3, 1],
-			"indices": [],
-			"fps": 12,
 			"anim": "singDOWN",
-			"loop": false,
-			"name": "down0"
+			"fps": 12,
+			"name": "down0",
+			"indices": []
 		},
 		{
+			"loop": false,
 			"offsets": [-4, -4],
-			"indices": [],
-			"fps": 12,
 			"anim": "singUP",
-			"loop": false,
-			"name": "up0"
+			"fps": 12,
+			"name": "up0",
+			"indices": []
 		},
 		{
+			"loop": false,
 			"offsets": [-56, 3],
-			"indices": [],
-			"fps": 12,
 			"anim": "singRIGHT",
-			"loop": false,
-			"name": "left0"
+			"fps": 12,
+			"name": "left0",
+			"indices": []
 		},
 		{
+			"loop": false,
 			"offsets": [-3, 1],
-			"indices": [],
-			"fps": 12,
 			"anim": "singDOWNmiss",
-			"loop": false,
-			"name": "downmiss"
+			"fps": 12,
+			"name": "downmiss",
+			"indices": []
 		},
 		{
+			"loop": false,
 			"offsets": [-4, -3],
-			"indices": [],
-			"fps": 12,
 			"anim": "singUPmiss",
-			"loop": false,
-			"name": "upmiss"
+			"fps": 12,
+			"name": "upmiss",
+			"indices": []
 		},
 		{
-			"offsets": [-57, 3],
-			"indices": [],
-			"fps": 12,
-			"anim": "singRIGHTmiss",
 			"loop": false,
-			"name": "leftmiss"
+			"offsets": [-57, 3],
+			"anim": "singRIGHTmiss",
+			"fps": 12,
+			"name": "leftmiss",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [-56, 3],
+			"anim": "shoot",
+			"fps": 24,
+			"name": "shoot",
+			"indices": []
 		}
 	],
 	"vocals_file": "",
