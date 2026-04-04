@@ -1,6 +1,7 @@
 package states;
 
 import flixel.addons.display.FlxBackdrop;
+import states.gallery.NewGalleryState;
 import states.gallery.GalleryState;
 import options.OptionsState;
 
@@ -566,7 +567,7 @@ class MainMenuState extends MusicBeatState
             case 'awards':
                 new AchievementsMenuState();
             case 'gallery': 
-                new GalleryState();
+                new NewGalleryState();
             default:
                 null;
         }

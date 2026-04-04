@@ -562,7 +562,7 @@ class GalleryStateImages extends MusicBeatState
 
 		    		FlxTransitionableState.skipNextTransIn = true;
 		    		FlxTransitionableState.skipNextTransOut = true;
-                    MusicBeatState.switchState(new GalleryState());
+                    MusicBeatState.switchState(new NewGalleryState());
                 });
             }
         }
