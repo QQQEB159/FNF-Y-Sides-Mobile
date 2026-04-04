@@ -209,6 +209,7 @@ class NewGalleryState extends MusicBeatState
 
             if(controls.BACK)
             {
+                FlxG.sound.play(Paths.sound('cancelMenu'));
                 for(obj in imagesGrp)
                 {
                     FlxTween.cancelTweensOf(obj);
@@ -244,6 +245,7 @@ class NewGalleryState extends MusicBeatState
 
             if(controls.BACK)
             {
+                FlxG.sound.play(Paths.sound('cancelMenu'));
                 new FlxTimer().start(0.8, function(t:FlxTimer)
                 {
 		            	FlxTransitionableState.skipNextTransIn = true;
@@ -254,6 +256,7 @@ class NewGalleryState extends MusicBeatState
 
             if(controls.ACCEPT)
             {
+                FlxG.sound.play(Paths.sound('confirmMenu'));
                 var selectedItem:String = optionsArr[curSelected];
                 switch(selectedItem)
                 {
@@ -265,10 +268,10 @@ class NewGalleryState extends MusicBeatState
                             FlxTween.cancelTweensOf(obj);
                         }
 
+                        isPreviewingImages = true;
                         disposeImages();
                         generateImages(selectedItem);
 
-                        isPreviewingImages = true;
                         FlxTween.tween(optionsGrp.members[curSelected], {y: -380}, tweenTransSpeed, {ease: FlxEase.quartInOut});
                     case 'music':
                         FlxG.sound.play(Paths.sound('confirmMenu'));
@@ -278,10 +281,10 @@ class NewGalleryState extends MusicBeatState
                             FlxTween.cancelTweensOf(obj);
                         }
 
+                        isPreviewingMusics = true;
                         disposeImages();
                         generateMusics();
 
-                        isPreviewingMusics = true;
                         FlxTween.tween(optionsGrp.members[curSelected], {y: -380}, tweenTransSpeed, {ease: FlxEase.quartInOut});
                     default:
                 }
@@ -291,6 +294,7 @@ class NewGalleryState extends MusicBeatState
 
     function changeSelect(change:Int = 0, firstTime:Bool = false)
     {
+        if(change != 0) FlxG.sound.play(Paths.sound('scrollMenu'));
         if(isPreviewingImages)
         {
             curSelectedImages = FlxMath.wrap(curSelectedImages + change, 0, imageDataArray.length - 1);
