@@ -25,7 +25,7 @@ import objects.Character;
 
 import states.MainMenuState;
 import states.StoryMenuState;
-import states.FreeplayState;
+import states.NewFreeplayState;
 
 import substates.PauseSubState;
 import substates.GameOverSubstate;
@@ -754,7 +754,7 @@ class FunkinLua {
 			if(PlayState.isStoryMode)
 				MusicBeatState.switchState(new StoryMenuState());
 			else
-				MusicBeatState.switchState(new FreeplayState(CharSelectState.currentFreeplaySelectedName == 'pico'));
+				MusicBeatState.switchState(new NewFreeplayState(CharSelectState.currentFreeplaySelectedName == 'pico'));
 
 			#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
 

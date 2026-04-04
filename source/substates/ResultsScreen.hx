@@ -4,7 +4,7 @@ import flixel.addons.display.FlxBackdrop;
 
 import states.CharSelectState;
 import states.StoryMenuState;
-import states.FreeplayState;
+import states.NewFreeplayState;
 
 import objects.Character;
 
@@ -365,7 +365,7 @@ class ResultsScreen extends MusicBeatSubstate
                     {
 		            	FlxTransitionableState.skipNextTransIn = true;
 		            	FlxTransitionableState.skipNextTransOut = true;
-                        MusicBeatState.switchState(new FreeplayState(CharSelectState.currentFreeplaySelectedName == 'pico'));
+                        MusicBeatState.switchState(new NewFreeplayState(CharSelectState.currentFreeplaySelectedName == 'pico'));
                     }
                 });
             }}, function(value:Float)

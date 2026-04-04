@@ -152,7 +152,7 @@ class CharSelectState extends MusicBeatState
                     currentFreeplaySelectedName = avaibleCharactersArr[curSelected][0];
 
                     FlxG.sound.music.stop();
-                    MusicBeatState.switchState(new FreeplayState(currentFreeplaySelectedName == 'pico'));
+                    MusicBeatState.switchState(new NewFreeplayState(currentFreeplaySelectedName == 'pico'));
                 });
             }
         }
@@ -204,7 +204,7 @@ class CharSelectState extends MusicBeatState
         FlxG.sound.music.fadeOut(0.5);
         FlxG.camera.fade(FlxColor.BLACK, 0.5, false, () -> {
             FlxG.sound.music.pause();
-            MusicBeatState.switchState(new FreeplayState(currentFreeplaySelectedName == 'pico'));
+            MusicBeatState.switchState(new NewFreeplayState(currentFreeplaySelectedName == 'pico'));
         });
     }
 

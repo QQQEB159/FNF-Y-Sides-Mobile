@@ -29,7 +29,7 @@ import cutscenes.NewDialogueBox;
 import objects.Character;
 
 import states.StoryMenuState;
-import states.FreeplayState;
+import states.NewFreeplayState;
 import states.editors.ChartingState;
 import states.editors.CharacterEditorState;
 
@@ -3321,7 +3321,7 @@ class PlayState extends MusicBeatState
 
 				canResync = false;
 				/*
-				MusicBeatState.switchState(new FreeplayState(CharSelectState.currentFreeplaySelectedName == 'pico'));
+				MusicBeatState.switchState(new NewFreeplayState(CharSelectState.currentFreeplaySelectedName == 'pico'));
 				FlxG.sound.playMusic(Paths.music('freakyMenu'));
 				changedDifficulty = false;
 				*/
