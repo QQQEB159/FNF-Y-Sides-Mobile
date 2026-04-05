@@ -5,59 +5,118 @@ import shaders.IconTransition;
 class IconFadeTransition extends MusicBeatSubstate
 {
     public static var instance:IconFadeTransition;
-    var shader:IconTransition;
-    var icon:FlxSprite;
+    public var shader:IconTransition;
+    public var icon:FlxSprite;
 
+   public var borderLeft:FlxSprite;
+   public var borderRight:FlxSprite;
+   public var borderUp:FlxSprite;
+   public var borderDown:FlxSprite;
+
+    var targetScale:Float = 12;
     public function new(duration:Float = 0.5, iconName:String, transIn:Bool = true, onComplete:Void->Void)
     {
         super();
 
-        if(instance != null) instance.close();
+        if(instance != null) {
+            FlxTween.cancelTweensOf(instance.icon);
+            instance.close();
+        }
         instance = this;
 
-        var transparentBackground = new FlxSprite();
-        transparentBackground.makeGraphic(Std.int(FlxG.width * 1.2), Std.int(FlxG.height * 1.2), 0xFF000000);
-        transparentBackground.screenCenter();
-        add(transparentBackground);
+        shader = new IconTransition();
 
         icon = new FlxSprite();
         icon.loadGraphic(Paths.image('freePlay/NEW/icons/$iconName'));
         icon.antialiasing = ClientPrefs.data.antialiasing;
+        icon.screenCenter();
         icon.updateHitbox();
-        icon.scale.set(0, 0);
+        icon.shader = shader;
+        add(icon);
 
-        shader = new IconTransition();
-        shader.scale.value = [0.5];
-        shader.icon.input = icon.pixels;
-        transparentBackground.shader = shader;
+        borderLeft = new FlxSprite();
+        borderLeft.makeGraphic(1, FlxG.height, 0xFF000000);
+        add(borderLeft);
+
+        borderRight = new FlxSprite();
+        borderRight.makeGraphic(1, FlxG.height, 0xFF000000);
+        add(borderRight);
+
+        borderUp = new FlxSprite();
+        borderUp.makeGraphic(FlxG.width, 1, 0xFF000000);
+        add(borderUp);
+
+        borderDown = new FlxSprite();
+        borderDown.makeGraphic(FlxG.width, 1, 0xFF000000);
+        add(borderDown);
 
         FlxTween.cancelTweensOf(icon);
         if(transIn)
         {
-            icon.scale.set(2, 2);
-            shader.scale.value = [icon.scale.x];
+            icon.scale.set(targetScale, targetScale);
+            updateIconStuff();
             FlxTween.tween(icon, {"scale.x": 0, "scale.y": 0}, duration, {
                 ease: FlxEase.quartOut,
-                onUpdate: (_) -> shader.scale.value = [icon.scale.x],
+                onUpdate: (_) -> updateIconStuff(),
                 onComplete: function(twn:FlxTween) 
                 {
-                    instance = null;
                     onComplete();
+                    instance = null;
                 }
             });
         }
         else
         {
             icon.scale.set(0, 0);
-            FlxTween.tween(icon, {"scale.x": 2, "scale.y": 2}, duration, {
+            updateIconStuff();
+            FlxTween.tween(icon, {"scale.x": targetScale, "scale.y": targetScale}, duration, {
                 ease: FlxEase.quartOut,
-                onUpdate: (_) -> shader.scale.value = [icon.scale.x],
+                onUpdate: (_) -> updateIconStuff(),
                 onComplete: function(twn:FlxTween) 
                 {
-                    instance = null;
                     onComplete();
+                    instance = null;
                 }
             });
         }
+    }
+
+    override function update(elapsed:Float)
+    {
+        super.update(elapsed);
+
+        updateIconStuff();
+    }
+
+    function updateIconStuff()
+    {
+        if(icon == null) return;
+        
+        try
+        {
+            icon?.updateHitbox();
+            icon?.screenCenter();
+
+            var distanceLeft:Float = icon.x;
+            borderLeft.setGraphicSize(distanceLeft, FlxG.height);
+            borderLeft.updateHitbox();
+            borderLeft.x = 0;
+
+            var distanceRight:Float = FlxG.width - (icon.x + icon.width);
+            borderRight.setGraphicSize(distanceRight, FlxG.height);
+            borderRight.updateHitbox();
+            borderRight.x = icon.x + icon.width;
+
+            var distanceUp:Float = icon.y;
+            borderUp.setGraphicSize(FlxG.width, distanceUp);
+            borderUp.updateHitbox();
+            borderUp.y = 0;
+
+            var distanceDown:Float = FlxG.height - (icon.y + icon.height);
+            borderDown.setGraphicSize(FlxG.width, distanceDown);
+            borderDown.updateHitbox();
+            borderDown.y = icon.y + icon.height;
+        }
+        catch(exc) {}
     }
 }

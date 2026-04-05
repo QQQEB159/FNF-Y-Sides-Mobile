@@ -283,6 +283,8 @@ class NewFreeplayState extends MusicBeatState
 
             if(FlxG.keys.justPressed.TAB)
             {
+                if(MusicBeatState.timePassedOnState < 0.8) return;
+
                 canInteract = false;
                 FlxG.sound.music.fadeOut(0.1, 0, function(twn:FlxTween) {FlxG.sound.music.stop();});
                 MusicBeatState.switchStateIcon(new CharSelectState(), 'test', 0.8);

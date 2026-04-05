@@ -7,34 +7,12 @@ class IconTransition extends FlxShader
     @:glFragmentSource('
         #pragma header
 
-        uniform sampler2D icon;
-        uniform float scale;
-
+        // this sucks, completely, this just sucks
         void main()
         {
-            vec2 uv = openfl_TextureCoordv;
+            vec4 tex = flixel_texture2D(bitmap,openfl_TextureCoordv);
 
-            vec2 centered = uv - vec2(0.5);
-            centered /= scale;
-            vec2 newUV = centered + vec2(0.5);
-
-            if (newUV.x < 0.0 || newUV.x > 1.0 || newUV.y < 0.0 || newUV.y > 1.0)
-            {
-                gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
-                return;
-            }
-
-            vec4 tex = texture2D(icon, newUV);
-
-            // THIS is the FUCKING KEY LINE:
-            if (tex.a < 0.1)
-            {
-                gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
-            }
-            else
-            {
-                gl_FragColor = vec4(0.0);
-            }
+            gl_FragColor = vec4(mix(tex.rgb, vec3(0.0), 1.0), 1.0 - tex.a);
         }
     ')
     

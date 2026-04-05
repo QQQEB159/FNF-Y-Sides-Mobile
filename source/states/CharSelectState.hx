@@ -200,6 +200,8 @@ class CharSelectState extends MusicBeatState
 
     function goBack()
     {
+        if(MusicBeatState.timePassedOnState < 0.8) return;
+
         if(!canInteract) return;
         canInteract = false;
         FlxG.sound.play(Paths.sound('cancelMenu'));
