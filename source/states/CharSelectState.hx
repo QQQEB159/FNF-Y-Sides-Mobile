@@ -153,7 +153,7 @@ class CharSelectState extends MusicBeatState
                     currentFreeplaySelectedName = avaibleCharactersArr[curSelected][0];
 
                     FlxG.sound.music.stop();
-                    MusicBeatState.switchState(new NewFreeplayState(currentFreeplaySelectedName == 'pico'));
+                    MusicBeatState.switchStateIcon(new NewFreeplayState(currentFreeplaySelectedName == 'pico'), currentFreeplaySelectedName, 0.8);
                 });
             }
         }
@@ -210,7 +210,7 @@ class CharSelectState extends MusicBeatState
             FlxG.sound.music.pause();
         });
 
-        MusicBeatState.switchStateIcon(new NewFreeplayState(currentFreeplaySelectedName == 'pico'), 'test', 0.8);
+        MusicBeatState.switchStateIcon(new NewFreeplayState(currentFreeplaySelectedName == 'pico'), currentFreeplaySelectedName, 0.8);
     }
 
     function changeSelect(change:Int = 0)
