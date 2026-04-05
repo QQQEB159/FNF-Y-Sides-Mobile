@@ -304,6 +304,8 @@ class MainMenuState extends MusicBeatState
 		}
 
         changeSelection(0, true);
+
+        //openSubState(new backend.IconFadeTransition(4, 'test', true));
     }
 
     var circleAngleSpeed:Float = 10;

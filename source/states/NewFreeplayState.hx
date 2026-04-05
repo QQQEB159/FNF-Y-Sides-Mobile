@@ -191,6 +191,7 @@ class NewFreeplayState extends MusicBeatState
     }
 
 	var stopMusicPlay:Bool = false;
+    var canInteract:Bool = true;
     override function update(elapsed:Float)
     {
         super.update(elapsed);
@@ -205,85 +206,88 @@ class NewFreeplayState extends MusicBeatState
 
 		scoreText.text = 'Score: $lerpScore';
 
-        if(controls.UI_UP_P)
+        if(canInteract)
         {
-            changeSelect(-1);
-        }
-
-        if(controls.UI_DOWN_P)
-        {
-            changeSelect(1);
-        }
-
-        if(controls.UI_LEFT_P)
-        {
-            changeDiff(-1);
-		    _updateSongLastDifficulty();
-        }
-
-        if(controls.UI_RIGHT_P)
-        {
-            changeDiff(1);
-		    _updateSongLastDifficulty();
-        }
-
-        if(controls.BACK)
-        {
-			FlxG.sound.play(Paths.sound('cancelMenu'));
-
-            new FlxTimer().start(0.6, function(tmr:FlxTimer)
+            if(controls.UI_UP_P)
             {
-                FlxTransitionableState.skipNextTransIn = true;
-                FlxTransitionableState.skipNextTransOut = true;
-                MusicBeatState.switchState(new MainMenuState());
-            });
+                changeSelect(-1);
+            }
+
+            if(controls.UI_DOWN_P)
+            {
+                changeSelect(1);
+            }
+
+            if(controls.UI_LEFT_P)
+            {
+                changeDiff(-1);
+                _updateSongLastDifficulty();
+            }
+
+            if(controls.UI_RIGHT_P)
+            {
+                changeDiff(1);
+                _updateSongLastDifficulty();
+            }
+
+            if(controls.BACK)
+            {
+                canInteract = false;
+                FlxG.sound.play(Paths.sound('cancelMenu'));
+
+                new FlxTimer().start(0.6, function(tmr:FlxTimer)
+                {
+                    FlxTransitionableState.skipNextTransIn = true;
+                    FlxTransitionableState.skipNextTransOut = true;
+                    MusicBeatState.switchState(new MainMenuState());
+                });
+            }
+
+            if(controls.ACCEPT)
+            {
+                canInteract = false;
+                persistentUpdate = false;
+                var songLowercase:String = Paths.formatToSongPath(songs[curSelected].songName);
+                var poop:String = Highscore.formatSong(songLowercase + '-' + CharSelectState.currentFreeplaySelectedName, curDifficulty);
+
+                try
+                {
+                    Song.loadFromJson(poop, songLowercase);
+                    trace('Loading song: $poop');
+                    PlayState.isStoryMode = false;
+                    PlayState.storyDifficulty = curDifficulty;
+
+                    trace('CURRENT WEEK: ' + WeekData.getWeekFileName());
+                }
+                catch(e:haxe.Exception)
+                {
+                    super.update(elapsed);
+                    return;
+                }
+
+                @:privateAccess
+                if(PlayState._lastLoadedModDirectory != Mods.currentModDirectory)
+                {
+                    trace('CHANGED MOD DIRECTORY, RELOADING STUFF');
+                    Paths.freeGraphicsFromMemory();
+                }
+                #if !debug LoadingState.prepareToSong(); #end
+                LoadingState.loadAndSwitchState(new PlayState());
+                #if !SHOW_LOADING_SCREEN FlxG.sound.music.stop(); #end
+                stopMusicPlay = true;
+
+                #if (MODS_ALLOWED && DISCORD_ALLOWED)
+                DiscordClient.loadModRPC();
+                #end
+            }
+
+            if(FlxG.keys.justPressed.TAB)
+            {
+                canInteract = false;
+                FlxG.sound.music.fadeOut(0.1, 0, function(twn:FlxTween) {FlxG.sound.music.stop();});
+                MusicBeatState.switchStateIcon(new CharSelectState(), 'test', 0.8);
+            }
         }
-
-        if(controls.ACCEPT)
-        {
-			persistentUpdate = false;
-			var songLowercase:String = Paths.formatToSongPath(songs[curSelected].songName);
-			var poop:String = Highscore.formatSong(songLowercase + '-' + CharSelectState.currentFreeplaySelectedName, curDifficulty);
-
-			try
-			{
-				Song.loadFromJson(poop, songLowercase);
-				trace('Loading song: $poop');
-				PlayState.isStoryMode = false;
-				PlayState.storyDifficulty = curDifficulty;
-
-				trace('CURRENT WEEK: ' + WeekData.getWeekFileName());
-			}
-			catch(e:haxe.Exception)
-			{
-				super.update(elapsed);
-				return;
-			}
-
-			@:privateAccess
-			if(PlayState._lastLoadedModDirectory != Mods.currentModDirectory)
-			{
-				trace('CHANGED MOD DIRECTORY, RELOADING STUFF');
-				Paths.freeGraphicsFromMemory();
-			}
-			#if !debug LoadingState.prepareToSong(); #end
-			LoadingState.loadAndSwitchState(new PlayState());
-			#if !SHOW_LOADING_SCREEN FlxG.sound.music.stop(); #end
-			stopMusicPlay = true;
-
-			#if (MODS_ALLOWED && DISCORD_ALLOWED)
-			DiscordClient.loadModRPC();
-			#end
-        }
-
-		if(FlxG.keys.justPressed.TAB)
-		{
-			FlxG.sound.music.fadeOut(0.1, 0, function(twn:FlxTween) {FlxG.sound.music.stop();});
-			new FlxTimer().start(0.15, function(tmr:FlxTimer)
-			{
-				MusicBeatState.switchState(new CharSelectState());
-			});
-		}
     }
 
     function changeSelect(change:Int = 0, firstTime:Bool = false)

@@ -101,13 +101,14 @@ class CharSelectState extends MusicBeatState
     var selectedCharacter:Bool = false;
     var currentCharacter:CharSelectObject; // reference of the selected char
     var acceptTimer:FlxTimer;
+    var canInteract:Bool = true;
     override function update(elapsed:Float)
     {
         super.update(elapsed);
 
         if(waterShader != null) waterShader.iTime.value[0] += elapsed;
 
-        if(!selectedCharacter)
+        if(!selectedCharacter && canInteract)
         {
             if(controls.UI_LEFT_P)
             {
@@ -199,13 +200,17 @@ class CharSelectState extends MusicBeatState
 
     function goBack()
     {
+        if(!canInteract) return;
+        canInteract = false;
         FlxG.sound.play(Paths.sound('cancelMenu'));
         
         FlxG.sound.music.fadeOut(0.5);
-        FlxG.camera.fade(FlxColor.BLACK, 0.5, false, () -> {
+        new FlxTimer().start(0.5, function(tmr:FlxTimer)
+        {
             FlxG.sound.music.pause();
-            MusicBeatState.switchState(new NewFreeplayState(currentFreeplaySelectedName == 'pico'));
         });
+
+        MusicBeatState.switchStateIcon(new NewFreeplayState(currentFreeplaySelectedName == 'pico'), 'test', 0.8);
     }
 
     function changeSelect(change:Int = 0)

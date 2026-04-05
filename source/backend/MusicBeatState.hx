@@ -25,6 +25,9 @@ class MusicBeatState extends FlxState
 	public static function getVariables()
 		return getState().variables;
 
+	static var iconTransitionActive:Bool = false;
+	static var lastIconName:String = '';
+	static var lastDuration:Float = 0.5;
 	override function create() {
 		var skip:Bool = FlxTransitionableState.skipNextTransOut;
 		#if MODS_ALLOWED Mods.updatedOnState = false; #end
@@ -34,7 +37,15 @@ class MusicBeatState extends FlxState
 		super.create();
 
 		if(!skip) {
-			openSubState(new CustomFadeTransition(0.5, true));
+			if(iconTransitionActive) 
+			{	
+				persistentUpdate = true;
+				openSubState(new IconFadeTransition(lastDuration, lastIconName, false, function() {IconFadeTransition.instance?.close();}));
+			}
+			else
+			{
+				openSubState(new CustomFadeTransition(0.5, true));
+			}
 		}
 		FlxTransitionableState.skipNextTransOut = false;
 		timePassedOnState = 0;
@@ -190,6 +201,19 @@ class MusicBeatState extends FlxState
 		else startTransition(nextState);
 		FlxTransitionableState.skipNextTransIn = false;
 	}
+	
+	public static function switchStateIcon(nextState:FlxState = null, iconName:String, duration:Float) {
+		if(nextState == null) nextState = FlxG.state;
+		if(nextState == FlxG.state)
+		{
+			resetState();
+			return;
+		}
+
+		if(FlxTransitionableState.skipNextTransIn) FlxG.switchState(nextState);
+		else startIconTransition(nextState, iconName, duration);
+		FlxTransitionableState.skipNextTransIn = false;
+	}
 
 	public static function resetState() {
 		if(FlxTransitionableState.skipNextTransIn) FlxG.resetState();
@@ -208,6 +232,25 @@ class MusicBeatState extends FlxState
 			CustomFadeTransition.finishCallback = function() FlxG.resetState();
 		else
 			CustomFadeTransition.finishCallback = function() FlxG.switchState(nextState);
+	}
+
+	public static function startIconTransition(nextState:FlxState = null, iconName:String, duration:Float, ?transIn:Bool = true)
+	{
+		if(nextState == null)
+			nextState = FlxG.state;
+
+		lastDuration = duration;
+		iconTransitionActive = true;
+		lastIconName = iconName;
+		var callback:Void->Void = function() {};
+		if(transIn)
+		{
+			callback = function()
+			{
+				FlxG.switchState(nextState);
+			}
+		}
+		FlxG.state.openSubState(new IconFadeTransition(duration, iconName, transIn, callback));
 	}
 
 	public static function getState():MusicBeatState {
