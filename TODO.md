@@ -179,7 +179,7 @@
 - [ ] Story Menu Overhaul
 - [ ] Freeplay Menu Overhaul
     - [ ] Character selector
-- [ ] Gallery Overhaul
+- [x] Gallery Overhaul
 
 ## SPECIFIC
 
