@@ -53,6 +53,7 @@ class IconFadeTransition extends MusicBeatSubstate
         FlxTween.cancelTweensOf(icon);
         if(transIn)
         {
+            FlxG.sound.play(Paths.sound('transition/In'));
             icon.scale.set(targetScale, targetScale);
             updateIconStuff();
             FlxTween.tween(icon, {"scale.x": 0, "scale.y": 0}, duration, {
@@ -67,6 +68,7 @@ class IconFadeTransition extends MusicBeatSubstate
         }
         else
         {
+            FlxG.sound.play(Paths.sound('transition/Out'));
             icon.scale.set(0, 0);
             updateIconStuff();
             FlxTween.tween(icon, {"scale.x": targetScale, "scale.y": targetScale}, duration, {

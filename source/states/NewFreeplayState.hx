@@ -287,7 +287,7 @@ class NewFreeplayState extends MusicBeatState
 
                 canInteract = false;
                 FlxG.sound.music.fadeOut(0.1, 0, function(twn:FlxTween) {FlxG.sound.music.stop();});
-                MusicBeatState.switchStateIcon(new CharSelectState(), 'test', 0.8);
+                MusicBeatState.switchStateIcon(new CharSelectState(), CharSelectState.currentFreeplaySelectedName, 0.8);
             }
         }
     }
