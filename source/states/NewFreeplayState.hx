@@ -20,7 +20,7 @@ class NewFreeplayState extends MusicBeatState
     var checker:FlxBackdrop;
     var backgroundLight:FlxSprite;
     var backgroundHint:FlxSprite;
-    var hint:FlxSprite;
+    var hint:FlxBackdrop;
     var backgroundDiff:FlxSprite;
     var backgroundDiffLight:FlxSprite;
     var polo:FlxSprite;
@@ -125,10 +125,10 @@ class NewFreeplayState extends MusicBeatState
         backgroundHint.antialiasing = ClientPrefs.data.antialiasing;
         add(backgroundHint);
 
-        hint = new FlxSprite();
-        hint.loadGraphic(Paths.image('freePlay/NEW/hint'));
+        hint = new FlxBackdrop(Paths.image('freePlay/NEW/hint'), X, 35);
         hint.antialiasing = ClientPrefs.data.antialiasing;
-        hint.y = backgroundHint.y + 25;
+        hint.y = backgroundHint.y + 19;
+        hint.velocity.set(-40, 0);
         hint.screenCenter(X);
         add(hint);
 
@@ -382,18 +382,22 @@ class FreeplayCapsule extends FlxSpriteGroup
 
         background = new FlxSprite();
         background.loadGraphic(Paths.image('freePlay/NEW/capsule'));
+        background.antialiasing = ClientPrefs.data.antialiasing;
         add(background);
 
         text = new FlxText(0, 0, background.width, songName, 28);
         text.setFormat(Paths.font('GAU_pop_magic.ttf'), 28, 0xFFFFFFFF);
         text.x += 70;
         text.y += background.height / 2 - text.height / 2 - 10;
+        text.antialiasing = ClientPrefs.data.antialiasing;
         add(text);
 
         icon = new FlxSprite();
         icon.loadGraphic(Paths.image('freePlay/NEW/icons/$songCharacter'));
-        icon.y += -(icon.height / 2);
-        icon.x += -(icon.width / 2);
+        icon.y += -(icon.height / 2) + 10;
+        icon.x += -(icon.width / 2) + 5;
+        icon.scale.set(0.8, 0.8);
+        icon.antialiasing = ClientPrefs.data.antialiasing;
         add(icon);
     }
 
