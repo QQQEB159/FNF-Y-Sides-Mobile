@@ -72,7 +72,7 @@ class IconFadeTransition extends MusicBeatSubstate
             icon.scale.set(0, 0);
             updateIconStuff();
             FlxTween.tween(icon, {"scale.x": targetScale, "scale.y": targetScale}, duration, {
-                ease: FlxEase.quartOut,
+                ease: FlxEase.quartIn,
                 onUpdate: (_) -> updateIconStuff(),
                 onComplete: function(twn:FlxTween) 
                 {
