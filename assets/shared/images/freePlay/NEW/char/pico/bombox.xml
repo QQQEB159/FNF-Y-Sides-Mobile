@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TextureAtlas imagePath="bombox.png">
+<SubTexture name="idle0000" x="0" y="370" width="290" height="355" frameX="-28" frameY="-15" frameWidth="350" frameHeight="363" />
+<SubTexture name="idle0001" x="291" y="0" width="305" height="368" frameX="-20" frameY="-2" frameWidth="350" frameHeight="363" />
+<SubTexture name="idle0002" x="596" y="0" width="291" height="364" frameX="-28" frameY="-6" frameWidth="350" frameHeight="363" />
+<SubTexture name="idle0003" x="0" y="0" width="291" height="370" frameX="-28" frameY="0" frameWidth="350" frameHeight="363" />
+<SubTexture name="idle0004" x="290" y="370" width="291" height="286" frameX="-28" frameY="-84" frameWidth="350" frameHeight="363" />
+<SubTexture name="idle0005" x="581" y="370" width="291" height="286" frameX="-28" frameY="-84" frameWidth="350" frameHeight="363" />
+</TextureAtlas>

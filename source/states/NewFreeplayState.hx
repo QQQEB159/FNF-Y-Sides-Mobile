@@ -131,6 +131,14 @@ class NewFreeplayState extends MusicBeatState
         hint.velocity.set(-40, 0);
         hint.screenCenter(X);
         add(hint);
+        
+        bombox = new FlxSprite(705, 315);
+        bombox.frames = Paths.getSparrowAtlas('freePlay/NEW/char/${CharSelectState.currentFreeplaySelectedName}/bombox');
+        bombox.animation.addByPrefix('idle', 'idle', 12, false);
+        bombox.animation.play('idle', true, true);
+        bombox.antialiasing = ClientPrefs.data.antialiasing;
+        if(CharSelectState.currentFreeplaySelectedName == 'pico') bombox.y += -95;
+        add(bombox);
 
         backgroundDiff = new FlxSprite(695, 12);
         backgroundDiff.loadGraphic(Paths.image('freePlay/NEW/backgroundDiff'));
@@ -152,15 +160,8 @@ class NewFreeplayState extends MusicBeatState
         polo.antialiasing = ClientPrefs.data.antialiasing;
         add(polo);
 
-        bombox = new FlxSprite(705, 315);
-        bombox.frames = Paths.getSparrowAtlas('freePlay/NEW/bombox');
-        bombox.animation.addByPrefix('idle', 'idle', 12, false);
-        bombox.animation.play('idle', true, true);
-        bombox.antialiasing = ClientPrefs.data.antialiasing;
-        add(bombox);
-
         character = new FlxSprite(895, 390);
-        character.frames = Paths.getSparrowAtlas('freePlay/NEW/char/bf');
+        character.frames = Paths.getSparrowAtlas('freePlay/NEW/char/${CharSelectState.currentFreeplaySelectedName}/char');
         character.animation.addByPrefix('idle', 'coso', 24, false);
         character.animation.play('idle', true);
         character.antialiasing = ClientPrefs.data.antialiasing;
