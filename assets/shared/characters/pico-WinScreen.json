@@ -1,52 +1,52 @@
 {
 	"animations": [
 		{
+			"offsets": [-56, -34],
 			"loop": true,
-			"offsets": [24, -14],
+			"fps": 24,
 			"anim": "90%",
-			"fps": 24,
-			"name": "best",
-			"indices": []
-		},
-		{
-			"loop": true,
-			"offsets": [-10, 0],
-			"anim": "75%",
-			"fps": 24,
-			"name": "great",
-			"indices": []
-		},
-		{
-			"loop": true,
-			"offsets": [-10, 0],
-			"anim": "65%",
-			"fps": 24,
-			"name": "bad",
-			"indices": []
-		},
-		{
-			"loop": true,
-			"offsets": [-10, 0],
-			"anim": "55%",
-			"fps": 24,
-			"name": "bad",
-			"indices": []
-		},
-		{
-			"loop": true,
-			"offsets": [-10, 0],
-			"anim": "0%",
-			"fps": 24,
-			"name": "ryousurethatthiscouldbeworse",
-			"indices": []
-		},
-		{
-			"offsets": [-20, 0],
-			"loop": true,
-			"fps": 24,
-			"anim": "choose",
 			"indices": [],
-			"name": "choosing"
+			"name": "best"
+		},
+		{
+			"offsets": [-42, -28],
+			"loop": true,
+			"fps": 24,
+			"anim": "75%",
+			"indices": [],
+			"name": "great"
+		},
+		{
+			"offsets": [7, -24],
+			"loop": true,
+			"fps": 24,
+			"anim": "65%",
+			"indices": [],
+			"name": "bad"
+		},
+		{
+			"offsets": [7, -24],
+			"loop": true,
+			"fps": 24,
+			"anim": "55%",
+			"indices": [],
+			"name": "bad"
+		},
+		{
+			"offsets": [-14, -26],
+			"loop": true,
+			"fps": 24,
+			"anim": "0%",
+			"indices": [],
+			"name": "ryousurethatthiscouldbeworse"
+		},
+		{
+			"loop": true,
+			"offsets": [-20, 0],
+			"anim": "choose",
+			"fps": 24,
+			"name": "choosing",
+			"indices": []
 		}
 	],
 	"vocals_file": "",
