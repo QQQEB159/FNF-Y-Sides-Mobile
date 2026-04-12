@@ -103,8 +103,10 @@ class NewFreeplayState extends MusicBeatState
 		Mods.loadTopMod();
 
         background = new FlxSprite();
-        background.loadGraphic(Paths.image('freePlay/NEW/background'));
+        //background.loadGraphic(Paths.image('freePlay/NEW/background'));
+        background.makeGraphic(FlxG.width, FlxG.height, 0xFFFFFFFF);
         background.antialiasing = ClientPrefs.data.antialiasing;
+        background.color = 0xFFE7E0FF;
         add(background);
 
         backgroundLight = new FlxSprite();
@@ -227,6 +229,9 @@ class NewFreeplayState extends MusicBeatState
         difText.alpha = 0;
         FlxTween.tween(difText, {y: 55, alpha: 1}, transitionDuration, {ease: FlxEase.expoOut});
 
+        backgroundDiffLight.y = -300;
+        FlxTween.tween(backgroundDiffLight, {y: 0}, transitionDuration, {ease: FlxEase.expoOut});
+
         scoreText.y = backgroundDiff.y + backgroundDiff.height - scoreText.height - 10;
         FlxTween.tween(scoreText, {y: 12 + backgroundDiff.height - scoreText.height - 10}, transitionDuration, {ease: FlxEase.expoOut});
 
@@ -287,7 +292,41 @@ class NewFreeplayState extends MusicBeatState
                 canInteract = false;
                 FlxG.sound.play(Paths.sound('cancelMenu'));
 
-                new FlxTimer().start(0.6, function(tmr:FlxTimer)
+                FlxTween.cancelTweensOf(background);
+                FlxTween.cancelTweensOf(checker);
+                FlxTween.cancelTweensOf(poloUp);
+                FlxTween.cancelTweensOf(poloDown);
+                FlxTween.cancelTweensOf(backgroundHint);
+                FlxTween.cancelTweensOf(hint);
+                FlxTween.cancelTweensOf(backgroundDiff);
+                FlxTween.cancelTweensOf(difText);
+                FlxTween.cancelTweensOf(scoreText);
+                FlxTween.cancelTweensOf(bombox);
+                FlxTween.cancelTweensOf(character);
+
+                grpSongs.forEach(function(cap:FreeplayCapsule)
+                {
+                    cap.copyPositions = false;
+                    FlxTween.cancelTweensOf(cap);
+                    //cap.startPosition.x += -700;
+                    FlxTween.tween(cap, {x: cap.x - 700}, transitionDuration, {ease: FlxEase.expoIn});
+                });
+
+                FlxTween.color(background, transitionDuration, background.color, 0xFFBFB4F1, {ease: FlxEase.expoIn});
+
+                FlxTween.tween(checker, {alpha: 0}, transitionDuration, {ease: FlxEase.expoIn});
+                FlxTween.tween(poloUp, {y: 0 - poloUp.height}, transitionDuration, {ease: FlxEase.expoIn});
+                FlxTween.tween(poloDown, {y: FlxG.height}, transitionDuration, {ease: FlxEase.expoIn});
+                FlxTween.tween(backgroundHint, {y: FlxG.height}, transitionDuration, {ease: FlxEase.expoIn});
+                FlxTween.tween(hint, {y: FlxG.height}, transitionDuration, {ease: FlxEase.expoIn});
+                FlxTween.tween(backgroundDiff, {y: -backgroundDiff.height}, transitionDuration, {ease: FlxEase.expoIn});
+                FlxTween.tween(difText, {y: -backgroundDiff.height + 60}, transitionDuration, {ease: FlxEase.expoIn});
+                FlxTween.tween(backgroundDiffLight, {y: -backgroundDiff.height}, transitionDuration, {ease: FlxEase.expoIn});
+                FlxTween.tween(scoreText, {y: -backgroundDiff.height + 230}, transitionDuration, {ease: FlxEase.expoIn});
+                FlxTween.tween(bombox, {x: FlxG.width}, transitionDuration, {ease: FlxEase.expoIn});
+                FlxTween.tween(character, {x: FlxG.width + (895 - 705)}, transitionDuration, {ease: FlxEase.expoIn});
+
+                new FlxTimer().start(transitionDuration, function(tmr:FlxTimer)
                 {
                     FlxTransitionableState.skipNextTransIn = true;
                     FlxTransitionableState.skipNextTransOut = true;
@@ -424,6 +463,7 @@ class FreeplayCapsule extends FlxSpriteGroup
     public var targetY:Float = 0;
     public var distancePerItem:FlxPoint = new FlxPoint(120, 230);
     public var startPosition:FlxPoint = new FlxPoint(0, 0);
+    public var copyPositions:Bool = true;
 
     public var background:FlxSprite;
     public var text:FlxText;
@@ -462,8 +502,11 @@ class FreeplayCapsule extends FlxSpriteGroup
         var realTargetX = targetX;
         if(realTargetX > 0) realTargetX *= -1;
 
-		x = FlxMath.lerp((realTargetX * distancePerItem.x) + startPosition.x, x, lerpVal);
-		y = FlxMath.lerp((targetY * distancePerItem.y) + startPosition.y, y, lerpVal);
+        if(copyPositions)
+        {
+            x = FlxMath.lerp((realTargetX * distancePerItem.x) + startPosition.x, x, lerpVal);
+            y = FlxMath.lerp((targetY * distancePerItem.y) + startPosition.y, y, lerpVal);
+        }
     }
 
     public function snapToPosition()

@@ -492,12 +492,12 @@ class MainMenuState extends MusicBeatState
 		            FlxTween.cancelTweensOf(rightBarThorns);
                     FlxTween.tween(character, {alpha: 0, y: characterY - 100}, 0.35, {ease: FlxEase.quartIn, onComplete: function(twn:FlxTween)
                     {
-                        new FlxTimer().start(0.15, function(tmr:FlxTimer)
-                        {
+                        //new FlxTimer().start(0.15, function(tmr:FlxTimer)
+                        //{
 				            FlxTransitionableState.skipNextTransIn = true;
 				            FlxTransitionableState.skipNextTransOut = true;
                             MusicBeatState.switchState(state);
-                        });
+                        //});
                     }});
                     FlxTween.tween(lines, {alpha: 0}, 0.35, {ease: FlxEase.quartIn});
                     FlxTween.tween(leftBar, {x: -450}, 0.35, {ease: FlxEase.quartIn});
