@@ -70,11 +70,12 @@ class MainMenuState extends MusicBeatState
 
 		persistentUpdate = persistentDraw = true;
 
-		bg = new FlxSprite(-80).makeGraphic(1280, 720, 0xFFBFB4F1);
+		bg = new FlxSprite(-80).makeGraphic(1280, 720, 0xFFFFFFFF);
 		bg.antialiasing = ClientPrefs.data.antialiasing;
 		bg.setGraphicSize(Std.int(bg.width * 1.175));
 		bg.updateHitbox();
 		bg.screenCenter();
+        bg.color = 0xFFBFB4F1;
 		add(bg);
 
 		backgroundGradientBottom = new FlxSprite();
@@ -472,6 +473,15 @@ class MainMenuState extends MusicBeatState
 
                 new FlxTimer().start(0.4, function(tmr:FlxTimer)
                 {
+                    if(option == 'freeplay')
+                    {
+                        FlxTween.cancelTweensOf(icons);
+                        FlxTween.tween(icons, {alpha: 0}, 0.35, {ease: FlxEase.quartIn});
+
+                        FlxTween.cancelTweensOf(bg);
+                        FlxTween.color(bg, 0.35, bg.color, 0xFFE7E0FF);
+                    }
+
 		            FlxTween.cancelTweensOf(character);
                     FlxTween.cancelTweensOf(lines);
                     FlxTween.cancelTweensOf(circle);
@@ -492,10 +502,10 @@ class MainMenuState extends MusicBeatState
                     FlxTween.tween(lines, {alpha: 0}, 0.35, {ease: FlxEase.quartIn});
                     FlxTween.tween(leftBar, {x: -450}, 0.35, {ease: FlxEase.quartIn});
                     FlxTween.tween(leftBarThorns, {x: -79}, 0.35, {ease: FlxEase.quartIn});
-                    FlxTween.tween(circle, {x: -80 - (circle.width / 2)}, 0.35, {ease: FlxEase.quartIn});
+                    FlxTween.tween(circle, {x: -400 - (circle.width / 2)}, 0.35, {ease: FlxEase.quartIn});
                     FlxTween.tween(rightBar, {x: FlxG.width + 80}, 0.35, {ease: FlxEase.quartIn});
                     FlxTween.tween(rightBarThorns, {x: FlxG.width + 80 - rightBarThorns.width + 1}, 0.35, {ease: FlxEase.quartIn});
-                    FlxTween.tween(circle2, {x: FlxG.width + 80 - (circle2.width / 1.8)}, 0.35, {ease: FlxEase.quartIn});
+                    FlxTween.tween(circle2, {x: FlxG.width + 400 - (circle2.width / 1.8)}, 0.35, {ease: FlxEase.quartIn});
                     FlxTween.tween(item, {x: curColumn == LEFT ? item.x - 450 : item.x + 450}, 0.35, {ease: FlxEase.quartIn});
                 });
 

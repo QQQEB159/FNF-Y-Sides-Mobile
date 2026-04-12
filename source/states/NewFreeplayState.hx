@@ -23,7 +23,8 @@ class NewFreeplayState extends MusicBeatState
     var hint:FlxBackdrop;
     var backgroundDiff:FlxSprite;
     var backgroundDiffLight:FlxSprite;
-    var polo:FlxSprite;
+    var poloUp:FlxSprite;
+    var poloDown:FlxSprite;
     var bombox:FlxSprite;
     var character:FlxSprite;
     var grpSongs:FlxTypedGroup<FreeplayCapsule>;
@@ -155,10 +156,17 @@ class NewFreeplayState extends MusicBeatState
         backgroundDiffLight.blend = ADD;
         add(backgroundDiffLight);
 
-        polo = new FlxSprite();
-        polo.loadGraphic(Paths.image('freePlay/NEW/polo'));
-        polo.antialiasing = ClientPrefs.data.antialiasing;
-        add(polo);
+        poloUp = new FlxSprite();
+        poloUp.loadGraphic(Paths.image('freePlay/NEW/poloUp'));
+        poloUp.antialiasing = ClientPrefs.data.antialiasing;
+        add(poloUp);
+
+        poloDown = new FlxSprite();
+        poloDown.loadGraphic(Paths.image('freePlay/NEW/poloDown'));
+        poloDown.antialiasing = ClientPrefs.data.antialiasing;
+        poloDown.y = FlxG.height - poloDown.height;
+        poloDown.screenCenter(X);
+        add(poloDown);
 
         character = new FlxSprite(895, 390);
         character.frames = Paths.getSparrowAtlas('freePlay/NEW/char/${CharSelectState.currentFreeplaySelectedName}/char');
@@ -189,6 +197,49 @@ class NewFreeplayState extends MusicBeatState
 
 		curDifficulty = Math.round(Math.max(0, Difficulty.defaultList.indexOf(lastDifficultyName)));
         changeSelect(0, true);
+
+        initTransition();
+    }
+
+    var transitionDuration:Float = 0.5;
+    var transitionHintDelay:Float = 0.4;
+    function initTransition()
+    {
+        checker.alpha = 0;
+        FlxTween.tween(checker, {alpha: 1}, transitionDuration, {ease: FlxEase.expoOut});
+    
+        poloUp.y = 0 - poloUp.height;
+        FlxTween.tween(poloUp, {y: 0}, transitionDuration, {ease: FlxEase.expoOut});
+
+        poloDown.y = FlxG.height;
+        FlxTween.tween(poloDown, {y: FlxG.height - poloDown.height}, transitionDuration, {ease: FlxEase.expoOut});
+
+        backgroundHint.y = FlxG.height;
+        FlxTween.tween(backgroundHint, {y: FlxG.height - backgroundHint.height}, transitionDuration, {ease: FlxEase.expoOut, startDelay: transitionHintDelay});
+
+        hint.y = FlxG.height;
+        FlxTween.tween(hint, {y: FlxG.height - backgroundHint.height + 16}, transitionDuration, {ease: FlxEase.expoOut, startDelay: transitionHintDelay});
+
+        backgroundDiff.y = 12 - backgroundDiff.height;
+        FlxTween.tween(backgroundDiff, {y: 12}, transitionDuration, {ease: FlxEase.expoOut});
+
+        difText.y = 55 - difText.height;
+        difText.alpha = 0;
+        FlxTween.tween(difText, {y: 55, alpha: 1}, transitionDuration, {ease: FlxEase.expoOut});
+
+        scoreText.y = backgroundDiff.y + backgroundDiff.height - scoreText.height - 10;
+        FlxTween.tween(scoreText, {y: 12 + backgroundDiff.height - scoreText.height - 10}, transitionDuration, {ease: FlxEase.expoOut});
+
+        bombox.x = FlxG.width;
+        FlxTween.tween(bombox, {x: 705}, transitionDuration, {ease: FlxEase.expoOut});
+
+        character.x = FlxG.width + (895 - 705);
+        FlxTween.tween(character, {x: 895}, transitionDuration, {ease: FlxEase.expoOut});
+
+		for (num => item in grpSongs.members)
+        {
+            item.x -= 500;
+        }
     }
 
 	var stopMusicPlay:Bool = false;
@@ -417,7 +468,10 @@ class FreeplayCapsule extends FlxSpriteGroup
 
     public function snapToPosition()
     {
-        x = startPosition.x + (targetX * distancePerItem.x);
+        var realTargetX = targetX;
+        if(realTargetX > 0) realTargetX *= -1;
+
+        x = startPosition.x + (realTargetX * distancePerItem.x);
         y = startPosition.y + (targetY * distancePerItem.y);
     }
 }
