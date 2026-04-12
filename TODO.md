@@ -177,7 +177,7 @@
 - [x] Performance Menu overhaul
 - [x] Main Menu Overhaul
 - [ ] Story Menu Overhaul
-- [ ] Freeplay Menu Overhaul
+- [x] Freeplay Menu Overhaul
     - [ ] Character selector
 - [x] Gallery Overhaul
 
