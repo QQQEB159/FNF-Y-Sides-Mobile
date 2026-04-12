@@ -208,8 +208,8 @@ class MainMenuState extends MusicBeatState
             }, 0);
         }
 
-		if(StoryMenuState.backFromStoryMode) {
-			StoryMenuState.backFromStoryMode = false;
+		if(NewStoryMenuState.backFromStoryMode) {
+			NewStoryMenuState.backFromStoryMode = false;
 			
 			icons.alpha = 0;
 			FlxTween.tween(icons, {alpha: 0.45}, 0.7, {ease: FlxEase.quartOut});
@@ -521,7 +521,7 @@ class MainMenuState extends MusicBeatState
 		                	FlxTween.tween(characterWhite, {"scale.x": 15, "scale.y": 15}, 0.3, {ease: FlxEase.quartIn, onComplete: function(twn2:FlxTween) {
 		                		FlxTransitionableState.skipNextTransIn = true;
 		                		FlxTransitionableState.skipNextTransOut = true;
-		                		MusicBeatState.switchState(new StoryMenuState());
+		                		MusicBeatState.switchState(new NewStoryMenuState());
 		                	}});
 		                });
                     }});

@@ -225,7 +225,7 @@ class GalleryState extends MusicBeatState
                 FlxTween.tween(optGrp.members[curSelected], {y: 800}, 0.4, {ease: FlxEase.quartOut});
                 FlxTween.tween(rightArrow, {y: 800}, 0.4, {ease: FlxEase.quartOut});
 
-                StoryMenuState.backFromStoryMode = true;
+                NewStoryMenuState.backFromStoryMode = true;
 
                 new FlxTimer().start(0.8, function(t:FlxTimer)
                 {

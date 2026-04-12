@@ -7,7 +7,7 @@ import flixel.FlxObject;
 import flixel.FlxSubState;
 import flixel.math.FlxPoint;
 
-import states.StoryMenuState;
+import states.NewStoryMenuState;
 import states.NewFreeplayState;
 
 class GameOverSubstate extends MusicBeatSubstate
@@ -170,7 +170,7 @@ class GameOverSubstate extends MusicBeatSubstate
 	
 				Mods.loadTopMod();
 				if (PlayState.isStoryMode)
-					MusicBeatState.switchState(new StoryMenuState());
+					MusicBeatState.switchState(new NewStoryMenuState());
 				else
 					MusicBeatState.switchState(new NewFreeplayState(CharSelectState.currentFreeplaySelectedName == 'pico'));
 	

@@ -24,7 +24,7 @@ import shaders.ColorSwap;
 import shaders.DeflectiveLens;
 import shaders.ChromaticAberration;
 
-import states.StoryMenuState;
+import states.NewStoryMenuState;
 import states.MainMenuState;
 
 import flixel.addons.display.FlxBackdrop;
@@ -123,7 +123,7 @@ class TitleState extends MusicBeatState
 
 		if (FlxG.save.data.weekCompleted != null)
 		{
-			StoryMenuState.weekCompleted = FlxG.save.data.weekCompleted;
+			NewStoryMenuState.weekCompleted = FlxG.save.data.weekCompleted;
 		}
 
 		FlxG.mouse.visible = false;
@@ -533,7 +533,7 @@ class TitleState extends MusicBeatState
 					FlxTween.tween(gfLeft, {alpha: 0, y: gfLeft.y - 10}, 0.6, {ease: FlxEase.quartOut, startDelay: 0.3, 
 						onComplete: function(twn:FlxTween)
 						{
-							StoryMenuState.backFromStoryMode = true;
+							NewStoryMenuState.backFromStoryMode = true;
 							FlxTransitionableState.skipNextTransIn = true;
 							FlxTransitionableState.skipNextTransOut = true;
 							MusicBeatState.switchState(new MainMenuState());

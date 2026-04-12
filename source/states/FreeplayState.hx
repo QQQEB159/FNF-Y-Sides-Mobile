@@ -312,7 +312,7 @@ class FreeplayState extends MusicBeatState
 	function weekIsLocked(name:String):Bool
 	{
 		var leWeek:WeekData = WeekData.weeksLoaded.get(name);
-		return (!leWeek.startUnlocked && leWeek.weekBefore.length > 0 && (!StoryMenuState.weekCompleted.exists(leWeek.weekBefore) || !StoryMenuState.weekCompleted.get(leWeek.weekBefore)));
+		return (!leWeek.startUnlocked && leWeek.weekBefore.length > 0 && (!NewStoryMenuState.weekCompleted.exists(leWeek.weekBefore) || !NewStoryMenuState.weekCompleted.get(leWeek.weekBefore)));
 	}
 
 	var instPlaying:Int = -1;
@@ -490,7 +490,7 @@ class FreeplayState extends MusicBeatState
 				FlxTween.tween(cloud, {alpha: 0}, 0.2);
 				FlxTween.tween(currentIcon, {alpha: 0}, 0.2);
 
-				StoryMenuState.backFromStoryMode = true; //loool
+				NewStoryMenuState.backFromStoryMode = true; //loool
 
 				new FlxTimer().start(0.6, function(tmr:FlxTimer)
 				{

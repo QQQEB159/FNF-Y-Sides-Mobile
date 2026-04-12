@@ -28,7 +28,7 @@ import cutscenes.NewDialogueBox;
 
 import objects.Character;
 
-import states.StoryMenuState;
+import states.NewStoryMenuState;
 import states.NewFreeplayState;
 import states.editors.ChartingState;
 import states.editors.CharacterEditorState;
@@ -3258,7 +3258,7 @@ class PlayState extends MusicBeatState
 					#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
 
 					canResync = false;
-					MusicBeatState.switchState(new StoryMenuState());
+					MusicBeatState.switchState(new NewStoryMenuState());
 					*/
 
 					if(curStage == 'limo' || curStage == 'limoNight')
@@ -3271,10 +3271,10 @@ class PlayState extends MusicBeatState
 
 					// if ()
 					if(!ClientPrefs.getGameplaySetting('practice') && !ClientPrefs.getGameplaySetting('botplay')) {
-						StoryMenuState.weekCompleted.set(WeekData.weeksList[storyWeek], true);
+						NewStoryMenuState.weekCompleted.set(WeekData.weeksList[storyWeek], true);
 						Highscore.saveWeekScore(WeekData.getWeekFileName(), campaignScore, storyDifficulty);
 
-						FlxG.save.data.weekCompleted = StoryMenuState.weekCompleted;
+						FlxG.save.data.weekCompleted = NewStoryMenuState.weekCompleted;
 						FlxG.save.flush();
 					}
 					changedDifficulty = false;

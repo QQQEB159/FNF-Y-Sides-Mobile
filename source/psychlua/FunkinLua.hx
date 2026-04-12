@@ -24,7 +24,7 @@ import objects.NoteSplash;
 import objects.Character;
 
 import states.MainMenuState;
-import states.StoryMenuState;
+import states.NewStoryMenuState;
 import states.NewFreeplayState;
 
 import substates.PauseSubState;
@@ -752,7 +752,7 @@ class FunkinLua {
 			}
 
 			if(PlayState.isStoryMode)
-				MusicBeatState.switchState(new StoryMenuState());
+				MusicBeatState.switchState(new NewStoryMenuState());
 			else
 				MusicBeatState.switchState(new NewFreeplayState(CharSelectState.currentFreeplaySelectedName == 'pico'));
 

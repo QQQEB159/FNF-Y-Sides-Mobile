@@ -3,7 +3,7 @@ package substates;
 import flixel.addons.display.FlxBackdrop;
 
 import states.CharSelectState;
-import states.StoryMenuState;
+import states.NewStoryMenuState;
 import states.NewFreeplayState;
 
 import objects.Character;
@@ -360,7 +360,7 @@ class ResultsScreen extends MusicBeatSubstate
                     {
 		            	FlxTransitionableState.skipNextTransIn = true;
 		            	FlxTransitionableState.skipNextTransOut = true;
-                        MusicBeatState.switchState(new StoryMenuState());
+                        MusicBeatState.switchState(new NewStoryMenuState());
                     }
                     else
                     {

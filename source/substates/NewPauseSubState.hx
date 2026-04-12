@@ -9,7 +9,7 @@ import flixel.addons.display.FlxBackdrop;
 
 import flixel.util.FlxStringUtil;
 import flixel.math.FlxMath;
-import states.StoryMenuState;
+import states.NewStoryMenuState;
 import states.NewFreeplayState;
 
 class NewPauseSubState extends MusicBeatSubstate
@@ -227,7 +227,7 @@ class NewPauseSubState extends MusicBeatSubstate
 				PlayState.seenCutscene = false;
 				Mods.loadTopMod();
 				if (PlayState.isStoryMode)
-					MusicBeatState.switchState(new StoryMenuState());
+					MusicBeatState.switchState(new NewStoryMenuState());
 				else
 					MusicBeatState.switchState(new NewFreeplayState(CharSelectState.currentFreeplaySelectedName == 'pico'));
 				FlxG.sound.playMusic(Paths.music('freakyMenu'));

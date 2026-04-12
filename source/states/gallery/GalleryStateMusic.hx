@@ -179,35 +179,35 @@ class GalleryStateMusic extends MusicBeatState
             return;
         }
 
-        if(StoryMenuState.weekCompleted.exists('week1'))
+        if(NewStoryMenuState.weekCompleted.exists('week1'))
         {
             musicSongsArray.push('bopeebo');
             musicSongsArray.push('fresh');
             musicSongsArray.push('dad-battle');
         }
 
-        if(StoryMenuState.weekCompleted.exists('week2'))
+        if(NewStoryMenuState.weekCompleted.exists('week2'))
         {
             musicSongsArray.push('spookeez');
             musicSongsArray.push('south');
             musicSongsArray.push('monster');
         }
 
-        if(StoryMenuState.weekCompleted.exists('week3'))
+        if(NewStoryMenuState.weekCompleted.exists('week3'))
         {
             musicSongsArray.push('pico');
             musicSongsArray.push('philly-nice');
             musicSongsArray.push('blammed');
         }
 
-        if(StoryMenuState.weekCompleted.exists('week4'))
+        if(NewStoryMenuState.weekCompleted.exists('week4'))
         {
             musicSongsArray.push('satin-panties');
             musicSongsArray.push('high');
             musicSongsArray.push('milf');
         }
 
-        if(StoryMenuState.weekCompleted.exists('week5'))
+        if(NewStoryMenuState.weekCompleted.exists('week5'))
         {
             musicSongsArray.push('cocoa');
             musicSongsArray.push('eggnog');
