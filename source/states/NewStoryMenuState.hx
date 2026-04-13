@@ -1,5 +1,6 @@
 package states;
 
+import flixel.addons.display.FlxBackdrop;
 import flixel.graphics.frames.FlxBitmapFont;
 import flixel.text.FlxBitmapText;
 import flixel.graphics.FlxGraphic;
@@ -21,12 +22,16 @@ class NewStoryMenuState extends MusicBeatState
 	private static var lastDifficultyName:String = '';
 	var loadedWeeks:Array<WeekData> = [];
     var characterY:Float = 0;
+    var stripeSpeed:Int = 25;
 
 	//var songTextTemp:FlxBitmapText;
     var weekBackground:FlxSprite;
+    var bgStripe:FlxBackdrop;
     var gradient:FlxSprite;
     var character:FlxSprite;
     var songsThingie:FlxSprite;
+	var weekTitle:FlxText;
+	var txtTracks:FlxBitmapText;
 	var txtTracklistGrp:FlxTypedGroup<FlxBitmapText>;
     var weekTextBackground:FlxSprite;
     var diffBackground:FlxSprite;
@@ -82,6 +87,12 @@ class NewStoryMenuState extends MusicBeatState
         weekBackground.loadGraphic(Paths.image('storymenu/new/bgs/week5'));
         weekBackground.antialiasing = ClientPrefs.data.antialiasing;
         add(weekBackground);
+
+        bgStripe = new FlxBackdrop(Paths.image('resultsScreen/newResultsScreen/stripe'), #if (flixel <= "5.0.0") 0.2, 0.2, true, true #else X #end);
+        bgStripe.antialiasing = ClientPrefs.data.antialiasing;
+        bgStripe.velocity.set(stripeSpeed, 0);
+        bgStripe.blend = ADD;
+        add(bgStripe);
 
         gradient = new FlxSprite();
         gradient.loadGraphic(Paths.image('storymenu/new/gradient'));
@@ -160,6 +171,17 @@ class NewStoryMenuState extends MusicBeatState
         songsThingie.y = diffBackground.y + diffBackground.height + 10;
         add(songsThingie);
 
+		var fontLetters:String = "abcgipydefhjqzklmnorstuvwx";
+		txtTracks = new FlxBitmapText(FlxBitmapFont.fromMonospace(Paths.image("storymenu/new/storyfont"), fontLetters, FlxPoint.get(42, 56)));
+		txtTracks.antialiasing = ClientPrefs.data.antialiasing;
+		txtTracks.scale.set(0.65, 0.65);
+		txtTracks.text = 'songs';
+		txtTracks.updateHitbox();
+        txtTracks.screenCenter();
+		txtTracks.x = songsThingie.x + songsThingie.width / 2 - txtTracks.width / 2;
+		txtTracks.y = songsThingie.y;
+        add(txtTracks);
+
 		txtTracklistGrp = new FlxTypedGroup<FlxBitmapText>();
 		add(txtTracklistGrp);
 
@@ -171,6 +193,12 @@ class NewStoryMenuState extends MusicBeatState
         poloDown.loadGraphic(Paths.image('storymenu/new/poloDown'));
         poloDown.y = FlxG.height - poloDown.height;
         add(poloDown);
+
+		weekTitle = new FlxText(0, 0, FlxG.width, 'Score: 0');
+		weekTitle.setFormat(Paths.font('RETRRG__.ttf'), 32, 0xFFFFFFFF, CENTER);
+		weekTitle.antialiasing = ClientPrefs.data.antialiasing;
+		weekTitle.y = 10;
+		add(weekTitle);
 
 		scoreText = new FlxText(0, 0, FlxG.width, 'Score: 0');
 		scoreText.setFormat(Paths.font('RETRRG__.ttf'), 32, 0xFFFFFFFF, CENTER);
@@ -218,9 +246,11 @@ class NewStoryMenuState extends MusicBeatState
 				goneBack = true;
 
 				FlxTween.cancelTweensOf(weekBackground);
+				FlxTween.cancelTweensOf(bgStripe);
 				FlxTween.cancelTweensOf(poloUp);
 				FlxTween.cancelTweensOf(poloDown);
 				FlxTween.cancelTweensOf(scoreText);
+				FlxTween.cancelTweensOf(weekTitle);
 				FlxTween.cancelTweensOf(weekTextBackground);
 				FlxTween.cancelTweensOf(songsThingie);
 				FlxTween.cancelTweensOf(gradient);
@@ -237,9 +267,11 @@ class NewStoryMenuState extends MusicBeatState
 				});
 
 				FlxTween.tween(weekBackground, {alpha: 0}, transitionDuration, {ease: FlxEase.expoOut});
+        		FlxTween.tween(bgStripe, {alpha: 0}, transitionDuration);
 				FlxTween.tween(poloUp, {y: -poloUp.height}, transitionDuration, {ease: FlxEase.expoOut});
 				FlxTween.tween(poloDown, {y: FlxG.height}, transitionDuration, {ease: FlxEase.expoOut});
 				FlxTween.tween(scoreText, {y: FlxG.height + 10}, transitionDuration, {ease: FlxEase.expoOut});
+				FlxTween.tween(weekTitle, {y: -poloUp.height + 10}, transitionDuration, {ease: FlxEase.expoOut});
 				FlxTween.tween(weekTextBackground, {alpha: 0}, transitionDuration, {ease: FlxEase.expoOut});
 				FlxTween.tween(diffBackground, {alpha: 0}, transitionDuration, {ease: FlxEase.expoOut});
 				FlxTween.tween(songsThingie, {alpha: 0}, transitionDuration, {ease: FlxEase.expoOut});
@@ -291,6 +323,9 @@ class NewStoryMenuState extends MusicBeatState
 		weekBackground.alpha = 0;
 		FlxTween.tween(weekBackground, {alpha: 1}, transitionDuration, {ease: FlxEase.expoOut});
 
+		bgStripe.alpha = 0;
+        FlxTween.tween(bgStripe, {alpha: 1}, transitionDuration);
+
 		poloUp.y = -poloUp.height;
 		FlxTween.tween(poloUp, {y: 0}, transitionDuration, {ease: FlxEase.expoOut});
 
@@ -299,6 +334,9 @@ class NewStoryMenuState extends MusicBeatState
 		
 		scoreText.y = FlxG.height + 10;
 		FlxTween.tween(scoreText, {y: FlxG.height - scoreText.height - 10}, transitionDuration, {ease: FlxEase.expoOut});
+
+		weekTitle.y = -poloUp.height + 10;
+		FlxTween.tween(weekTitle, {y: 10}, transitionDuration, {ease: FlxEase.expoOut});
 
 		weekTextBackground.alpha = 0;
 		FlxTween.tween(weekTextBackground, {alpha: 0.5}, transitionDuration, {ease: FlxEase.expoOut});
@@ -462,6 +500,8 @@ class NewStoryMenuState extends MusicBeatState
 
 		var leWeek:WeekData = loadedWeeks[curWeek];
 		WeekData.setDirectoryFromWeek(leWeek);
+
+		weekTitle.text = leWeek.storyName;
 
 		character.loadGraphic(Paths.image('storymenu/new/characters/${leWeek.weekCharacters[0]}'));
         character.screenCenter();
