@@ -518,6 +518,7 @@ class MainMenuState extends MusicBeatState
 		                new FlxTimer().start(0.35, function(tmr:FlxTimer)
 		                {
 		                	FlxTween.tween(icons, {alpha: 0}, 0.3, {ease: FlxEase.quartIn});
+                            FlxTween.color(characterWhite, 0.3, 0xFFFFFFFF, 0xFFE7E0FF, {ease: FlxEase.quartIn});
 		                	FlxTween.tween(characterWhite, {"scale.x": 15, "scale.y": 15}, 0.3, {ease: FlxEase.quartIn, onComplete: function(twn2:FlxTween) {
 		                		FlxTransitionableState.skipNextTransIn = true;
 		                		FlxTransitionableState.skipNextTransOut = true;

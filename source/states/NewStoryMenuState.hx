@@ -74,6 +74,10 @@ class NewStoryMenuState extends MusicBeatState
         add(songTextTemp);
         */
 
+		var bg:FlxSprite = new FlxSprite();
+		bg.makeGraphic(FlxG.width, FlxG.height, 0xFFE7E0FF);
+		add(bg);
+
         weekBackground = new FlxSprite();
         weekBackground.loadGraphic(Paths.image('storymenu/new/bgs/week5'));
         weekBackground.antialiasing = ClientPrefs.data.antialiasing;
@@ -176,10 +180,12 @@ class NewStoryMenuState extends MusicBeatState
 
 		changeWeek(0, true);
 		changeDifficulty();
+
+		initTransition();
     }
 
-    var characterScaleX:Float = 1;
-    var characterScaleY:Float = 1;
+    var characterScaleX:Float = 0.85;
+    var characterScaleY:Float = 0.85;
     var squishiIntensity:Float = 0.05;
     override function update(elapsed:Float)
     {
@@ -229,6 +235,42 @@ class NewStoryMenuState extends MusicBeatState
 			//scoreText.text = Language.getPhrase('week_score', 'WEEK SCORE: {1}', [lerpScore]);
 		}
     }
+
+    var transitionDuration:Float = 0.5;
+	function initTransition()
+	{
+		weekBackground.alpha = 0;
+		FlxTween.tween(weekBackground, {alpha: 1}, transitionDuration, {ease: FlxEase.expoOut});
+
+		poloUp.y = -poloUp.height;
+		FlxTween.tween(poloUp, {y: 0}, transitionDuration, {ease: FlxEase.expoOut});
+
+		poloDown.y = FlxG.height;
+		FlxTween.tween(poloDown, {y: FlxG.height - poloDown.height}, transitionDuration, {ease: FlxEase.expoOut});
+		
+		scoreText.y = FlxG.height + 10;
+		FlxTween.tween(scoreText, {y: FlxG.height - scoreText.height - 10}, transitionDuration, {ease: FlxEase.expoOut});
+
+		weekTextBackground.alpha = 0;
+		FlxTween.tween(weekTextBackground, {alpha: 0.5}, transitionDuration, {ease: FlxEase.expoOut});
+
+		diffBackground.alpha = 0;
+		FlxTween.tween(diffBackground, {alpha: 0.5}, transitionDuration, {ease: FlxEase.expoOut});
+
+		songsThingie.alpha = 0;
+		FlxTween.tween(songsThingie, {alpha: 1}, transitionDuration, {ease: FlxEase.expoOut});
+
+		txtTracklistGrp.forEach(function(text:FlxBitmapText)
+		{
+			text.alpha = 0;
+			FlxTween.tween(text, {alpha: 1}, transitionDuration, {ease: FlxEase.expoOut});
+		});
+
+		grpWeekText.forEach(function(item:WeekItem)
+		{
+			item.x = -600;
+		});
+	}
 	
 	var selectedWeek:Bool = false;
 	var stopspamming:Bool = false;
@@ -373,6 +415,7 @@ class NewStoryMenuState extends MusicBeatState
 
 		character.loadGraphic(Paths.image('storymenu/new/characters/${leWeek.weekCharacters[0]}'));
         character.screenCenter();
+		character.y += 40;
 
         characterY = character.y;
 
