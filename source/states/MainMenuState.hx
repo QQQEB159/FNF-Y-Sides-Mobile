@@ -51,6 +51,7 @@ class MainMenuState extends MusicBeatState
     var curColumn:Column = LEFT;
     var menuItemsAngle:Int = 1;
     var menuItemsAngleReverse:Int = -1;
+    var usingMouse:Bool = false;
 
     override function create()
     {
@@ -319,6 +320,11 @@ class MainMenuState extends MusicBeatState
     {
         super.update(elapsed);
 
+        if(FlxG.mouse.deltaX != 0 || FlxG.mouse.deltaY != 0) usingMouse = true;
+        else if(FlxG.keys.justPressed.ANY) usingMouse = false;
+
+        FlxG.mouse.visible = usingMouse;
+
         // spin anim
         circle.angle += circleAngleSpeed * elapsed;
         circle2.angle += circle2AngleSpeed * elapsed;
@@ -342,22 +348,22 @@ class MainMenuState extends MusicBeatState
 
             if(controls.UI_UP_P)
             {
-                changeSelection(-1);
+                if(!usingMouse) changeSelection(-1);
             }
 
             if(controls.UI_DOWN_P)
             {
-                changeSelection(1);
+                if(!usingMouse) changeSelection(1);
             }
 
             if(controls.UI_LEFT_P || controls.UI_RIGHT_P)
             {
-                changeColumn();
+                if(!usingMouse) changeColumn();
             }
 
             if(controls.ACCEPT)
             {
-                pressAccept();
+                if(!usingMouse) pressAccept();
             }
 
 		    if (controls.BACK)
@@ -612,7 +618,7 @@ class MainMenuState extends MusicBeatState
 
     function mouseBehaviour(elapsed:Float)
     {
-		if (allowMouse)
+		if (allowMouse && usingMouse)
 		{
             menuItemsLeftGrp.forEach(function(spr:MenuItemObj)
             {
@@ -647,7 +653,7 @@ class MainMenuState extends MusicBeatState
 
                     curColumn = RIGHT;
                     curSelected = spr.ID;
-                    if(!spr.overlaping) changeSelection();
+                    if(!spr.overlaping && usingMouse) changeSelection();
                     if(!spr.overlaping) spr.overlaping = true;
                 }
                 else
