@@ -20,6 +20,7 @@ class NewStoryMenuState extends MusicBeatState
     private static var difficultyColors:Array<FlxColor> = [0xFF5AFF94, 0xFFFFE461, 0xFFFF5B84];
 	private static var lastDifficultyName:String = '';
 	var loadedWeeks:Array<WeekData> = [];
+    var characterY:Float = 0;
 
 	//var songTextTemp:FlxBitmapText;
     var weekBackground:FlxSprite;
@@ -33,6 +34,7 @@ class NewStoryMenuState extends MusicBeatState
 	var grpWeekText:FlxTypedGroup<WeekItem>;
     var poloUp:FlxSprite;
     var poloDown:FlxSprite;
+	var scoreText:FlxText;
 
     override function create()
     {
@@ -89,14 +91,16 @@ class NewStoryMenuState extends MusicBeatState
         character.antialiasing = ClientPrefs.data.antialiasing;
         add(character);
 
+        characterY = character.y;
+
         weekTextBackground = new FlxSprite(0, 0);
-        weekTextBackground.makeGraphic(290, FlxG.height, 0xFF8E8596);
+        weekTextBackground.makeGraphic(290, FlxG.height, 0xFF130024);
         weekTextBackground.alpha = 0.5;
 		weekTextBackground.x = (375 / 2) - (weekTextBackground.width / 2);
         add(weekTextBackground);
 
         diffBackground = new FlxSprite(0, 155);
-        diffBackground.makeGraphic(290, 135, 0xFF8E8596);
+        diffBackground.makeGraphic(290, 135, 0xFF130024);
         diffBackground.x = FlxG.width - diffBackground.width - 20;
         diffBackground.alpha = 0.5;
         add(diffBackground);
@@ -164,10 +168,19 @@ class NewStoryMenuState extends MusicBeatState
         poloDown.y = FlxG.height - poloDown.height;
         add(poloDown);
 
+		scoreText = new FlxText(0, 0, FlxG.width, 'Score: 0');
+		scoreText.setFormat(Paths.font('RETRRG__.ttf'), 32, 0xFFFFFFFF, CENTER);
+		scoreText.antialiasing = ClientPrefs.data.antialiasing;
+		scoreText.y = FlxG.height - scoreText.height - 10;
+		add(scoreText);
+
 		changeWeek(0, true);
 		changeDifficulty();
     }
 
+    var characterScaleX:Float = 1;
+    var characterScaleY:Float = 1;
+    var squishiIntensity:Float = 0.05;
     override function update(elapsed:Float)
     {
         super.update(elapsed);
@@ -203,11 +216,15 @@ class NewStoryMenuState extends MusicBeatState
 				selectWeek();
 		}
 
+        var multX = FlxMath.lerp(character.scale.x, characterScaleX, elapsed * 9);
+        var multY = FlxMath.lerp(character.scale.y, characterScaleY, elapsed * 9);
+        character.scale.set(multX, multY);
 
 		if(intendedScore != lerpScore)
 		{
 			lerpScore = Math.floor(FlxMath.lerp(intendedScore, lerpScore, Math.exp(-elapsed * 30)));
 			if(Math.abs(intendedScore - lerpScore) < 10) lerpScore = intendedScore;
+			scoreText.text = 'Score: $lerpScore';
 	
 			//scoreText.text = Language.getPhrase('week_score', 'WEEK SCORE: {1}', [lerpScore]);
 		}
@@ -357,14 +374,19 @@ class NewStoryMenuState extends MusicBeatState
 		character.loadGraphic(Paths.image('storymenu/new/characters/${leWeek.weekCharacters[0]}'));
         character.screenCenter();
 
-		character.y += 5;
+        characterY = character.y;
+
+        character.y = characterY + 10;
 		character.alpha = 0;
+        character.scale.set(characterScaleX - squishiIntensity, characterScaleY + squishiIntensity);
 
 		FlxTween.cancelTweensOf(character);
-		FlxTween.tween(character, {alpha: 1, y: character.y - 10}, 0.1, {ease: FlxEase.quartOut});
 		
-		character.angle = 3;
-		FlxTween.tween(character, {angle: -3}, 6, {ease: FlxEase.quartInOut, type: PINGPONG});
+        character.angle = FlxG.random.bool(50) ? 1 : -1;
+        FlxTween.tween(character, {alpha: 1, y: characterY, angle: 0}, 0.25, {ease: FlxEase.quartOut, onComplete: function(twn:FlxTween)
+		{
+			FlxTween.tween(character, {angle: -3}, 6, {ease: FlxEase.quartInOut, type: PINGPONG});
+		}});
 
 		PlayState.storyWeek = curWeek;
 
@@ -398,6 +420,8 @@ class NewStoryMenuState extends MusicBeatState
 		txtTracklistGrp.forEach(function(spr:FlxBitmapText) spr.destroy());
 		txtTracklistGrp.clear();
 
+		FlxTimer.globalManager.clear();
+
 		for (i in 0...stringThing.length)
 		{
 			var fontLetters:String = "abcgipydefhjqzklmnorstuvwx";
@@ -410,6 +434,12 @@ class NewStoryMenuState extends MusicBeatState
 			txtTracklist.x = songsThingie.x + songsThingie.width / 2 - txtTracklist.width / 2;
 			txtTracklist.y = songsThingie.y + 60 + (txtTracklist.height * i);
         	txtTracklistGrp.add(txtTracklist);
+
+			var angleTarget = 1;
+			new FlxTimer().start(0.5, function(tmr:FlxTimer)
+			{
+				txtTracklist.angle = txtTracklist.angle == angleTarget ? -angleTarget : angleTarget;
+			}, 0);
 		}
 
 		#if !switch
