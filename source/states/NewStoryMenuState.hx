@@ -298,9 +298,10 @@ class NewStoryMenuState extends MusicBeatState
 					MusicBeatState.switchState(new MainMenuState());
 				});
 
-				if (controls.ACCEPT)
-					selectWeek();
 			}
+
+			if (controls.ACCEPT)
+				selectWeek();
 		}
 
         var multX = FlxMath.lerp(character.scale.x, characterScaleX, elapsed * 9);
