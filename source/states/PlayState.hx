@@ -665,16 +665,16 @@ class PlayState extends MusicBeatState
 		healthBarGlow.scrollFactor.set();
 		uiGroup.add(healthBarGlow);
 
-		healthBar = new Bar(0, FlxG.height * (!ClientPrefs.data.downScroll ? 0.805 : 0.032) + 13, 'hud/hb', function() return healthShower, 0, 2, true, 'hud/hbfill');
+		healthBar = new Bar(0, FlxG.height * (!ClientPrefs.data.downScroll ? 0.78 : 0.032) + 13, 'hud/hb', function() return healthShower, 0, 2, true, 'hud/hbfill');
 		if(ClientPrefs.data.downScroll) healthBar.y += hbOffset;
 		healthBar.screenCenter(X);
 		healthBar.barOffset = new FlxPoint(0, 0);
 
-		healthBar.leftBar.x += 26;
-		healthBar.leftBar.y += 18;
+		healthBar.leftBar.x += 57;
+		healthBar.leftBar.y += 25;
 
-		healthBar.rightBar.x += 26;
-		healthBar.rightBar.y += 18;
+		healthBar.rightBar.x += 57;
+		healthBar.rightBar.y += 25;
 
 		healthBar.leftToRight = false;
 		healthBar.scrollFactor.set();
@@ -696,7 +696,7 @@ class PlayState extends MusicBeatState
 		healthBarFireBlur.y = healthBar.y + (healthBar.height / 2) - (healthBarFireBlur.height / 2) - 40;
 		healthBarFireBlur.alpha = 0;
 
-		fcSprite = new FlxSprite(0, 15);
+		fcSprite = new FlxSprite(0, healthBar.y);
 		fcSprite.frames = Paths.getSparrowAtlas('hud/ratings_HUD');
 		fcSprite.animation.addByPrefix('sfc', 'ratings_HUD SFC', 24, false);
 		fcSprite.animation.addByPrefix('gfc', 'ratings_HUD GFC', 24, false);
@@ -748,10 +748,10 @@ class PlayState extends MusicBeatState
 		//healthBarArrow.y = healthBar.y + 10;
 		uiGroup.add(healthBarArrow);
 
-		scoreTxt = new FlxText(0, healthBar.y + healthBar.height + 35, FlxG.width, "", 18);
-		scoreTxt.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		scoreTxt = new FlxText(0, healthBar.y + 100, FlxG.width, "", 18);
+		scoreTxt.setFormat(Paths.font("GAU_pop_magic.ttf"), 26, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		scoreTxt.scrollFactor.set();
-		scoreTxt.borderSize = 1.25;
+		scoreTxt.borderSize = 1.75;
 		scoreTxt.visible = !ClientPrefs.data.hideHud;
 		scoreTxt.antialiasing = ClientPrefs.data.antialiasing;
 		uiGroup.add(scoreTxt);
@@ -1539,7 +1539,7 @@ class PlayState extends MusicBeatState
 		}
 
 		var tempScore:String;
-		if(!instakillOnMiss) tempScore = Language.getPhrase('score_text', 'Score: {1}    Misses: {2}', [songScore, songMisses, str]);
+		if(!instakillOnMiss) tempScore = Language.getPhrase('score_text', 'Score: {1}', [songScore, songMisses, str]);
 		else tempScore = Language.getPhrase('score_text_instakill', 'Score: {1}', [songScore, str]);
 		scoreTxt.text = tempScore;
 	}

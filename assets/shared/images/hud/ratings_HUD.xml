@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <TextureAtlas imagePath="ratings_HUD.png">
-<SubTexture name="ratings_HUD SFC0000" x="0" y="0" width="135" height="108" frameX="-572" frameY="-569" frameWidth="1280" frameHeight="720" />
-<SubTexture name="ratings_HUD GFC0000" x="135" y="0" width="135" height="108" frameX="-572" frameY="-569" frameWidth="1280" frameHeight="720" />
-<SubTexture name="ratings_HUD FC0000" x="0" y="108" width="135" height="108" frameX="-572" frameY="-569" frameWidth="1280" frameHeight="720" />
-<SubTexture name="ratings_HUD NOFC0000" x="135" y="108" width="135" height="108" frameX="-572" frameY="-569" frameWidth="1280" frameHeight="720" />
+<SubTexture name="ratings_HUD SFC0000" x="0" y="0" width="152" height="110" frameX="0" frameY="0" frameWidth="140" frameHeight="98" />
+<SubTexture name="ratings_HUD NOFC0000" x="152" y="0" width="152" height="110" frameX="0" frameY="0" frameWidth="140" frameHeight="98" />
+<SubTexture name="ratings_HUD GFC0000" x="0" y="110" width="152" height="110" frameX="0" frameY="0" frameWidth="140" frameHeight="98" />
+<SubTexture name="ratings_HUD FC0000" x="152" y="110" width="152" height="110" frameX="0" frameY="0" frameWidth="140" frameHeight="98" />
 </TextureAtlas>
