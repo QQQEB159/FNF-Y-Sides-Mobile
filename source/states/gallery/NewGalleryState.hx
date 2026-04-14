@@ -7,6 +7,7 @@ import haxe.Json;
 
 class NewGalleryState extends MusicBeatState
 {
+    public static var comingFromGallery:Bool = false;
     private static var curSelected:Int = 0;
     private static var curSelectedImages:Int = 0;
     private static var curSelectedMusics:Int = 0;
@@ -51,6 +52,7 @@ class NewGalleryState extends MusicBeatState
     var infoButton:FlxSprite;
     var infoBackground:FlxSprite;
     var infoText:FlxText;
+    var blackTop:FlxSprite;
 
     var waterShader:WaterShader;
 
@@ -189,6 +191,19 @@ class NewGalleryState extends MusicBeatState
         infoText.setFormat(Paths.font("vcr.ttf"), 36, 0xFFFFFFFF);
         infoText.visible = false;
         add(infoText);
+        
+        blackTop = new FlxSprite();
+        blackTop.makeGraphic(Std.int(FlxG.width * 1.2), FlxG.height, 0xFF000000);
+        //blackTop.alpha = 0;
+        blackTop.screenCenter();
+        add(blackTop);
+
+        // transition
+        blackTop.alpha = 1;
+        FlxG.camera.zoom = 1.05;
+
+		FlxTween.tween(blackTop, {alpha: 0}, 1.3, {ease: FlxEase.expoOut});
+		FlxTween.tween(FlxG.camera, {zoom: 1}, 1, {ease: FlxEase.expoOut});
 
         changeSelect(0, true);
     }
@@ -303,8 +318,12 @@ class NewGalleryState extends MusicBeatState
 
             if(controls.BACK)
             {
+                comingFromGallery = true;
+		        FlxTween.tween(blackTop, {alpha: 1}, 1.3, {ease: FlxEase.expoOut});
+		        FlxTween.tween(FlxG.camera, {zoom: 1.05}, 1, {ease: FlxEase.expoOut});
+
                 FlxG.sound.play(Paths.sound('cancelMenu'));
-                new FlxTimer().start(0.8, function(t:FlxTimer)
+                new FlxTimer().start(1, function(t:FlxTimer)
                 {
 		            	FlxTransitionableState.skipNextTransIn = true;
 		            	FlxTransitionableState.skipNextTransOut = true;
