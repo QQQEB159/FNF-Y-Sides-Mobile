@@ -239,6 +239,7 @@ class PlayState extends MusicBeatState
 	public var healthBarArrow:FlxSprite;
 
 	public var songScore:Int = 0;
+	public var scoreLerp:Float = 0;
 	public var songHits:Int = 0;
 	public var songMisses:Int = 0;
 	public var scoreTxt:FlxText;
@@ -749,7 +750,7 @@ class PlayState extends MusicBeatState
 		uiGroup.add(healthBarArrow);
 
 		scoreTxt = new FlxText(0, healthBar.y + 100, FlxG.width, "", 18);
-		scoreTxt.setFormat(Paths.font("GAU_pop_magic.ttf"), 26, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		scoreTxt.setFormat(Paths.font("GAU_pop_magic.ttf"), 26, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, 0xFF130024);
 		scoreTxt.scrollFactor.set();
 		scoreTxt.borderSize = 1.75;
 		scoreTxt.visible = !ClientPrefs.data.hideHud;
@@ -1522,7 +1523,6 @@ class PlayState extends MusicBeatState
 		if (ret == LuaUtils.Function_Stop)
 			return;
 
-		updateScoreText();
 		if (!miss && !cpuControlled && scoreBop)
 			doScoreBop();
 
@@ -1539,8 +1539,8 @@ class PlayState extends MusicBeatState
 		}
 
 		var tempScore:String;
-		if(!instakillOnMiss) tempScore = Language.getPhrase('score_text', 'Score: {1}', [songScore, songMisses, str]);
-		else tempScore = Language.getPhrase('score_text_instakill', 'Score: {1}', [songScore, str]);
+		if(!instakillOnMiss) tempScore = Language.getPhrase('score_text', 'Score: {1}', [scoreLerp, songMisses, str]);
+		else tempScore = Language.getPhrase('score_text_instakill', 'Score: {1}', [scoreLerp, str]);
 		scoreTxt.text = tempScore;
 	}
 
@@ -2118,6 +2118,12 @@ class PlayState extends MusicBeatState
 		spaceMechanicButton.scale.set(mult, mult);
 
 		super.update(elapsed);
+
+		var scoreLerpPolation:Float = elapsed * 24;
+
+		scoreLerp = Std.int(FlxMath.lerp(scoreLerp, songScore, scoreLerpPolation));
+		if(Math.abs(songScore - scoreLerp) < 10) scoreLerp = songScore;
+		updateScoreText();
 
 		if(constantHealthDrainActive)
 		{
