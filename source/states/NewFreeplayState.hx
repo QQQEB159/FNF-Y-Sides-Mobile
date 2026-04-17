@@ -239,7 +239,7 @@ class NewFreeplayState extends MusicBeatState
         FlxTween.tween(bombox, {x: 705}, transitionDuration, {ease: FlxEase.expoOut});
 
         character.x = FlxG.width + (895 - 705);
-        FlxTween.tween(character, {x: 895}, transitionDuration, {ease: FlxEase.expoOut});
+        FlxTween.tween(character, {x: CharSelectState.currentFreeplaySelectedName == 'bf' ? 895 : 845}, transitionDuration, {ease: FlxEase.expoOut});
 
 		for (num => item in grpSongs.members)
         {
