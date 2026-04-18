@@ -354,11 +354,6 @@ class MainMenuState extends MusicBeatState
     {
         super.update(elapsed);
 
-        if(FlxG.mouse.deltaX != 0 || FlxG.mouse.deltaY != 0) usingMouse = true;
-        else if(FlxG.keys.justPressed.ANY) usingMouse = false;
-
-        FlxG.mouse.visible = usingMouse;
-
         // spin anim
         circle.angle += circleAngleSpeed * elapsed;
         circle2.angle += circle2AngleSpeed * elapsed;
@@ -377,7 +372,12 @@ class MainMenuState extends MusicBeatState
 		FlxG.camera.scroll.y = FlxMath.lerp(FlxG.camera.scroll.y, (multY * scrollMultiplier), elapsed * 10);
 
         if(!selectedSomethin)
-        {
+        {        
+            if(FlxG.mouse.deltaX != 0 || FlxG.mouse.deltaY != 0) usingMouse = true;
+            else if(FlxG.keys.justPressed.ANY) usingMouse = false;
+            
+            FlxG.mouse.visible = usingMouse;
+
             mouseBehaviour(elapsed);
 
             if(controls.UI_UP_P)
