@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TextureAtlas imagePath="uva.png">
+<SubTexture name="walking0000" x="0" y="281" width="215" height="257" frameX="-8" frameY="-26" frameWidth="235" frameHeight="280" />
+<SubTexture name="walking0001" x="414" y="0" width="213" height="263" frameX="-9" frameY="-21" frameWidth="235" frameHeight="280" />
+<SubTexture name="idle0000" x="206" y="0" width="208" height="280" frameX="-14" frameY="-4" frameWidth="235" frameHeight="280" />
+<SubTexture name="idle0001" x="0" y="0" width="206" height="281" frameX="-15" frameY="-3" frameWidth="235" frameHeight="280" />
+</TextureAtlas>

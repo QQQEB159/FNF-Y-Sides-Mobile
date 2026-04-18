@@ -2,14 +2,14 @@
 <TextureAtlas imagePath="menu-characters.png">
 	<!-- Created with Adobe Animate version 22.0.2.168 -->
 	<!-- http://www.adobe.com/products/animate.html -->
-	<SubTexture name="awards_characters0000" x="734" y="24" width="686" height="321" frameX="0" frameY="0" frameWidth="686" frameHeight="322"/>
-	<SubTexture name="awards_characters0001" x="734" y="24" width="686" height="321" frameX="0" frameY="0" frameWidth="686" frameHeight="322"/>
-	<SubTexture name="awards_characters0002" x="734" y="24" width="686" height="321" frameX="0" frameY="0" frameWidth="686" frameHeight="322"/>
-	<SubTexture name="awards_characters0003" x="734" y="24" width="686" height="321" frameX="0" frameY="0" frameWidth="686" frameHeight="322"/>
-	<SubTexture name="awards_characters0004" x="24" y="24" width="686" height="322"/>
-	<SubTexture name="awards_characters0005" x="24" y="24" width="686" height="322"/>
-	<SubTexture name="awards_characters0006" x="24" y="24" width="686" height="322"/>
-	<SubTexture name="awards_characters0007" x="24" y="24" width="686" height="322"/>
+	<SubTexture name="vault_characters0000" x="734" y="24" width="686" height="321" frameX="0" frameY="0" frameWidth="686" frameHeight="322"/>
+	<SubTexture name="vault_characters0001" x="734" y="24" width="686" height="321" frameX="0" frameY="0" frameWidth="686" frameHeight="322"/>
+	<SubTexture name="vault_characters0002" x="734" y="24" width="686" height="321" frameX="0" frameY="0" frameWidth="686" frameHeight="322"/>
+	<SubTexture name="vault_characters0003" x="734" y="24" width="686" height="321" frameX="0" frameY="0" frameWidth="686" frameHeight="322"/>
+	<SubTexture name="vault_characters0004" x="24" y="24" width="686" height="322"/>
+	<SubTexture name="vault_characters0005" x="24" y="24" width="686" height="322"/>
+	<SubTexture name="vault_characters0006" x="24" y="24" width="686" height="322"/>
+	<SubTexture name="vault_characters0007" x="24" y="24" width="686" height="322"/>
 	<SubTexture name="credits_characters0000" x="24" y="370" width="492" height="335"/>
 	<SubTexture name="credits_characters0001" x="24" y="370" width="492" height="335"/>
 	<SubTexture name="credits_characters0002" x="24" y="370" width="492" height="335"/>

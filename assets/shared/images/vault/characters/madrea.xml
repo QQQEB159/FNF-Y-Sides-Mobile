@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TextureAtlas imagePath="madrea.png">
+<SubTexture name="idle0000" x="239" y="279" width="236" height="272" frameX="-5" frameY="-9" frameWidth="236" frameHeight="275" />
+<SubTexture name="idle0001" x="460" y="0" width="238" height="274" frameX="-6" frameY="-7" frameWidth="236" frameHeight="275" />
+<SubTexture name="idle0002" x="460" y="0" width="238" height="274" frameX="-6" frameY="-7" frameWidth="236" frameHeight="275" />
+<SubTexture name="idle0003" x="0" y="279" width="239" height="273" frameX="-7" frameY="-8" frameWidth="236" frameHeight="275" />
+<SubTexture name="talk0000" x="0" y="0" width="229" height="279" frameX="-7" frameY="-2" frameWidth="236" frameHeight="275" />
+<SubTexture name="talk0001" x="229" y="0" width="231" height="277" frameX="-5" frameY="-4" frameWidth="236" frameHeight="275" />
+</TextureAtlas>

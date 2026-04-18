@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="vault.png">
+	<!-- Created with Adobe Animate version 24.0.0.305 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="vault0000" x="0" y="0" width="144" height="128"/>
+	<SubTexture name="vault0001" x="0" y="0" width="144" height="128"/>
+	<SubTexture name="vault0002" x="0" y="0" width="144" height="128"/>
+	<SubTexture name="vault0003" x="0" y="0" width="144" height="128"/>
+	<SubTexture name="vault0004" x="0" y="128" width="144" height="128"/>
+	<SubTexture name="vault0005" x="0" y="128" width="144" height="128"/>
+	<SubTexture name="vault0006" x="0" y="128" width="144" height="128"/>
+	<SubTexture name="vault0007" x="0" y="128" width="144" height="128"/>
+</TextureAtlas>

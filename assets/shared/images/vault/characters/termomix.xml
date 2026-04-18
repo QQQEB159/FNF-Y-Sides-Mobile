@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TextureAtlas imagePath="termomix.png">
+<SubTexture name="walking0000" x="0" y="0" width="216" height="364" frameX="-14" frameY="-9" frameWidth="229" frameHeight="371" />
+<SubTexture name="walking0001" x="216" y="0" width="224" height="360" frameX="-16" frameY="-15" frameWidth="229" frameHeight="371" />
+<SubTexture name="walking0002" x="0" y="0" width="216" height="364" frameX="-14" frameY="-9" frameWidth="229" frameHeight="371" />
+<SubTexture name="walking0003" x="440" y="0" width="215" height="359" frameX="-4" frameY="-12" frameWidth="229" frameHeight="371" />
+</TextureAtlas>

@@ -3,6 +3,7 @@ package states;
 import flixel.addons.display.FlxBackdrop;
 import states.gallery.NewGalleryState;
 import states.gallery.GalleryState;
+import states.vault.VaultState;
 import options.OptionsState;
 
 enum Column
@@ -47,7 +48,7 @@ class MainMenuState extends MusicBeatState
     
     var menuItemsRightArr:Array<String> = [
         'options',
-        'awards',
+        'vault',
         'gallery'
     ];
     var menuItemsRightGrp:FlxTypedGroup<MenuItemObj>;
@@ -418,7 +419,7 @@ class MainMenuState extends MusicBeatState
         var targetOption = curColumn == LEFT ? menuItemsLeftArr[curSelected] : menuItemsRightArr[curSelected];
         characterScaleX = characterScaleY = switch(targetOption)
         {
-            case 'freeplay' | 'awards':
+            case 'freeplay' | 'vault':
                 0.85;
             default:
                 1;
@@ -499,7 +500,7 @@ class MainMenuState extends MusicBeatState
         switch(option)
         {
             // default transitions
-            case 'freeplay' | 'options' | 'awards':
+            case 'freeplay' | 'options' | 'vault':
                 trace('Transitioning to $option');
                 var state = getTargetState(option);
 
@@ -637,8 +638,8 @@ class MainMenuState extends MusicBeatState
                 new CreditsStateYSides();
             case 'options':
                 new options.OptionsState();
-            case 'awards':
-                new AchievementsMenuState();
+            case 'vault':
+                new VaultState();
             case 'gallery': 
                 new NewGalleryState();
             default:
