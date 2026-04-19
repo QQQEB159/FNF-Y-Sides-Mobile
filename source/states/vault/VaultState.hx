@@ -13,6 +13,9 @@ class VaultState extends MusicBeatState
     var sign:FlxSprite;
     var table:FlxSprite;
     var machine:FlxSprite;
+
+    var madreaCharacter:FlxSprite;
+
     var poloUp:FlxSprite;
     var poloDown:FlxSprite;
 
@@ -77,6 +80,14 @@ class VaultState extends MusicBeatState
         sign.y = 20;
         add(sign);
 
+        madreaCharacter = new FlxSprite();
+        madreaCharacter.frames = Paths.getSparrowAtlas('vault/characters/madrea');
+        madreaCharacter.animation.addByPrefix('idle', 'idle', 24, true);
+        madreaCharacter.animation.addByPrefix('talk', 'talk', 24, true);
+        madreaCharacter.animation.play('idle');
+        madreaCharacter.antialiasing = ClientPrefs.data.antialiasing;
+        add(madreaCharacter);
+
         table = new FlxSprite();
         table.loadGraphic(Paths.image('vault/table'));
         table.antialiasing = ClientPrefs.data.antialiasing;
@@ -88,7 +99,7 @@ class VaultState extends MusicBeatState
         machine.loadGraphic(Paths.image('vault/money'));
         machine.antialiasing = ClientPrefs.data.antialiasing;
         machine.x = table.x + table.width - machine.width - 30;
-        machine.y = table.y - machine.height + 15;
+        machine.y = table.y - machine.height + 20;
         add(machine);
 
         poloUp = new FlxSprite();
