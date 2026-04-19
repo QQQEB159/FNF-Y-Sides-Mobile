@@ -95,6 +95,9 @@ class VaultState extends MusicBeatState
         table.y = 442;
         add(table);
 
+        madreaCharacter.x = table.x + 110;
+        madreaCharacter.y = table.y - madreaCharacter.height + 45;
+
         machine = new FlxSprite();
         machine.loadGraphic(Paths.image('vault/money'));
         machine.antialiasing = ClientPrefs.data.antialiasing;

@@ -1,7 +1,19 @@
 <?xml version='1.0' encoding='utf-8'?>
 <TextureAtlas imagePath="GAMERTAP64.png">
 <SubTexture name="recolocating0000" x="169" y="0" width="172" height="350" frameX="-2" frameY="-5" frameWidth="175" frameHeight="348" />
+<SubTexture name="recolocating0001" x="169" y="0" width="172" height="350" frameX="-2" frameY="-5" frameWidth="175" frameHeight="348" />
+<SubTexture name="recolocating0002" x="169" y="0" width="172" height="350" frameX="-2" frameY="-5" frameWidth="175" frameHeight="348" />
+<SubTexture name="recolocating0003" x="169" y="0" width="172" height="350" frameX="-2" frameY="-5" frameWidth="175" frameHeight="348" />
+<SubTexture name="recolocating0004" x="0" y="0" width="169" height="354" frameX="-4" frameY="-1" frameWidth="175" frameHeight="348" />
+<SubTexture name="recolocating0005" x="0" y="0" width="169" height="354" frameX="-4" frameY="-1" frameWidth="175" frameHeight="348" />
+<SubTexture name="recolocating0006" x="0" y="0" width="169" height="354" frameX="-4" frameY="-1" frameWidth="175" frameHeight="348" />
+<SubTexture name="recolocating0007" x="0" y="0" width="169" height="354" frameX="-4" frameY="-1" frameWidth="175" frameHeight="348" />
 <SubTexture name="walking0000" x="513" y="0" width="174" height="323" frameX="-12" frameY="-37" frameWidth="175" frameHeight="348" />
-<SubTexture name="walking0001" x="341" y="0" width="172" height="326" frameX="-13" frameY="-34" frameWidth="175" frameHeight="348" />
-<SubTexture name="recolocating0001" x="0" y="0" width="169" height="354" frameX="-4" frameY="-1" frameWidth="175" frameHeight="348" />
+<SubTexture name="walking0001" x="513" y="0" width="174" height="323" frameX="-12" frameY="-37" frameWidth="175" frameHeight="348" />
+<SubTexture name="walking0002" x="513" y="0" width="174" height="323" frameX="-12" frameY="-37" frameWidth="175" frameHeight="348" />
+<SubTexture name="walking0003" x="513" y="0" width="174" height="323" frameX="-12" frameY="-37" frameWidth="175" frameHeight="348" />
+<SubTexture name="walking0004" x="341" y="0" width="172" height="326" frameX="-13" frameY="-34" frameWidth="175" frameHeight="348" />
+<SubTexture name="walking0005" x="341" y="0" width="172" height="326" frameX="-13" frameY="-34" frameWidth="175" frameHeight="348" />
+<SubTexture name="walking0006" x="341" y="0" width="172" height="326" frameX="-13" frameY="-34" frameWidth="175" frameHeight="348" />
+<SubTexture name="walking0007" x="341" y="0" width="172" height="326" frameX="-13" frameY="-34" frameWidth="175" frameHeight="348" />
 </TextureAtlas>

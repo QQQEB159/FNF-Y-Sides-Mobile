@@ -1,7 +1,19 @@
 <?xml version='1.0' encoding='utf-8'?>
 <TextureAtlas imagePath="uva.png">
 <SubTexture name="walking0000" x="0" y="281" width="215" height="257" frameX="-8" frameY="-26" frameWidth="235" frameHeight="280" />
-<SubTexture name="walking0001" x="414" y="0" width="213" height="263" frameX="-9" frameY="-21" frameWidth="235" frameHeight="280" />
+<SubTexture name="walking0001" x="0" y="281" width="215" height="257" frameX="-8" frameY="-26" frameWidth="235" frameHeight="280" />
+<SubTexture name="walking0002" x="0" y="281" width="215" height="257" frameX="-8" frameY="-26" frameWidth="235" frameHeight="280" />
+<SubTexture name="walking0003" x="0" y="281" width="215" height="257" frameX="-8" frameY="-26" frameWidth="235" frameHeight="280" />
+<SubTexture name="walking0004" x="414" y="0" width="213" height="263" frameX="-9" frameY="-21" frameWidth="235" frameHeight="280" />
+<SubTexture name="walking0005" x="414" y="0" width="213" height="263" frameX="-9" frameY="-21" frameWidth="235" frameHeight="280" />
+<SubTexture name="walking0006" x="414" y="0" width="213" height="263" frameX="-9" frameY="-21" frameWidth="235" frameHeight="280" />
+<SubTexture name="walking0007" x="414" y="0" width="213" height="263" frameX="-9" frameY="-21" frameWidth="235" frameHeight="280" />
 <SubTexture name="idle0000" x="206" y="0" width="208" height="280" frameX="-14" frameY="-4" frameWidth="235" frameHeight="280" />
-<SubTexture name="idle0001" x="0" y="0" width="206" height="281" frameX="-15" frameY="-3" frameWidth="235" frameHeight="280" />
+<SubTexture name="idle0001" x="206" y="0" width="208" height="280" frameX="-14" frameY="-4" frameWidth="235" frameHeight="280" />
+<SubTexture name="idle0002" x="206" y="0" width="208" height="280" frameX="-14" frameY="-4" frameWidth="235" frameHeight="280" />
+<SubTexture name="idle0003" x="206" y="0" width="208" height="280" frameX="-14" frameY="-4" frameWidth="235" frameHeight="280" />
+<SubTexture name="idle0004" x="0" y="0" width="206" height="281" frameX="-15" frameY="-3" frameWidth="235" frameHeight="280" />
+<SubTexture name="idle0005" x="0" y="0" width="206" height="281" frameX="-15" frameY="-3" frameWidth="235" frameHeight="280" />
+<SubTexture name="idle0006" x="0" y="0" width="206" height="281" frameX="-15" frameY="-3" frameWidth="235" frameHeight="280" />
+<SubTexture name="idle0007" x="0" y="0" width="206" height="281" frameX="-15" frameY="-3" frameWidth="235" frameHeight="280" />
 </TextureAtlas>

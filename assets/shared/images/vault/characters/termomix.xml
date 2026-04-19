@@ -1,7 +1,19 @@
 <?xml version='1.0' encoding='utf-8'?>
 <TextureAtlas imagePath="termomix.png">
 <SubTexture name="walking0000" x="0" y="0" width="216" height="364" frameX="-14" frameY="-9" frameWidth="229" frameHeight="371" />
-<SubTexture name="walking0001" x="216" y="0" width="224" height="360" frameX="-16" frameY="-15" frameWidth="229" frameHeight="371" />
+<SubTexture name="walking0001" x="0" y="0" width="216" height="364" frameX="-14" frameY="-9" frameWidth="229" frameHeight="371" />
 <SubTexture name="walking0002" x="0" y="0" width="216" height="364" frameX="-14" frameY="-9" frameWidth="229" frameHeight="371" />
-<SubTexture name="walking0003" x="440" y="0" width="215" height="359" frameX="-4" frameY="-12" frameWidth="229" frameHeight="371" />
+<SubTexture name="walking0003" x="0" y="0" width="216" height="364" frameX="-14" frameY="-9" frameWidth="229" frameHeight="371" />
+<SubTexture name="walking0004" x="216" y="0" width="224" height="360" frameX="-16" frameY="-15" frameWidth="229" frameHeight="371" />
+<SubTexture name="walking0005" x="216" y="0" width="224" height="360" frameX="-16" frameY="-15" frameWidth="229" frameHeight="371" />
+<SubTexture name="walking0006" x="216" y="0" width="224" height="360" frameX="-16" frameY="-15" frameWidth="229" frameHeight="371" />
+<SubTexture name="walking0007" x="216" y="0" width="224" height="360" frameX="-16" frameY="-15" frameWidth="229" frameHeight="371" />
+<SubTexture name="walking0008" x="0" y="0" width="216" height="364" frameX="-14" frameY="-9" frameWidth="229" frameHeight="371" />
+<SubTexture name="walking0009" x="0" y="0" width="216" height="364" frameX="-14" frameY="-9" frameWidth="229" frameHeight="371" />
+<SubTexture name="walking0010" x="0" y="0" width="216" height="364" frameX="-14" frameY="-9" frameWidth="229" frameHeight="371" />
+<SubTexture name="walking0011" x="0" y="0" width="216" height="364" frameX="-14" frameY="-9" frameWidth="229" frameHeight="371" />
+<SubTexture name="walking0012" x="440" y="0" width="215" height="359" frameX="-4" frameY="-12" frameWidth="229" frameHeight="371" />
+<SubTexture name="walking0013" x="440" y="0" width="215" height="359" frameX="-4" frameY="-12" frameWidth="229" frameHeight="371" />
+<SubTexture name="walking0014" x="440" y="0" width="215" height="359" frameX="-4" frameY="-12" frameWidth="229" frameHeight="371" />
+<SubTexture name="walking0015" x="440" y="0" width="215" height="359" frameX="-4" frameY="-12" frameWidth="229" frameHeight="371" />
 </TextureAtlas>
