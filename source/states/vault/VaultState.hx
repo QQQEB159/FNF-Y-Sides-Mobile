@@ -2,6 +2,7 @@ package states.vault;
 
 import flixel.FlxObject;
 import flixel.addons.display.FlxBackdrop;
+import flixel.addons.text.FlxTypeText;
 
 class VaultState extends MusicBeatState
 {
@@ -38,6 +39,9 @@ class VaultState extends MusicBeatState
     var camHUD:FlxCamera;
 
     var camFollow:FlxObject;
+
+    var dialogueBox:FlxSprite;
+    var dialogueText:FlxTypeText;
 
     override function create()
     {
@@ -234,6 +238,20 @@ class VaultState extends MusicBeatState
         poloDown.cameras = [camHUD];
         add(poloDown);
 
+		dialogueBox = new FlxSprite(40, 600).makeGraphic(1200, 80, FlxColor.BLACK);
+		dialogueBox.alpha = 0;
+		dialogueBox.antialiasing = ClientPrefs.data.antialiasing;
+        dialogueBox.cameras = [camHUD];
+		add(dialogueBox);
+
+		dialogueText = new FlxTypeText(50, dialogueBox.y + 10, 1180, "", 32);
+		dialogueText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		dialogueText.scrollFactor.set();
+		dialogueText.sounds = [FlxG.sound.load(Paths.sound('vault/maderatalk'), 0.6)];
+		dialogueText.antialiasing = ClientPrefs.data.antialiasing;
+        dialogueText.cameras = [camHUD];
+		add(dialogueText);
+
         // handle spawn times
         new FlxTimer().start(16, function(tmr:FlxTimer)
         {
@@ -257,6 +275,7 @@ class VaultState extends MusicBeatState
         });
 
         preShopChangeSelection();
+        randomStartIndex = FlxG.random.int(0, randomTextsArr.length - 1);
     }
 
     function spawnGbv()
@@ -389,7 +408,7 @@ class VaultState extends MusicBeatState
         preShopHand.x = FlxMath.lerp(preShopHand.x, preShopHandXTarget, elapsed * 15);
         preShopHand.y = FlxMath.lerp(preShopHand.y, preShopHandYTarget, elapsed * 15);
 
-        if(isOnShop)
+        if(isOnShop && canInteractPreShopUI)
         {
             if(controls.UI_UP_P)
             {
@@ -408,6 +427,7 @@ class VaultState extends MusicBeatState
 
             if(controls.BACK)
             {
+                endDialogue();
                 zoomOutFromShop();
             }
         }
@@ -459,10 +479,40 @@ class VaultState extends MusicBeatState
         }
     }
 
+	public var thingTimer:Float = 1.8;
+	public function startDialogue(text:String, speed:Float = 0.04, ?endCallback:Void->Void)
+	{
+		FlxTween.cancelTweensOf(dialogueBox);
+		FlxTween.cancelTweensOf(dialogueText);
 
-    var maderaTalkSound:FlxSound;
+		FlxTween.tween(dialogueBox, {alpha: 0.6, y: dialogueBox.y - 10}, 0.35, {ease: FlxEase.linear});
+		FlxTween.tween(dialogueText, {alpha: 1, y: dialogueText.y - 10}, 0.35, {ease: FlxEase.linear});
+		//dialogueBox.alpha = 0;
+		//dialogueText.alpha = 0;
+
+		dialogueText.resetText(text);
+		dialogueText.start(speed, true);
+		dialogueText.completeCallback = function() 
+		{
+            madreaCharacter.animation.play('idle');
+			new FlxTimer().start(thingTimer, function(t:FlxTimer)
+			{
+                endDialogue();
+                if(endCallback != null) endCallback();
+			});
+		}
+	}
+
+    function endDialogue()
+    {
+        FlxTween.cancelTweensOf(dialogueBox);
+        FlxTween.cancelTweensOf(dialogueText);
+            
+        FlxTween.tween(dialogueBox, {alpha: 0, y: dialogueBox.y + 10}, 0.35, {ease: FlxEase.linear});
+        FlxTween.tween(dialogueText, {alpha: 0, y: dialogueText.y + 10}, 0.35, {ease: FlxEase.linear});
+    }
+
     var isOnShop:Bool = false;
-    var madreaZoomToShopAnimTimer:FlxTimer;
     function zoomCameraToShop()
     {
         // if hero is walking make him run so it doesn't bother you while you buy stuff
@@ -485,24 +535,16 @@ class VaultState extends MusicBeatState
         FlxTween.tween(FlxG.camera, {zoom: 1.15, "scroll.x": 70}, 1, {ease: FlxEase.quartOut});
         FlxTween.tween(blackShopBackground, {alpha: 0.5}, 1);
 
-        maderaTalkSound = new FlxSound();
-        maderaTalkSound.loadEmbedded(Paths.sound('vault/maderatalk'));
-        maderaTalkSound.play();
-		FlxG.sound.list.add(maderaTalkSound);
-
-        // make madera talk
-        madreaCharacter.animation.play('talk', true);
-        madreaZoomToShopAnimTimer = new FlxTimer().start(1.1, function(tmr:FlxTimer)
-        {
-            madreaCharacter.animation.play('idle', true);
-        });
+        startDialogue('Welcome to the shop!');
 
         table.animation.play('idle');
         showPreShopUI();
     }
 
+    var canInteractPreShopUI:Bool = false;
     function showPreShopUI()
     {
+        canInteractPreShopUI = true;
         for(obj in preShopGrp)
         {
             FlxTween.cancelTweensOf(obj);
@@ -516,6 +558,7 @@ class VaultState extends MusicBeatState
 
     function hidePreShopUI()
     {
+        canInteractPreShopUI = false;
         for(obj in preShopGrp)
         {
             FlxTween.cancelTweensOf(obj);
@@ -536,11 +579,27 @@ class VaultState extends MusicBeatState
         preShopHandYTarget = curMember.y + curMember.height / 2 - preShopHand.height / 2;
     }
 
+    var randomTextsArr:Array<String> = [
+        "Many people ask me why I'm a boyfriend... I guess it's just my hair",
+        "This shop has tons of employees actually, but only 4 are the ones who really work hard :(",
+        "Your progress is stored by Tapi, hopefully he won't erase your save files as he did with mines",
+        "Oh, about the name of the company... it's a very gorgeous metaphor, isn't it?"
+    ];
+    var randomStartIndex:Int = 0;
+
     function preShopSelect()
     {
         var name:String = preShopArr[preShopCurSelected];
         switch(name)
         {
+            case 'talk':
+                hidePreShopUI();
+                madreaCharacter.animation.play('talk');
+                startDialogue(randomTextsArr[randomStartIndex], 0.04, function()
+                {
+                    showPreShopUI();
+                });
+                randomStartIndex = FlxMath.wrap(randomStartIndex + 1, 0, randomTextsArr.length - 1);
             case 'exit': zoomOutFromShop();
             default: // nothing
         }
@@ -554,11 +613,7 @@ class VaultState extends MusicBeatState
         updateScroll = true;
 
         madreaCharacter.animation.play('idle', true);
-        madreaZoomToShopAnimTimer.destroy();
         heroSpawnTimer.active = true;
-
-        maderaTalkSound.pause();
-        maderaTalkSound.destroy();
 
         FlxTween.cancelTweensOf(heroCharacter);
         FlxTween.cancelTweensOf(FlxG.camera);
