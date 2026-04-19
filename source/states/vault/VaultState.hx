@@ -23,6 +23,9 @@ class VaultState extends MusicBeatState
     var heroCharacter:FlxSprite;
     var heroSpawnTimer:FlxTimer;
 
+    var emilCharacter:FlxSprite;
+    var snowCharacter:FlxSprite;
+
     var preShopArr:Array<String> = ['buy', 'talk', 'exit'];
     var preShopGrp:FlxTypedGroup<FlxSprite>;
     var preShopHand:FlxSprite;
@@ -173,6 +176,19 @@ class VaultState extends MusicBeatState
         heroCharacter.y = table.y + table.height - heroCharacter.height + 50;
         add(heroCharacter);
 
+        emilCharacter = new FlxSprite();
+        emilCharacter.loadGraphic(Paths.image('vault/characters/emil'));
+        emilCharacter.x = FlxG.width + 30;
+        emilCharacter.y = FlxG.height - emilCharacter.height;
+        add(emilCharacter);
+
+        snowCharacter = new FlxSprite();
+        snowCharacter.loadGraphic(Paths.image('vault/characters/nieve'));
+        snowCharacter.y = FlxG.height - snowCharacter.height;
+        snowCharacter.x = -snowCharacter.width;
+        snowCharacter.flipX = true;
+        add(snowCharacter);
+
         preShopGrp = new FlxTypedGroup<FlxSprite>();
         preShopGrp.cameras = [camHUD];
         add(preShopGrp);
@@ -231,6 +247,14 @@ class VaultState extends MusicBeatState
         {
             spawnHero();
         }, 0);
+        new FlxTimer().start(FlxG.random.float(60, 120), function(tmr:FlxTimer)
+        {
+            spawnEmil();
+        });
+        new FlxTimer().start(FlxG.random.float(60, 120), function(tmr:FlxTimer)
+        {
+            spawnSnow();
+        });
 
         preShopChangeSelection();
     }
@@ -331,6 +355,16 @@ class VaultState extends MusicBeatState
                 isHeroWalking = false;
             }});
         }
+    }
+
+    function spawnEmil()
+    {
+        FlxTween.tween(emilCharacter, {x: -emilCharacter.width}, 6);
+    }
+
+    function spawnSnow()
+    {
+        FlxTween.tween(snowCharacter, {x: FlxG.width + 30}, 6);
     }
 
     var updateScroll:Bool = true;
