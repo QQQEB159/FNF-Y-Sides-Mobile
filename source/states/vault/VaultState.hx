@@ -1,5 +1,6 @@
 package states.vault;
 
+import flixel.FlxObject;
 import flixel.addons.display.FlxBackdrop;
 
 class VaultState extends MusicBeatState
@@ -16,14 +17,19 @@ class VaultState extends MusicBeatState
     var table:FlxSprite;
     var machine:FlxSprite;
 
+    var blackShopBackground:FlxSprite;
+
     var madreaCharacter:FlxSprite;
     var heroCharacter:FlxSprite;
+    var heroSpawnTimer:FlxTimer;
 
     var poloUp:FlxSprite;
     var poloDown:FlxSprite;
 
     var camMain:FlxCamera;
     var camHUD:FlxCamera;
+
+    var camFollow:FlxObject;
 
     override function create()
     {
@@ -113,6 +119,11 @@ class VaultState extends MusicBeatState
         tapiCharacter.y = floor.y - tapiCharacter.height + 70;
         add(tapiCharacter);
 
+        blackShopBackground = new FlxSprite();
+        blackShopBackground.makeGraphic(1500, 800, 0xFF000000);
+        blackShopBackground.alpha = 0;
+        add(blackShopBackground);
+
         madreaCharacter = new FlxSprite();
         madreaCharacter.frames = Paths.getSparrowAtlas('vault/characters/madrea');
         madreaCharacter.animation.addByPrefix('idle', 'idle', 24, true);
@@ -145,6 +156,7 @@ class VaultState extends MusicBeatState
         heroCharacter.antialiasing = ClientPrefs.data.antialiasing;
         heroCharacter.scale.set(1.1, 1.1);
         heroCharacter.updateHitbox();
+        heroCharacter.color = 0xFFFFFFFF;
         heroCharacter.x = FlxG.width + 30;
         heroCharacter.y = table.y + table.height - heroCharacter.height + 50;
         add(heroCharacter);
@@ -162,15 +174,19 @@ class VaultState extends MusicBeatState
         poloDown.cameras = [camHUD];
         add(poloDown);
 
-        spawnGbv();
+        // handle spawn times
+        new FlxTimer().start(16, function(tmr:FlxTimer)
+        {
+            spawnGbv();
+        });
         new FlxTimer().start(3, function(tmr:FlxTimer)
         {
             spawnTapi();
         });
-        new FlxTimer().start(1, function(tmr:FlxTimer)
+        heroSpawnTimer = new FlxTimer().start(12, function(tmr:FlxTimer)
         {
             spawnHero();
-        });
+        }, 0);
     }
 
     function spawnGbv()
@@ -186,7 +202,7 @@ class VaultState extends MusicBeatState
                 gbvCharacter.animation.play('walk', true);
                 FlxTween.tween(gbvCharacter, {x: FlxG.width + 30}, 6, {onComplete: function(twn:FlxTween)
                 {
-                    new FlxTimer().start(FlxG.random.float(2, 3), function(tmr:FlxTimer)
+                    new FlxTimer().start(FlxG.random.float(5, 12), function(tmr:FlxTimer)
                     {
                         spawnGbv();
                     });
@@ -212,7 +228,7 @@ class VaultState extends MusicBeatState
                     FlxTween.tween(tapiCharacter, {x: -tapiCharacter.width}, 2, {onComplete: function(twn:FlxTween)
                     {
                         // start loop again after random time
-                        new FlxTimer().start(FlxG.random.float(2, 3), function(tmr:FlxTimer)
+                        new FlxTimer().start(FlxG.random.float(6, 8), function(tmr:FlxTimer)
                         {
                             spawnTapi();
                         });
@@ -234,7 +250,7 @@ class VaultState extends MusicBeatState
                     FlxTween.tween(tapiCharacter, {x: FlxG.width + 30}, 6, {onComplete: function(twn:FlxTween)
                     {
                         // start loop again after random time
-                        new FlxTimer().start(FlxG.random.float(2, 3), function(tmr:FlxTimer)
+                        new FlxTimer().start(FlxG.random.float(6, 8), function(tmr:FlxTimer)
                         {
                             spawnTapi();
                         });
@@ -245,8 +261,10 @@ class VaultState extends MusicBeatState
     }
 
     var rightSpawnHero:Bool = false;
+    var isHeroWalking:Bool = false;
     function spawnHero()
     {
+        isHeroWalking = true;
         if(!rightSpawnHero)
         {
             rightSpawnHero = true;
@@ -254,10 +272,7 @@ class VaultState extends MusicBeatState
             heroCharacter.animation.play('walk', true);
             FlxTween.tween(heroCharacter, {x: -heroCharacter.width}, 9, {onComplete: function(twn:FlxTween)
             {
-                new FlxTimer().start(FlxG.random.float(2, 3), function(tmr:FlxTimer)
-                {
-                    spawnHero();
-                });
+                isHeroWalking = false;
             }});
         }
         else
@@ -267,14 +282,12 @@ class VaultState extends MusicBeatState
             heroCharacter.animation.play('walk', true);
             FlxTween.tween(heroCharacter, {x: FlxG.width + 30}, 9, {onComplete: function(twn:FlxTween)
             {
-                new FlxTimer().start(FlxG.random.float(2, 3), function(tmr:FlxTimer)
-                {
-                    spawnHero();
-                });
+                isHeroWalking = false;
             }});
         }
     }
 
+    var updateScroll:Bool = true;
 	var scrollMultiplier:Float = 3;
     override function update(elapsed:Float)
     {
@@ -285,17 +298,106 @@ class VaultState extends MusicBeatState
 		var multX = (hudMousePos.x - (FlxG.width / 2)) / (FlxG.width / 2);
 		var multY = (hudMousePos.y - (FlxG.height / 2)) / (FlxG.height / 2);
 
-		FlxG.camera.scroll.x = FlxMath.lerp(FlxG.camera.scroll.x, (multX * scrollMultiplier), elapsed * 10);
-		FlxG.camera.scroll.y = FlxMath.lerp(FlxG.camera.scroll.y, (multY * scrollMultiplier), elapsed * 10);
-
-        if(controls.BACK)
+        if(updateScroll)
         {
-			FlxG.sound.music.fadeOut(0.2);
-			FlxG.sound.play(Paths.sound('cancelMenu'));
-            new FlxTimer().start(0.4, function(tmr:FlxTimer)
-            {
-                MusicBeatState.switchState(new MainMenuState());
-            });
+		    FlxG.camera.scroll.x = FlxMath.lerp(FlxG.camera.scroll.x, (multX * scrollMultiplier), elapsed * 10);
+		    FlxG.camera.scroll.y = FlxMath.lerp(FlxG.camera.scroll.y, (multY * scrollMultiplier), elapsed * 10);
         }
+
+        handleMouseBehaviour(elapsed);
+
+        if(isOnShop)
+        {
+            if(controls.BACK)
+            {
+                zoomOutFromShop();
+            }
+        }
+        else
+        {
+            if(controls.BACK)
+            {
+                FlxG.sound.music.fadeOut(0.2);
+                FlxG.sound.play(Paths.sound('cancelMenu'));
+                new FlxTimer().start(0.4, function(tmr:FlxTimer)
+                {
+                    MusicBeatState.switchState(new MainMenuState());
+                });
+            }
+        }
+    }
+
+    function handleMouseBehaviour(elapsed:Float)
+    {
+        if(isOnShop)
+        {
+
+        }
+        else
+        {
+            // shop table
+            if(FlxG.mouse.overlaps(table))
+            {
+                if(FlxG.mouse.justPressed)
+                {
+                    zoomCameraToShop();
+                }
+            }
+            else
+            {
+
+            }
+        }
+    }
+
+
+    var isOnShop:Bool = false;
+    var madreaZoomToShopAnimTimer:FlxTimer;
+    function zoomCameraToShop()
+    {
+        // if hero is walking make him run so it doesn't bother you while you buy stuff
+        if(isHeroWalking)
+        {
+            isHeroWalking = false;
+            FlxTween.cancelTweensOf(heroCharacter);
+
+            heroCharacter.color = 0xFFFFFFFF;
+            FlxTween.color(heroCharacter, 2, heroCharacter.color, 0xFF808080);
+            FlxTween.tween(heroCharacter, {x: rightSpawnHero ? -heroCharacter.width : FlxG.width + 30}, 2);
+        }
+
+        heroSpawnTimer.active = false;
+        isOnShop = true;
+        updateScroll = false;
+        FlxTween.cancelTweensOf(FlxG.camera);
+        FlxTween.cancelTweensOf(blackShopBackground);
+
+        FlxTween.tween(FlxG.camera, {zoom: 1.15, "scroll.x": 70}, 1, {ease: FlxEase.quartOut});
+        FlxTween.tween(blackShopBackground, {alpha: 0.5}, 1);
+
+        // make madera talk
+        madreaCharacter.animation.play('talk', true);
+        madreaZoomToShopAnimTimer = new FlxTimer().start(1.1, function(tmr:FlxTimer)
+        {
+            madreaCharacter.animation.play('idle', true);
+        });
+    }
+
+    function zoomOutFromShop()
+    {
+        isOnShop = false;
+        updateScroll = true;
+
+        madreaCharacter.animation.play('idle', true);
+        madreaZoomToShopAnimTimer.destroy();
+        heroSpawnTimer.active = true;
+
+        FlxTween.cancelTweensOf(heroCharacter);
+        FlxTween.cancelTweensOf(FlxG.camera);
+        FlxTween.cancelTweensOf(blackShopBackground);
+
+        FlxTween.color(heroCharacter, 2, heroCharacter.color, 0xFFFFFFFF);
+        FlxTween.tween(FlxG.camera, {zoom: 1}, 1, {ease: FlxEase.quartOut});
+        FlxTween.tween(blackShopBackground, {alpha: 0}, 0.8);
     }
 }
