@@ -23,6 +23,11 @@ class VaultState extends MusicBeatState
     var heroCharacter:FlxSprite;
     var heroSpawnTimer:FlxTimer;
 
+    var preShopArr:Array<String> = ['buy', 'talk', 'exit'];
+    var preShopGrp:FlxTypedGroup<FlxSprite>;
+    var preShopHand:FlxSprite;
+    var preShopCurSelected:Int = 0;
+
     var poloUp:FlxSprite;
     var poloDown:FlxSprite;
 
@@ -86,7 +91,10 @@ class VaultState extends MusicBeatState
         bgCoolEffect.y = floor.y - (bgCoolEffect.height / 2);
 
         shelf = new FlxSprite();
-        shelf.loadGraphic(Paths.image('vault/shlef'));
+        shelf.frames = Paths.getSparrowAtlas('vault/shlef');
+        shelf.animation.addByPrefix('idle', 'idle');
+        shelf.animation.addByPrefix('select', 'select');
+        shelf.animation.play('idle');
         shelf.antialiasing = ClientPrefs.data.antialiasing;
         shelf.x = 45;
         shelf.y = 60;
@@ -133,7 +141,11 @@ class VaultState extends MusicBeatState
         add(madreaCharacter);
 
         table = new FlxSprite();
-        table.loadGraphic(Paths.image('vault/table'));
+        //table.loadGraphic(Paths.image('vault/table'));
+        table.frames = Paths.getSparrowAtlas('vault/table');
+        table.animation.addByPrefix('idle', 'idle');
+        table.animation.addByPrefix('select', 'select');
+        table.animation.play('idle');
         table.antialiasing = ClientPrefs.data.antialiasing;
         table.x = 738;
         table.y = 442;
@@ -161,6 +173,38 @@ class VaultState extends MusicBeatState
         heroCharacter.y = table.y + table.height - heroCharacter.height + 50;
         add(heroCharacter);
 
+        preShopGrp = new FlxTypedGroup<FlxSprite>();
+        preShopGrp.cameras = [camHUD];
+        add(preShopGrp);
+
+        for(i in 0...preShopArr.length)
+        {
+            var spr = new FlxSprite();
+            //spr.loadGraphic(Paths.image('vault/shopItems/${preShopArr[i]}'));
+            spr.frames = Paths.getSparrowAtlas('vault/shopItems/${preShopArr[i]}');
+            spr.animation.addByPrefix('idle', 'idle', 24, true);
+            spr.animation.play('idle');
+            spr.scale.set(1.05, 1.05);
+            spr.updateHitbox();
+            spr.antialiasing = ClientPrefs.data.antialiasing;
+            spr.x = 270;
+            spr.y = (360 - spr.height / 2) + ((spr.height + 25) * (i-1));
+            spr.alpha = 0;
+            spr.ID = i;
+            preShopGrp.add(spr);
+        }
+
+        preShopHand = new FlxSprite();
+        preShopHand.frames = Paths.getSparrowAtlas('vault/shopItems/hand');
+        preShopHand.animation.addByPrefix('idle', 'idle', 24, true);
+        preShopHand.animation.play('idle');
+        preShopHand.antialiasing = ClientPrefs.data.antialiasing;
+        preShopHand.alpha = 0;
+        preShopHand.cameras = [camHUD];
+        preShopHand.scale.set(0.96, 0.96);
+        preShopHand.updateHitbox();
+        add(preShopHand);
+
         poloUp = new FlxSprite();
         poloUp.loadGraphic(Paths.image('vault/poloUp'));
         poloUp.antialiasing = ClientPrefs.data.antialiasing;
@@ -187,6 +231,8 @@ class VaultState extends MusicBeatState
         {
             spawnHero();
         }, 0);
+
+        preShopChangeSelection();
     }
 
     function spawnGbv()
@@ -306,8 +352,26 @@ class VaultState extends MusicBeatState
 
         handleMouseBehaviour(elapsed);
 
+        preShopHand.x = FlxMath.lerp(preShopHand.x, preShopHandXTarget, elapsed * 15);
+        preShopHand.y = FlxMath.lerp(preShopHand.y, preShopHandYTarget, elapsed * 15);
+
         if(isOnShop)
         {
+            if(controls.UI_UP_P)
+            {
+                preShopChangeSelection(-1);
+            }
+
+            if(controls.UI_DOWN_P)
+            {
+                preShopChangeSelection(1);
+            }
+
+            if(controls.ACCEPT)
+            {
+                preShopSelect();
+            }
+
             if(controls.BACK)
             {
                 zoomOutFromShop();
@@ -338,6 +402,7 @@ class VaultState extends MusicBeatState
             // shop table
             if(FlxG.mouse.overlaps(table))
             {
+                table.animation.play('select');
                 if(FlxG.mouse.justPressed)
                 {
                     zoomCameraToShop();
@@ -345,12 +410,23 @@ class VaultState extends MusicBeatState
             }
             else
             {
+                table.animation.play('idle');
+            }
 
+            // shelf
+            if(FlxG.mouse.overlaps(shelf))
+            {
+                shelf.animation.play('select');
+            }
+            else
+            {
+                shelf.animation.play('idle');
             }
         }
     }
 
 
+    var maderaTalkSound:FlxSound;
     var isOnShop:Bool = false;
     var madreaZoomToShopAnimTimer:FlxTimer;
     function zoomCameraToShop()
@@ -375,16 +451,71 @@ class VaultState extends MusicBeatState
         FlxTween.tween(FlxG.camera, {zoom: 1.15, "scroll.x": 70}, 1, {ease: FlxEase.quartOut});
         FlxTween.tween(blackShopBackground, {alpha: 0.5}, 1);
 
+        maderaTalkSound = new FlxSound();
+        maderaTalkSound.loadEmbedded(Paths.sound('vault/maderatalk'));
+        maderaTalkSound.play();
+		FlxG.sound.list.add(maderaTalkSound);
+
         // make madera talk
         madreaCharacter.animation.play('talk', true);
         madreaZoomToShopAnimTimer = new FlxTimer().start(1.1, function(tmr:FlxTimer)
         {
             madreaCharacter.animation.play('idle', true);
         });
+
+        table.animation.play('idle');
+        showPreShopUI();
+    }
+
+    function showPreShopUI()
+    {
+        for(obj in preShopGrp)
+        {
+            FlxTween.cancelTweensOf(obj);
+            obj.x = 270;
+            obj.y = (360 - obj.height / 2) + ((obj.height + 25) * (obj.ID-1));
+            FlxTween.tween(obj, {alpha: 1, x: obj.x + 10}, 0.8, {ease: FlxEase.quartOut, startDelay: 0.1 * obj.ID});
+        }
+        FlxTween.cancelTweensOf(preShopHand);
+        FlxTween.tween(preShopHand, {alpha: 1}, 0.8, {ease: FlxEase.quartOut});
+    }
+
+    function hidePreShopUI()
+    {
+        for(obj in preShopGrp)
+        {
+            FlxTween.cancelTweensOf(obj);
+            FlxTween.tween(obj, {alpha: 0, y: obj.y + 10}, 0.5, {ease: FlxEase.quartOut});
+        }
+        FlxTween.cancelTweensOf(preShopHand);
+        FlxTween.tween(preShopHand, {alpha: 0}, 0.5, {ease: FlxEase.quartOut});
+    }
+
+    var preShopHandXTarget:Float = 0;
+    var preShopHandYTarget:Float = 0;
+    function preShopChangeSelection(change:Int = 0)
+    {
+        preShopCurSelected = FlxMath.wrap(preShopCurSelected + change, 0, preShopArr.length - 1);
+
+        var curMember:FlxSprite = preShopGrp.members[preShopCurSelected];
+        preShopHandXTarget = curMember.x + curMember.width + 15;
+        preShopHandYTarget = curMember.y + curMember.height / 2 - preShopHand.height / 2;
+    }
+
+    function preShopSelect()
+    {
+        var name:String = preShopArr[preShopCurSelected];
+        switch(name)
+        {
+            case 'exit': zoomOutFromShop();
+            default: // nothing
+        }
     }
 
     function zoomOutFromShop()
     {
+        hidePreShopUI();
+
         isOnShop = false;
         updateScroll = true;
 
@@ -392,10 +523,14 @@ class VaultState extends MusicBeatState
         madreaZoomToShopAnimTimer.destroy();
         heroSpawnTimer.active = true;
 
+        maderaTalkSound.pause();
+        maderaTalkSound.destroy();
+
         FlxTween.cancelTweensOf(heroCharacter);
         FlxTween.cancelTweensOf(FlxG.camera);
         FlxTween.cancelTweensOf(blackShopBackground);
 
+        FlxTween.tween(heroCharacter, {x: rightSpawnHero ? -heroCharacter.width : FlxG.width + 30}, 2);
         FlxTween.color(heroCharacter, 2, heroCharacter.color, 0xFFFFFFFF);
         FlxTween.tween(FlxG.camera, {zoom: 1}, 1, {ease: FlxEase.quartOut});
         FlxTween.tween(blackShopBackground, {alpha: 0}, 0.8);
