@@ -26,6 +26,16 @@ class VaultState extends MusicBeatState
     {
         super.create();
 
+		if(FlxG.sound.music != null)
+		{
+			if(!FlxG.sound.music.playing)
+			{
+				trace('Main menu music is not playing, starting vault menu music!');
+				FlxG.sound.playMusic(Paths.music('vault/vaultTheme'), 0);
+				FlxG.sound.music.fadeIn(4);
+			}
+		}
+
         FlxG.mouse.visible = true;
 
         camMain = initPsychCamera();
@@ -134,7 +144,12 @@ class VaultState extends MusicBeatState
 
         if(controls.BACK)
         {
-            MusicBeatState.switchState(new MainMenuState());
+			FlxG.sound.music.fadeOut(0.2);
+			FlxG.sound.play(Paths.sound('cancelMenu'));
+            new FlxTimer().start(0.4, function(tmr:FlxTimer)
+            {
+                MusicBeatState.switchState(new MainMenuState());
+            });
         }
     }
 }

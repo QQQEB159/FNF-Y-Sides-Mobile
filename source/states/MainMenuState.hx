@@ -504,7 +504,7 @@ class MainMenuState extends MusicBeatState
                 trace('Transitioning to $option');
                 var state = getTargetState(option);
 
-				if(option == 'options')
+				if(option == 'options' || option == 'vault')
 				{
 					FlxG.sound.music.fadeOut(0.65, 0, function(twn:FlxTween)
 					{
