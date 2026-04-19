@@ -252,6 +252,8 @@ class VaultState extends MusicBeatState
         dialogueText.cameras = [camHUD];
 		add(dialogueText);
 
+        initTransition();
+
         // handle spawn times
         new FlxTimer().start(16, function(tmr:FlxTimer)
         {
@@ -276,6 +278,49 @@ class VaultState extends MusicBeatState
 
         preShopChangeSelection();
         randomStartIndex = FlxG.random.int(0, randomTextsArr.length - 1);
+    }
+
+    var transDuration:Float = 0.65;
+    function initTransition()
+    {
+        bg.alpha = 0;
+        FlxTween.tween(bg, {alpha: 1}, transDuration, {ease: FlxEase.quartOut});
+
+        checker.alpha = 0;
+        FlxTween.tween(checker, {alpha: 1}, transDuration, {ease: FlxEase.quartOut});
+
+        bgCoolEffect.alpha = 0;
+        bgCoolEffect.y = FlxG.height - (bgCoolEffect.height / 2);
+        FlxTween.tween(bgCoolEffect, {alpha: 1, y: (FlxG.height - floor.height) - (bgCoolEffect.height / 2)}, transDuration, {ease: FlxEase.quartOut});
+
+        floor.y = FlxG.height;
+        FlxTween.tween(floor, {y: FlxG.height - floor.height}, transDuration * 0.5, {ease: FlxEase.quartOut});
+
+        shelf.y = -200;
+        FlxTween.tween(shelf, {y: 60}, transDuration, {ease: FlxEase.bounceOut});
+
+        sign.y = -220;
+        FlxTween.tween(sign, {y: 20}, transDuration * 2, {ease: FlxEase.quartOut});
+
+        table.x = FlxG.width;
+        FlxTween.tween(table, {x: 738}, transDuration, {ease: FlxEase.quartOut});
+
+        madreaCharacter.x = FlxG.width + 110;
+        FlxTween.tween(madreaCharacter, {x: 738 + 110}, transDuration, {ease: FlxEase.quartOut});
+
+        machine.x = table.x + table.width - machine.width - 30;
+        FlxTween.tween(machine, {x: 738 + table.width - machine.width - 30}, transDuration, {ease: FlxEase.quartOut});
+
+        poloUp.y = -poloUp.height;
+        FlxTween.tween(poloUp, {y: 0}, transDuration, {ease: FlxEase.quartOut});
+
+        poloDown.y = FlxG.height;
+        FlxTween.tween(poloDown, {y: FlxG.height - poloDown.height}, transDuration, {ease: FlxEase.quartOut});
+
+        new FlxTimer().start(transDuration, function(tmr:FlxTimer)
+        {
+            startDialogue('Hey! We are finishing to place your progress...');
+        });
     }
 
     function spawnGbv()
@@ -431,7 +476,7 @@ class VaultState extends MusicBeatState
                 zoomOutFromShop();
             }
         }
-        else
+        else if(!isOnShop)
         {
             if(controls.BACK)
             {
@@ -480,10 +525,22 @@ class VaultState extends MusicBeatState
     }
 
 	public var thingTimer:Float = 1.8;
+    public var dialogueTimer:FlxTimer;
 	public function startDialogue(text:String, speed:Float = 0.04, ?endCallback:Void->Void)
 	{
+        madreaCharacter.animation.play('talk');
+
+        if(dialogueTimer != null)
+        {
+            if(!dialogueTimer.finished) dialogueTimer.cancel();
+            dialogueTimer.destroy();
+        }
+
 		FlxTween.cancelTweensOf(dialogueBox);
 		FlxTween.cancelTweensOf(dialogueText);
+
+        dialogueBox.y = 600;
+        dialogueText.y = dialogueBox.y + 10;
 
 		FlxTween.tween(dialogueBox, {alpha: 0.6, y: dialogueBox.y - 10}, 0.35, {ease: FlxEase.linear});
 		FlxTween.tween(dialogueText, {alpha: 1, y: dialogueText.y - 10}, 0.35, {ease: FlxEase.linear});
@@ -495,7 +552,7 @@ class VaultState extends MusicBeatState
 		dialogueText.completeCallback = function() 
 		{
             madreaCharacter.animation.play('idle');
-			new FlxTimer().start(thingTimer, function(t:FlxTimer)
+			dialogueTimer = new FlxTimer().start(thingTimer, function(t:FlxTimer)
 			{
                 endDialogue();
                 if(endCallback != null) endCallback();
@@ -526,6 +583,8 @@ class VaultState extends MusicBeatState
             FlxTween.tween(heroCharacter, {x: rightSpawnHero ? -heroCharacter.width : FlxG.width + 30}, 2);
         }
 
+        FlxG.sound.play(Paths.sound('vault/zoomIn'));
+
         heroSpawnTimer.active = false;
         isOnShop = true;
         updateScroll = false;
@@ -535,7 +594,7 @@ class VaultState extends MusicBeatState
         FlxTween.tween(FlxG.camera, {zoom: 1.15, "scroll.x": 70}, 1, {ease: FlxEase.quartOut});
         FlxTween.tween(blackShopBackground, {alpha: 0.5}, 1);
 
-        startDialogue('Welcome to the shop!');
+        startDialogue("I'm wondering what are you gonna purchase today...");
 
         table.animation.play('idle');
         showPreShopUI();
@@ -572,6 +631,8 @@ class VaultState extends MusicBeatState
     var preShopHandYTarget:Float = 0;
     function preShopChangeSelection(change:Int = 0)
     {
+        if(change != 0) FlxG.sound.play(Paths.sound('scrollMenu'));
+
         preShopCurSelected = FlxMath.wrap(preShopCurSelected + change, 0, preShopArr.length - 1);
 
         var curMember:FlxSprite = preShopGrp.members[preShopCurSelected];
@@ -594,7 +655,6 @@ class VaultState extends MusicBeatState
         {
             case 'talk':
                 hidePreShopUI();
-                madreaCharacter.animation.play('talk');
                 startDialogue(randomTextsArr[randomStartIndex], 0.04, function()
                 {
                     showPreShopUI();
@@ -607,6 +667,7 @@ class VaultState extends MusicBeatState
 
     function zoomOutFromShop()
     {
+        FlxG.sound.play(Paths.sound('vault/zoomOut'));
         hidePreShopUI();
 
         isOnShop = false;

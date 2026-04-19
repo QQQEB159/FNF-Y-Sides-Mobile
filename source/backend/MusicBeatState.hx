@@ -120,7 +120,8 @@ class MusicBeatState extends FlxState
     function createSplash()
 	{
         trace('creating splash');
-		var splash = new FlxSprite(FlxG.mouse.x, FlxG.mouse.y);
+		var position = FlxG.mouse.getScreenPosition(FlxG.cameras.list[FlxG.cameras.list.length - 1]);
+		var splash = new FlxSprite(position.x, position.y);
 		splash.frames = Paths.getSparrowAtlas("boing");
 		splash.animation.addByPrefix('s', 'boing', 24, false);
 		splash.animation.play('s');
@@ -129,7 +130,7 @@ class MusicBeatState extends FlxState
 		splash.cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]]; // add to the last camera (the one that draws on top of the others)
 		add(splash);
 
-		trace('splash position: ${splash.x}, ${splash.y} | mouse position: ${FlxG.mouse.x}, ${FlxG.mouse.y}');
+		trace('splash position: ${splash.x}, ${splash.y} | mouse position: ${position.x}, ${position.y}');
 
 		splash.animation.finishCallback = function(name:String)
 		{
