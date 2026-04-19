@@ -11,10 +11,13 @@ class VaultState extends MusicBeatState
     var floor:FlxSprite;
     var shelf:FlxSprite;
     var sign:FlxSprite;
+    var gbvCharacter:FlxSprite;
+    var tapiCharacter:FlxSprite;
     var table:FlxSprite;
     var machine:FlxSprite;
 
     var madreaCharacter:FlxSprite;
+    var heroCharacter:FlxSprite;
 
     var poloUp:FlxSprite;
     var poloDown:FlxSprite;
@@ -90,6 +93,26 @@ class VaultState extends MusicBeatState
         sign.y = 20;
         add(sign);
 
+        gbvCharacter = new FlxSprite();
+        gbvCharacter.frames = Paths.getSparrowAtlas('vault/characters/uva');
+        gbvCharacter.animation.addByPrefix('idle', 'idle', 24, true);
+        gbvCharacter.animation.addByPrefix('walk', 'walking', 24, true);
+        gbvCharacter.animation.play('idle');
+        gbvCharacter.antialiasing = ClientPrefs.data.antialiasing;
+        gbvCharacter.x = FlxG.width + 30;
+        gbvCharacter.y = floor.y - gbvCharacter.height + 50;
+        add(gbvCharacter);
+
+        tapiCharacter = new FlxSprite();
+        tapiCharacter.frames = Paths.getSparrowAtlas('vault/characters/GAMERTAP64');
+        tapiCharacter.animation.addByPrefix('walk', 'walk', 24, true);
+        tapiCharacter.animation.addByPrefix('placing', 'recolocating', 24, true);
+        tapiCharacter.animation.play('idle');
+        tapiCharacter.antialiasing = ClientPrefs.data.antialiasing;
+        tapiCharacter.x = FlxG.width + 30;
+        tapiCharacter.y = floor.y - tapiCharacter.height + 70;
+        add(tapiCharacter);
+
         madreaCharacter = new FlxSprite();
         madreaCharacter.frames = Paths.getSparrowAtlas('vault/characters/madrea');
         madreaCharacter.animation.addByPrefix('idle', 'idle', 24, true);
@@ -115,6 +138,17 @@ class VaultState extends MusicBeatState
         machine.y = table.y - machine.height + 20;
         add(machine);
 
+        heroCharacter = new FlxSprite();
+        heroCharacter.frames = Paths.getSparrowAtlas('vault/characters/termomix');
+        heroCharacter.animation.addByPrefix('walk', 'walking', 24, true);
+        heroCharacter.animation.play('idle');
+        heroCharacter.antialiasing = ClientPrefs.data.antialiasing;
+        heroCharacter.scale.set(1.1, 1.1);
+        heroCharacter.updateHitbox();
+        heroCharacter.x = FlxG.width + 30;
+        heroCharacter.y = table.y + table.height - heroCharacter.height + 50;
+        add(heroCharacter);
+
         poloUp = new FlxSprite();
         poloUp.loadGraphic(Paths.image('vault/poloUp'));
         poloUp.antialiasing = ClientPrefs.data.antialiasing;
@@ -127,6 +161,118 @@ class VaultState extends MusicBeatState
         poloDown.y = FlxG.height - poloDown.height;
         poloDown.cameras = [camHUD];
         add(poloDown);
+
+        spawnGbv();
+        new FlxTimer().start(3, function(tmr:FlxTimer)
+        {
+            spawnTapi();
+        });
+        new FlxTimer().start(1, function(tmr:FlxTimer)
+        {
+            spawnHero();
+        });
+    }
+
+    function spawnGbv()
+    {
+        gbvCharacter.flipX = false;
+        gbvCharacter.animation.play('walk', true);
+        FlxTween.tween(gbvCharacter, {x: 535}, 6, {onComplete: function(twn:FlxTween)
+        {
+            gbvCharacter.animation.play('idle', true);
+            new FlxTimer().start(FlxG.random.float(3, 5), function(tmr:FlxTimer)
+            {
+                gbvCharacter.flipX = true;
+                gbvCharacter.animation.play('walk', true);
+                FlxTween.tween(gbvCharacter, {x: FlxG.width + 30}, 6, {onComplete: function(twn:FlxTween)
+                {
+                    new FlxTimer().start(FlxG.random.float(2, 3), function(tmr:FlxTimer)
+                    {
+                        spawnGbv();
+                    });
+                }});
+            });
+        }});
+    }
+
+    var rightSpawnTapi:Bool = false;
+    function spawnTapi()
+    {
+        if(!rightSpawnTapi)
+        {
+            rightSpawnTapi = true;
+            tapiCharacter.flipX = false;
+            tapiCharacter.animation.play('walk', true);
+            FlxTween.tween(tapiCharacter, {x: 220}, 6, {onComplete: function(twn:FlxTween)
+            {
+                tapiCharacter.animation.play('placing', true);
+                new FlxTimer().start(FlxG.random.float(3, 5), function(tmr:FlxTimer)
+                {
+                    tapiCharacter.animation.play('walk', true);
+                    FlxTween.tween(tapiCharacter, {x: -tapiCharacter.width}, 2, {onComplete: function(twn:FlxTween)
+                    {
+                        // start loop again after random time
+                        new FlxTimer().start(FlxG.random.float(2, 3), function(tmr:FlxTimer)
+                        {
+                            spawnTapi();
+                        });
+                    }});
+                });
+            }});
+        }
+        else
+        {
+            rightSpawnTapi = false;
+            tapiCharacter.flipX = true;
+            tapiCharacter.animation.play('walk', true);
+            FlxTween.tween(tapiCharacter, {x: 190}, 2, {onComplete: function(twn:FlxTween)
+            {
+                tapiCharacter.animation.play('placing', true);
+                new FlxTimer().start(FlxG.random.float(3, 5), function(tmr:FlxTimer)
+                {
+                    tapiCharacter.animation.play('walk', true);
+                    FlxTween.tween(tapiCharacter, {x: FlxG.width + 30}, 6, {onComplete: function(twn:FlxTween)
+                    {
+                        // start loop again after random time
+                        new FlxTimer().start(FlxG.random.float(2, 3), function(tmr:FlxTimer)
+                        {
+                            spawnTapi();
+                        });
+                    }});
+                });
+            }});
+        }
+    }
+
+    var rightSpawnHero:Bool = false;
+    function spawnHero()
+    {
+        if(!rightSpawnHero)
+        {
+            rightSpawnHero = true;
+            heroCharacter.flipX = false;
+            heroCharacter.animation.play('walk', true);
+            FlxTween.tween(heroCharacter, {x: -heroCharacter.width}, 9, {onComplete: function(twn:FlxTween)
+            {
+                new FlxTimer().start(FlxG.random.float(2, 3), function(tmr:FlxTimer)
+                {
+                    spawnHero();
+                });
+            }});
+        }
+        else
+        {
+            rightSpawnHero = false;
+            heroCharacter.flipX = true;
+            heroCharacter.animation.play('walk', true);
+            FlxTween.tween(heroCharacter, {x: FlxG.width + 30}, 9, {onComplete: function(twn:FlxTween)
+            {
+                new FlxTimer().start(FlxG.random.float(2, 3), function(tmr:FlxTimer)
+                {
+                    spawnHero();
+                });
+            }});
+        }
     }
 
 	var scrollMultiplier:Float = 3;
