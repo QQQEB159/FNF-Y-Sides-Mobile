@@ -683,6 +683,7 @@ class VaultState extends MusicBeatState
     var blurFilter:ShaderFilter;
     function openShop()
     {
+        FlxG.sound.play(Paths.sound('vault/shop/coolHarp'), 0.7);
         FlxG.sound.play(Paths.sound('vault/shop/zoomIn'));
 
         FlxTween.cancelTweensOf(poloDown);
@@ -699,7 +700,10 @@ class VaultState extends MusicBeatState
         });
 
         persistentUpdate = true;
-        openSubState(new ShopSubState());
+        
+        var shop = new ShopSubState();
+        shop.cameras = [camHUD];
+        openSubState(shop);
     }
 
     var blurShaderTween:FlxTween;
