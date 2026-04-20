@@ -668,9 +668,11 @@ class VaultState extends MusicBeatState
             case 'buy':
                 openShop();
             case 'talk':
+                zoomInToCharacter();
                 hidePreShopUI();
                 startDialogue(randomTextsArr[randomStartIndex], 0.04, function()
                 {
+                    zoomOutToCharacter();
                     showPreShopUI();
                 });
                 randomStartIndex = FlxMath.wrap(randomStartIndex + 1, 0, randomTextsArr.length - 1);
@@ -687,10 +689,9 @@ class VaultState extends MusicBeatState
         FlxG.sound.play(Paths.sound('vault/shop/zoomIn'));
 
         FlxTween.cancelTweensOf(poloDown);
-        FlxTween.cancelTweensOf(FlxG.camera);
-        
         FlxTween.tween(poloDown, {y: FlxG.height}, 0.45, {ease: FlxEase.quintOut});
-        FlxTween.tween(FlxG.camera, {zoom: 1.25, "scroll.x": 100}, 0.7, {ease: FlxEase.quartOut});
+
+        zoomInToCharacter();
 
         hidePreShopUI();
         if(blurShaderTween != null) blurShaderTween.cancel();
@@ -706,6 +707,18 @@ class VaultState extends MusicBeatState
         openSubState(shop);
     }
 
+    function zoomInToCharacter()
+    {
+        FlxTween.cancelTweensOf(FlxG.camera);
+        FlxTween.tween(FlxG.camera, {zoom: 1.25, "scroll.x": 100}, 0.7, {ease: FlxEase.quartOut});
+    }
+
+    function zoomOutToCharacter()
+    {
+        FlxTween.cancelTweensOf(FlxG.camera);
+        FlxTween.tween(FlxG.camera, {zoom: 1.15, "scroll.x": 70}, 0.7, {ease: FlxEase.quartOut});
+    }
+
     var blurShaderTween:FlxTween;
     override function closeSubState()
     {
@@ -714,10 +727,9 @@ class VaultState extends MusicBeatState
         FlxG.sound.play(Paths.sound('vault/shop/zoomOut'));
 
         FlxTween.cancelTweensOf(poloDown);
-        FlxTween.cancelTweensOf(FlxG.camera);
-
         FlxTween.tween(poloDown, {y: FlxG.height - poloDown.height}, 0.45, {ease: FlxEase.quintOut});
-        FlxTween.tween(FlxG.camera, {zoom: 1.15, "scroll.x": 70}, 0.7, {ease: FlxEase.quartOut});
+
+        zoomOutToCharacter();
 
         showPreShopUI();
         if(blurShaderTween != null) blurShaderTween.cancel();

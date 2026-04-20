@@ -1,5 +1,7 @@
 package states.vault;
 
+import flixel.addons.display.FlxBackdrop;
+
 class ShopSubState extends MusicBeatSubstate
 {
     public function new()
@@ -7,16 +9,22 @@ class ShopSubState extends MusicBeatSubstate
         super();
     }
 
-    var itemsListArr:Array<Dynamic> = [ // Name - Price - Stars
-        ['Picostola', 150, 2],
-        ['Tricky Sign', 150, 2]
+    var itemsListArr:Array<Dynamic> = [ // Name - Price - Stars - Image name
+        ['Picostola', 150, 2, 'picostola'],
+        ['Tricky Sign', 150, 2, 'tricky'],
+        ['Calcetines', 75, 2, 'picostola'],
+        ['Chocha de gbv', 75, 2, 'picostola'],
     ];
     var itemsListGrp:FlxTypedGroup<ItemShop>;
+
+    var itemsImageGrp:FlxTypedGroup<ItemShopImage>;
 
     private var curSelected:Int = 0;
 
     var bg:FlxSprite;
     var blackThingie:FlxSprite;
+    var border:FlxSprite;
+    var pattern:FlxSprite;
     var itemsCamera:FlxCamera;
 
     override function create()
@@ -28,10 +36,15 @@ class ShopSubState extends MusicBeatSubstate
         add(bg);
 
         blackThingie = new FlxSprite(130, 0);
-        blackThingie.makeGraphic(520, 540, 0xFF000000);
+        blackThingie.makeGraphic(520, 540, 0xFFB19BE7);
         blackThingie.alpha = 0.5;
         blackThingie.y = FlxG.height - blackThingie.height;
         add(blackThingie);
+
+        border = new FlxSprite(blackThingie.x - 21, blackThingie.y - 36);
+        border.loadGraphic(Paths.image('vault/shop/border'));
+        border.antialiasing = ClientPrefs.data.antialiasing;
+        add(border);
 
         itemsCamera = new FlxCamera(130, blackThingie.y, Std.int(blackThingie.width), Std.int(blackThingie.height));
         itemsCamera.bgColor.alpha = 0;
@@ -40,15 +53,27 @@ class ShopSubState extends MusicBeatSubstate
         //FlxG.cameras.list.insert(FlxG.cameras.list.length - 3, itemsCamera);
         FlxG.cameras.add(itemsCamera, false);
 
+        pattern = new FlxBackdrop(Paths.image('vault/shop/weird_checker'), XY);
+        pattern.alpha = 0.85;
+        pattern.cameras = [itemsCamera];
+        pattern.antialiasing = ClientPrefs.data.antialiasing;
+        pattern.velocity.set(10, 10);
+        add(pattern);
+
         itemsListGrp = new FlxTypedGroup<ItemShop>();
         add(itemsListGrp);
 
+        itemsImageGrp = new FlxTypedGroup<ItemShopImage>();
+        add(itemsImageGrp);
+
+        var imageTargetAngle:Int = 2;
         for(i in 0...itemsListArr.length)
         {
             var item = new ItemShop(0, 0, 400, 70);
             item.cameras = [itemsCamera];
             item.x = 60;
-            item.y = 20 + ((item.height + 20) * i);
+            item.y = 20;
+            item.antialiasing = ClientPrefs.data.antialiasing;
             //item.y = blackThingie.y + 20;
 
             item.title = itemsListArr[i][0];
@@ -57,11 +82,37 @@ class ShopSubState extends MusicBeatSubstate
             item.ID = i;
 
             item.startPosition.y = item.y;
+            item.distancePerItem.y = 90;
 
             item.targetY = i;
             item.snapToPosition();
 
             itemsListGrp.add(item);
+
+            var image = new ItemShopImage(0, 0, Paths.image('vault/shop/items/${itemsListArr[i][3]}'));
+            //image.cameras = [itemsCamera];
+            image.screenCenter(Y);
+            image.x = blackThingie.x + blackThingie.width + ((FlxG.width - (blackThingie.x + blackThingie.width)) / 2) - (image.width / 2);
+            image.antialiasing = ClientPrefs.data.antialiasing;
+
+            image.startPosition.y = image.y;
+            image.distancePerItem.y = FlxG.height;
+
+            image.targetY = i;
+            image.snapToPosition();
+            image.angle = -imageTargetAngle;
+
+            itemsImageGrp.add(image);
+
+            new FlxTimer().start(1, function(tmr:FlxTimer)
+            {
+                image.angle = image.angle == imageTargetAngle ? -imageTargetAngle : imageTargetAngle;
+            }, 0);
+        }
+
+        closeCallback = function()
+        {
+            FlxTimer.globalManager.clear();
         }
 
 
@@ -83,6 +134,13 @@ class ShopSubState extends MusicBeatSubstate
         curSelected = FlxMath.wrap(curSelected + change, 0, itemsListArr.length - 1);
 
 		for (num => item in itemsListGrp.members)
+		{
+			item.targetY = num - curSelected;
+			item.alpha = 0.6;
+			if (item.targetY == 0) item.alpha = 1;
+		}
+
+		for (num => item in itemsImageGrp.members)
 		{
 			item.targetY = num - curSelected;
 			item.alpha = 0.6;
@@ -208,5 +266,32 @@ class ItemShop extends FlxSpriteGroup
     public function snapToPosition()
     {
 		y = (targetY * distancePerItem.y) + startPosition.y;
+    }
+}
+
+class ItemShopImage extends FlxSprite
+{
+    public var targetY:Float = 0;
+    public var distancePerItem:FlxPoint = new FlxPoint(0, 0);
+    public var startPosition:FlxPoint = new FlxPoint(0, 0);
+
+    public function new(x:Float = 0, y:Float = 0, image:Dynamic)
+    {
+        super(x, y);
+
+        loadGraphic(image);
+    }
+
+    override function update(elapsed:Float)
+    {
+        super.update(elapsed);
+
+		var lerpVal:Float = Math.exp(-elapsed * 9.6);
+		y = FlxMath.lerp((targetY * distancePerItem.y) + startPosition.y, y, lerpVal);
+    }
+
+    public function snapToPosition()
+    {
+        y = startPosition.y + (targetY * distancePerItem.y);
     }
 }
