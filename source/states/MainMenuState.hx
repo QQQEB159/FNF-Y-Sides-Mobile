@@ -73,6 +73,16 @@ class MainMenuState extends MusicBeatState
 		DiscordClient.changePresence("In the Menus", null);
 		#end
 
+		if(FlxG.sound.music != null)
+		{
+			if(!FlxG.sound.music.playing)
+			{
+				trace('Starting main menu music because there is no music playing!');
+				FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+				FlxG.sound.music.fadeIn(1);
+			}
+		}
+
 		persistentUpdate = persistentDraw = true;
 
 		bg = new FlxSprite(-80).makeGraphic(1280, 720, 0xFFFFFFFF);

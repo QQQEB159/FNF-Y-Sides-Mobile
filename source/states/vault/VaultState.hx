@@ -3,6 +3,8 @@ package states.vault;
 import flixel.FlxObject;
 import flixel.addons.display.FlxBackdrop;
 import flixel.addons.text.FlxTypeText;
+import shaders.BlurShader;
+import openfl.filters.ShaderFilter;
 
 class VaultState extends MusicBeatState
 {
@@ -66,6 +68,12 @@ class VaultState extends MusicBeatState
         add(camHUD);
         
         FlxG.cameras.add(camHUD, false);
+
+        blurShader = new BlurShader();
+        blurShader.radius.value = [0];
+        blurFilter = new ShaderFilter(blurShader);
+
+        FlxG.camera.filters = [blurFilter];
 
         colorBg = new FlxSprite();
         colorBg.makeGraphic(1350, 800, 0xFFD9B4FD);
@@ -453,7 +461,7 @@ class VaultState extends MusicBeatState
         preShopHand.x = FlxMath.lerp(preShopHand.x, preShopHandXTarget, elapsed * 15);
         preShopHand.y = FlxMath.lerp(preShopHand.y, preShopHandYTarget, elapsed * 15);
 
-        if(isOnShop && canInteractPreShopUI)
+        if(isOnPreShop && canInteractPreShopUI)
         {
             if(controls.UI_UP_P)
             {
@@ -476,11 +484,14 @@ class VaultState extends MusicBeatState
                 zoomOutFromShop();
             }
         }
-        else if(!isOnShop)
+        else if(!isOnPreShop)
         {
             if(controls.BACK)
             {
-                FlxG.sound.music.fadeOut(0.2);
+                FlxG.sound.music.fadeOut(0.2, 0, function(twn:FlxTween)
+                {
+                    FlxG.sound.music.stop();
+                });
                 FlxG.sound.play(Paths.sound('cancelMenu'));
                 new FlxTimer().start(0.4, function(tmr:FlxTimer)
                 {
@@ -492,7 +503,7 @@ class VaultState extends MusicBeatState
 
     function handleMouseBehaviour(elapsed:Float)
     {
-        if(isOnShop)
+        if(isOnPreShop)
         {
 
         }
@@ -569,7 +580,7 @@ class VaultState extends MusicBeatState
         FlxTween.tween(dialogueText, {alpha: 0, y: dialogueText.y + 10}, 0.35, {ease: FlxEase.linear});
     }
 
-    var isOnShop:Bool = false;
+    var isOnPreShop:Bool = false;
     function zoomCameraToShop()
     {
         // if hero is walking make him run so it doesn't bother you while you buy stuff
@@ -586,7 +597,7 @@ class VaultState extends MusicBeatState
         FlxG.sound.play(Paths.sound('vault/zoomIn'));
 
         heroSpawnTimer.active = false;
-        isOnShop = true;
+        isOnPreShop = true;
         updateScroll = false;
         FlxTween.cancelTweensOf(FlxG.camera);
         FlxTween.cancelTweensOf(blackShopBackground);
@@ -653,6 +664,8 @@ class VaultState extends MusicBeatState
         var name:String = preShopArr[preShopCurSelected];
         switch(name)
         {
+            case 'buy':
+                openShop();
             case 'talk':
                 hidePreShopUI();
                 startDialogue(randomTextsArr[randomStartIndex], 0.04, function()
@@ -665,12 +678,37 @@ class VaultState extends MusicBeatState
         }
     }
 
+    var blurShader:BlurShader;
+    var blurFilter:ShaderFilter;
+    function openShop()
+    {
+        hidePreShopUI();
+        FlxTween.num(0, 5, 1, {ease: FlxEase.quartOut}, function(v:Float)
+        {
+            blurShader.radius.value[0] = v;
+        });
+
+        persistentUpdate = true;
+        openSubState(new ShopSubState());
+    }
+
+    override function closeSubState()
+    {
+        super.closeSubState();
+
+        showPreShopUI();
+        FlxTween.num(5, 0, 1, {ease: FlxEase.quartOut}, function(v:Float)
+        {
+            blurShader.radius.value[0] = v;
+        });
+    }
+
     function zoomOutFromShop()
     {
         FlxG.sound.play(Paths.sound('vault/zoomOut'));
         hidePreShopUI();
 
-        isOnShop = false;
+        isOnPreShop = false;
         updateScroll = true;
 
         madreaCharacter.animation.play('idle', true);
