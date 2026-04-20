@@ -683,8 +683,17 @@ class VaultState extends MusicBeatState
     var blurFilter:ShaderFilter;
     function openShop()
     {
+        FlxG.sound.play(Paths.sound('vault/shop/zoomIn'));
+
+        FlxTween.cancelTweensOf(poloDown);
+        FlxTween.cancelTweensOf(FlxG.camera);
+        
+        FlxTween.tween(poloDown, {y: FlxG.height}, 0.45, {ease: FlxEase.quintOut});
+        FlxTween.tween(FlxG.camera, {zoom: 1.25, "scroll.x": 100}, 0.7, {ease: FlxEase.quartOut});
+
         hidePreShopUI();
-        FlxTween.num(0, 5, 1, {ease: FlxEase.quartOut}, function(v:Float)
+        if(blurShaderTween != null) blurShaderTween.cancel();
+        FlxTween.num(0, 5, 1, {ease: FlxEase.quartOut, onComplete: (_) -> blurShaderTween = null}, function(v:Float)
         {
             blurShader.radius.value[0] = v;
         });
@@ -693,12 +702,22 @@ class VaultState extends MusicBeatState
         openSubState(new ShopSubState());
     }
 
+    var blurShaderTween:FlxTween;
     override function closeSubState()
     {
         super.closeSubState();
 
+        FlxG.sound.play(Paths.sound('vault/shop/zoomOut'));
+
+        FlxTween.cancelTweensOf(poloDown);
+        FlxTween.cancelTweensOf(FlxG.camera);
+
+        FlxTween.tween(poloDown, {y: FlxG.height - poloDown.height}, 0.45, {ease: FlxEase.quintOut});
+        FlxTween.tween(FlxG.camera, {zoom: 1.15, "scroll.x": 70}, 0.7, {ease: FlxEase.quartOut});
+
         showPreShopUI();
-        FlxTween.num(5, 0, 1, {ease: FlxEase.quartOut}, function(v:Float)
+        if(blurShaderTween != null) blurShaderTween.cancel();
+        FlxTween.num(5, 0, 1, {ease: FlxEase.quartOut, onComplete: (_) -> blurShaderTween = null}, function(v:Float)
         {
             blurShader.radius.value[0] = v;
         });

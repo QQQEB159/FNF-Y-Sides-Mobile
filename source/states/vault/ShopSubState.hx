@@ -17,7 +17,7 @@ class ShopSubState extends MusicBeatSubstate
         add(bg);
 
         bg.alpha = 0;
-        FlxTween.tween(bg, {alpha: 0.4}, 1, {ease: FlxEase.quartOut});
+        FlxTween.tween(bg, {alpha: 0.2}, 1, {ease: FlxEase.quartOut});
     }
 
     override function update(elapsed:Float)
