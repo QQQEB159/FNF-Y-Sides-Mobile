@@ -474,7 +474,7 @@ class NewStoryMenuState extends MusicBeatState
 		lastDifficultyName = diff;
 
 		#if !switch
-		intendedScore = Highscore.getWeekScore(loadedWeeks[curWeek].fileName, curDifficulty);
+		intendedScore = Highscore.getWeekScore(loadedWeeks[curWeek].fileName, CharSelectState.currentFreeplaySelectedName, curDifficulty);
 		#end
 
         FlxTween.cancelTweensOf(gradient);
@@ -577,7 +577,7 @@ class NewStoryMenuState extends MusicBeatState
 		}
 
 		#if !switch
-		intendedScore = Highscore.getWeekScore(loadedWeeks[curWeek].fileName, curDifficulty);
+		intendedScore = Highscore.getWeekScore(loadedWeeks[curWeek].fileName, CharSelectState.currentFreeplaySelectedName, curDifficulty);
 		#end
 	}
 }

@@ -209,7 +209,7 @@ class NewFreeplayState extends MusicBeatState
             var isNewSong:Bool = false;
             for(j in 0...Difficulty.defaultList.length)
             {
-		        var score = Highscore.getScore(songs[i].songName, j);
+		        var score:Int = Highscore.getScore(songs[i].songName, CharSelectState.currentFreeplaySelectedName, j);
                 trace('$score / $j / $i / ${songs[i].songName}');
                 if(score == 0) isNewSong = true;
             }
@@ -360,7 +360,7 @@ class NewFreeplayState extends MusicBeatState
                 canInteract = false;
                 persistentUpdate = false;
                 var songLowercase:String = Paths.formatToSongPath(songs[curSelected].songName);
-                var poop:String = Highscore.formatSong(songLowercase + '-' + CharSelectState.currentFreeplaySelectedName, curDifficulty);
+                var poop:String = Highscore.formatSong(songLowercase, CharSelectState.currentFreeplaySelectedName, curDifficulty);
 
                 try
                 {
@@ -430,7 +430,7 @@ class NewFreeplayState extends MusicBeatState
 	{
 		curDifficulty = FlxMath.wrap(curDifficulty + change, 0, Difficulty.list.length-1);
 		#if !switch
-		intendedScore = Highscore.getScore(songs[curSelected].songName, curDifficulty);
+		intendedScore = Highscore.getScore(songs[curSelected].songName, CharSelectState.currentFreeplaySelectedName, curDifficulty);
 		#end
 
 		lastDifficultyName = Difficulty.getString(curDifficulty, false);

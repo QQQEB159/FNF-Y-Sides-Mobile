@@ -555,7 +555,7 @@ class StoryMenuState extends MusicBeatState
 		lastDifficultyName = diff;
 
 		#if !switch
-		intendedScore = Highscore.getWeekScore(loadedWeeks[curWeek].fileName, curDifficulty);
+		intendedScore = Highscore.getWeekScore(loadedWeeks[curWeek].fileName, CharSelectState.currentFreeplaySelectedName, curDifficulty);
 		#end
 	}
 
@@ -641,7 +641,7 @@ class StoryMenuState extends MusicBeatState
 		txtTracklist.x = tracksSpriteBack.x + 15;
 
 		#if !switch
-		intendedScore = Highscore.getWeekScore(loadedWeeks[curWeek].fileName, curDifficulty);
+		intendedScore = Highscore.getWeekScore(loadedWeeks[curWeek].fileName, CharSelectState.currentFreeplaySelectedName, curDifficulty);
 		#end
 	}
 }

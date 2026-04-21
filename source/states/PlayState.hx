@@ -3229,7 +3229,7 @@ class PlayState extends MusicBeatState
 			#if !switch
 			var percent:Float = ratingPercent;
 			if(Math.isNaN(percent)) percent = 0;
-			Highscore.saveScore(Song.loadedSongName, songScore, storyDifficulty, percent);
+			Highscore.saveScore(Song.loadedSongName, CharSelectState.currentFreeplaySelectedName, songScore, storyDifficulty, percent);
 			#end
 			playbackRate = 1;
 
@@ -3278,7 +3278,7 @@ class PlayState extends MusicBeatState
 					// if ()
 					if(!ClientPrefs.getGameplaySetting('practice') && !ClientPrefs.getGameplaySetting('botplay')) {
 						NewStoryMenuState.weekCompleted.set(WeekData.weeksList[storyWeek], true);
-						Highscore.saveWeekScore(WeekData.getWeekFileName(), campaignScore, storyDifficulty);
+						Highscore.saveWeekScore(WeekData.getWeekFileName(), CharSelectState.currentFreeplaySelectedName, campaignScore, storyDifficulty);
 
 						FlxG.save.data.weekCompleted = NewStoryMenuState.weekCompleted;
 						FlxG.save.flush();
