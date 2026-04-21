@@ -42,6 +42,7 @@ import objects.BGSprite;
 
 import states.PlayState;
 import states.LoadingState;
+import states.vault.ShopSubState;
 
 #if flxanimate
 import flxanimate.*;

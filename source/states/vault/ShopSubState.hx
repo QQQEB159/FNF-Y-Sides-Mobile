@@ -9,6 +9,17 @@ class ShopSubState extends MusicBeatSubstate
         super();
     }
 
+    public static var money:Int;
+
+    public static function addMoney(value:Int)
+    {
+        money += value;
+        FlxG.save.data.money = money;
+        FlxG.save.flush();
+
+        trace('Added the amount of $value coins (Total: $money)');
+    }
+
     var itemsListArr:Array<Dynamic> = [ // Name - Price - Stars - Image name
         ['Picostola', 150, 2, 'picostola'],
         ['Tricky Sign', 150, 2, 'tricky'],
@@ -154,7 +165,7 @@ class ShopSubState extends MusicBeatSubstate
 
         moneyText.x = FlxG.width + 5;
         FlxTween.tween(moneyText, {x: FlxG.width - moneyBackground.width + 5}, 0.7, {ease: FlxEase.quartOut});
-        FlxTween.num(0, 100, 0.7, {ease: FlxEase.quartOut}, function(v:Float)
+        FlxTween.num(0, money, 0.7, {ease: FlxEase.quartOut}, function(v:Float)
         {
             moneyText.text = '${Std.int(v)}';
         });

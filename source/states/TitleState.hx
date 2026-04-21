@@ -97,6 +97,10 @@ class TitleState extends MusicBeatState
 		super.create();
 		Paths.clearUnusedMemory();
 
+		if(FlxG.save.data.money == null) FlxG.save.data.money = 0;
+		ShopSubState.money = FlxG.save.data.money;
+		FlxG.save.flush();
+
 		FlxG.save.data.firstTimeTitleState = FlxG.save.data.firstTimeTitleState != null ? FlxG.save.data.firstTimeTitleState : true;
 
 		bg = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, 0xFF030007);
