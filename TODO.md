@@ -176,10 +176,14 @@
 
 - [x] Performance Menu overhaul
 - [x] Main Menu Overhaul
-- [ ] Story Menu Overhaul
+- [x] Story Menu Overhaul
 - [x] Freeplay Menu Overhaul
     - [ ] Character selector
 - [x] Gallery Overhaul
+- [ ] Vault Menu
+    - [ ] Shop Menu
+    - [ ] Collectionables Menu
+    - [ ] Awards Menu
 
 ## SPECIFIC
 
