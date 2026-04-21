@@ -25,6 +25,12 @@ class ShopSubState extends MusicBeatSubstate
         ['Tricky Sign', 150, 2, 'tricky'],
         ['Calcetines', 75, 2, 'picostola'],
         ['Chocha de gbv', 75, 5, 'picostola'],
+        ['Super saiyan 7', 100, 5, 'picostola'],
+        ['git pull origin', 1, 5, 'picostola'],
+        ['Mr. Tronco Breaktime', 999, 5, 'picostola'],
+        ['My hero academia', 0, 5, 'picostola'],
+        ['Mi academia de heroes', 75, 5, 'picostola'],
+        ['Mi bakugo', 75, 5, 'picostola'],
     ];
     var itemsListGrp:FlxTypedGroup<ItemShop>;
 
@@ -178,9 +184,51 @@ class ShopSubState extends MusicBeatSubstate
 
 		for (num => item in itemsListGrp.members)
 		{
-			item.targetY = num - curSelected;
-			item.alpha = 0.6;
-			if (item.targetY == 0) item.alpha = 1;
+
+            if(itemsListGrp.length > 5)
+            {
+			    switch(curSelected)
+			    {
+
+			    }
+
+                if(itemsListGrp.length - curSelected == 4)
+                {
+			    	item.targetY = num - curSelected + 1;
+			        item.alpha = 0.6;
+			        if (item.targetY == 1) item.alpha = 1;
+                }
+                else if(itemsListGrp.length - curSelected == 3)
+                {
+			    	item.targetY = num - curSelected + 2;
+			        item.alpha = 0.6;
+			        if (item.targetY == 2) item.alpha = 1;
+                }
+                else if(itemsListGrp.length - curSelected == 2)
+                {
+			    	item.targetY = num - curSelected + 3;
+			        item.alpha = 0.6;
+			        if (item.targetY == 3) item.alpha = 1;
+                }
+                else if(itemsListGrp.length - curSelected == 1)
+                {
+			    	item.targetY = num - curSelected + 4;
+			        item.alpha = 0.6;
+			        if (item.targetY == 4) item.alpha = 1;
+                }
+                else
+                {
+			    	item.targetY = num - curSelected;
+			        item.alpha = 0.6;
+			        if (item.targetY == 0) item.alpha = 1;
+                }
+            }
+            else
+            {
+			    item.targetY = num - curSelected;
+            }
+
+            // length - 4
 		}
 
 		for (num => item in itemsImageGrp.members)
