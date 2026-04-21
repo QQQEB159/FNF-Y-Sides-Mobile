@@ -84,7 +84,9 @@ class Highscore
 
 	public static function getScore(song:String, diff:Int):Int
 	{
+		trace('$song -> $diff');
 		var daSong:String = formatSong(song, diff);
+		trace(daSong);
 		if (!songScores.exists(daSong))
 			setScore(daSong, 0);
 
@@ -116,6 +118,8 @@ class Highscore
 
 		if (FlxG.save.data.songScores != null)
 			songScores = FlxG.save.data.songScores;
+
+		trace(songScores);
 
 		if (FlxG.save.data.songRating != null)
 			songRating = FlxG.save.data.songRating;

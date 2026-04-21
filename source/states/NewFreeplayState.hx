@@ -99,6 +99,9 @@ class NewFreeplayState extends MusicBeatState
 				if(!isPicoMix) 
                 {
                     if(!unlockedModSongs.get(song[0]) && song[4]) continue;
+                    #if debug
+                    trace(' * Added song with name ${song[0]} and char ${song[1]}');
+                    #end
                     addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]));
                 }
 				else
@@ -202,6 +205,16 @@ class NewFreeplayState extends MusicBeatState
             capsule.startPosition.x = capsule.x;
             capsule.startPosition.y = capsule.y;
 			capsule.snapToPosition();
+
+            var isNewSong:Bool = false;
+            for(j in 0...Difficulty.defaultList.length)
+            {
+		        var score = Highscore.getScore(songs[i].songName, j);
+                trace('$score / $j / $i / ${songs[i].songName}');
+                if(score == 0) isNewSong = true;
+            }
+
+            capsule.isNewSong = isNewSong;
             grpSongs.add(capsule);
         }
 
@@ -453,6 +466,10 @@ class NewFreeplayState extends MusicBeatState
 
         bombox.animation.play('idle', true, true);
         character.animation.play('idle', true);
+        grpSongs.forEach(function(cap:FreeplayCapsule)
+        {
+            cap.newSprite.animation.play('idle', true);
+        });
     }
 
 	override function destroy():Void
@@ -472,10 +489,19 @@ class FreeplayCapsule extends FlxSpriteGroup
     public var distancePerItem:FlxPoint = new FlxPoint(120, 230);
     public var startPosition:FlxPoint = new FlxPoint(0, 0);
     public var copyPositions:Bool = true;
+    public var isNewSong(default, set):Bool = false;
+    private function set_isNewSong(value:Bool)
+    {
+        isNewSong = value;
+        newSprite.visible = isNewSong;
+        return value;
+    }
 
     public var background:FlxSprite;
     public var text:FlxText;
     public var icon:FlxSprite;
+    public var newSprite:FlxSprite;
+
     public function new(x:Float, y:Float, songName:String, songCharacter:String)
     {
         super(x, y);
@@ -499,6 +525,17 @@ class FreeplayCapsule extends FlxSpriteGroup
         icon.scale.set(0.8, 0.8);
         icon.antialiasing = ClientPrefs.data.antialiasing;
         add(icon);
+
+        newSprite = new FlxSprite();
+        newSprite.frames = Paths.getSparrowAtlas('freePlay/NEW/newNoti');
+        newSprite.animation.addByPrefix('idle', 'idle', 12, false);
+        newSprite.animation.play('idle', true);
+        newSprite.x += background.width - (newSprite.width / 2) - 30;
+        newSprite.y = 0;
+        newSprite.antialiasing = ClientPrefs.data.antialiasing;
+        add(newSprite);
+
+        if(!isNewSong) newSprite.visible = false;
     }
 
     override function update(elapsed:Float)
