@@ -31,6 +31,10 @@ class NewFreeplayState extends MusicBeatState
     var scoreText:FlxText;
     var difText:FlxSprite;
 
+    var unlockedModSongs:Map<String, Bool> = [
+        'Madness' => true
+    ];
+
 	public var isPicoMix:Bool = false;
 	public function new(_isPicoMix:Bool = false)
 	{
@@ -92,7 +96,11 @@ class NewFreeplayState extends MusicBeatState
 				{
 					colors = [146, 113, 253];
 				}
-				if(!isPicoMix) addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]));
+				if(!isPicoMix) 
+                {
+                    if(!unlockedModSongs.get(song[0]) && song[4]) continue;
+                    addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]));
+                }
 				else
 				{
 					if(!song[3]) continue;

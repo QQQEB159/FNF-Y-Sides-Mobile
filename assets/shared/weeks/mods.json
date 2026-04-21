@@ -1,0 +1,20 @@
+{
+	"songs": [
+		["Madness", "dad", [150, 150, 150], false, true]
+	],
+
+	"weekCharacters": [
+		"dad",
+		"bf",
+		"gf"
+	],
+	"weekBackground": "stage",
+
+	"storyName": "Mods Y Sides",
+	"weekBefore": "week5",
+	"weekName": "Mods",
+	"startUnlocked": true,
+
+	"hideStoryMode": true,
+	"hideFreeplay": false
+}
