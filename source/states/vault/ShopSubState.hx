@@ -44,8 +44,8 @@ class ShopSubState extends MusicBeatSubstate
     var pattern:FlxSprite;
     public static var itemsCamera:FlxCamera;
 
-    var moneyBackground:FlxSprite;
-    var moneyText:FlxText;
+    var moneyBox:MoneyBox;
+    var pressEnterToConfirm:FlxText;
 
     override function create()
     {
@@ -134,26 +134,27 @@ class ShopSubState extends MusicBeatSubstate
             FlxTween.tween(image, {x: blackThingie.x + blackThingie.width + ((FlxG.width - (blackThingie.x + blackThingie.width)) / 2) - (image.width / 2)}, 0.7, {ease: FlxEase.quartOut});
         }
 
-        moneyBackground = new FlxSprite(0, 90);
-        moneyBackground.makeGraphic(200, 60, 0xFF000000);
-        moneyBackground.alpha = 0.6;
-        moneyBackground.antialiasing = ClientPrefs.data.antialiasing;
-        add(moneyBackground);
+        moneyBox = new MoneyBox(0, 90);
+        add(moneyBox);
 
-        moneyText = new FlxText(0, 0, moneyBackground.width - 10, '100', 14);
-        moneyText.setFormat(Paths.font('GAU_pop_magic.ttf'), 40, 0xFFE0DEEA, RIGHT);
-        moneyText.y = moneyBackground.y + 10;
-        moneyText.antialiasing = ClientPrefs.data.antialiasing;
-        add(moneyText);
+        pressEnterToConfirm = new FlxText(0, 0, FlxG.width, 'Press ENTER to confirm your purchase.');
+        pressEnterToConfirm.setFormat(Paths.font('GAU_pop_magic.ttf'), 25, 0xFFE0DEEA, CENTER);
+        pressEnterToConfirm.y = FlxG.height - moneyBox.height - 80 - pressEnterToConfirm.height - 10;
+        pressEnterToConfirm.antialiasing = ClientPrefs.data.antialiasing;
+        pressEnterToConfirm.alpha = 0;
+        add(pressEnterToConfirm);
 
         // adjust background size
-        moneyBackground.makeGraphic(Std.int(moneyText.width + 10), Std.int(moneyBackground.height), 0xFF000000);
 
         closeCallback = function()
         {
             FlxTimer.globalManager.clear();
         }
 
+        new FlxTimer().start(0.2, function(tmr:FlxTimer)
+        {
+            canAccept = true;
+        });
 
         //FlxTween.tween(item, {y: 0}, 1, {type: PINGPONG});
 
@@ -166,15 +167,13 @@ class ShopSubState extends MusicBeatSubstate
         bg.alpha = 0;
         FlxTween.tween(bg, {alpha: 0.2}, 1, {ease: FlxEase.quartOut});
 
-        moneyBackground.x = FlxG.width;
-        FlxTween.tween(moneyBackground, {x: FlxG.width - moneyBackground.width}, 0.7, {ease: FlxEase.quartOut});
-
-        moneyText.x = FlxG.width + 5;
-        FlxTween.tween(moneyText, {x: FlxG.width - moneyBackground.width + 5}, 0.7, {ease: FlxEase.quartOut});
+        moneyBox.x = FlxG.width;
+        FlxTween.tween(moneyBox, {x: FlxG.width - moneyBox.width}, 0.7, {ease: FlxEase.quartOut});
         FlxTween.num(0, money, 0.7, {ease: FlxEase.quartOut}, function(v:Float)
         {
-            moneyText.text = '${Std.int(v)}';
+            moneyBox.money = Std.int(v);
         });
+        moneyBox.updateWidth('$money');
     }
 
     function changeSelection(change:Int = 0)
@@ -184,7 +183,7 @@ class ShopSubState extends MusicBeatSubstate
 
 		for (num => item in itemsListGrp.members)
 		{
-
+            FlxTween.cancelTweensOf(item);
             if(itemsListGrp.length > 5)
             {
 			    switch(curSelected)
@@ -226,7 +225,11 @@ class ShopSubState extends MusicBeatSubstate
             else
             {
 			    item.targetY = num - curSelected;
+			    item.alpha = 0.6;
+			    if (item.targetY == 0) item.alpha = 1;
             }
+
+            item.targetAlpha = item.alpha;
 
             // length - 4
 		}
@@ -239,24 +242,202 @@ class ShopSubState extends MusicBeatSubstate
 		}
     }
 
+    var isAboutToBuy:Bool = false;
+    var canAccept:Bool = false; // tiny delay
     override function update(elapsed:Float)
     {
         super.update(elapsed);
 
-        if(controls.UI_UP_P)
+        if(moneyBox != null && moneyBox.updatePositions) 
         {
-            changeSelection(-1);
+            var targetPosX:Float = FlxMath.lerp(moneyBox.x, FlxG.width - moneyBox.width, elapsed * 17);
+            moneyBox.x = targetPosX;
+
+            var targetPosY:Float = FlxMath.lerp(moneyBox.y, 90, elapsed * 13);
+            moneyBox.y = targetPosY;
         }
 
-        if(controls.UI_DOWN_P)
+        if(!isAboutToBuy)
         {
-            changeSelection(1);
+            if(controls.UI_UP_P)
+            {
+                changeSelection(-1);
+            }
+
+            if(controls.UI_DOWN_P)
+            {
+                changeSelection(1);
+            }
+
+            if(canAccept)
+            {
+                if(controls.ACCEPT)
+                {
+                    isAboutToBuy = true;
+                    selectItemToBuy();
+                }
+            }
+                
+            if(controls.BACK)
+            {
+                close();
+            }
+        }
+        else
+        {
+            if(controls.ACCEPT)
+            {
+                if(itemsListGrp.members[curSelected].price > money) {
+                    FlxG.sound.play(Paths.sound('cancelMenu'));
+                    return;
+                }
+                else {
+                    buyItem();
+                }
+
+                isAboutToBuy = false;
+                showBuyThingie();
+                FlxG.sound.play(Paths.sound('vault/shop/zoomOut'));
+                var item = itemsImageGrp.members[curSelected];
+                item.updatePositions = true;
+
+                FlxTween.cancelTweensOf(item);
+                FlxTween.cancelTweensOf(moneyBox);
+
+                moneyBox.updatePositions = true;
+                FlxTween.tween(item, {x: blackThingie.x + blackThingie.width + ((FlxG.width - (blackThingie.x + blackThingie.width)) / 2) - (item.width / 2), "scale.x": 1, "scale.y": 1}, 0.4, {ease: FlxEase.quartOut});
+            }
+
+            if(controls.BACK)
+            {
+                isAboutToBuy = false;
+                showBuyThingie();
+
+                FlxG.sound.play(Paths.sound('vault/shop/zoomOut'));
+                var item = itemsImageGrp.members[curSelected];
+                item.updatePositions = true;
+                moneyBox.updatePositions = true;
+
+                FlxTween.cancelTweensOf(item);
+                FlxTween.cancelTweensOf(moneyBox);
+
+                FlxTween.tween(item, {x: blackThingie.x + blackThingie.width + ((FlxG.width - (blackThingie.x + blackThingie.width)) / 2) - (item.width / 2), "scale.x": 1, "scale.y": 1}, 0.4, {ease: FlxEase.quartOut});
+            }
         }
 
-        if(controls.BACK)
+        if(FlxG.keys.justPressed.TAB)
         {
-            close();
+            var oldMoney = money;
+            addMoney(100);
+            FlxTween.num(oldMoney, money, 0.7, {ease: FlxEase.quartOut}, function(v:Float)
+            {
+                moneyBox.money = Std.int(v);
+            });
+            moneyBox.updateWidth('$money');
         }
+    }
+
+    var moneyTween:FlxTween;
+    function selectItemToBuy()
+    {
+        FlxG.sound.play(Paths.sound('vault/shop/zoomIn'));
+
+        var item = itemsImageGrp.members[curSelected];
+
+        // quick move
+        var ogItemX:Float = item.x;
+        var ogItemY:Float = item.y;
+
+        item.screenCenter();
+        item.scale.set(1.15, 1.15);
+
+        var screenCenterItemX = item.x;
+        var screenCenterItemY = item.y - 20;
+
+        item.x = ogItemX;
+        item.y = ogItemY;
+        item.scale.set(1, 1);
+
+        // now animate lmao
+        // i know this code sucks, but well if you think that maybe
+        // you could just contribute and improve it ;)
+
+        item.updatePositions = false;
+
+        if(itemsListGrp.members[curSelected].price > money)
+        {
+            pressEnterToConfirm.text = "You don't have enough money to purchase this item.";
+            pressEnterToConfirm.color = 0xFFFFA69C;
+        }
+        else
+        {
+            pressEnterToConfirm.text = "Press ENTER to confirm your purchase.";
+            pressEnterToConfirm.color = 0xFFFFFFFF;
+        }
+                
+        FlxTween.cancelTweensOf(item);
+        FlxTween.cancelTweensOf(moneyBox);
+
+        moneyBox.updatePositions = false;
+        FlxTween.tween(item, {x: screenCenterItemX, y: screenCenterItemY, "scale.x": 1.15, "scale.y": 1.15}, 0.6, {ease: FlxEase.quartOut});
+        FlxTween.tween(moneyBox, {x: FlxG.width / 2 - moneyBox.width / 2, y: FlxG.height - moneyBox.height - 80}, 0.6, {ease: FlxEase.quartOut});
+        hideBuyThingie();
+    }
+
+    function buyItem()
+    {
+        var oldMoney = FlxG.save.data.money;
+        var curItem = itemsListGrp.members[curSelected];
+
+        addMoney(-curItem.price);
+
+        FlxG.sound.play(Paths.sound('vault/shop/confirmPurchase'));
+        if(moneyTween != null) moneyTween.cancel();
+        moneyTween = FlxTween.num(oldMoney, money, 0.7, {ease: FlxEase.quartOut, onComplete: function(twn:FlxTween) {moneyTween = null;}}, function(v:Float)
+        {
+            moneyBox.money = Std.int(v);
+        });
+        moneyBox.updateWidth('$money');
+    }
+
+    function hideBuyThingie()
+    {
+        FlxTween.cancelTweensOf(pressEnterToConfirm);
+        FlxTween.tween(pressEnterToConfirm, {alpha: 1}, {ease: FlxEase.quartOut});
+
+        FlxTween.cancelTweensOf(blackThingie);
+        FlxTween.cancelTweensOf(border);
+        FlxTween.cancelTweensOf(pattern);
+
+        FlxTween.tween(blackThingie, {alpha: 0}, 0.9, {ease: FlxEase.quartOut});
+        FlxTween.tween(border, {alpha: 0}, 0.9, {ease: FlxEase.quartOut});
+        FlxTween.tween(pattern, {alpha: 0}, 0.9, {ease: FlxEase.quartOut});
+        itemsListGrp.forEach(function(item:ItemShop)
+        {
+            item.updatePositions = false;
+            FlxTween.cancelTweensOf(item);
+            FlxTween.tween(item, {alpha: 0}, 0.9, {ease: FlxEase.quartOut});
+        });
+    }
+
+    function showBuyThingie()
+    {
+        FlxTween.cancelTweensOf(pressEnterToConfirm);
+        FlxTween.tween(pressEnterToConfirm, {alpha: 0}, {ease: FlxEase.quartOut});
+
+        FlxTween.cancelTweensOf(blackThingie);
+        FlxTween.cancelTweensOf(border);
+        FlxTween.cancelTweensOf(pattern);
+
+        FlxTween.tween(blackThingie, {alpha: 0.5}, 0.9, {ease: FlxEase.quartOut});
+        FlxTween.tween(border, {alpha: 1}, 0.9, {ease: FlxEase.quartOut});
+        FlxTween.tween(pattern, {alpha: 0.85}, 0.9, {ease: FlxEase.quartOut});
+        itemsListGrp.forEach(function(item:ItemShop)
+        {
+            item.updatePositions = true;
+            FlxTween.cancelTweensOf(item);
+            FlxTween.tween(item, {alpha: item.targetAlpha}, 0.9, {ease: FlxEase.quartOut});
+        });
     }
 }
 
@@ -279,8 +460,10 @@ class ItemShop extends FlxSpriteGroup
     public var stars(default, set):Int = 0;
 
     public var targetY:Float = 0;
+    public var targetAlpha:Float = 1;
     public var distancePerItem:FlxPoint = new FlxPoint(0, 0);
     public var startPosition:FlxPoint = new FlxPoint(0, 0);
+    public var updatePositions:Bool = true;
 
     private function set_stars(value:Int)
     {
@@ -383,7 +566,7 @@ class ItemShop extends FlxSpriteGroup
         super.update(elapsed);
         
 		var lerpVal:Float = Math.exp(-elapsed * 9.6);
-		y = FlxMath.lerp((targetY * distancePerItem.y) + startPosition.y, y, lerpVal);
+		if(updatePositions) y = FlxMath.lerp((targetY * distancePerItem.y) + startPosition.y, y, lerpVal);
     }
 
     public function snapToPosition()
@@ -397,6 +580,7 @@ class ItemShopImage extends FlxSprite
     public var targetY:Float = 0;
     public var distancePerItem:FlxPoint = new FlxPoint(0, 0);
     public var startPosition:FlxPoint = new FlxPoint(0, 0);
+    public var updatePositions:Bool = true;
 
     public function new(x:Float = 0, y:Float = 0, image:Dynamic)
     {
@@ -410,11 +594,51 @@ class ItemShopImage extends FlxSprite
         super.update(elapsed);
 
 		var lerpVal:Float = Math.exp(-elapsed * 9.6);
-		y = FlxMath.lerp((targetY * distancePerItem.y) + startPosition.y, y, lerpVal);
+		if(updatePositions) y = FlxMath.lerp((targetY * distancePerItem.y) + startPosition.y, y, lerpVal);
     }
 
     public function snapToPosition()
     {
         y = startPosition.y + (targetY * distancePerItem.y);
+    }
+}
+
+class MoneyBox extends FlxSpriteGroup
+{
+    public var money(default, set):Int = 0;
+    private function set_money(value:Int)
+    {
+        money = value;
+        moneyText.text = '$money';
+        return value;
+    }
+    var moneyBackground:FlxSprite;
+    var moneyText:FlxText;
+
+    public var updatePositions:Bool = true;
+
+    public function updateWidth(?supposedText:String)
+    {
+        moneyText.text = supposedText;
+        moneyBackground.makeGraphic(Std.int(moneyText.width + 10), 60, 0xFF000000);
+    }
+
+    public function new(x:Float, y:Float)
+    {
+        super(x, y);
+
+        moneyBackground = new FlxSprite(0, 0);
+        moneyBackground.alpha = 0.6;
+        moneyBackground.antialiasing = ClientPrefs.data.antialiasing;
+        add(moneyBackground);
+
+        moneyText = new FlxText(0, 0, 0, '${FlxG.save.data.money}', 14);
+        moneyText.setFormat(Paths.font('GAU_pop_magic.ttf'), 40, 0xFFE0DEEA, LEFT);
+        moneyText.y += 10;
+        moneyText.antialiasing = ClientPrefs.data.antialiasing;
+        add(moneyText);
+
+        moneyBackground.makeGraphic(Std.int(moneyText.width + 10), 60, 0xFF000000);
+        moneyText.x += moneyBackground.width - moneyText.width - 5;
     }
 }
