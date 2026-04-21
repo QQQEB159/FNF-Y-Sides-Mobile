@@ -1,11 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <TextureAtlas imagePath="moneyIcon.png">
-<SubTexture name="money0000" x="0" y="0" width="113" height="134" frameX="0" frameY="-20" frameWidth="101" frameHeight="142" />
-<SubTexture name="money0001" x="0" y="134" width="94" height="122" frameX="-9" frameY="0" frameWidth="101" frameHeight="142" />
-<SubTexture name="money0002" x="94" y="134" width="94" height="119" frameX="-9" frameY="0" frameWidth="101" frameHeight="142" />
-<SubTexture name="money0003" x="94" y="134" width="94" height="119" frameX="-9" frameY="0" frameWidth="101" frameHeight="142" />
-<SubTexture name="money0004" x="188" y="134" width="94" height="119" frameX="-9" frameY="-2" frameWidth="101" frameHeight="142" />
-<SubTexture name="money0005" x="217" y="0" width="108" height="127" frameX="-2" frameY="-27" frameWidth="101" frameHeight="142" />
-<SubTexture name="money0006" x="113" y="0" width="104" height="130" frameX="-4" frameY="-24" frameWidth="101" frameHeight="142" />
-<SubTexture name="money0007" x="113" y="0" width="104" height="130" frameX="-4" frameY="-24" frameWidth="101" frameHeight="142" />
+<SubTexture name="money0000" x="70" y="0" width="75" height="83" frameX="-2" frameY="-4" frameWidth="67" frameHeight="79" />
+<SubTexture name="money0001" x="145" y="0" width="79" height="81" frameX="0" frameY="-5" frameWidth="67" frameHeight="79" />
+<SubTexture name="money0002" x="0" y="0" width="70" height="91" frameX="-4" frameY="0" frameWidth="67" frameHeight="79" />
 </TextureAtlas>

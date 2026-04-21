@@ -495,6 +495,7 @@ class ItemShop extends FlxSpriteGroup
 
     public var bg:FlxSprite;
     public var titleText:FlxText;
+    public var yoinIcon:FlxSprite;
     public var priceText:FlxText;
     public var startsGrp:FlxTypedGroup<FlxSprite>;
 
@@ -514,12 +515,19 @@ class ItemShop extends FlxSpriteGroup
         titleText.x += 5;
         titleText.y += 5;
 
+        yoinIcon = new FlxSprite();
+        yoinIcon.loadGraphic(Paths.image('vault/shop/yoin'));
+        yoinIcon.x += bg.width - yoinIcon.width - 5;
+        yoinIcon.y += 5;
+        yoinIcon.antialiasing = ClientPrefs.data.antialiasing;
+        add(yoinIcon);
+
         priceText = new FlxText(0, 0, width, '', 14);
         priceText.setFormat(Paths.font('GAU_pop_magic.ttf'), 16, 0xFFE0DEEA, RIGHT);
         priceText.antialiasing = ClientPrefs.data.antialiasing;
         add(priceText);
 
-        priceText.x += -5;
+        priceText.x += -yoinIcon.width - 5;
         priceText.y += 5;
 
         startsGrp = new FlxTypedGroup<FlxSprite>();
@@ -621,7 +629,7 @@ class MoneyBox extends FlxSpriteGroup
     public function updateWidth(?supposedText:String)
     {
         moneyText.text = supposedText;
-        moneyBackground.makeGraphic(Std.int(moneyIcon.width + 10 + moneyText.width + 10), 60, 0xFF000000);
+        moneyBackground.makeGraphic(Std.int(moneyIcon.width + 10 + moneyText.width + 10), 90, 0xFF000000);
         moneyIcon.animation.play('idle', true);
     }
 
@@ -638,19 +646,19 @@ class MoneyBox extends FlxSpriteGroup
         moneyIcon.frames = Paths.getSparrowAtlas('vault/shop/moneyIcon');
         moneyIcon.animation.addByPrefix('idle', 'money', 12, false);
         moneyIcon.animation.play('idle', true);
-        moneyIcon.scale.set(0.4, 0.4);
+        //moneyIcon.scale.set(0.55, 0.55);
         moneyIcon.updateHitbox();
-        moneyIcon.y;
+        moneyIcon.y += 5;
         moneyIcon.antialiasing = ClientPrefs.data.antialiasing;
         add(moneyIcon);
 
         moneyText = new FlxText(0, 0, 0, '${FlxG.save.data.money}', 14);
         moneyText.setFormat(Paths.font('GAU_pop_magic.ttf'), 40, 0xFFE0DEEA, LEFT);
-        moneyText.y += 10;
+        moneyText.y += 25;
         moneyText.antialiasing = ClientPrefs.data.antialiasing;
         add(moneyText);
 
-        moneyBackground.makeGraphic(Std.int(moneyIcon.width + 10 + moneyText.width + 10), 60, 0xFF000000);
+        moneyBackground.makeGraphic(Std.int(moneyIcon.width + 10 + moneyText.width + 10), 90, 0xFF000000);
         moneyText.x += moneyBackground.width - moneyText.width - 5;
         moneyIcon.x += moneyBackground.width - moneyText.width - 5 - moneyIcon.width - 5;
     }
