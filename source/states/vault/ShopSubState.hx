@@ -135,7 +135,7 @@ class ShopSubState extends MusicBeatSubstate
         add(moneyBackground);
 
         moneyText = new FlxText(0, 0, moneyBackground.width - 10, '100', 14);
-        moneyText.setFormat(Paths.font('GAU_pop_magic.ttf'), 40, 0xFFFFFFFF, RIGHT);
+        moneyText.setFormat(Paths.font('GAU_pop_magic.ttf'), 40, 0xFFE0DEEA, RIGHT);
         moneyText.y = moneyBackground.y + 10;
         moneyText.antialiasing = ClientPrefs.data.antialiasing;
         add(moneyText);
@@ -272,11 +272,11 @@ class ItemShop extends FlxSpriteGroup
         super(x, y);
 
         bg = new FlxSprite();
-        bg.makeGraphic(width, height, 0xFF000000);
+        bg.makeGraphic(width, height, 0xFF0F001D);
         add(bg);
 
         titleText = new FlxText(0, 0, 0, '', 14);
-        titleText.setFormat(Paths.font('GAU_pop_magic.ttf'), 16, 0xFFFFFFFF);
+        titleText.setFormat(Paths.font('GAU_pop_magic.ttf'), 16, 0xFFE0DEEA);
         titleText.antialiasing = ClientPrefs.data.antialiasing;
         add(titleText);
 
@@ -284,7 +284,7 @@ class ItemShop extends FlxSpriteGroup
         titleText.y += 5;
 
         priceText = new FlxText(0, 0, width, '', 14);
-        priceText.setFormat(Paths.font('GAU_pop_magic.ttf'), 16, 0xFFFFFFFF, RIGHT);
+        priceText.setFormat(Paths.font('GAU_pop_magic.ttf'), 16, 0xFFE0DEEA, RIGHT);
         priceText.antialiasing = ClientPrefs.data.antialiasing;
         add(priceText);
 
