@@ -613,6 +613,7 @@ class MoneyBox extends FlxSpriteGroup
         return value;
     }
     var moneyBackground:FlxSprite;
+    var moneyIcon:FlxSprite;
     var moneyText:FlxText;
 
     public var updatePositions:Bool = true;
@@ -620,7 +621,8 @@ class MoneyBox extends FlxSpriteGroup
     public function updateWidth(?supposedText:String)
     {
         moneyText.text = supposedText;
-        moneyBackground.makeGraphic(Std.int(moneyText.width + 10), 60, 0xFF000000);
+        moneyBackground.makeGraphic(Std.int(moneyIcon.width + 10 + moneyText.width + 10), 60, 0xFF000000);
+        moneyIcon.animation.play('idle', true);
     }
 
     public function new(x:Float, y:Float)
@@ -632,13 +634,24 @@ class MoneyBox extends FlxSpriteGroup
         moneyBackground.antialiasing = ClientPrefs.data.antialiasing;
         add(moneyBackground);
 
+        moneyIcon = new FlxSprite();
+        moneyIcon.frames = Paths.getSparrowAtlas('vault/shop/moneyIcon');
+        moneyIcon.animation.addByPrefix('idle', 'money', 12, false);
+        moneyIcon.animation.play('idle', true);
+        moneyIcon.scale.set(0.4, 0.4);
+        moneyIcon.updateHitbox();
+        moneyIcon.y;
+        moneyIcon.antialiasing = ClientPrefs.data.antialiasing;
+        add(moneyIcon);
+
         moneyText = new FlxText(0, 0, 0, '${FlxG.save.data.money}', 14);
         moneyText.setFormat(Paths.font('GAU_pop_magic.ttf'), 40, 0xFFE0DEEA, LEFT);
         moneyText.y += 10;
         moneyText.antialiasing = ClientPrefs.data.antialiasing;
         add(moneyText);
 
-        moneyBackground.makeGraphic(Std.int(moneyText.width + 10), 60, 0xFF000000);
+        moneyBackground.makeGraphic(Std.int(moneyIcon.width + 10 + moneyText.width + 10), 60, 0xFF000000);
         moneyText.x += moneyBackground.width - moneyText.width - 5;
+        moneyIcon.x += moneyBackground.width - moneyText.width - 5 - moneyIcon.width - 5;
     }
 }
