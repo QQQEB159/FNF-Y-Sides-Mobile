@@ -13,7 +13,7 @@ class ShopSubState extends MusicBeatSubstate
         ['Picostola', 150, 2, 'picostola'],
         ['Tricky Sign', 150, 2, 'tricky'],
         ['Calcetines', 75, 2, 'picostola'],
-        ['Chocha de gbv', 75, 2, 'picostola'],
+        ['Chocha de gbv', 75, 5, 'picostola'],
     ];
     var itemsListGrp:FlxTypedGroup<ItemShop>;
 
@@ -25,7 +25,10 @@ class ShopSubState extends MusicBeatSubstate
     var blackThingie:FlxSprite;
     var border:FlxSprite;
     var pattern:FlxSprite;
-    var itemsCamera:FlxCamera;
+    public static var itemsCamera:FlxCamera;
+
+    var moneyBackground:FlxSprite;
+    var moneyText:FlxText;
 
     override function create()
     {
@@ -92,6 +95,7 @@ class ShopSubState extends MusicBeatSubstate
             var image = new ItemShopImage(0, 0, Paths.image('vault/shop/items/${itemsListArr[i][3]}'));
             //image.cameras = [itemsCamera];
             image.screenCenter(Y);
+            image.y += 20;
             image.x = blackThingie.x + blackThingie.width + ((FlxG.width - (blackThingie.x + blackThingie.width)) / 2) - (image.width / 2);
             image.antialiasing = ClientPrefs.data.antialiasing;
 
@@ -104,11 +108,29 @@ class ShopSubState extends MusicBeatSubstate
 
             itemsImageGrp.add(image);
 
-            new FlxTimer().start(1, function(tmr:FlxTimer)
+            new FlxTimer().start(0.65, function(tmr:FlxTimer)
             {
                 image.angle = image.angle == imageTargetAngle ? -imageTargetAngle : imageTargetAngle;
             }, 0);
+
+            image.x = FlxG.width;
+            FlxTween.tween(image, {x: blackThingie.x + blackThingie.width + ((FlxG.width - (blackThingie.x + blackThingie.width)) / 2) - (image.width / 2)}, 0.7, {ease: FlxEase.quartOut});
         }
+
+        moneyBackground = new FlxSprite(0, 90);
+        moneyBackground.makeGraphic(200, 60, 0xFF000000);
+        moneyBackground.alpha = 0.6;
+        moneyBackground.antialiasing = ClientPrefs.data.antialiasing;
+        add(moneyBackground);
+
+        moneyText = new FlxText(0, 0, moneyBackground.width - 10, '100', 14);
+        moneyText.setFormat(Paths.font('GAU_pop_magic.ttf'), 40, 0xFFFFFFFF, RIGHT);
+        moneyText.y = moneyBackground.y + 10;
+        moneyText.antialiasing = ClientPrefs.data.antialiasing;
+        add(moneyText);
+
+        // adjust background size
+        moneyBackground.makeGraphic(Std.int(moneyText.width + 10), Std.int(moneyBackground.height), 0xFF000000);
 
         closeCallback = function()
         {
@@ -126,6 +148,16 @@ class ShopSubState extends MusicBeatSubstate
     {
         bg.alpha = 0;
         FlxTween.tween(bg, {alpha: 0.2}, 1, {ease: FlxEase.quartOut});
+
+        moneyBackground.x = FlxG.width;
+        FlxTween.tween(moneyBackground, {x: FlxG.width - moneyBackground.width}, 0.7, {ease: FlxEase.quartOut});
+
+        moneyText.x = FlxG.width + 5;
+        FlxTween.tween(moneyText, {x: FlxG.width - moneyBackground.width + 5}, 0.7, {ease: FlxEase.quartOut});
+        FlxTween.num(0, 100, 0.7, {ease: FlxEase.quartOut}, function(v:Float)
+        {
+            moneyText.text = '${Std.int(v)}';
+        });
     }
 
     function changeSelection(change:Int = 0)
@@ -201,13 +233,20 @@ class ItemShop extends FlxSpriteGroup
         for(i in 0...stars)
         {
             var starSpr = new FlxSprite();
-            starSpr.makeGraphic(30, 30, 0xFFFFFFFF);
+            //starSpr.makeGraphic(20, 20, 0xFFFFFFFF);
+            starSpr.frames = Paths.getSparrowAtlas('vault/shop/star');
+            starSpr.animation.addByPrefix('idle', 'idle', 24, true);
+            starSpr.animation.addByPrefix('light', 'light', 24, false);
+            starSpr.animation.play('idle');
             add(starSpr);
             startsGrp.add(starSpr);
 
-            starSpr.x += 10 + (starSpr.width + 10) * i;
-            starSpr.y += height - starSpr.height - 10;
+            starSpr.ID = i;
+            starSpr.x += 5 + (starSpr.width + 10) * i;
+            starSpr.y += height - starSpr.height - 5;
         }
+
+        playStarsAnim();
 
         return value;
     }
@@ -246,13 +285,38 @@ class ItemShop extends FlxSpriteGroup
         for(i in 0...stars)
         {
             var starSpr = new FlxSprite();
-            starSpr.makeGraphic(20, 20, 0xFFFFFFFF);
+            //starSpr.makeGraphic(20, 20, 0xFFFFFFFF);
+            starSpr.frames = Paths.getSparrowAtlas('vault/shop/star');
+            starSpr.animation.addByPrefix('idle', 'idle', 24, true);
+            starSpr.animation.addByPrefix('light', 'light', 24, false);
+            starSpr.animation.play('idle');
             add(starSpr);
             startsGrp.add(starSpr);
 
+            starSpr.ID = i;
             starSpr.x += 5 + (starSpr.width + 10) * i;
             starSpr.y += height - starSpr.height - 5;
         }
+
+        new FlxTimer().start(8, function(tmr:FlxTimer)
+        {
+            playStarsAnim();
+        }, 0);
+    }
+
+    function playStarsAnim()
+    {
+        startsGrp.forEach(function(star:FlxSprite)
+        {
+            new FlxTimer().start(0.15 * star.ID, function(tmr:FlxTimer)
+            {
+                star.animation.play('light', true);
+                star.animation.finishCallback = function(name:String)
+                {
+                    if(name == 'light') star.animation.play('idle');
+                }
+            });
+        });
     }
 
     override function update(elapsed:Float)

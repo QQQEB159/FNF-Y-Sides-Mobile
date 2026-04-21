@@ -725,6 +725,7 @@ class VaultState extends MusicBeatState
         super.closeSubState();
 
         FlxG.sound.play(Paths.sound('vault/shop/zoomOut'));
+        FlxG.cameras.remove(ShopSubState.itemsCamera);
 
         FlxTween.cancelTweensOf(poloDown);
         FlxTween.tween(poloDown, {y: FlxG.height - poloDown.height}, 0.45, {ease: FlxEase.quintOut});
