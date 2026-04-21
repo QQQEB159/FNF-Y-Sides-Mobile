@@ -31,9 +31,7 @@ class MainMenuState extends MusicBeatState
     var characterY:Float = 0;
     var leftBar:FlxSprite;
     var leftBarThorns:FlxBackdrop; // THORNS?!
-    var leftBarThornsDark:FlxBackdrop;
     var rightBarThorns:FlxBackdrop; // THORNS 2?!
-    var rightBarThornsDark:FlxBackdrop;
     var thornsSpeed:Float = 15;
     var rightBar:FlxSprite;
     var transition:FlxSprite;
@@ -151,11 +149,6 @@ class MainMenuState extends MusicBeatState
         leftBarThorns.antialiasing = ClientPrefs.data.antialiasing;
         add(leftBarThorns);
 
-        leftBarThornsDark = new FlxBackdrop(Paths.image('mainmenu/new/lettaboxdark'), Y);
-        leftBarThornsDark.velocity.set(0, thornsSpeed);
-        leftBarThornsDark.antialiasing = ClientPrefs.data.antialiasing;
-        add(leftBarThornsDark);
-
         leftBar = new FlxSprite();
         leftBar.makeGraphic(370, Std.int(FlxG.height * 1.2), 0xFF130024);
         leftBar.x = -20;
@@ -168,9 +161,6 @@ class MainMenuState extends MusicBeatState
         leftBarThorns.x = leftBar.x + leftBar.width - 1;
         FlxTween.tween(leftBarThorns, {x: 349}, 0.7, {ease: FlxEase.quartOut});
 
-        leftBarThornsDark.x = leftBar.x + leftBar.width - 1;
-        FlxTween.tween(leftBarThornsDark, {x: 349}, 0.7, {ease: FlxEase.quartOut});
-
         circle.x = leftBar.x + leftBar.width - (circle.width / 2);
         FlxTween.tween(circle, {x: 370 - (circle.width / 2)}, 0.7, {ease: FlxEase.quartOut});
 
@@ -182,12 +172,6 @@ class MainMenuState extends MusicBeatState
         rightBarThorns.flipX = true;
         add(rightBarThorns);
 
-        rightBarThornsDark = new FlxBackdrop(Paths.image('mainmenu/new/lettaboxdark'), Y);
-        rightBarThornsDark.velocity.set(0, -thornsSpeed);
-        rightBarThornsDark.antialiasing = ClientPrefs.data.antialiasing;
-        rightBarThornsDark.flipX = true;
-        add(rightBarThornsDark);
-
         rightBar = new FlxSprite();
         rightBar.makeGraphic(370, Std.int(FlxG.height * 1.2), 0xFF130024);
         rightBar.y = -20;
@@ -198,9 +182,6 @@ class MainMenuState extends MusicBeatState
 
         rightBarThorns.x = rightBar.x - rightBarThorns.width + 1;
         FlxTween.tween(rightBarThorns, {x: FlxG.width - rightBar.width + (rightBar.width - 350) - rightBarThorns.width + 1}, 0.7, {ease: FlxEase.quartOut});
-
-        rightBarThornsDark.x = rightBar.x - rightBarThornsDark.width + 1;
-        FlxTween.tween(rightBarThornsDark, {x: FlxG.width - rightBar.width + (rightBar.width - 350) - rightBarThornsDark.width + 1}, 0.7, {ease: FlxEase.quartOut});
 
         circle2.scale.set(1.15, 1.15);
         circle2.updateHitbox();
@@ -539,10 +520,8 @@ class MainMenuState extends MusicBeatState
                     FlxTween.cancelTweensOf(circle2);
 		            FlxTween.cancelTweensOf(leftBar);
 		            FlxTween.cancelTweensOf(leftBarThorns);
-		            FlxTween.cancelTweensOf(leftBarThornsDark);
 		            FlxTween.cancelTweensOf(rightBar);
 		            FlxTween.cancelTweensOf(rightBarThorns);
-		            FlxTween.cancelTweensOf(rightBarThornsDark);
                     FlxTween.tween(character, {alpha: 0, y: characterY - 100}, 0.35, {ease: FlxEase.quartIn, onComplete: function(twn:FlxTween)
                     {
                         //new FlxTimer().start(0.15, function(tmr:FlxTimer)
@@ -555,11 +534,9 @@ class MainMenuState extends MusicBeatState
                     FlxTween.tween(lines, {alpha: 0}, 0.35, {ease: FlxEase.quartIn});
                     FlxTween.tween(leftBar, {x: -450}, 0.35, {ease: FlxEase.quartIn});
                     FlxTween.tween(leftBarThorns, {x: -79}, 0.35, {ease: FlxEase.quartIn});
-                    FlxTween.tween(leftBarThornsDark, {x: -79}, 0.35, {ease: FlxEase.quartIn});
                     FlxTween.tween(circle, {x: -400 - (circle.width / 2)}, 0.35, {ease: FlxEase.quartIn});
                     FlxTween.tween(rightBar, {x: FlxG.width + 80}, 0.35, {ease: FlxEase.quartIn});
                     FlxTween.tween(rightBarThorns, {x: FlxG.width + 80 - rightBarThorns.width + 1}, 0.35, {ease: FlxEase.quartIn});
-                    FlxTween.tween(rightBarThornsDark, {x: FlxG.width + 80 - rightBarThornsDark.width + 1}, 0.35, {ease: FlxEase.quartIn});
                     FlxTween.tween(circle2, {x: FlxG.width + 400 - (circle2.width / 1.8)}, 0.35, {ease: FlxEase.quartIn});
                     FlxTween.tween(item, {x: curColumn == LEFT ? item.x - 450 : item.x + 450}, 0.35, {ease: FlxEase.quartIn});
                 });
