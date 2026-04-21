@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <TextureAtlas imagePath="moneyIcon.png">
-<SubTexture name="money0000" x="70" y="0" width="75" height="83" frameX="-2" frameY="-4" frameWidth="67" frameHeight="79" />
+<SubTexture name="money0000" x="0" y="0" width="70" height="91" frameX="-4" frameY="0" frameWidth="67" frameHeight="79" />
 <SubTexture name="money0001" x="145" y="0" width="79" height="81" frameX="0" frameY="-5" frameWidth="67" frameHeight="79" />
-<SubTexture name="money0002" x="0" y="0" width="70" height="91" frameX="-4" frameY="0" frameWidth="67" frameHeight="79" />
+<SubTexture name="money0002" x="70" y="0" width="75" height="83" frameX="-2" frameY="-4" frameWidth="67" frameHeight="79" />
 </TextureAtlas>

@@ -475,6 +475,7 @@ class VaultState extends MusicBeatState
 
             if(controls.ACCEPT)
             {
+                endDialogue();
                 preShopSelect();
             }
 
@@ -565,14 +566,18 @@ class VaultState extends MusicBeatState
             madreaCharacter.animation.play('idle');
 			dialogueTimer = new FlxTimer().start(thingTimer, function(t:FlxTimer)
 			{
-                endDialogue();
+                endDialogue(false);
                 if(endCallback != null) endCallback();
 			});
 		}
 	}
 
-    function endDialogue()
+    function endDialogue(playAnimation:Bool = true)
     {
+        if(playAnimation) madreaCharacter.animation.play('idle');
+		dialogueText.resetText('');
+		dialogueText.start(0.01, true);
+
         FlxTween.cancelTweensOf(dialogueBox);
         FlxTween.cancelTweensOf(dialogueText);
             
@@ -666,6 +671,7 @@ class VaultState extends MusicBeatState
         switch(name)
         {
             case 'buy':
+                endDialogue();
                 openShop();
             case 'talk':
                 zoomInToCharacter();
