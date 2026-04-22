@@ -243,7 +243,8 @@ class PlayState extends MusicBeatState
 	public var songHits:Int = 0;
 	public var songMisses:Int = 0;
 	public var scoreTxt:FlxText;
-	var timeTxt:FlxBitmapText;
+	var clockIndicator:FlxSprite;
+	var clockIndicator2:FlxSprite;
 	var scoreTxtTween:FlxTween;
 
 	public static var campaignScore:Int = 0;
@@ -595,24 +596,25 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		var fontLetters:String = "0123456789:";
-		timeTxt = new FlxBitmapText(FlxBitmapFont.fromMonospace(Paths.image("hud/font_gym"), fontLetters, FlxPoint.get(40, 56)));
-		timeTxt.text = "";
-		//timeTxt.letterSpacing = -15;
-		timeTxt.scrollFactor.set();
-		timeTxt.alpha = 0;
-		timeTxt.screenCenter(X);
-		timeTxt.scale.set(0.75, 0.85);
-		timeTxt.x = timeBar.x + 17;
-		timeTxt.y = timeBar.y + timeBar.height / 4 - 4;
-		timeTxt.visible = updateTime = showTime;
-		timeTxt.antialiasing = ClientPrefs.data.antialiasing;
-		if(ClientPrefs.data.downScroll) 
-		{
-			if(!ClientPrefs.data.middleScroll) timeBar.y = FlxG.height - timeBar.height - 25;
-			timeTxt.y = timeBar.y + timeBar.height / 4;
-		}
-		uiGroup.add(timeTxt);
+		clockIndicator = new FlxSprite();
+		clockIndicator.loadGraphic(Paths.image('hud/clockIndicator'));
+		clockIndicator.scrollFactor.set();
+		clockIndicator.x = timeBar.x;
+		clockIndicator.y = timeBar.y;
+		clockIndicator.alpha = 0;
+		clockIndicator.visible = updateTime = showTime;
+		clockIndicator.antialiasing = ClientPrefs.data.antialiasing;
+
+		clockIndicator2 = new FlxSprite();
+		clockIndicator2.loadGraphic(Paths.image('hud/clockIndicator2'));
+		clockIndicator2.scrollFactor.set();
+		clockIndicator2.x = timeBar.x;
+		clockIndicator2.y = timeBar.y;
+		clockIndicator2.alpha = 0;
+		clockIndicator2.visible = updateTime = showTime;
+		clockIndicator2.antialiasing = ClientPrefs.data.antialiasing;
+		uiGroup.add(clockIndicator2);
+		uiGroup.add(clockIndicator);
 
 		noteGroup.add(strumLineNotes);
 
@@ -1668,7 +1670,8 @@ class PlayState extends MusicBeatState
 		// Song duration in a float, useful for the time left feature
 		songLength = FlxG.sound.music.length;
 		FlxTween.tween(timeBar, {alpha: 1}, 0.5, {ease: FlxEase.circOut});
-		FlxTween.tween(timeTxt, {alpha: 1}, 0.5, {ease: FlxEase.circOut});
+		FlxTween.tween(clockIndicator, {alpha: 1}, 0.5, {ease: FlxEase.circOut});
+		FlxTween.tween(clockIndicator2, {alpha: 1}, 0.5, {ease: FlxEase.circOut});
 
 		#if DISCORD_ALLOWED
 		// Updating Discord Rich Presence (with Time Left)
@@ -2372,8 +2375,8 @@ class PlayState extends MusicBeatState
 			var secondsTotal:Int = Math.floor(songCalc / 1000);
 			if(secondsTotal < 0) secondsTotal = 0;
 
-			if(ClientPrefs.data.timeBarType != 'Song Name')
-				timeTxt.text = FlxStringUtil.formatTime(secondsTotal, false);
+			clockIndicator.angle = (curTime / songLength) * 360;
+			clockIndicator2.angle = (curTime / songLength) * 720;
 		}
 
 		if (camZooming)
@@ -3207,7 +3210,8 @@ class PlayState extends MusicBeatState
 		}
 
 		timeBar.visible = false;
-		timeTxt.visible = false;
+		clockIndicator.visible = false;
+		clockIndicator2.visible = false;
 		canPause = false;
 		endingSong = true;
 		camZooming = false;
