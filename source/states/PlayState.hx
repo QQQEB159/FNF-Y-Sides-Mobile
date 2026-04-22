@@ -3346,23 +3346,26 @@ class PlayState extends MusicBeatState
 		persistentUpdate = false;
 		persistentDraw = false;
 
-		var shit:FlxSprite = new FlxSprite();
+		trace('You won! Redirecting to results screen...');
+
+		FlxG.sound.music.pause();
+		FlxG.sound.music.time = 0;
+
+		var shit = new FlxSprite();
 		shit.makeGraphic(1280, 720, 0xFF000000);
 		shit.cameras = [camOther];
 		shit.alpha = 0;
 		add(shit);
 
-		FlxTween.tween(shit, {alpha: 1}, 0.4);
-			
-		var resultsScreen = new ResultsScreen(CharSelectState.currentFreeplaySelectedName == 'pico');
-		resultsScreen.cameras = [camOther];
-		openSubState(resultsScreen);
+		moveCamera(true);
+		camFollow.y += -40;
 
-		FlxG.sound.music.pause();
-		FlxG.sound.music.time = 0;
-
-		camHUD.alpha = 0;
-		trace('you win omfg');
+		FlxTween.tween(shit, {alpha: 1}, 0.8, {onComplete: function(twn:FlxTween)
+		{
+			var resultsScreen = new ResultsScreen(CharSelectState.currentFreeplaySelectedName == 'pico');
+			resultsScreen.cameras = [camOther];
+			openSubState(resultsScreen);
+		}});
 	}
 
 	public function KillNotes() {

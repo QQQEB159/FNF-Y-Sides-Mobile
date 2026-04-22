@@ -82,36 +82,27 @@ class ResultsScreen extends MusicBeatSubstate
         //FlxG.sound.playMusic(Paths.music(getRankName() == 'e' ? 'winScreenbad' : 'winScreen'));
         //Conductor.bpm = getRankName() == 'e' ? 100 : 127;
 
+        var bgColor = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, 0xFF000000);
+        add(bgColor);
+
         bg = new FlxSprite();
         bg.makeGraphic(FlxG.width, FlxG.height, 0xFFCFC6F3);
-        bg.alpha = 0;
         add(bg);
-
-        FlxTween.tween(bg, {alpha: 1}, 0.7);
 
         lines = new FlxBackdrop(Paths.image('gallery/lines'), #if (flixel <= "5.0.0") 0.2, 0.2, true, true #else XY #end);
         lines.velocity.set(75, 75);
-        lines.alpha = 0;
         lines.antialiasing = ClientPrefs.data.antialiasing;
         add(lines);
-
-        FlxTween.tween(lines, {alpha: 0.45}, 0.7);
 
         bgStripe = new FlxBackdrop(Paths.image('resultsScreen/newResultsScreen/stripe'), #if (flixel <= "5.0.0") 0.2, 0.2, true, true #else X #end);
         bgStripe.antialiasing = ClientPrefs.data.antialiasing;
         bgStripe.velocity.set(stripeSpeed, 0);
         bgStripe.blend = ADD;
-        bgStripe.alpha = 0;
         add(bgStripe);
-
-        FlxTween.tween(bgStripe, {alpha: 1}, 0.7);
 
         blackBackground = new FlxSprite();
         blackBackground.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
-        blackBackground.alpha = 0;
         add(blackBackground);
-
-        FlxTween.tween(blackBackground, {alpha: 0.5}, 0.7);
 
         whiteBackground = new FlxSprite();
         whiteBackground.makeGraphic(FlxG.width, FlxG.height, FlxColor.WHITE);
@@ -144,23 +135,17 @@ class ResultsScreen extends MusicBeatSubstate
         add(bfIconRight);
 
         patternDown = new ResultsScreenPattern(0, 0);
-        patternDown.y = FlxG.height;
         patternDown.darkPattern.velocity.set(patternSpeed, 0);
         patternDown.lightPattern.velocity.set(-patternSpeed, 0);
         patternDown.antialiasing = ClientPrefs.data.antialiasing;
         add(patternDown);
 
-        FlxTween.tween(patternDown, {y: FlxG.height - patternDown.height}, 1, {ease: FlxEase.expoOut});
-
         patternUp = new ResultsScreenPattern(0, 0, true);
-        patternUp.y = 0 - patternUp.height;
         patternUp.flipY = true;
         patternUp.darkPattern.velocity.set(-patternSpeed, 0);
         patternUp.lightPattern.velocity.set(patternSpeed, 0);
         patternUp.antialiasing = ClientPrefs.data.antialiasing;
         add(patternUp);
-
-        FlxTween.tween(patternUp, {y: 0}, 1, {ease: FlxEase.expoOut});
 
         board = new FlxSprite();
         board.loadGraphic(Paths.image('resultsScreen/newResultsScreen/board'));
@@ -236,6 +221,7 @@ class ResultsScreen extends MusicBeatSubstate
 
         ratingAnimData();
         bfAnimChoose();
+        initTransition();
         //startBfAnim();
 
         new FlxTimer().start(2, (_) -> {
@@ -295,6 +281,28 @@ class ResultsScreen extends MusicBeatSubstate
                 }
             });
         });
+    }
+
+    var transDuration:Float = 0.7;
+    function initTransition()
+    {
+        bg.alpha = 0;
+        FlxTween.tween(bg, {alpha: 1}, transDuration, {ease: FlxEase.quartOut});
+
+        lines.alpha = 0;
+        FlxTween.tween(lines, {alpha: 0.45}, 0.7);
+
+        bgStripe.alpha = 0;
+        FlxTween.tween(bgStripe, {alpha: 1}, 0.7);
+
+        blackBackground.alpha = 0;
+        FlxTween.tween(blackBackground, {alpha: 0.5}, 0.7);
+
+        patternDown.y = FlxG.height;
+        FlxTween.tween(patternDown, {y: FlxG.height - patternDown.height}, 1, {ease: FlxEase.expoOut});
+
+        patternUp.y = 0 - patternUp.height;
+        FlxTween.tween(patternUp, {y: 0}, 1, {ease: FlxEase.expoOut});
     }
 
     function getRankName():String
