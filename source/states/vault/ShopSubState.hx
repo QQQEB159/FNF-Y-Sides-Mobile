@@ -43,6 +43,7 @@ class ShopSubState extends MusicBeatSubstate
     var border:FlxSprite;
     var pattern:FlxSprite;
     public static var itemsCamera:FlxCamera;
+    public static var cursorCamera:FlxCamera;
 
     var moneyBox:MoneyBox;
     var pressEnterToConfirm:FlxText;
@@ -70,8 +71,13 @@ class ShopSubState extends MusicBeatSubstate
         itemsCamera.bgColor.alpha = 0;
         add(itemsCamera);
 
+        cursorCamera = new FlxCamera();
+        cursorCamera.bgColor.alpha = 0;
+        add(cursorCamera);
+
         //FlxG.cameras.list.insert(FlxG.cameras.list.length - 3, itemsCamera);
         FlxG.cameras.add(itemsCamera, false);
+        FlxG.cameras.add(cursorCamera, false);
 
         pattern = new FlxBackdrop(Paths.image('vault/shop/weird_checker'), XY);
         pattern.alpha = 0.85;
