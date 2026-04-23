@@ -46,4 +46,23 @@ class BeatenSongs
         FlxG.save.data.beatenSongs = beatenSongs;
         FlxG.save.flush();
     }
+
+    // method used to only make actual new songs to have the "is new" flag
+    public static function isSongNew(name:String):Bool
+    {
+        // yes, hardcoded, kill me if you want :)
+        var songsWithNewFlag:Array<String> = [
+            'satin-panties-bf',
+            'high-bf',
+            'milf-bf',
+            'milf-pico',
+            'cocoa-bf',
+            'eggnog-bf',
+            'winter-horrorland-bf',
+            'madness-bf'
+        ];
+
+        if(songsWithNewFlag.contains(name)) return true;
+        return false;
+    }
 }

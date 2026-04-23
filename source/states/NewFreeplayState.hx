@@ -207,7 +207,8 @@ class NewFreeplayState extends MusicBeatState
             capsule.startPosition.y = capsule.y;
 			capsule.snapToPosition();
 
-            capsule.isNewSong = !BeatenSongs.beatenSongs.get('${songs[i].songName.toLowerCase()}-${CharSelectState.currentFreeplaySelectedName}');
+            var fullSongName = '${songs[i].songName.toLowerCase()}-${CharSelectState.currentFreeplaySelectedName}';
+            capsule.isNewSong = (!BeatenSongs.beatenSongs.get(fullSongName) && BeatenSongs.isSongNew(fullSongName));
             grpSongs.add(capsule);
         }
 
