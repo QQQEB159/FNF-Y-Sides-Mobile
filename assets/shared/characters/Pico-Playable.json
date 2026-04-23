@@ -1,84 +1,92 @@
 {
 	"animations": [
 		{
-			"loop": false,
 			"offsets": [0, 0],
+			"loop": false,
+			"fps": 12,
 			"anim": "idle",
-			"fps": 12,
-			"name": "idle",
-			"indices": []
+			"indices": [],
+			"name": "idle"
 		},
 		{
-			"loop": false,
 			"offsets": [-8, -2],
+			"loop": false,
+			"fps": 12,
 			"anim": "singLEFT",
-			"fps": 12,
-			"name": "right0",
-			"indices": []
+			"indices": [],
+			"name": "right0"
 		},
 		{
-			"loop": false,
 			"offsets": [-8, -1],
+			"loop": false,
+			"fps": 12,
 			"anim": "singLEFTmiss",
-			"fps": 12,
-			"name": "rightmiss",
-			"indices": []
+			"indices": [],
+			"name": "rightmiss"
 		},
 		{
-			"loop": false,
 			"offsets": [-3, 1],
+			"loop": false,
+			"fps": 12,
 			"anim": "singDOWN",
-			"fps": 12,
-			"name": "down0",
-			"indices": []
+			"indices": [],
+			"name": "down0"
 		},
 		{
-			"loop": false,
 			"offsets": [-4, -4],
+			"loop": false,
+			"fps": 12,
 			"anim": "singUP",
-			"fps": 12,
-			"name": "up0",
-			"indices": []
+			"indices": [],
+			"name": "up0"
 		},
 		{
-			"loop": false,
 			"offsets": [-56, 3],
+			"loop": false,
+			"fps": 12,
 			"anim": "singRIGHT",
-			"fps": 12,
-			"name": "left0",
-			"indices": []
+			"indices": [],
+			"name": "left0"
 		},
 		{
-			"loop": false,
 			"offsets": [-3, 1],
+			"loop": false,
+			"fps": 12,
 			"anim": "singDOWNmiss",
-			"fps": 12,
-			"name": "downmiss",
-			"indices": []
+			"indices": [],
+			"name": "downmiss"
 		},
 		{
-			"loop": false,
 			"offsets": [-4, -3],
+			"loop": false,
+			"fps": 12,
 			"anim": "singUPmiss",
-			"fps": 12,
-			"name": "upmiss",
-			"indices": []
+			"indices": [],
+			"name": "upmiss"
 		},
 		{
-			"loop": false,
 			"offsets": [-57, 3],
-			"anim": "singRIGHTmiss",
+			"loop": false,
 			"fps": 12,
-			"name": "leftmiss",
-			"indices": []
+			"anim": "singRIGHTmiss",
+			"indices": [],
+			"name": "leftmiss"
 		},
 		{
-			"loop": false,
 			"offsets": [-56, 3],
-			"anim": "shoot",
+			"loop": false,
 			"fps": 24,
-			"name": "shoot",
-			"indices": []
+			"anim": "shoot",
+			"indices": [],
+			"name": "shoot"
+		},
+		{
+			"offsets": [0, 0],
+			"indices": [],
+			"fps": 12,
+			"anim": "burp",
+			"loop": false,
+			"name": "burp"
 		}
 	],
 	"vocals_file": "",
@@ -87,7 +95,6 @@
 	"position": [-260, -55],
 	"healthicon": "pico",
 	"flip_x": false,
-	"icon_offset": [0, -20],
 	"healthbar_colors": [254, 0, 103],
 	"camera_position": [-40, 50],
 	"sing_duration": 4,
