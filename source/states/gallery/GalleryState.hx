@@ -35,6 +35,11 @@ class GalleryState extends MusicBeatState
     {
         super.create();
 
+		#if DISCORD_ALLOWED
+		// Updating Discord Rich Presence
+		DiscordClient.changePresence("In the Gallery", null);
+		#end
+
 		if(FlxG.sound.music != null)
 		{
 			if(!FlxG.sound.music.playing)
@@ -44,7 +49,6 @@ class GalleryState extends MusicBeatState
 				FlxG.sound.music.fadeIn(1);
 			}
 		}
-        
 
         FlxG.mouse.visible = true;
 

@@ -22,6 +22,11 @@ class CharSelectState extends MusicBeatState
     {
         super.create();
 
+		#if DISCORD_ALLOWED
+		// Updating Discord Rich Presence
+		DiscordClient.changePresence("In the Character Selector", null);
+		#end
+
 		if(FlxG.sound.music != null)
 		{
             trace('music not null');

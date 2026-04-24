@@ -49,6 +49,11 @@ class VaultState extends MusicBeatState
     {
         super.create();
 
+		#if DISCORD_ALLOWED
+		// Updating Discord Rich Presence
+		DiscordClient.changePresence("In the Vault", null);
+		#end
+
 		if(FlxG.sound.music != null)
 		{
 			if(!FlxG.sound.music.playing)
