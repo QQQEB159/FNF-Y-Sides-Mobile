@@ -47,6 +47,14 @@ class BeatenSongs
         FlxG.save.flush();
     }
 
+    public static function isSongBeaten(name:String):Bool
+    {
+        if(!beatenSongs.exists(name)) return false;
+        trace('Song beaten? ($name -> ${beatenSongs.get(name)})');
+        if(beatenSongs.get(name)) return true;
+        return false;
+    }
+
     // method used to only make actual new songs to have the "is new" flag
     public static function isSongNew(name:String):Bool
     {
