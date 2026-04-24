@@ -1006,6 +1006,10 @@ class PlayState extends MusicBeatState
 		cacheCountdown();
 		cachePopUpScore();
 
+		endLiftingSound = new FlxSound();
+		endLiftingSound.loadEmbedded(Paths.sound('liftDumbellsEnding'));
+		FlxG.sound.list.add(endLiftingSound);
+
 		if(eventNotes.length < 1) checkEventNote();
 	}
 
@@ -2102,6 +2106,9 @@ class PlayState extends MusicBeatState
 	var isPressingSpace:Bool = false; var pressConditionDelay:Float = 0.8; var pressConditionTime:Float = 0; var pressConditionSample:Float = 0;
 	var alredyLiftAnim:Bool = false;
 	var startedLift:Bool = false;
+	var playedStartLiftingSound:Bool = false;
+	var playedEndLiftingSound:Bool = false;
+	var endLiftingSound:FlxSound;
 	var liftingTime:Float = 0;
 	var forcedLiftingSection:Bool = false;
 
@@ -2151,6 +2158,11 @@ class PlayState extends MusicBeatState
 
 				if(startedLift)
 				{
+					if(!playedStartLiftingSound) 
+					{
+						FlxG.sound.play(Paths.sound('liftDumbellsStart'));
+						playedStartLiftingSound = true;
+					}
 					liftingTime += elapsed;
 					if(!FlxFlicker.isFlickering(liftMechanicTimeBar)) liftMechanicTimeBar.visible = true;
 					liftMechanicTimeBar.setGraphicSize(200 * (1.5 - liftingTime), 15);
@@ -2159,6 +2171,11 @@ class PlayState extends MusicBeatState
 
 					if(liftingTime > 1)
 					{
+						if(!playedEndLiftingSound)
+						{
+							endLiftingSound.play(true);
+							playedEndLiftingSound = true;
+						}
 						liftMechanicTimeBar.color = 0xFFCC3535; // red
 					}
 					else if(liftingTime > 0.5)
@@ -2182,6 +2199,9 @@ class PlayState extends MusicBeatState
 						alredyLiftAnim = true;
 						trace('FAILED!');
 
+						endLiftingSound.stop();
+						playedStartLiftingSound = false;
+						playedEndLiftingSound = false;
 						FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), FlxG.random.float(0.1, 0.2));
 
 						FlxTween.cancelTweensOf(spaceMechanicButton);
@@ -2248,6 +2268,9 @@ class PlayState extends MusicBeatState
 	
 								health += gainLiftHealthDifficultyBased(0.25, storyDifficultyText.toLowerCase());
 	
+								endLiftingSound.stop();
+								playedStartLiftingSound = false;
+								playedEndLiftingSound = false;
 								FlxG.sound.play(Paths.sound('liftDumbellsSuccess'));
 
 								FlxFlicker.stopFlickering(liftMechanicTimeBar);
@@ -4037,6 +4060,9 @@ class PlayState extends MusicBeatState
 		if(result == LuaUtils.Function_Stop) return;
 
 		note.wasGoodHit = true;
+
+		if(FlxFlicker.isFlickering(liftMechanicTimeBar)) FlxFlicker.stopFlickering(liftMechanicTimeBar);
+		liftMechanicTimeBar.visible = false;
 
 		if (note.hitsoundVolume > 0 && !note.hitsoundDisabled)
 			FlxG.sound.play(Paths.sound(note.hitsound), note.hitsoundVolume);
