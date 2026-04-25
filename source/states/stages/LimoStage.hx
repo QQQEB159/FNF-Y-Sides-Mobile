@@ -66,7 +66,7 @@ class LimoStage extends BaseStage
         add(buildingsFront);
 
         water = new FlxBackdrop(Paths.image('stages/limoStage/water'), X, 0, 0);
-        water.y = 560;
+        water.y = 990;
         water.x = -600;
         water.scrollFactor.set(0.65, 0.65);
         water.antialiasing = ClientPrefs.data.antialiasing;
@@ -99,6 +99,7 @@ class LimoStage extends BaseStage
         buildingsBack2.velocity.set(40, 0);
         buildingsBack.velocity.set(50, 0);
         buildingsFront.velocity.set(75, 0);
+        water.velocity.set(75, 0);
         road.velocity.set(3000, 0);
 
         if(isMaximumSpeed)
@@ -107,6 +108,7 @@ class LimoStage extends BaseStage
             buildingsBack2.velocity.set(40 * speedMult, 0);
             buildingsBack.velocity.set(50 * speedMult, 0);
             buildingsFront.velocity.set(75 * speedMult, 0);
+            water.velocity.set(75 * speedMult, 0);
             road.velocity.set(3000 * speedMult, 0);
         }
     }
