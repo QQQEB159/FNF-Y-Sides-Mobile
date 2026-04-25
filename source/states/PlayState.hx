@@ -601,6 +601,17 @@ class PlayState extends MusicBeatState
 				timeBar.y = FlxG.height - timeBar.height - 30;
 			}
 		}
+		else
+		{
+			if(ClientPrefs.data.downScroll)
+			{
+				timeBar.y = FlxG.height - timeBar.height - 25;
+			}
+			else
+			{
+				timeBar.y = 25;
+			}
+		}
 
 		clockIndicator = new FlxSprite();
 		clockIndicator.loadGraphic(Paths.image('hud/clockIndicator'));
