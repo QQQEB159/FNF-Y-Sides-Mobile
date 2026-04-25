@@ -766,6 +766,7 @@ class PlayState extends MusicBeatState
 		healthBarArrow.antialiasing = ClientPrefs.data.antialiasing;
 		healthBarArrow.y = healthBar.y - healthBarArrow.height - 10;
 		//healthBarArrow.y = healthBar.y + 10;
+		healthBarArrow.visible = false;
 		uiGroup.add(healthBarArrow);
 
 		scoreTxt = new FlxText(0, healthBar.y + 100, FlxG.width, "", 18);
