@@ -9,6 +9,23 @@ class ShopSubState extends MusicBeatSubstate
         super();
     }
 
+    public static var boughtItems:Map<String, Bool> = new Map<String, Bool>();
+
+    public static function buildItemsList():Map<String, Bool>
+    {
+        for(item in itemsListArr)
+        {
+            boughtItems.set(item[0], false);
+        }
+        return boughtItems;
+    }
+
+    public static function unlockItem(name:String)
+    {
+        if(!boughtItems.get(name)) boughtItems.set(name, true);
+        trace('Unlocked item $name (${boughtItems.get(name)})');
+    }
+
     public static var money:Int;
 
     public static function addMoney(value:Int)
@@ -20,7 +37,7 @@ class ShopSubState extends MusicBeatSubstate
         trace('Added the amount of $value coins (Total: $money)');
     }
 
-    var itemsListArr:Array<Dynamic> = [ // Name - Price - Stars - Image name
+    static var itemsListArr:Array<Dynamic> = [ // Name - Price - Stars - Image name
         ['Picostola', 150, 2, 'picostola'],
         ['Tricky Sign', 150, 2, 'tricky'],
         ['Calcetines', 75, 2, 'picostola'],
@@ -138,6 +155,8 @@ class ShopSubState extends MusicBeatSubstate
 
             image.x = FlxG.width;
             FlxTween.tween(image, {x: blackThingie.x + blackThingie.width + ((FlxG.width - (blackThingie.x + blackThingie.width)) / 2) - (image.width / 2)}, 0.7, {ease: FlxEase.quartOut});
+
+            amountOfOnSaleItems++;
         }
 
         moneyBox = new MoneyBox(0, 90);
@@ -182,6 +201,7 @@ class ShopSubState extends MusicBeatSubstate
         moneyBox.updateWidth('$money');
     }
 
+    var amountOfOnSaleItems:Int = 0;
     function changeSelection(change:Int = 0)
     {
         if(change != 0) FlxG.sound.play(Paths.sound('scrollMenu'));
@@ -189,7 +209,7 @@ class ShopSubState extends MusicBeatSubstate
 
 		for (num => item in itemsListGrp.members)
 		{
-            FlxTween.cancelTweensOf(item);
+            if(item != null) FlxTween.cancelTweensOf(item);
             if(itemsListGrp.length > 5)
             {
 			    switch(curSelected)
@@ -199,38 +219,80 @@ class ShopSubState extends MusicBeatSubstate
 
                 if(itemsListGrp.length - curSelected == 4)
                 {
-			    	item.targetY = num - curSelected + 1;
+                    if(item.bought) 
+                    {
+                        item.targetY = amountOfOnSaleItems + num - curSelected + 1;
+                    }
+                    else 
+                    {
+			            item.targetY = num - curSelected + 1;
+                    }
 			        item.alpha = 0.6;
 			        if (item.targetY == 1) item.alpha = 1;
                 }
                 else if(itemsListGrp.length - curSelected == 3)
                 {
-			    	item.targetY = num - curSelected + 2;
+                    if(item.bought) 
+                    {
+                        item.targetY = amountOfOnSaleItems + num - curSelected + 2;
+                    }
+                    else 
+                    {
+			            item.targetY = num - curSelected + 2;
+                    }
 			        item.alpha = 0.6;
 			        if (item.targetY == 2) item.alpha = 1;
                 }
                 else if(itemsListGrp.length - curSelected == 2)
                 {
-			    	item.targetY = num - curSelected + 3;
+                    if(item.bought) 
+                    {
+                        item.targetY = amountOfOnSaleItems + num - curSelected + 3;
+                    }
+                    else 
+                    {
+			            item.targetY = num - curSelected + 3;
+                    }
 			        item.alpha = 0.6;
 			        if (item.targetY == 3) item.alpha = 1;
                 }
                 else if(itemsListGrp.length - curSelected == 1)
                 {
-			    	item.targetY = num - curSelected + 4;
+                    if(item.bought) 
+                    {
+                        item.targetY = amountOfOnSaleItems + num - curSelected + 4;
+                    }
+                    else 
+                    {
+			            item.targetY = num - curSelected + 4;
+                    }
 			        item.alpha = 0.6;
 			        if (item.targetY == 4) item.alpha = 1;
                 }
                 else
                 {
-			    	item.targetY = num - curSelected;
+                    if(item.bought) 
+                    {
+                        item.targetY = amountOfOnSaleItems + num - curSelected;
+                    }
+                    else 
+                    {
+			            item.targetY = num - curSelected;
+                    }
 			        item.alpha = 0.6;
 			        if (item.targetY == 0) item.alpha = 1;
                 }
             }
             else
             {
-			    item.targetY = num - curSelected;
+                if(item.bought) 
+                {
+                    item.targetY = amountOfOnSaleItems + num - curSelected;
+                }
+                else 
+                {
+			        item.targetY = num - curSelected;
+                }
 			    item.alpha = 0.6;
 			    if (item.targetY == 0) item.alpha = 1;
             }
@@ -396,6 +458,8 @@ class ShopSubState extends MusicBeatSubstate
         var curItem = itemsListGrp.members[curSelected];
 
         addMoney(-curItem.price);
+        //unlockItem(curItem.name);
+        resortShopItems(curItem);
 
         FlxG.sound.play(Paths.sound('vault/shop/confirmPurchase'));
         if(moneyTween != null) moneyTween.cancel();
@@ -404,6 +468,25 @@ class ShopSubState extends MusicBeatSubstate
             moneyBox.money = Std.int(v);
         });
         moneyBox.updateWidth('$money');
+    }
+
+    function resortShopItems(curItem:ItemShop)
+    {
+        for(item in itemsListGrp)
+        {
+            if(item == curItem) continue;
+
+            if(item.targetY > curItem.targetY)
+            {
+                item.targetY--;
+            }
+        }
+
+        amountOfOnSaleItems--;
+        itemsListGrp.remove(curItem);
+        itemsListGrp.insert(itemsListArr.length - 1, curItem);
+        curItem.bought = true;
+        changeSelection();
     }
 
     function hideBuyThingie()
@@ -421,7 +504,7 @@ class ShopSubState extends MusicBeatSubstate
         itemsListGrp.forEach(function(item:ItemShop)
         {
             item.updatePositions = false;
-            FlxTween.cancelTweensOf(item);
+            if(item != null) FlxTween.cancelTweensOf(item);
             FlxTween.tween(item, {alpha: 0}, 0.9, {ease: FlxEase.quartOut});
         });
     }
@@ -441,7 +524,7 @@ class ShopSubState extends MusicBeatSubstate
         itemsListGrp.forEach(function(item:ItemShop)
         {
             item.updatePositions = true;
-            FlxTween.cancelTweensOf(item);
+            if(item != null) FlxTween.cancelTweensOf(item);
             FlxTween.tween(item, {alpha: item.targetAlpha}, 0.9, {ease: FlxEase.quartOut});
         });
     }
@@ -470,6 +553,7 @@ class ItemShop extends FlxSpriteGroup
     public var distancePerItem:FlxPoint = new FlxPoint(0, 0);
     public var startPosition:FlxPoint = new FlxPoint(0, 0);
     public var updatePositions:Bool = true;
+    public var bought:Bool = false;
 
     private function set_stars(value:Int)
     {

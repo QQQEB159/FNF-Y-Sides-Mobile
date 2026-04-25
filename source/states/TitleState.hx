@@ -98,6 +98,7 @@ class TitleState extends MusicBeatState
 		Paths.clearUnusedMemory();
 
 		if(FlxG.save.data.money == null) FlxG.save.data.money = 0;
+		if(FlxG.save.data.boughtItems == null) FlxG.save.data.boughtItems = ShopSubState.buildItemsList();
 		ShopSubState.money = FlxG.save.data.money;
 		FlxG.save.flush();
 
