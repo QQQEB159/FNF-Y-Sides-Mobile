@@ -84,9 +84,7 @@ class Highscore
 
 	public static function getScore(song:String, char:String, diff:Int):Int
 	{
-		trace('$song -> $diff');
 		var daSong:String = formatSong(song, char, diff);
-		trace(daSong);
 		if (!songScores.exists(daSong))
 			setScore(daSong, 0);
 

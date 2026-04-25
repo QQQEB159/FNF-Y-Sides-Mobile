@@ -254,6 +254,7 @@ class NewStoryMenuState extends MusicBeatState
 				FlxTween.cancelTweensOf(weekTitle);
 				FlxTween.cancelTweensOf(weekTextBackground);
 				FlxTween.cancelTweensOf(songsThingie);
+				FlxTween.cancelTweensOf(txtTracks);
 				FlxTween.cancelTweensOf(gradient);
 				FlxTween.cancelTweensOf(sprDifficulty);
 				FlxTween.cancelTweensOf(character);
@@ -276,6 +277,7 @@ class NewStoryMenuState extends MusicBeatState
 				FlxTween.tween(weekTextBackground, {alpha: 0}, transitionDuration, {ease: FlxEase.expoOut});
 				FlxTween.tween(diffBackground, {alpha: 0}, transitionDuration, {ease: FlxEase.expoOut});
 				FlxTween.tween(songsThingie, {alpha: 0}, transitionDuration, {ease: FlxEase.expoOut});
+				FlxTween.tween(txtTracks, {alpha: 0}, transitionDuration, {ease: FlxEase.expoOut});
 				FlxTween.tween(gradient, {alpha: 0}, transitionDuration, {ease: FlxEase.expoOut});
 				FlxTween.tween(sprDifficulty, {alpha: 0}, transitionDuration, {ease: FlxEase.expoOut});
 				FlxTween.tween(character, {alpha: 0, y: character.y + 10}, transitionDuration, {ease: FlxEase.expoOut});
@@ -348,6 +350,9 @@ class NewStoryMenuState extends MusicBeatState
 
 		songsThingie.alpha = 0;
 		FlxTween.tween(songsThingie, {alpha: 1}, transitionDuration, {ease: FlxEase.expoOut});
+
+		txtTracks.alpha = 0;
+		FlxTween.tween(txtTracks, {alpha: 1}, transitionDuration, {ease: FlxEase.expoOut});
 
 		txtTracklistGrp.forEach(function(text:FlxBitmapText)
 		{
