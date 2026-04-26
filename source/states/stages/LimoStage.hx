@@ -45,18 +45,29 @@ class LimoStage extends BaseStage
             clouds.antialiasing = ClientPrefs.data.antialiasing;
             add(clouds);
 
-            airplaneLeft = new FlxSprite(skySunset.x + skySunset.width + 700, skySunset.y + 500);
+            airplaneLeft = new FlxSprite(skySunset.x + skySunset.width + 700, skySunset.y + 500 + FlxG.random.float(-5, 105));
             airplaneLeft.scrollFactor.set(0.25, 0.25);
-            airplaneLeft.loadGraphic(Paths.image('stages/limoStage/airplane'));
+            //airplaneLeft.loadGraphic(Paths.image('stages/limoStage/airplane'));
+            airplaneLeft.frames = Paths.getSparrowAtlas('stages/limoStage/airplane');
+            airplaneLeft.animation.addByPrefix('idle', 'idle', 2, true);
+            airplaneLeft.animation.play('idle', true);
             airplaneLeft.antialiasing = ClientPrefs.data.antialiasing;
+            airplaneLeft.scale.set(0.67, 0.67);
             airplaneLeft.flipX = true;
             add(airplaneLeft);
 
-            airplaneRight = new FlxSprite(skySunset.x, skySunset.y + 500);
+            airplaneRight = new FlxSprite(skySunset.x, skySunset.y + 520 + FlxG.random.float(-5, 105));
             airplaneRight.scrollFactor.set(0.25, 0.25);
-            airplaneRight.loadGraphic(Paths.image('stages/limoStage/airplane'));
+            //airplaneRight.loadGraphic(Paths.image('stages/limoStage/airplane'));
+            airplaneRight.frames = Paths.getSparrowAtlas('stages/limoStage/airplane');
+            airplaneRight.animation.addByPrefix('idle', 'idle', 2, true);
+            airplaneRight.animation.play('idle', true);
             airplaneRight.antialiasing = ClientPrefs.data.antialiasing;
+            airplaneRight.scale.set(0.75, 0.75);
             add(airplaneRight);
+
+            FlxTween.tween(airplaneLeft, {y: airplaneLeft.y + 10}, 3.5, {ease: FlxEase.sineInOut, type: PINGPONG});
+            FlxTween.tween(airplaneRight, {y: airplaneRight.y + 10}, 3.5, {ease: FlxEase.sineInOut, type: PINGPONG});
         }
 
         buildingsBack2 = new FlxBackdrop(Paths.image('stages/limoStage/buildingBack2'), X, 0, 0);
@@ -139,14 +150,20 @@ class LimoStage extends BaseStage
         {
             if(airplaneRight.x > skySunset.x + 3660) 
             {
-                airplaneRight.y = skySunset.y + 500 + FlxG.random.float(-5, 25);
+                airplaneRight.y = skySunset.y + 520 + FlxG.random.float(-5, 105);
                 airplaneRight.x = skySunset.x - 3600;
+
+                FlxTween.cancelTweensOf(airplaneRight);
+                FlxTween.tween(airplaneRight, {y: airplaneRight.y + 10}, 3.5, {ease: FlxEase.sineInOut, type: PINGPONG});
             }
 
             if(airplaneLeft.x < skySunset.x - 3660) 
             {
-                airplaneLeft.y = skySunset.y + 500 + FlxG.random.float(-5, 25);
+                airplaneLeft.y = skySunset.y + 500 + FlxG.random.float(-5, 105);
                 airplaneLeft.x = skySunset.x + skySunset.width + 300;
+
+                FlxTween.cancelTweensOf(airplaneLeft);
+                FlxTween.tween(airplaneLeft, {y: airplaneLeft.y + 10}, 3.5, {ease: FlxEase.sineInOut, type: PINGPONG});
             }
         }
     }
