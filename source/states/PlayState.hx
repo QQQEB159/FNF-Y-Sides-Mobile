@@ -2149,6 +2149,9 @@ class PlayState extends MusicBeatState
 		else FlxG.camera.followLerp = 0;
 		callOnScripts('onUpdate', [elapsed]);
 
+		var scaleMult:Float = FlxMath.lerp(censorSprite.scale.x, 1, elapsed * 16);
+		censorSprite.scale.set(scaleMult, scaleMult);
+
 		var mult:Float = FlxMath.lerp(spaceMechanicButton.scale.x, 1, elapsed * 9);
 		spaceMechanicButton.scale.set(mult, mult);
 
@@ -4114,6 +4117,7 @@ class PlayState extends MusicBeatState
 					if(note.censorNote)
 					{
 						censorSprite.visible = true;
+						censorSprite.scale.set(0.92, 0.92);
 						switch(animToPlay)
 						{
 							case 'singLEFT':
