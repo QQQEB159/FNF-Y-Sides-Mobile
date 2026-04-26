@@ -3,9 +3,33 @@
 	"player2": "buhi",
 	"events": [
 		[
-			2580.64516129032,
+			1935.48387096774,
 			[
 				["set_camera_zoom", "0.7", ""]
+			]
+		],
+		[
+			2096.77419354839,
+			[
+				["set_camera_zoom", "0.75", ""]
+			]
+		],
+		[
+			2258.06451612903,
+			[
+				["set_camera_zoom", "0.85", ""]
+			]
+		],
+		[
+			2419.35483870968,
+			[
+				["set_camera_zoom", "0.95", ""]
+			]
+		],
+		[
+			2580.64516129032,
+			[
+				["smooth_camera_zoom", "0.7", "1.4, quartOut"]
 			]
 		],
 		[
@@ -23,13 +47,19 @@
 		[
 			12903.2258064516,
 			[
-				["set_camera_zoom", "0.6", ""]
+				["smooth_camera_zoom", "0.6", "1, quartOut"]
 			]
 		],
 		[
 			21935.4838709677,
 			[
 				["Play Animation", "burp", "bf"]
+			]
+		],
+		[
+			28387.0967741936,
+			[
+				["smooth_camera_zoom", "0.65", "1, quartOut"]
 			]
 		],
 		[
@@ -42,14 +72,26 @@
 			33548.3870967742,
 			[
 				["camera_flash", "2", ""],
-				["set_camera_zoom", "0.8", ""],
+				["smooth_camera_zoom", "0.8", "1.1, quartOut"],
 				["Change Scroll Speed", "1.1", "0.1"]
+			]
+		],
+		[
+			52903.2258064516,
+			[
+				["smooth_camera_zoom", "0.7", "0.6, quartOut"]
+			]
+		],
+		[
+			53548.3870967742,
+			[
+				["smooth_camera_zoom", "0.9", "0.6, quartIn"]
 			]
 		],
 		[
 			54193.5483870968,
 			[
-				["set_camera_zoom", "0.7", ""],
+				["smooth_camera_zoom", "0.65", "1.2, quartOut"],
 				["camera_flash", "2", ""]
 			]
 		],
@@ -57,8 +99,20 @@
 			74838.7096774193,
 			[
 				["camera_flash", "2", ""],
-				["set_camera_zoom", "0.8", ""],
+				["smooth_camera_zoom", "0.8", "1, quartOut"],
 				["Change Scroll Speed", "1.1", "0.1"]
+			]
+		],
+		[
+			94193.5483870968,
+			[
+				["smooth_camera_zoom", "0.9", "0.6, quartOut"]
+			]
+		],
+		[
+			94838.7096774194,
+			[
+				["smooth_camera_zoom", "0.8", "0.6, quartOut"]
 			]
 		],
 		[
@@ -70,7 +124,7 @@
 		[
 			95483.870967742,
 			[
-				["set_camera_zoom", "0.6", ""]
+				["set_camera_zoom", "0.7", "1, quartOut"]
 			]
 		],
 		[
