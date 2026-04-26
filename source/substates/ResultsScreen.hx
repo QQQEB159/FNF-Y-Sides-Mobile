@@ -102,6 +102,7 @@ class ResultsScreen extends MusicBeatSubstate
 
         blackBackground = new FlxSprite();
         blackBackground.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+        blackBackground.alpha = 0.5;
         add(blackBackground);
 
         whiteBackground = new FlxSprite();
@@ -294,9 +295,6 @@ class ResultsScreen extends MusicBeatSubstate
 
         bgStripe.alpha = 0;
         FlxTween.tween(bgStripe, {alpha: 1}, 0.7);
-
-        blackBackground.alpha = 0;
-        FlxTween.tween(blackBackground, {alpha: 0.5}, 0.7);
 
         patternDown.y = FlxG.height;
         FlxTween.tween(patternDown, {y: FlxG.height - patternDown.height}, 1, {ease: FlxEase.expoOut});
