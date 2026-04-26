@@ -10,6 +10,9 @@ import backend.Song;
 import backend.WeekData;
 import backend.StageData;
 
+import shaders.BlurShader;
+import openfl.filters.ShaderFilter;
+
 import objects.MenuItem;
 
 class NewStoryMenuState extends MusicBeatState
@@ -40,6 +43,13 @@ class NewStoryMenuState extends MusicBeatState
     var poloUp:FlxSprite;
     var poloDown:FlxSprite;
 	var scoreText:FlxText;
+	var topBlackBg:FlxSprite;
+
+	var camGame:FlxCamera;
+	var camHUD:FlxCamera;
+
+	var blurShader:BlurShader;
+	var blurFilter:ShaderFilter;
 
     override function create()
     {
@@ -50,6 +60,16 @@ class NewStoryMenuState extends MusicBeatState
 		PlayState.isStoryMode = true;
 		WeekData.reloadWeekFiles(true);
 		BeatenSongs.init();
+
+		camGame = initPsychCamera();
+		camHUD = new FlxCamera();
+		camHUD.bgColor.alpha = 0;
+		FlxG.cameras.add(camHUD, false);
+
+		blurShader = new BlurShader();
+        blurShader.radius.value = [0];
+		blurFilter = new ShaderFilter(blurShader);
+		FlxG.camera.filters = [blurFilter];
 
 		#if DISCORD_ALLOWED
 		// Updating Discord Rich Presence
@@ -207,6 +227,10 @@ class NewStoryMenuState extends MusicBeatState
 		scoreText.y = FlxG.height - scoreText.height - 10;
 		add(scoreText);
 
+		topBlackBg = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, 0xFF000000);
+		topBlackBg.alpha = 0;
+		add(topBlackBg);
+
 		changeWeek(0, true);
 		changeDifficulty();
 
@@ -294,6 +318,7 @@ class NewStoryMenuState extends MusicBeatState
 					FlxTween.tween(item, {x: -600}, transitionDuration, {ease: FlxEase.expoOut});
 				});
 
+ 				FlxG.sound.play(Paths.sound('cancelMenu'));
 				new FlxTimer().start(transitionDuration, function(tmr:FlxTimer)
 				{
                     FlxTransitionableState.skipNextTransIn = true;
@@ -303,7 +328,7 @@ class NewStoryMenuState extends MusicBeatState
 
 			}
 
-			if (controls.ACCEPT)
+			if (controls.ACCEPT && !stopspamming)
 				selectWeek();
 		}
 
@@ -373,71 +398,96 @@ class NewStoryMenuState extends MusicBeatState
 	{
 		if (!weekIsLocked(loadedWeeks[curWeek].fileName))
 		{
-			// We can't use Dynamic Array .copy() because that crashes HTML5, here's a workaround.
-			var songArray:Array<String> = [];
-			var leWeek:Array<Dynamic> = loadedWeeks[curWeek].songs;
-			for (i in 0...leWeek.length) {
-				songArray.push(leWeek[i][0]);
-			}
+			stopspamming = true;
+			FlxG.sound.play(Paths.sound('confirmMenu'));
 
-			// Nevermind that's stupid lmao
-			try
+			var item = grpWeekText.members[curWeek];
+			item.copyPositions = false;
+			item.changeScale = false;
+			item.cameras = [camHUD];
+
+			var oldItemX:Float = item.x;
+			var oldItemY:Float = item.y;
+
+			item.screenCenter();
+
+			var screenCenterX:Float = item.x;
+			var screenCenterY:Float = item.y;
+
+			item.x = oldItemX;
+			item.y = oldItemY;
+
+			FlxTween.num(0, 5, 0.9, {ease: FlxEase.quartOut}, function(v:Float)
 			{
-				PlayState.storyPlaylist = songArray;
-				PlayState.isStoryMode = true;
-				selectedWeek = true;
-	
-				var diffic = Difficulty.getFilePath(curDifficulty);
-				if(diffic == null) diffic = '';
-	
-				PlayState.storyDifficulty = curDifficulty;
-	
-				Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() +  '-' + CharSelectState.currentFreeplaySelectedName + diffic, PlayState.storyPlaylist[0].toLowerCase());
-
-				PlayState.totalSongsPlayed = 0;
-				PlayState.campaignScore = 0;
-				PlayState.campaignMisses = 0;
-				PlayState.campaignRating = 0;
-
-				PlayState.campaignSicks = 0;
-				PlayState.campaignGoods = 0;
-				PlayState.campaignBads = 0;
-				PlayState.campaignShits = 0;
-			}
-			catch(e:Dynamic)
-			{
-				trace('ERROR! $e');
-				return;
-			}
-			
-			if (stopspamming == false)
-			{
-				FlxG.sound.play(Paths.sound('confirmMenu'));
-
-				stopspamming = true;
-			}
-
-			var directory = StageData.forceNextDirectory;
-			LoadingState.loadNextDirectory();
-			StageData.forceNextDirectory = directory;
-
-			@:privateAccess
-			if(PlayState._lastLoadedModDirectory != Mods.currentModDirectory)
-			{
-				trace('CHANGED MOD DIRECTORY, RELOADING STUFF');
-				Paths.freeGraphicsFromMemory();
-			}
-			LoadingState.prepareToSong();
-			new FlxTimer().start(1, function(tmr:FlxTimer)
-			{
-				#if !SHOW_LOADING_SCREEN FlxG.sound.music.stop(); #end
-				LoadingState.loadAndSwitchState(new PlayState(), true);
-				FreeplayState.destroyFreeplayVocals();
+        		blurShader.radius.value[0] = v;
 			});
-			
-			#if (MODS_ALLOWED && DISCORD_ALLOWED)
-			DiscordClient.loadModRPC();
-			#end
+			FlxTween.tween(item, {x: screenCenterX, y: screenCenterY, "scale.x": 1.45, "scale.y": 1.45}, 0.75, {ease: FlxEase.quartOut});
+			FlxTween.tween(topBlackBg, {alpha: 0.4}, 0.75);
+
+			FlxTween.tween(FlxG.camera, {zoom: 1.02}, 0.75, {ease: FlxEase.quartOut});
+			FlxTween.tween(camHUD, {zoom: 1.02}, 0.75, {ease: FlxEase.quartOut});
+
+			new FlxTimer().start(0.9, function(tmr:FlxTimer)
+			{
+				// We can't use Dynamic Array .copy() because that crashes HTML5, here's a workaround.
+				var songArray:Array<String> = [];
+				var leWeek:Array<Dynamic> = loadedWeeks[curWeek].songs;
+				for (i in 0...leWeek.length) {
+					songArray.push(leWeek[i][0]);
+				}
+
+				// Nevermind that's stupid lmao
+				try
+				{
+					PlayState.storyPlaylist = songArray;
+					PlayState.isStoryMode = true;
+					selectedWeek = true;
+		
+					var diffic = Difficulty.getFilePath(curDifficulty);
+					if(diffic == null) diffic = '';
+		
+					PlayState.storyDifficulty = curDifficulty;
+		
+					Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() +  '-' + CharSelectState.currentFreeplaySelectedName + diffic, PlayState.storyPlaylist[0].toLowerCase());
+
+					PlayState.totalSongsPlayed = 0;
+					PlayState.campaignScore = 0;
+					PlayState.campaignMisses = 0;
+					PlayState.campaignRating = 0;
+
+					PlayState.campaignSicks = 0;
+					PlayState.campaignGoods = 0;
+					PlayState.campaignBads = 0;
+					PlayState.campaignShits = 0;
+				}
+				catch(e:Dynamic)
+				{
+					trace('ERROR! $e');
+					return;
+				}
+
+				var directory = StageData.forceNextDirectory;
+				LoadingState.loadNextDirectory();
+				StageData.forceNextDirectory = directory;
+
+				@:privateAccess
+				if(PlayState._lastLoadedModDirectory != Mods.currentModDirectory)
+				{
+					trace('CHANGED MOD DIRECTORY, RELOADING STUFF');
+					Paths.freeGraphicsFromMemory();
+				}
+				LoadingState.prepareToSong();
+				new FlxTimer().start(1, function(tmr:FlxTimer)
+				{
+					#if !SHOW_LOADING_SCREEN FlxG.sound.music.stop(); #end
+					LoadingState.loadAndSwitchState(new PlayState(), true);
+					FreeplayState.destroyFreeplayVocals();
+				});
+				
+				#if (MODS_ALLOWED && DISCORD_ALLOWED)
+				DiscordClient.loadModRPC();
+				#end
+			});
 		}
 		else FlxG.sound.play(Paths.sound('cancelMenu'));
 	}
