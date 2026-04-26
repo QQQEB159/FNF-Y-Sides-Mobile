@@ -1062,7 +1062,32 @@
 			"mustHitSection": true
 		}
 	],
-	"events": [],
+	"events": [
+		[
+			5161.29032258064,
+			[
+				["smooth_camera_zoom", "0.7", "1"]
+			]
+		],
+		[
+			15483.8709677419,
+			[
+				["smooth_camera_zoom", "0.7", "1, quartOut"]
+			]
+		],
+		[
+			36129.0322580645,
+			[
+				["smooth_camera_zoom", "0.8", "1.5, quartOut"]
+			]
+		],
+		[
+			56774.1935483871,
+			[
+				["smooth_camera_zoom", "0.7", "1, quartOut"]
+			]
+		]
+	],
 	"player2": "buhi",
 	"gameOverLoop": "gameOver",
 	"player3": "frank",

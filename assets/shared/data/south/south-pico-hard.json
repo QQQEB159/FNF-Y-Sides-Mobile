@@ -1,0 +1,18 @@
+{
+	"player1": "pico",
+	"gameOverSound": "fnf_loss_sfx_spooky",
+	"gfVersion": "gf-spooky",
+	"notes": [],
+	"events": [],
+	"player2": "buhi",
+	"gameOverLoop": "gameOver",
+	"player3": "frank",
+	"gameOverChar": "bf-spooky-dead",
+	"gameOverEnd": "gameOverEnd-spooky",
+	"song": "South",
+	"stage": "halloween",
+	"needsVoices": true,
+	"speed": 2.7,
+	"bpm": 186,
+	"format": "psych_v1_convert"
+}
