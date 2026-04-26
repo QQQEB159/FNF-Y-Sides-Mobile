@@ -28,7 +28,8 @@ class NewGalleryState extends MusicBeatState
         'cocoa',
         'eggnog',
         'winter-horrorland',
-        'test'
+        'test',
+        'madness'
     ];
     static var musicSongsArray:Array<String> = [
         'tutorial',
@@ -577,6 +578,7 @@ class NewGalleryState extends MusicBeatState
             musicSongsArray.push('cocoa');
             musicSongsArray.push('eggnog');
             musicSongsArray.push('winter-horrorland');
+            musicSongsArray.push('madness');
             return;
         }
 
@@ -617,5 +619,6 @@ class NewGalleryState extends MusicBeatState
 
         // last song on the playlist
         musicSongsArray.push('test');
+        musicSongsArray.push('madness');
     }
 }

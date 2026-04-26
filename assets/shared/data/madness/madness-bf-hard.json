@@ -1,6 +1,6 @@
 {
 	"speed": 3.2,
-	"stage": "stage",
+	"stage": "trickyStage",
 	"player1": "bf",
 	"player2": "dad",
 	"events": [],
