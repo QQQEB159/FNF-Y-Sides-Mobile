@@ -1,6 +1,7 @@
 package states.vault;
 
 import flixel.addons.display.FlxBackdrop;
+import flixel.util.FlxSort;
 
 class ShopSubState extends MusicBeatSubstate
 {
@@ -24,6 +25,9 @@ class ShopSubState extends MusicBeatSubstate
     {
         if(!boughtItems.get(name)) boughtItems.set(name, true);
         trace('Unlocked item $name (${boughtItems.get(name)})');
+
+        FlxG.save.data.boughtItems = boughtItems;
+        FlxG.save.flush();
     }
 
     public static var money:Int;
@@ -122,7 +126,17 @@ class ShopSubState extends MusicBeatSubstate
             item.title = itemsListArr[i][0];
             item.price = itemsListArr[i][1];
             item.stars = itemsListArr[i][2];
-            item.ID = i;
+
+            if(boughtItems.get(item.title)) 
+            {
+                item.bought = true;
+                item.ID = i + itemsListArr.length; // push to the end, then the sort function will place it correctly
+            }
+            else
+            {
+                item.bought = false;
+                item.ID = i;
+            }
 
             item.startPosition.y = item.y;
             item.distancePerItem.y = 90;
@@ -141,6 +155,16 @@ class ShopSubState extends MusicBeatSubstate
 
             image.startPosition.y = image.y;
             image.distancePerItem.y = FlxG.height;
+            image.parentItem = item;
+
+            if(boughtItems.get(item.title)) 
+            {
+                image.ID = i + itemsListArr.length; // push to the end, then the sort function will place it correctly
+            }
+            else
+            {
+                image.ID = i;
+            }
 
             image.targetY = i;
             image.snapToPosition();
@@ -155,9 +179,9 @@ class ShopSubState extends MusicBeatSubstate
 
             image.x = FlxG.width;
             FlxTween.tween(image, {x: blackThingie.x + blackThingie.width + ((FlxG.width - (blackThingie.x + blackThingie.width)) / 2) - (image.width / 2)}, 0.7, {ease: FlxEase.quartOut});
-
-            amountOfOnSaleItems++;
         }
+
+        initialSort();
 
         moneyBox = new MoneyBox(0, 90);
         add(moneyBox);
@@ -201,7 +225,32 @@ class ShopSubState extends MusicBeatSubstate
         moneyBox.updateWidth('$money');
     }
 
-    var amountOfOnSaleItems:Int = 0;
+    function initialSort()
+    {
+        function sortByID(_, a:Dynamic, b:Dynamic):Int
+        {
+		    return FlxSort.byValues(FlxSort.ASCENDING, a.ID, b.ID);
+        }
+
+        itemsListGrp.sort(sortByID);
+        itemsImageGrp.sort(sortByID);
+
+        // reset ids, but with correct order depending on bought products
+        for(num => item in itemsListGrp)
+        {
+            item.ID = num;
+            item.targetY = num;
+            item.snapToPosition();
+        }
+
+        for(num => item in itemsImageGrp)
+        {
+            item.ID = num;
+            item.targetY = num;
+            item.snapToPosition();
+        }
+    }
+
     function changeSelection(change:Int = 0)
     {
         if(change != 0) FlxG.sound.play(Paths.sound('scrollMenu'));
@@ -210,7 +259,7 @@ class ShopSubState extends MusicBeatSubstate
 		for (num => item in itemsListGrp.members)
 		{
             if(item == null) continue;
-            
+
             FlxTween.cancelTweensOf(item);
             if(itemsListGrp.length > 5)
             {
@@ -221,80 +270,38 @@ class ShopSubState extends MusicBeatSubstate
 
                 if(itemsListGrp.length - curSelected == 4)
                 {
-                    if(item.bought) 
-                    {
-                        item.targetY = amountOfOnSaleItems + num - curSelected + 1;
-                    }
-                    else 
-                    {
-			            item.targetY = num - curSelected + 1;
-                    }
+			        item.targetY = item.ID - curSelected + 1;
 			        item.alpha = 0.6;
 			        if (item.targetY == 1) item.alpha = 1;
                 }
                 else if(itemsListGrp.length - curSelected == 3)
                 {
-                    if(item.bought) 
-                    {
-                        item.targetY = amountOfOnSaleItems + num - curSelected + 2;
-                    }
-                    else 
-                    {
-			            item.targetY = num - curSelected + 2;
-                    }
+			        item.targetY = item.ID - curSelected + 2;
 			        item.alpha = 0.6;
 			        if (item.targetY == 2) item.alpha = 1;
                 }
                 else if(itemsListGrp.length - curSelected == 2)
                 {
-                    if(item.bought) 
-                    {
-                        item.targetY = amountOfOnSaleItems + num - curSelected + 3;
-                    }
-                    else 
-                    {
-			            item.targetY = num - curSelected + 3;
-                    }
+			        item.targetY = item.ID - curSelected + 3;
 			        item.alpha = 0.6;
 			        if (item.targetY == 3) item.alpha = 1;
                 }
                 else if(itemsListGrp.length - curSelected == 1)
                 {
-                    if(item.bought) 
-                    {
-                        item.targetY = amountOfOnSaleItems + num - curSelected + 4;
-                    }
-                    else 
-                    {
-			            item.targetY = num - curSelected + 4;
-                    }
+			        item.targetY = item.ID - curSelected + 4;
 			        item.alpha = 0.6;
 			        if (item.targetY == 4) item.alpha = 1;
                 }
                 else
                 {
-                    if(item.bought) 
-                    {
-                        item.targetY = amountOfOnSaleItems + num - curSelected;
-                    }
-                    else 
-                    {
-			            item.targetY = num - curSelected;
-                    }
+			        item.targetY = item.ID - curSelected;
 			        item.alpha = 0.6;
 			        if (item.targetY == 0) item.alpha = 1;
                 }
             }
             else
             {
-                if(item.bought) 
-                {
-                    item.targetY = amountOfOnSaleItems + num - curSelected;
-                }
-                else 
-                {
-			        item.targetY = num - curSelected;
-                }
+			    item.targetY = item.ID - curSelected;
 			    item.alpha = 0.6;
 			    if (item.targetY == 0) item.alpha = 1;
             }
@@ -306,7 +313,7 @@ class ShopSubState extends MusicBeatSubstate
 
 		for (num => item in itemsImageGrp.members)
 		{
-			item.targetY = num - curSelected;
+			item.targetY = item.ID - curSelected;
 			item.alpha = 0.6;
 			if (item.targetY == 0) item.alpha = 1;
 		}
@@ -343,6 +350,11 @@ class ShopSubState extends MusicBeatSubstate
             {
                 if(controls.ACCEPT)
                 {
+                    if(boughtItems.get(itemsListGrp.members[curSelected].title)) {
+                        FlxG.sound.play(Paths.sound('cancelMenu'));
+                        return;
+                    }
+
                     isAboutToBuy = true;
                     selectItemToBuy();
                 }
@@ -357,6 +369,7 @@ class ShopSubState extends MusicBeatSubstate
         {
             if(controls.ACCEPT)
             {
+                var item = itemsImageGrp.members[curSelected];
                 if(itemsListGrp.members[curSelected].price > money) {
                     FlxG.sound.play(Paths.sound('cancelMenu'));
                     return;
@@ -368,7 +381,6 @@ class ShopSubState extends MusicBeatSubstate
                 isAboutToBuy = false;
                 showBuyThingie();
                 FlxG.sound.play(Paths.sound('vault/shop/zoomOut'));
-                var item = itemsImageGrp.members[curSelected];
                 item.updatePositions = true;
 
                 FlxTween.cancelTweensOf(item);
@@ -460,7 +472,7 @@ class ShopSubState extends MusicBeatSubstate
         var curItem = itemsListGrp.members[curSelected];
 
         addMoney(-curItem.price);
-        //unlockItem(curItem.name);
+        unlockItem(curItem.title);
         resortShopItems(curItem);
 
         FlxG.sound.play(Paths.sound('vault/shop/confirmPurchase'));
@@ -474,19 +486,46 @@ class ShopSubState extends MusicBeatSubstate
 
     function resortShopItems(curItem:ItemShop)
     {
+        var oldItemID = curItem.ID;
         for(item in itemsListGrp)
         {
-            if(item == curItem) continue;
-
-            if(item.targetY > curItem.targetY)
+            if(item == curItem) 
             {
-                item.targetY--;
+                //item.targetY = itemsListGrp.length - 1;
+                curItem.ID = itemsListGrp.length - 1;
+                trace('Bought Item with title ${curItem.title} changed ID! (${curItem.ID})');
+                continue;
+            }
+
+            if(item.ID > oldItemID)
+            {
+                item.ID = item.ID - 1;
+                trace('Item with title ${item.title} changed ID! (${item.ID})');
             }
         }
 
-        amountOfOnSaleItems--;
-        itemsListGrp.remove(curItem);
-        itemsListGrp.insert(itemsListArr.length - 1, curItem);
+        for(item in itemsImageGrp)
+        {
+            if(item.parentItem == curItem) 
+            {
+                //item.targetY = itemsListGrp.length - 1;
+                item.ID = itemsListGrp.length - 1;
+                continue;
+            }
+
+            if(item.ID > oldItemID)
+            {
+                item.ID = item.ID - 1;
+            }
+        }
+
+        function sortByID(_, a:Dynamic, b:Dynamic):Int
+        {
+		    return FlxSort.byValues(FlxSort.ASCENDING, a.ID, b.ID);
+        }
+
+        itemsListGrp.sort(sortByID);
+        itemsImageGrp.sort(sortByID);
         curItem.bought = true;
         changeSelection();
     }
@@ -664,6 +703,9 @@ class ItemShop extends FlxSpriteGroup
     override function update(elapsed:Float)
     {
         super.update(elapsed);
+
+        if(bought) color = 0xFF666666;
+        else color = 0xFFFFFFFF;
         
 		var lerpVal:Float = Math.exp(-elapsed * 9.6);
 		if(updatePositions) y = FlxMath.lerp((targetY * distancePerItem.y) + startPosition.y, y, lerpVal);
@@ -681,6 +723,7 @@ class ItemShopImage extends FlxSprite
     public var distancePerItem:FlxPoint = new FlxPoint(0, 0);
     public var startPosition:FlxPoint = new FlxPoint(0, 0);
     public var updatePositions:Bool = true;
+    public var parentItem:ItemShop;
 
     public function new(x:Float = 0, y:Float = 0, image:Dynamic)
     {
@@ -692,6 +735,9 @@ class ItemShopImage extends FlxSprite
     override function update(elapsed:Float)
     {
         super.update(elapsed);
+
+        if(parentItem.bought) color = 0xFF666666;
+        else color = 0xFFFFFFFF;
 
 		var lerpVal:Float = Math.exp(-elapsed * 9.6);
 		if(updatePositions) y = FlxMath.lerp((targetY * distancePerItem.y) + startPosition.y, y, lerpVal);

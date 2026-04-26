@@ -100,6 +100,7 @@ class TitleState extends MusicBeatState
 		if(FlxG.save.data.money == null) FlxG.save.data.money = 0;
 		if(FlxG.save.data.boughtItems == null) FlxG.save.data.boughtItems = ShopSubState.buildItemsList();
 		ShopSubState.money = FlxG.save.data.money;
+		ShopSubState.boughtItems = FlxG.save.data.boughtItems;
 		FlxG.save.flush();
 
 		FlxG.save.data.firstTimeTitleState = FlxG.save.data.firstTimeTitleState != null ? FlxG.save.data.firstTimeTitleState : true;
