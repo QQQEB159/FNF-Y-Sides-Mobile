@@ -50,6 +50,7 @@ class NewGalleryState extends MusicBeatState
     var disk:FlxSprite;
     var leftArrow:FlxSprite;
     var rightArrow:FlxSprite;
+    var infoButtonBackground:FlxSprite;
     var infoButton:FlxSprite;
     var infoBackground:FlxSprite;
     var infoText:FlxText;
@@ -174,6 +175,11 @@ class NewGalleryState extends MusicBeatState
             icons.angle = icons.angle == angleTarget ? -angleTarget : angleTarget;
         }, 0);
 
+        infoButtonBackground = new FlxSprite();
+        infoButtonBackground.makeGraphic(53, 51, 0xFF000000);
+        infoButtonBackground.alpha = 0;
+        add(infoButtonBackground);
+
         infoButton = new FlxSprite();
         infoButton.loadGraphic(Paths.image('gallery/NEW/infoButton'));
         infoButton.x = FlxG.width - infoButton.width - 10;
@@ -181,6 +187,9 @@ class NewGalleryState extends MusicBeatState
         infoButton.alpha = 0;
         infoButton.active = false;
         add(infoButton);
+
+        infoButtonBackground.x = infoButton.x;
+        infoButtonBackground.y = infoButton.y;
 
         infoBackground = new FlxSprite();
         infoBackground.makeGraphic(400, 40, 0xFF000000);
@@ -251,6 +260,7 @@ class NewGalleryState extends MusicBeatState
             {
                 FlxG.sound.play(Paths.sound('cancelMenu'));
 
+                FlxTween.tween(infoButtonBackground, {alpha: 0}, tweenTransSpeed, {ease: FlxEase.quartInOut});
                 FlxTween.tween(infoButton, {alpha: 0}, tweenTransSpeed, {ease: FlxEase.quartInOut, onComplete: function(twn:FlxTween)
                 {
                     infoButton.active = false;
@@ -505,6 +515,7 @@ class NewGalleryState extends MusicBeatState
             FlxTween.tween(obj, {y: obj.startPosition.y}, tweenTransSpeed, {ease: FlxEase.quartInOut});
         }
 
+        FlxTween.tween(infoButtonBackground, {alpha: 0.6}, tweenTransSpeed, {ease: FlxEase.quartInOut});
         FlxTween.tween(infoButton, {alpha: 1}, tweenTransSpeed, {ease: FlxEase.quartInOut, onComplete: function(twn:FlxTween)
         {
             infoButton.active = true;
