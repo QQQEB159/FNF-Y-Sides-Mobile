@@ -271,7 +271,7 @@ class ResultsScreen extends MusicBeatSubstate
                 Conductor.bpm = getRankName() == 'e' ? 100 : 127;
                 if(CharSelectState.currentFreeplaySelectedName == 'pico') Conductor.bpm = getRankName() == 'e' ? 100 : 105;
 
-                if(getRankName() == 'e')
+                if(getRankName() == 'e' && !picoMix)
                 {
                     trace('curbeat 0');
                     FlxTween.cancelTweensOf(PlayState.instance.camOther.zoom);
@@ -394,6 +394,38 @@ class ResultsScreen extends MusicBeatSubstate
 	var lastBeatHit:Int = -1;
     var sickBeats:Int = 1;
     var startBeating:Bool = false;
+    
+    function handlePicoBeats(beat:Int)
+    {
+        switch(beat)
+        {
+            case 4:
+                FlxTween.tween(blackBackground, {alpha: 0.65}, Conductor.crochet / 1000, {ease: FlxEase.quartOut});
+            case 5:
+                startBfAnim();
+
+                var pathSound = 'resultsScreenBadRanking';
+                FlxG.sound.play(Paths.sound(pathSound), 0.7);
+
+                PlayState.instance.camOther.zoom = 1;
+
+                boyfriend.scale.set(1.05, 1.05);
+                FlxTween.tween(boyfriend, {"scale.x": 1, "scale.y": 1}, 1, {ease: FlxEase.quartOut});
+                FlxTween.angle(boyfriend, -3, 3, 3, {ease: FlxEase.cubeInOut, type: PINGPONG});
+                FlxTween.tween(blackBackground, {alpha: getRankName() == 'e' ? 0.25 : 0}, 0.5);
+
+                whiteBackground.alpha = 1;
+                FlxTween.tween(whiteBackground, {alpha: 0}, 0.5);
+
+                // rank anim
+                rank.scale.set(0.01, 0.01);
+                rank.alpha = 1;
+
+                FlxTween.tween(rank, {"scale.x": 1.04, "scale.y": 1.04}, 0.3, {ease: FlxEase.quartOut, onComplete: (_) ->{
+                    FlxTween.tween(rank, {"scale.x": 1, "scale.y": 1}, 0.3, {ease: FlxEase.quartInOut});
+                }});
+        }
+    }
 
     override function beatHit()
     {
@@ -401,23 +433,51 @@ class ResultsScreen extends MusicBeatSubstate
 
         if(startBeating) sickBeats++;
         trace('SIIIICK BEAT HIT: ' + sickBeats);
-        switch(sickBeats)
+        if(picoMix)
+            handlePicoBeats(sickBeats);
+        else
         {
-            case 2 | 3:
-                if(getRankName() != 'e') return;
+            switch(sickBeats)
+            {
+                case 2 | 3:
+                    if(getRankName() != 'e') return;
 
-                trace('curbeat $sickBeats');
+                    trace('curbeat $sickBeats');
 
-                FlxTween.cancelTweensOf(PlayState.instance.camOther.zoom);
+                    FlxTween.cancelTweensOf(PlayState.instance.camOther.zoom);
 
-                PlayState.instance.camOther.zoom = 1.03;
-                FlxTween.tween(PlayState.instance.camOther, {zoom: 1}, Conductor.crochet / 1000, {ease: FlxEase.quartOut});
+                    PlayState.instance.camOther.zoom = 1.03;
+                    FlxTween.tween(PlayState.instance.camOther, {zoom: 1}, Conductor.crochet / 1000, {ease: FlxEase.quartOut});
 
-                if(sickBeats == 3)
-                {
+                    if(sickBeats == 3)
+                    {
+                        startBfAnim();
+
+                        var pathSound = 'resultsScreenBadRanking';
+                        FlxG.sound.play(Paths.sound(pathSound), 0.7);
+
+                        boyfriend.scale.set(1.05, 1.05);
+                        FlxTween.tween(boyfriend, {"scale.x": 1, "scale.y": 1}, 1, {ease: FlxEase.quartOut});
+                        FlxTween.angle(boyfriend, -3, 3, 3, {ease: FlxEase.cubeInOut, type: PINGPONG});
+                        FlxTween.tween(blackBackground, {alpha: getRankName() == 'e' ? 0.25 : 0}, 0.5);
+
+                        whiteBackground.alpha = 1;
+                        FlxTween.tween(whiteBackground, {alpha: 0}, 0.5);
+
+                        // rank anim
+                        rank.scale.set(0.01, 0.01);
+                        rank.alpha = 1;
+
+                        FlxTween.tween(rank, {"scale.x": 1.04, "scale.y": 1.04}, 0.3, {ease: FlxEase.quartOut, onComplete: (_) ->{
+                            FlxTween.tween(rank, {"scale.x": 1, "scale.y": 1}, 0.3, {ease: FlxEase.quartInOut});
+                        }});
+                    }
+                case 5:
+                    if(getRankName() == 'e') return;
+
                     startBfAnim();
 
-                    var pathSound = 'resultsScreenBadRanking';
+                    var pathSound = 'resultsScreenGoodRanking';
                     FlxG.sound.play(Paths.sound(pathSound), 0.7);
 
                     boyfriend.scale.set(1.05, 1.05);
@@ -435,30 +495,7 @@ class ResultsScreen extends MusicBeatSubstate
                     FlxTween.tween(rank, {"scale.x": 1.04, "scale.y": 1.04}, 0.3, {ease: FlxEase.quartOut, onComplete: (_) ->{
                         FlxTween.tween(rank, {"scale.x": 1, "scale.y": 1}, 0.3, {ease: FlxEase.quartInOut});
                     }});
-                }
-            case 5:
-                if(getRankName() == 'e') return;
-
-                startBfAnim();
-
-                var pathSound = 'resultsScreenGoodRanking';
-                FlxG.sound.play(Paths.sound(pathSound), 0.7);
-
-                boyfriend.scale.set(1.05, 1.05);
-                FlxTween.tween(boyfriend, {"scale.x": 1, "scale.y": 1}, 1, {ease: FlxEase.quartOut});
-                FlxTween.angle(boyfriend, -3, 3, 3, {ease: FlxEase.cubeInOut, type: PINGPONG});
-                FlxTween.tween(blackBackground, {alpha: getRankName() == 'e' ? 0.25 : 0}, 0.5);
-
-                whiteBackground.alpha = 1;
-                FlxTween.tween(whiteBackground, {alpha: 0}, 0.5);
-
-                // rank anim
-                rank.scale.set(0.01, 0.01);
-                rank.alpha = 1;
-
-                FlxTween.tween(rank, {"scale.x": 1.04, "scale.y": 1.04}, 0.3, {ease: FlxEase.quartOut, onComplete: (_) ->{
-                    FlxTween.tween(rank, {"scale.x": 1, "scale.y": 1}, 0.3, {ease: FlxEase.quartInOut});
-                }});
+            }
         }
 
         super.beatHit();
