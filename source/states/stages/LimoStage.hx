@@ -12,6 +12,8 @@ class LimoStage extends BaseStage
 
     var skySunset:FlxSprite;
     public static var clouds:FlxBackdrop;
+    public var airplaneLeft:FlxSprite;
+    public var airplaneRight:FlxSprite;
     public static var buildingsBack2:FlxBackdrop;
     public static var buildingsBack:FlxBackdrop;
     public static var buildingsFront:FlxBackdrop;
@@ -42,6 +44,19 @@ class LimoStage extends BaseStage
             clouds.x = cloudsXPos;
             clouds.antialiasing = ClientPrefs.data.antialiasing;
             add(clouds);
+
+            airplaneLeft = new FlxSprite(skySunset.x + skySunset.width + 700, skySunset.y + 500);
+            airplaneLeft.scrollFactor.set(0.25, 0.25);
+            airplaneLeft.loadGraphic(Paths.image('stages/limoStage/airplane'));
+            airplaneLeft.antialiasing = ClientPrefs.data.antialiasing;
+            airplaneLeft.flipX = true;
+            add(airplaneLeft);
+
+            airplaneRight = new FlxSprite(skySunset.x, skySunset.y + 500);
+            airplaneRight.scrollFactor.set(0.25, 0.25);
+            airplaneRight.loadGraphic(Paths.image('stages/limoStage/airplane'));
+            airplaneRight.antialiasing = ClientPrefs.data.antialiasing;
+            add(airplaneRight);
         }
 
         buildingsBack2 = new FlxBackdrop(Paths.image('stages/limoStage/buildingBack2'), X, 0, 0);
@@ -96,6 +111,8 @@ class LimoStage extends BaseStage
     function applyVelocites(isMaximumSpeed:Bool = false)
     {
         if(!ClientPrefs.data.lowQuality) clouds.velocity.set(20, 0);
+        if(!ClientPrefs.data.lowQuality) airplaneRight.velocity.set(130, 0);
+        if(!ClientPrefs.data.lowQuality) airplaneLeft.velocity.set(-130, 0);
         buildingsBack2.velocity.set(40, 0);
         buildingsBack.velocity.set(50, 0);
         buildingsFront.velocity.set(75, 0);
@@ -105,6 +122,8 @@ class LimoStage extends BaseStage
         if(isMaximumSpeed)
         {
             if(!ClientPrefs.data.lowQuality) clouds.velocity.set(20 * speedMult, 0);
+            if(!ClientPrefs.data.lowQuality) airplaneRight.velocity.set(130 * speedMult, 0);
+            if(!ClientPrefs.data.lowQuality) airplaneLeft.velocity.set(-115 * speedMult, 0);
             buildingsBack2.velocity.set(40 * speedMult, 0);
             buildingsBack.velocity.set(50 * speedMult, 0);
             buildingsFront.velocity.set(75 * speedMult, 0);
@@ -116,6 +135,20 @@ class LimoStage extends BaseStage
     override function update(elapsed:Float)
     {
         if(ClientPrefs.data.shaders) waterShader.iTime.value[0] += elapsed;
+        if(!ClientPrefs.data.lowQuality) 
+        {
+            if(airplaneRight.x > skySunset.x + 3660) 
+            {
+                airplaneRight.y = skySunset.y + 500 + FlxG.random.float(-5, 25);
+                airplaneRight.x = skySunset.x - 3600;
+            }
+
+            if(airplaneLeft.x < skySunset.x - 3660) 
+            {
+                airplaneLeft.y = skySunset.y + 500 + FlxG.random.float(-5, 25);
+                airplaneLeft.x = skySunset.x + skySunset.width + 300;
+            }
+        }
     }
 
     override function createPost() 
