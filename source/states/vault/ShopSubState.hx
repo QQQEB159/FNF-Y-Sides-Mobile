@@ -1,5 +1,6 @@
 package states.vault;
 
+import cpp.abi.Abi;
 import flixel.addons.display.FlxBackdrop;
 import flixel.util.FlxSort;
 
@@ -19,6 +20,11 @@ class ShopSubState extends MusicBeatSubstate
             boughtItems.set(item[0], false);
         }
         return boughtItems;
+    }
+
+    public static function isItemUnlocked(name:String):Bool 
+    {
+        return boughtItems.get(name);
     }
 
     public static function unlockItem(name:String)

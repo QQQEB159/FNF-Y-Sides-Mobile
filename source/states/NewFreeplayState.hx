@@ -36,6 +36,7 @@ class NewFreeplayState extends MusicBeatState
     ];
 
 	public var isPicoMix:Bool = false;
+    public var unlockedPico:Bool = false;
 	public function new(_isPicoMix:Bool = false)
 	{
 		isPicoMix = _isPicoMix;
@@ -59,6 +60,8 @@ class NewFreeplayState extends MusicBeatState
 		PlayState.isStoryMode = false;
 		WeekData.reloadWeekFiles(false);
 		BeatenSongs.init();
+
+        unlockedPico = ShopSubState.isItemUnlocked('Picostola');
 
 		#if DISCORD_ALLOWED
 		// Updating Discord Rich Presence
@@ -145,6 +148,7 @@ class NewFreeplayState extends MusicBeatState
         hint.y = backgroundHint.y + 19;
         hint.velocity.set(-40, 0);
         hint.screenCenter(X);
+        hint.visible = unlockedPico;
         add(hint);
         
         bombox = new FlxSprite(705, 315);
@@ -389,6 +393,8 @@ class NewFreeplayState extends MusicBeatState
 
             if(FlxG.keys.justPressed.TAB)
             {
+                if(!unlockedPico) return;
+                
                 if(MusicBeatState.timePassedOnState < 0.8) return;
 
                 canInteract = false;
