@@ -1,8 +1,17 @@
 package states.stages;
 
+import shaders.Dubswitcher;
+import shaders.ColorSwap.ColorSwapShader;
+import openfl.filters.ShaderFilter;
+
 class HalloweenStagePico extends BaseStage
 {
     var blackBackground:FlxSprite;
+	var dubswitcherShader:Dubswitcher;
+	var dubswitcherFilter:ShaderFilter;
+	var colorSwapShader:ColorSwapShader;
+	var colorSwapFilter:ShaderFilter;
+
 	override function create()
 	{
 		if(!ClientPrefs.data.lowQuality)
@@ -35,6 +44,26 @@ class HalloweenStagePico extends BaseStage
         blackBackground.screenCenter();
         blackBackground.alpha = 0;
         add(blackBackground);
+
+        if(ClientPrefs.data.shaders)
+        {
+            dubswitcherShader = new Dubswitcher();
+            dubswitcherShader.intensity.value = [0.0];
+
+            dubswitcherFilter = new ShaderFilter(dubswitcherShader);
+
+            colorSwapShader = new ColorSwapShader();
+            colorSwapShader.uTime.value = [0, 0, 0];
+
+            colorSwapFilter = new ShaderFilter(colorSwapShader);
+            if(ClientPrefs.data.shaders) FlxG.camera.filters = [dubswitcherFilter, colorSwapFilter];
+        }
+	}
+
+	override function update(elapsed:Float)
+	{
+		if(dubswitcherShader != null)
+			dubswitcherShader.iTime.value[0] += elapsed;
 	}
 
 	override function createPost()
@@ -45,7 +74,6 @@ class HalloweenStagePico extends BaseStage
     var maxAlpha:Float = 0.25;
 	override function stepHit()
 	{
-        trace(game.curSong);
         switch(game.curSong)
         {
             case 'South':
@@ -53,16 +81,79 @@ class HalloweenStagePico extends BaseStage
                 {
                     case 399:
                         FlxTween.tween(blackBackground, {alpha: maxAlpha / 1.3}, 0.15);
+                        FlxTween.num(0, 0.015, 0.45, {ease: FlxEase.cubeOut}, function(v:Float)
+                        {
+                            dubswitcherShader.intensity.value[0] = v;
+                        });
+                        FlxTween.num(0, -0.25, 0.45, {ease: FlxEase.cubeOut}, function(v:Float)
+                        {
+                            colorSwapShader.uTime.value[1] = v;
+                        });
                     case 416:
                         blackBackground.alpha = 0;
+                        dubswitcherShader.intensity.value[0] = 0;
+                        colorSwapShader.uTime.value[1] = 0;
                     case 655:
                         FlxTween.tween(blackBackground, {alpha: maxAlpha / 1.3}, 0.15);
+                        FlxTween.num(0, 0.015, 0.45, {ease: FlxEase.cubeOut}, function(v:Float)
+                        {
+                            dubswitcherShader.intensity.value[0] = v;
+                        });
+                        FlxTween.num(0, -0.25, 0.45, {ease: FlxEase.cubeOut}, function(v:Float)
+                        {
+                            colorSwapShader.uTime.value[1] = v;
+                        });
+                    case 667:
+                        FlxTween.num(0.015, 0, 0.45, {ease: FlxEase.cubeIn}, function(v:Float)
+                        {
+                            dubswitcherShader.intensity.value[0] = v;
+                        });
+                        FlxTween.num(-0.25, 0, 0.45, {ease: FlxEase.cubeIn}, function(v:Float)
+                        {
+                            colorSwapShader.uTime.value[1] = v;
+                        });
                     case 672:
                         FlxTween.tween(blackBackground, {alpha: maxAlpha}, 0.35);
                     case 911:
                         FlxTween.tween(blackBackground, {alpha: maxAlpha / 1.3}, 0.15);
+                        FlxTween.num(0, 0.02, 0.45, {ease: FlxEase.cubeOut}, function(v:Float)
+                        {
+                            dubswitcherShader.intensity.value[0] = v;
+                        });
+                        FlxTween.num(0, -0.27, 0.45, {ease: FlxEase.cubeOut}, function(v:Float)
+                        {
+                            colorSwapShader.uTime.value[1] = v;
+                        });
+                    case 923:
+                        FlxTween.num(0.015, 0, 0.45, {ease: FlxEase.cubeIn}, function(v:Float)
+                        {
+                            dubswitcherShader.intensity.value[0] = v;
+                        });
+                        FlxTween.num(-0.25, 0, 0.45, {ease: FlxEase.cubeIn}, function(v:Float)
+                        {
+                            colorSwapShader.uTime.value[1] = v;
+                        });
                     case 928:
                         blackBackground.alpha = 0;
+                    case 1423:
+                        FlxTween.tween(blackBackground, {alpha: maxAlpha / 1.3}, 0.15);
+                        FlxTween.num(0, 0.025, 0.45, {ease: FlxEase.cubeOut}, function(v:Float)
+                        {
+                            dubswitcherShader.intensity.value[0] = v;
+                        });
+                        FlxTween.num(0, -0.3, 0.45, {ease: FlxEase.cubeOut}, function(v:Float)
+                        {
+                            colorSwapShader.uTime.value[1] = v;
+                        });
+                    case 1435:
+                        FlxTween.num(0.015, 0, 0.45, {ease: FlxEase.cubeIn}, function(v:Float)
+                        {
+                            dubswitcherShader.intensity.value[0] = v;
+                        });
+                        FlxTween.num(-0.25, 0, 0.45, {ease: FlxEase.cubeIn}, function(v:Float)
+                        {
+                            colorSwapShader.uTime.value[1] = v;
+                        });
                 }
         }
 	}

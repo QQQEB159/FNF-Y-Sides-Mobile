@@ -3191,6 +3191,7 @@ class PlayState extends MusicBeatState
 				camFollow.setPosition(player3.getMidpoint().x + 150, player3.getMidpoint().y - 100);
 				camFollow.x += player3.cameraPosition[0] + opponentCameraOffset[0];
 				camFollow.y += player3.cameraPosition[1] + opponentCameraOffset[1];
+				trace('${camFollow.x} / ${camFollow.y}');
 			}
 			else
 			{
@@ -4630,7 +4631,6 @@ class PlayState extends MusicBeatState
 					case 448:
 						setHbFire(true);
 					case 704:
-						constantHealthDrainAmount = 0.00085;
 						setHbFire(false);
 				}
 			case 'South-pico':
@@ -4646,6 +4646,7 @@ class PlayState extends MusicBeatState
 					case 672:
 						setHbFire(false);
 					case 928:
+						constantHealthDrainAmount = 0.00085;
 						setHbFire(true);
 					case 1184:
 						setHbFire(false);
