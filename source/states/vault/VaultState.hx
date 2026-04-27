@@ -81,7 +81,7 @@ class VaultState extends MusicBeatState
         FlxG.camera.filters = [blurFilter];
 
         colorBg = new FlxSprite();
-        colorBg.makeGraphic(1350, 800, 0xFFD9B4FD);
+        colorBg.makeGraphic(1350, 800, 0xFFBFB4F1);
         add(colorBg);
 
         bg = new FlxSprite();
@@ -294,10 +294,11 @@ class VaultState extends MusicBeatState
     }
 
     var transDuration:Float = 0.65;
+    var backTransDuration:Float = 0.55;
     function initTransition()
     {
-        bg.alpha = 0;
-        FlxTween.tween(bg, {alpha: 1}, transDuration, {ease: FlxEase.quartOut});
+        // bg.alpha = 0;
+        // FlxTween.tween(bg, {alpha: 1}, transDuration, {ease: FlxEase.quartOut});
 
         checker.alpha = 0;
         FlxTween.tween(checker, {alpha: 1}, transDuration, {ease: FlxEase.quartOut});
@@ -444,6 +445,7 @@ class VaultState extends MusicBeatState
         FlxTween.tween(snowCharacter, {x: FlxG.width + 30}, 6);
     }
 
+    var wentBack:Bool = false;
     var updateScroll:Bool = true;
 	var scrollMultiplier:Float = 3;
     override function update(elapsed:Float)
@@ -492,14 +494,51 @@ class VaultState extends MusicBeatState
         }
         else if(!isOnPreShop)
         {
-            if(controls.BACK)
+            if(controls.BACK && !wentBack)
             {
+                wentBack = true;
+                endDialogue();
+
+                FlxTimer.globalManager.clear();
                 FlxG.sound.music.fadeOut(0.2, 0, function(twn:FlxTween)
                 {
                     FlxG.sound.music.stop();
                 });
                 FlxG.sound.play(Paths.sound('cancelMenu'));
-                new FlxTimer().start(0.4, function(tmr:FlxTimer)
+
+                FlxTransitionableState.skipNextTransIn = true;
+                FlxTransitionableState.skipNextTransOut = true;
+
+                FlxTween.cancelTweensOf(bg);
+                FlxTween.cancelTweensOf(checker);
+                FlxTween.cancelTweensOf(bgCoolEffect);
+                FlxTween.cancelTweensOf(floor);
+                FlxTween.cancelTweensOf(shelf);
+                FlxTween.cancelTweensOf(sign);
+                FlxTween.cancelTweensOf(table);
+                FlxTween.cancelTweensOf(madreaCharacter);
+                FlxTween.cancelTweensOf(machine);
+                FlxTween.cancelTweensOf(poloUp);
+                FlxTween.cancelTweensOf(poloDown);
+                
+                FlxTween.tween(bg, {alpha: 0}, backTransDuration, {ease: FlxEase.quartOut});
+                FlxTween.tween(checker, {alpha: 0}, backTransDuration, {ease: FlxEase.quartOut});
+                FlxTween.tween(bgCoolEffect, {alpha: 0, y: FlxG.height - (bgCoolEffect.height / 2)}, backTransDuration, {ease: FlxEase.quartOut});
+                FlxTween.tween(floor, {y: FlxG.height}, backTransDuration * 0.5, {ease: FlxEase.quartOut});
+                FlxTween.tween(shelf, {y: -500}, backTransDuration, {ease: FlxEase.quartOut});
+                FlxTween.tween(sign, {y: -520}, backTransDuration, {ease: FlxEase.quartOut});
+                FlxTween.tween(table, {x: FlxG.width}, backTransDuration, {ease: FlxEase.quartOut});
+                FlxTween.tween(madreaCharacter, {x: FlxG.width + 110}, backTransDuration, {ease: FlxEase.quartOut});
+                FlxTween.tween(tapiCharacter, {y: FlxG.height}, backTransDuration, {ease: FlxEase.quartOut});
+                FlxTween.tween(gbvCharacter, {y: FlxG.height}, backTransDuration, {ease: FlxEase.quartOut});
+                FlxTween.tween(heroCharacter, {y: FlxG.height}, backTransDuration, {ease: FlxEase.quartOut});
+                FlxTween.tween(emilCharacter, {y: FlxG.height}, backTransDuration, {ease: FlxEase.quartOut});
+                FlxTween.tween(snowCharacter, {y: FlxG.height}, backTransDuration, {ease: FlxEase.quartOut});
+                FlxTween.tween(machine, {x: FlxG.width + table.width - machine.width - 30}, backTransDuration, {ease: FlxEase.quartOut});
+                FlxTween.tween(poloUp, {y: -poloUp.height}, backTransDuration, {ease: FlxEase.quartOut});
+                FlxTween.tween(poloDown, {y: FlxG.height}, backTransDuration, {ease: FlxEase.quartOut});
+
+                new FlxTimer().start(backTransDuration, function(tmr:FlxTimer)
                 {
                     MusicBeatState.switchState(new MainMenuState());
                 });

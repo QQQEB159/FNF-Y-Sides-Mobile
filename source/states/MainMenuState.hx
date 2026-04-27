@@ -514,6 +514,15 @@ class MainMenuState extends MusicBeatState
                         FlxTween.color(bg, 0.35, bg.color, 0xFFE7E0FF);
                     }
 
+                    if(option == 'vault')
+                    {
+                        FlxTween.cancelTweensOf(icons);
+                        FlxTween.tween(icons, {alpha: 0}, 0.35, {ease: FlxEase.quartIn});
+
+                        FlxTween.cancelTweensOf(bg);
+                        FlxTween.color(bg, 0.35, bg.color, 0xFFD9B4FD);
+                    }
+
 		            FlxTween.cancelTweensOf(character);
                     FlxTween.cancelTweensOf(lines);
                     FlxTween.cancelTweensOf(circle);
