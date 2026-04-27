@@ -20,12 +20,18 @@ class GalleryPreload
     public static var totalImageItems:Int = 0;
     
     // Storage maps
-    static var preloadedInstMap:Map<String, FlxSound> = new Map<String, FlxSound>();
-    static var preloadedImages:Map<String, GalleryObject> = new Map<String, GalleryObject>();
+    public static var preloadedInstMap:Map<String, FlxSound> = new Map<String, FlxSound>();
+    public static var preloadedImages:Map<String, GalleryObject> = new Map<String, GalleryObject>();
     
     // Mutexes for thread safety
     static var musicMutex:Mutex = new Mutex();
     static var imageMutex:Mutex = new Mutex();
+
+    // Playable characters preload thingie
+    public static var avaiableCharacters:Array<String> = [
+        'Bf',
+        'Pico'
+    ];
     
     /**
      * Preload music files in a background thread
@@ -38,35 +44,37 @@ class GalleryPreload
             for (i in 0...NewGalleryState.musicSongsArrayFull.length)
             {
                 var song = NewGalleryState.musicSongsArrayFull[i];
-                var instPath = 'assets/songs/$song/Inst.ogg';
-                
-                if (!FileSystem.exists(instPath)) 
+                for(i in 0...avaiableCharacters.length)
                 {
-                    trace('Skipping $song - Inst.ogg not found');
-                    musicMutex.acquire();
-                    musicPreloadProgress++;
-                    musicMutex.release();
-                    continue;
-                }
-                
-                try 
-                {
-                    var embedInst = new FlxSound();
-                    embedInst.loadEmbedded(instPath);
+                    var instPath = 'assets/songs/$song/Inst-${avaiableCharacters[i].toLowerCase()}.ogg';
+                    if (!FileSystem.exists(instPath)) 
+                    {
+                        trace('Skipping $song - Inst-${avaiableCharacters[i].toLowerCase()}.ogg not found');
+                        musicMutex.acquire();
+                        musicPreloadProgress++;
+                        musicMutex.release();
+                        continue;
+                    }
                     
-                    // Thread-safe write to the map
-                    musicMutex.acquire();
-                    preloadedInstMap.set(song, embedInst);
-                    musicPreloadProgress++;
-                    trace('Loaded $song (INST) - Progress: $musicPreloadProgress/$totalMusicItems');
-                    musicMutex.release();
-                }
-                catch (e:Dynamic)
-                {
-                    trace('Error loading $song: $e');
-                    musicMutex.acquire();
-                    musicPreloadProgress++;
-                    musicMutex.release();
+                    try 
+                    {
+                        var embedInst = new FlxSound();
+                        embedInst.loadEmbedded(instPath);
+                        
+                        // Thread-safe write to the map
+                        musicMutex.acquire();
+                        preloadedInstMap.set('$song-${avaiableCharacters[i].toLowerCase()}', embedInst);
+                        musicPreloadProgress++;
+                        trace('Loaded $song (${avaiableCharacters[i]} variant) (INST) - Progress: $musicPreloadProgress/$totalMusicItems');
+                        musicMutex.release();
+                    }
+                    catch (e:Dynamic)
+                    {
+                        trace('Error loading $song-${avaiableCharacters[i].toLowerCase()}: $e');
+                        musicMutex.acquire();
+                        musicPreloadProgress++;
+                        musicMutex.release();
+                    }
                 }
             }
             

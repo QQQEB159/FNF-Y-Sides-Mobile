@@ -54,6 +54,9 @@ class NewGalleryState extends MusicBeatState
     var infoButton:FlxSprite;
     var infoBackground:FlxSprite;
     var infoText:FlxText;
+    var variantText:FlxText;
+    var variantUpArrow:FlxText;
+    var variantDownArrow:FlxText;
     var blackTop:FlxSprite;
 
     var waterShader:WaterShader;
@@ -64,6 +67,9 @@ class NewGalleryState extends MusicBeatState
 
     // Music
     var inst:FlxSound;
+
+    // Characters handler shit
+    public var curCharacter:Int = 0;
 
     override function create()
     {
@@ -186,6 +192,7 @@ class NewGalleryState extends MusicBeatState
         infoButton.y = 90;
         infoButton.alpha = 0;
         infoButton.active = false;
+        infoButton.antialiasing = ClientPrefs.data.antialiasing;
         add(infoButton);
 
         infoButtonBackground.x = infoButton.x;
@@ -200,7 +207,30 @@ class NewGalleryState extends MusicBeatState
         infoText = new FlxText(0, 0, 0, '');
         infoText.setFormat(Paths.font("vcr.ttf"), 36, 0xFFFFFFFF);
         infoText.visible = false;
+        infoText.antialiasing = ClientPrefs.data.antialiasing;
         add(infoText);
+
+        variantText = new FlxText(0, 530, 0, '');
+        variantText.setFormat(Paths.font("vcr.ttf"), 36, 0xFFFFFFFF);
+        variantText.visible = false;
+        variantText.antialiasing = ClientPrefs.data.antialiasing;
+        add(variantText);
+
+        variantDownArrow = new FlxText(0, 0, 0, '>');
+        variantDownArrow.setFormat(Paths.font("vcr.ttf"), 36, 0xFFFFFFFF);
+        variantDownArrow.visible = false;
+        variantDownArrow.y = 530 + variantText.height + 10;
+        variantDownArrow.angle = 90;
+        variantDownArrow.antialiasing = ClientPrefs.data.antialiasing;
+        add(variantDownArrow);
+
+        variantUpArrow = new FlxText(0, 0, 0, '>');
+        variantUpArrow.setFormat(Paths.font("vcr.ttf"), 36, 0xFFFFFFFF);
+        variantUpArrow.visible = false;
+        variantUpArrow.y = 530 - variantUpArrow.height - 10;
+        variantUpArrow.angle = -90;
+        variantUpArrow.antialiasing = ClientPrefs.data.antialiasing;
+        add(variantUpArrow);
         
         blackTop = new FlxSprite();
         blackTop.makeGraphic(Std.int(FlxG.width * 1.2), FlxG.height, 0xFF000000);
@@ -256,6 +286,20 @@ class NewGalleryState extends MusicBeatState
                 };
             }
 
+            // has pico mix...
+            if(GalleryPreload.preloadedInstMap.exists('${musicSongsArray[curSelectedMusics]}-pico'))
+            {
+                if(controls.UI_UP_P)
+                {
+                    changeVariant(-1);
+                }
+
+                if(controls.UI_DOWN_P)
+                {
+                    changeVariant(1);
+                }
+            }
+
             if(controls.BACK)
             {
                 FlxG.sound.play(Paths.sound('cancelMenu'));
@@ -274,6 +318,9 @@ class NewGalleryState extends MusicBeatState
                     FlxTween.tween(obj, {y: 1280}, tweenTransSpeed, {ease: FlxEase.quartInOut});
                 }
 
+                variantText.visible = false;
+                variantUpArrow.visible = false;
+                variantDownArrow.visible = false;
                 FlxTween.tween(optionsGrp.members[curSelected], {y: 150}, tweenTransSpeed, {ease: FlxEase.quartInOut});
 
                 isPreviewingImages = false;
@@ -398,6 +445,11 @@ class NewGalleryState extends MusicBeatState
         else if(isPreviewingMusics)
         {
             curSelectedMusics = FlxMath.wrap(curSelectedMusics + change, 0, musicSongsArray.length - 1);
+            variantText.visible = GalleryPreload.preloadedInstMap.exists('${musicSongsArray[curSelectedMusics]}-pico'); // has pico mix
+            variantUpArrow.visible = variantText.visible;
+            variantDownArrow.visible = variantText.visible;
+            if(!variantText.visible) curCharacter = 0; // go back to bf themes
+            variantText.text = GalleryPreload.avaiableCharacters[curCharacter];
 
 		    for (num => item in imagesGrp.members)
 		    {
@@ -407,20 +459,20 @@ class NewGalleryState extends MusicBeatState
                 if (firstTime) item.snapToPosition();
 		    }
 
-            if(FileSystem.exists('assets/songs/${musicSongsArray[curSelectedMusics]}/Inst.ogg'))
+            if(FileSystem.exists('assets/songs/${musicSongsArray[curSelectedMusics]}/Inst-${GalleryPreload.avaiableCharacters[curCharacter].toLowerCase()}.ogg'))
             {
                 if(FlxG.sound.music != null)
                     FlxG.sound.music.stop();
             
 		           FlxG.sound.list.remove(inst);
     
-                #if debug trace('Changing song to ${musicSongsArray[curSelectedMusics]}'); #end
+                #if debug trace('Changing song to ${musicSongsArray[curSelectedMusics]}-${GalleryPreload.avaiableCharacters[curCharacter].toLowerCase()}'); #end
     
                 //FlxG.sound.playMusic('assets/songs/${musicSongsArray[curSelected]}/Full.ogg');
                 //inst = preloadedInstMap.get(musicSongsArray[curSelected]);
     
                 inst = new FlxSound();
-                inst.loadEmbedded('assets/songs/${musicSongsArray[curSelectedMusics]}/Inst.ogg');
+                inst.loadEmbedded('assets/songs/${musicSongsArray[curSelectedMusics]}/Inst-${GalleryPreload.avaiableCharacters[curCharacter].toLowerCase()}.ogg');
                 
 		           FlxG.sound.list.add(inst);
     
@@ -434,7 +486,7 @@ class NewGalleryState extends MusicBeatState
             else
             {
                 #if debug
-                trace('No music found for ${musicSongsArray[curSelectedMusics]}');
+                trace('No music found for ${musicSongsArray[curSelectedMusics]}-${GalleryPreload.avaiableCharacters[curCharacter].toLowerCase()}');
                 #end
             }
         }
@@ -449,6 +501,47 @@ class NewGalleryState extends MusicBeatState
 		    	if (item.targetX == 0) item.alpha = 1;
                 if (firstTime) item.snapToPosition();
 		    }
+        }
+    }
+
+    function changeVariant(change:Int = 0)
+    {
+        curCharacter = FlxMath.wrap(curCharacter + change, 0, GalleryPreload.avaiableCharacters.length - 1);
+
+        variantText.text = GalleryPreload.avaiableCharacters[curCharacter];
+        variantText.x = 800 - variantText.width/2;
+        variantUpArrow.x = variantText.x + variantText.width / 2 - variantUpArrow.width / 2;
+        variantDownArrow.x = variantText.x + variantText.width / 2 - variantDownArrow.width / 2;
+
+        if(FileSystem.exists('assets/songs/${musicSongsArray[curSelectedMusics]}/Inst-${GalleryPreload.avaiableCharacters[curCharacter].toLowerCase()}.ogg'))
+        {
+            if(FlxG.sound.music != null)
+                FlxG.sound.music.stop();
+        
+                FlxG.sound.list.remove(inst);
+
+            #if debug trace('Changing song to ${musicSongsArray[curSelectedMusics]}-${GalleryPreload.avaiableCharacters[curCharacter].toLowerCase()}'); #end
+
+            //FlxG.sound.playMusic('assets/songs/${musicSongsArray[curSelected]}/Full.ogg');
+            //inst = preloadedInstMap.get(musicSongsArray[curSelected]);
+
+            inst = new FlxSound();
+            inst.loadEmbedded('assets/songs/${musicSongsArray[curSelectedMusics]}/Inst-${GalleryPreload.avaiableCharacters[curCharacter].toLowerCase()}.ogg');
+            
+                FlxG.sound.list.add(inst);
+
+                @:privateAccess
+            FlxG.sound.playMusic(inst._sound);
+
+            #if debug
+            trace('INST ' + FlxG.sound.music);
+            #end
+        }
+        else
+        {
+            #if debug
+            trace('No music found for ${musicSongsArray[curSelectedMusics]}-${GalleryPreload.avaiableCharacters[curCharacter].toLowerCase()}');
+            #end
         }
     }
 
@@ -560,6 +653,7 @@ class NewGalleryState extends MusicBeatState
 
         curSelectedMusics = 0;
         changeSelect(0, true);
+        changeVariant();
 
         for(obj in imagesGrp)
         {
