@@ -3,6 +3,9 @@ package states.gallery;
 import flixel.addons.display.FlxBackdrop;
 import states.gallery.GalleryState.GalleryStateImages;
 import shaders.WaterShader;
+import shaders.Dubswitcher;
+import shaders.ColorSwap.ColorSwapShader;
+import openfl.filters.ShaderFilter;
 import haxe.Json;
 
 class NewGalleryState extends MusicBeatState
@@ -60,6 +63,11 @@ class NewGalleryState extends MusicBeatState
     var blackTop:FlxSprite;
 
     var waterShader:WaterShader;
+    var waterShaderFilter:ShaderFilter;
+	var dubswitcherShader:Dubswitcher;
+	var dubswitcherFilter:ShaderFilter;
+	var colorSwapShader:ColorSwapShader;
+	var colorSwapFilter:ShaderFilter;
 
     // Images section
     var imagesGrp:FlxTypedGroup<GalleryObject>;
@@ -70,6 +78,51 @@ class NewGalleryState extends MusicBeatState
 
     // Characters handler shit
     public var curCharacter:Int = 0;
+
+    var mainCam:FlxCamera;
+    var bgCamera:FlxCamera;
+    var hudCamera:FlxCamera;
+
+    var glitchEffect(default, set):Bool = false;
+    function set_glitchEffect(value:Bool)
+    {
+        glitchEffect = value;
+        if(value)
+        {
+            FlxTween.num(0.025, 0, 0.3, {ease: FlxEase.quartOut}, function(v:Float)
+            {
+                dubswitcherShader.intensity.value[0] = v;
+            });
+
+            FlxTween.num(-0.1, 0, 0.3, {ease: FlxEase.quartOut}, function(v:Float)
+            {
+                colorSwapShader.uTime.value[1] = v;
+            });
+
+            FlxTween.cancelTweensOf(bg);
+            FlxTween.cancelTweensOf(FlxG.camera);
+            FlxTween.tween(bg, {alpha: 1}, 0.3, {ease: FlxEase.quartOut});
+            FlxTween.tween(bgCamera, {zoom: 1}, 0.3, {ease: FlxEase.quartOut});
+        }
+        else
+        {
+            FlxTween.num(0, 0.025, 0.3, {ease: FlxEase.quartOut}, function(v:Float)
+            {
+                dubswitcherShader.intensity.value[0] = v;
+            });
+
+            FlxTween.num(0, -0.1, 0.3, {ease: FlxEase.quartOut}, function(v:Float)
+            {
+                colorSwapShader.uTime.value[1] = v;
+            });
+
+            FlxTween.cancelTweensOf(bg);
+            FlxTween.cancelTweensOf(FlxG.camera);
+            FlxTween.tween(bg, {alpha: 0.75}, 0.3, {ease: FlxEase.quartOut});
+            FlxTween.tween(bgCamera, {zoom: 1.05}, 0.3, {ease: FlxEase.quartOut});
+        }
+        return value;
+    }
 
     override function create()
     {
@@ -88,13 +141,42 @@ class NewGalleryState extends MusicBeatState
 			}
 		}
 
-        waterShader = new WaterShader();
-        waterShader.iTime.value = [0];
+        mainCam = initPsychCamera();
+        
+        bgCamera = new FlxCamera();
+        bgCamera.bgColor.alpha = 0;
+        FlxG.cameras.add(bgCamera, false);
+
+        hudCamera = new FlxCamera();
+        hudCamera.bgColor.alpha = 0;
+        FlxG.cameras.add(hudCamera, false);
+        FlxG.cameras.setDefaultDrawTarget(hudCamera, true);
+
+        if(ClientPrefs.data.shaders)
+        {
+            waterShader = new WaterShader();
+            waterShader.iTime.value = [0];
+
+            waterShaderFilter = new ShaderFilter(waterShader);
+
+            dubswitcherShader = new Dubswitcher();
+            dubswitcherShader.intensity.value = [0.0];
+
+            dubswitcherFilter = new ShaderFilter(dubswitcherShader);
+
+            colorSwapShader = new ColorSwapShader();
+            colorSwapShader.uTime.value = [0, 0, 0];
+
+            colorSwapFilter = new ShaderFilter(colorSwapShader);
+            bgCamera.filters = [dubswitcherFilter, colorSwapFilter];
+        }
 
         bg = new FlxSprite();
         bg.loadGraphic(Paths.image('gallery/NEW/bg'));
+        bg.x += 50;
         bg.antialiasing = ClientPrefs.data.antialiasing;
         bg.shader = waterShader;
+        bg.cameras = [bgCamera];
         add(bg);
 
         optionsGrp = new FlxTypedGroup<GalleryObject>();
@@ -259,6 +341,17 @@ class NewGalleryState extends MusicBeatState
         
         disk.angle += angleSpeed * elapsed;
         if(waterShader != null) waterShader.iTime.value[0] += elapsed;
+        if(dubswitcherShader != null) dubswitcherShader.iTime.value[0] += elapsed;
+        if(isPreviewingMusics)
+        {
+            playMusicTimer += elapsed;
+            if(playMusicTimer > 1 && !playedMusic)
+            {
+                playedMusic = true;
+                glitchEffect = true;
+                playMusic();
+            }
+        }
 
         if(canInteract) handleInputs();
     }
@@ -322,6 +415,29 @@ class NewGalleryState extends MusicBeatState
                 variantUpArrow.visible = false;
                 variantDownArrow.visible = false;
                 FlxTween.tween(optionsGrp.members[curSelected], {y: 150}, tweenTransSpeed, {ease: FlxEase.quartInOut});
+
+                playMusicTimer = 0;
+                //if(isPreviewingMusics) resetTimer();
+                if(!inst.playing) 
+                {
+                    FlxG.sound.playMusic(Paths.music('galleryMenu'), 0);
+                    FlxG.sound.music.fadeIn(1);
+                }
+
+                FlxTween.num(0.025, 0, 0.3, {ease: FlxEase.quartOut}, function(v:Float)
+                {
+                    dubswitcherShader.intensity.value[0] = v;
+                });
+
+                FlxTween.num(-0.1, 0, 0.3, {ease: FlxEase.quartOut}, function(v:Float)
+                {
+                    colorSwapShader.uTime.value[1] = v;
+                });
+
+                FlxTween.cancelTweensOf(bg);
+                FlxTween.cancelTweensOf(FlxG.camera);
+                FlxTween.tween(bg, {alpha: 1}, 0.3, {ease: FlxEase.quartOut});
+                FlxTween.tween(bgCamera, {zoom: 1}, 0.3, {ease: FlxEase.quartOut});
 
                 isPreviewingImages = false;
                 isPreviewingMusics = false;
@@ -427,6 +543,8 @@ class NewGalleryState extends MusicBeatState
         }
     }
 
+    var playMusicTimer:Float = 0;
+    var playedMusic:Bool = false;
     function changeSelect(change:Int = 0, firstTime:Bool = false)
     {
         if(change != 0) FlxG.sound.play(Paths.sound('scrollMenu'));
@@ -444,6 +562,7 @@ class NewGalleryState extends MusicBeatState
         }
         else if(isPreviewingMusics)
         {
+            resetTimer(firstTime);
             curSelectedMusics = FlxMath.wrap(curSelectedMusics + change, 0, musicSongsArray.length - 1);
             variantText.visible = GalleryPreload.preloadedInstMap.exists('${musicSongsArray[curSelectedMusics]}-pico'); // has pico mix
             variantUpArrow.visible = variantText.visible;
@@ -458,37 +577,6 @@ class NewGalleryState extends MusicBeatState
 		    	if (item.targetX == 0) item.alpha = 1;
                 if (firstTime) item.snapToPosition();
 		    }
-
-            if(FileSystem.exists('assets/songs/${musicSongsArray[curSelectedMusics]}/Inst-${GalleryPreload.avaiableCharacters[curCharacter].toLowerCase()}.ogg'))
-            {
-                if(FlxG.sound.music != null)
-                    FlxG.sound.music.stop();
-            
-		           FlxG.sound.list.remove(inst);
-    
-                #if debug trace('Changing song to ${musicSongsArray[curSelectedMusics]}-${GalleryPreload.avaiableCharacters[curCharacter].toLowerCase()}'); #end
-    
-                //FlxG.sound.playMusic('assets/songs/${musicSongsArray[curSelected]}/Full.ogg');
-                //inst = preloadedInstMap.get(musicSongsArray[curSelected]);
-    
-                inst = new FlxSound();
-                inst.loadEmbedded('assets/songs/${musicSongsArray[curSelectedMusics]}/Inst-${GalleryPreload.avaiableCharacters[curCharacter].toLowerCase()}.ogg');
-                
-		           FlxG.sound.list.add(inst);
-    
-		           @:privateAccess
-                FlxG.sound.playMusic(inst._sound);
-    
-                #if debug
-                trace('INST ' + FlxG.sound.music);
-                #end
-            }
-            else
-            {
-                #if debug
-                trace('No music found for ${musicSongsArray[curSelectedMusics]}-${GalleryPreload.avaiableCharacters[curCharacter].toLowerCase()}');
-                #end
-            }
         }
         else
         {
@@ -504,21 +592,28 @@ class NewGalleryState extends MusicBeatState
         }
     }
 
-    function changeVariant(change:Int = 0)
+    function resetTimer(firstTime:Bool = false)
     {
-        curCharacter = FlxMath.wrap(curCharacter + change, 0, GalleryPreload.avaiableCharacters.length - 1);
+        if(playMusicTimer > 1 || firstTime) FlxG.sound.playMusic(Paths.sound('gallery/whiteNoise')); // behaviour as music so it loops
 
-        variantText.text = GalleryPreload.avaiableCharacters[curCharacter];
-        variantText.x = 800 - variantText.width/2;
-        variantUpArrow.x = variantText.x + variantText.width / 2 - variantUpArrow.width / 2;
-        variantDownArrow.x = variantText.x + variantText.width / 2 - variantDownArrow.width / 2;
+        glitchEffect = false;
+        playMusicTimer = 0;
+        playedMusic = false;
 
+        if(inst != null)
+        {
+            if(inst.playing) inst.pause();
+        }
+    }
+
+    function playMusic()
+    {
         if(FileSystem.exists('assets/songs/${musicSongsArray[curSelectedMusics]}/Inst-${GalleryPreload.avaiableCharacters[curCharacter].toLowerCase()}.ogg'))
         {
             if(FlxG.sound.music != null)
                 FlxG.sound.music.stop();
         
-                FlxG.sound.list.remove(inst);
+            FlxG.sound.list.remove(inst);
 
             #if debug trace('Changing song to ${musicSongsArray[curSelectedMusics]}-${GalleryPreload.avaiableCharacters[curCharacter].toLowerCase()}'); #end
 
@@ -528,9 +623,9 @@ class NewGalleryState extends MusicBeatState
             inst = new FlxSound();
             inst.loadEmbedded('assets/songs/${musicSongsArray[curSelectedMusics]}/Inst-${GalleryPreload.avaiableCharacters[curCharacter].toLowerCase()}.ogg');
             
-                FlxG.sound.list.add(inst);
+            FlxG.sound.list.add(inst);
 
-                @:privateAccess
+            @:privateAccess
             FlxG.sound.playMusic(inst._sound);
 
             #if debug
@@ -543,6 +638,17 @@ class NewGalleryState extends MusicBeatState
             trace('No music found for ${musicSongsArray[curSelectedMusics]}-${GalleryPreload.avaiableCharacters[curCharacter].toLowerCase()}');
             #end
         }
+    }
+
+    function changeVariant(change:Int = 0)
+    {
+        resetTimer();
+        curCharacter = FlxMath.wrap(curCharacter + change, 0, GalleryPreload.avaiableCharacters.length - 1);
+
+        variantText.text = GalleryPreload.avaiableCharacters[curCharacter];
+        variantText.x = 800 - variantText.width/2;
+        variantUpArrow.x = variantText.x + variantText.width / 2 - variantUpArrow.width / 2;
+        variantDownArrow.x = variantText.x + variantText.width / 2 - variantDownArrow.width / 2;
     }
 
     function generateImages(folderName:String)
