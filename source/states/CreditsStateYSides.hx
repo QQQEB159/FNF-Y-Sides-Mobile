@@ -14,15 +14,16 @@ class CreditsStateYSides extends MusicBeatState
 
     var developers:Array<Dynamic> = [
         ['gBv2209',         'gbv',      ['Director', 'Concept Artist', 'Artist', 'Animator', 'Musician', 'Charter', 'Coder'], 		[['yt', 'https://www.youtube.com/@gBv2209'], ['x', 'https://x.com/gbv2209']], 0xFF2F6662],
-        ['Mr. Madera',      'madera',   ['Director', 'Main Coder', 'Charter', 'Musician'], 						                                [['yt', 'https://www.youtube.com/@mrmadera1237'], ['x', 'https://x.com/MrMadera625']], 0xFF8ACCE1],
+        ['Mr. Madera',      'madera',   ['Director', 'Main Coder', 'Charter', 'Musician', 'Voice Actor'], 						                                [['yt', 'https://www.youtube.com/@mrmadera1237'], ['x', 'https://x.com/MrMadera625']], 0xFF8ACCE1],
         ['Heromax',         'hero',     ['Co-Director', 'Concept Artist', 'Artist', 'Charter'], 			                            [['x', 'https://x.com/heromax_2498']], 0xFF424452],
 		['SFoxyDAC',        'foxy',     ['Co-Director', 'Artist', 'Animator', 'Musician', 'Voice Actor'], 					                                    [['yt', 'https://www.youtube.com/@SFoxyDAC'], ['x', 'https://x.com/SFoxyDAC']], 0xFFDC7D6F],
-        ['ItsTapiiii',      'tapi',     ['Co-Director', 'Musician'], 					                                                [['yt', 'https://www.youtube.com/@ItsTapiiii']], 0xFF363676],
+        ['ItsTapiiii',      'tapi',     ['Co-Director', 'Musician', 'Charter'], 					                                                [['yt', 'https://www.youtube.com/@ItsTapiiii']], 0xFF363676],
 		['Zhadnii',         'ema',  	['Musician'], 					                                                [['yt', 'https://youtube.com/@zhadnii_']], 0xFF3A3A75],
         ['FlashMan07',      'flash',    ['Musician', 'Concept Artist', 'Artist'],                                       [['yt', 'https://www.youtube.com/@FlashMan07']], 0xFF912197],
         ['Snowlui',         'snowlui',  ['Musician'], 			                            							[['yt', 'https://www.youtube.com/channel/UCSt4Fyu2syVMeGBHeZaWzyA'], ['x', 'https://x.com/Snowlui0831']], 0xFF9C0053],
         ['E1000MC',          'emil',    ['Artist', 'Charter'], 					                                        [['yt', 'https://www.youtube.com/@E1000YT/videos'], ['x', 'https://x.com/E1000TWOF ']], 0xFF1A8758],
-        ['JabaNSL',          'emil',    ['Musician',], 					                                        		[['yt', 'https://www.youtube.com/@jaba6969']], 0xFF2A8758],
+        ['JabaNSL',          'jaba',    ['Musician', 'Charter'], 					                                        		[['yt', 'https://www.youtube.com/@jaba6969']], 0xFFB8519D],
+        ['EliAnima',         'elianimador',   ['Musician'], 					                                        		[['yt', 'https://www.youtube.com/@EliMusic-v1i'], ['x', 'https://x.com/EliAnima_']], 0xFFFFDD8E],
 		['Saturn',           'sas',    ['- Me composer... -', 'drawer', 'I not cook'],                                                             [['yt', 'https://youtu.be/-ThnaxyC6J8?si=1IuB_kx1GUeJ-4Ad'], ['x', 'https://youtu.be/MvRARbFMCBI?si=bfBbcig20FQwUgGL']], 0xFF45725F]
     ];
 
