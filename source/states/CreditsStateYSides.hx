@@ -131,9 +131,17 @@ class CreditsStateYSides extends MusicBeatState
 	}
 
 	var psychScale:Float = 1;
+	var targetScaleLeft:Float = 1;
+	var targetScaleRight:Float = 1;
 	override function update(elapsed:Float) {
 
 		super.update(elapsed);
+
+		var multLeft = FlxMath.lerp(leftArrow.scale.x, targetScaleLeft, elapsed * 20);
+		leftArrow.scale.set(multLeft, multLeft);
+
+		var multRight = FlxMath.lerp(rightArrow.scale.x, targetScaleRight, elapsed * 20);
+		rightArrow.scale.set(multRight, multRight);
 
 		if (controls.BACK && canGoBack) {
 
@@ -164,15 +172,49 @@ class CreditsStateYSides extends MusicBeatState
 
         if(controls.UI_LEFT_P)
         {
+			leftArrow.scale.set(1.1, 1.1);
 			FlxG.sound.play(Paths.sound('scrollMenu'));
             changeSelection(-1);
         }
 
         if(controls.UI_RIGHT_P)
         {
+			rightArrow.scale.set(1.1, 1.1);
 			FlxG.sound.play(Paths.sound('scrollMenu'));
             changeSelection(1);
         }
+
+		if(FlxG.mouse.overlaps(leftArrow))
+		{
+			targetScaleLeft = 1.1;
+			leftArrow.color = FlxColor.YELLOW;
+			if(FlxG.mouse.justPressed)
+			{
+				FlxG.sound.play(Paths.sound('scrollMenu'));
+				changeSelection(-1);
+			}
+		}
+		else
+		{
+			targetScaleLeft = 1;
+			leftArrow.color = FlxColor.WHITE;
+		}
+
+		if(FlxG.mouse.overlaps(rightArrow))
+		{
+			targetScaleRight = 1.1;
+			rightArrow.color = FlxColor.YELLOW;
+			if(FlxG.mouse.justPressed)
+			{
+				FlxG.sound.play(Paths.sound('scrollMenu'));
+				changeSelection(1);
+			}
+		}
+		else
+		{
+			targetScaleRight = 1;
+			rightArrow.color = FlxColor.WHITE;
+		}
 
 		if(FlxG.keys.justPressed.TAB)
 		{
