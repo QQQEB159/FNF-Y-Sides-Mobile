@@ -1024,7 +1024,7 @@ class PlayState extends MusicBeatState
 
 		if(iconP3 != null) swapIcons(false);
 
-		cacheCountdown();
+		// cacheCountdown();
 		cachePopUpScore();
 
 		endLiftingSound = new FlxSound();
