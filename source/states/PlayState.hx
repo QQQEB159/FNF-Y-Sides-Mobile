@@ -42,6 +42,7 @@ import openfl.filters.ShaderFilter;
 #end
 
 import shaders.ErrorHandledShader;
+import shaders.GlitchFragmentShader;
 
 import objects.HoldNoteSplash;
 import objects.VideoSprite;
@@ -196,6 +197,7 @@ class PlayState extends MusicBeatState
 	public var healthBar:Bar;
 	public var fcSprite:FlxSprite;
 	public var timeBar:FlxSprite;
+	public var clockGlitchShader:GlitchFragmentShader;
 	public var songPercent:Float = 0;
 
 	public var liftMechanicTimeBar:FlxSprite;
@@ -645,6 +647,21 @@ class PlayState extends MusicBeatState
 		noteGroup.add(strumLineNotes);
 
 		generateSong();
+
+		if(curSong == 'Test') 
+		{
+			clockIndicator.visible = false;
+			clockIndicator2.visible = false;
+			timeBar.color = 0xFFD6D6D6;
+			if(ClientPrefs.data.shaders)
+			{
+				clockGlitchShader = new GlitchFragmentShader();
+				clockGlitchShader.GLITCH_THR.value = [0.005]; // velocity //// 0.01
+				clockGlitchShader.GLITCH_RECT_DIVISION.value = [7]; // size (more high, more small) name also say it, """""division""""" //// 5
+				clockGlitchShader.GLITCH_RECT_ITR.value = [2]; // its like make it more glitchy ////
+				timeBar.shader = clockGlitchShader;
+			}
+		}
 
 		noteGroup.add(grpNoteSplashes);
 
@@ -2149,6 +2166,8 @@ class PlayState extends MusicBeatState
 		}
 		else FlxG.camera.followLerp = 0;
 		callOnScripts('onUpdate', [elapsed]);
+
+		if (clockGlitchShader != null) clockGlitchShader.iTime.value[0] += elapsed;
 
 		var scaleMult:Float = FlxMath.lerp(censorSprite.scale.x, 1, elapsed * 16);
 		censorSprite.scale.set(scaleMult, scaleMult);
