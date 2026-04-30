@@ -179,6 +179,7 @@ class CharSelectState extends MusicBeatState
     var selectedCharacter:Bool = false;
     var currentCharacter:CharSelectObject; // reference of the selected char
     var acceptTimer:FlxTimer;
+    var idleTimer:FlxTimer;
     var canInteract:Bool = true;
     override function update(elapsed:Float)
     {
@@ -278,7 +279,14 @@ class CharSelectState extends MusicBeatState
                 {
                     if(name == 'deny') 
                     {
-                        currentCharacter.animation.play('idle');
+                        if(idleTimer != null)
+                        {
+                            if(!idleTimer.finished) idleTimer.cancel();
+                        }
+                        idleTimer = new FlxTimer().start(0.5, function(tmr:FlxTimer)
+                        {
+                            currentCharacter.animation.play('idle');
+                        });
                     }
                 }
             }
@@ -295,7 +303,7 @@ class CharSelectState extends MusicBeatState
 
         for(obj in avaibleCharactersGrp)
         {
-            if(!selectedCharacter) obj.animation.play('idle', true);
+            if(obj.animation.curAnim.name == 'idle') obj.animation.play('idle', true);
         }
     }
 
