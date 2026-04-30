@@ -3,6 +3,7 @@ package states.stages;
 import states.stages.objects.*;
 import objects.Character;
 import flixel.addons.display.FlxBackdrop;
+import shaders.ChromaticAberration;
 import shaders.WaterShader;
 import shaders.Dubswitcher;
 import openfl.filters.ShaderFilter;
@@ -21,8 +22,11 @@ class TrickyStage extends BaseStage
 	var light:BGSprite;
 	var front:BGSprite;
 	var sign:BGSprite;
+	var blackFullThingie:FlxSprite;
 
 	var voidShader:WaterShader;
+	var chromaticAberration:ChromaticAberration;
+	var chromaticAberrationFilter:ShaderFilter;
 	var dubswitcherShader:Dubswitcher;
 	var dubswitcherFilter:ShaderFilter;
 
@@ -43,7 +47,7 @@ class TrickyStage extends BaseStage
 		verticalVoid.x = sky.x + sky.width / 2 - verticalVoid.width / 2;
 		verticalVoid.y = sky.y;
 		verticalVoid.scrollFactor.set(0.3, 0.3);
-		verticalVoid.velocity.set(0, -35);
+		verticalVoid.velocity.set(0, -45);
 		verticalVoid.antialiasing = ClientPrefs.data.antialiasing;
 		add(verticalVoid);
 
@@ -52,21 +56,25 @@ class TrickyStage extends BaseStage
 		horizontalVoid.x = sky.x;
 		horizontalVoid.y = sky.y + sky.height - horizontalVoid.height + 15;
 		horizontalVoid.scrollFactor.set(0.3, 0.3);
-		horizontalVoid.velocity.set(35, 0);
+		horizontalVoid.velocity.set(45, 0);
 		horizontalVoid.antialiasing = ClientPrefs.data.antialiasing;
 		add(horizontalVoid);
 
 		floatingIslandLeft = new BGSprite('stages/trickyStage/floatingIslandLeft', -1350, -1020, 0.4, 0.4);
         floatingIslandLeft.updateHitbox();
-		floatingIslandLeft.x = sky.x + 100;
+		floatingIslandLeft.x = sky.x + 300;
 		floatingIslandLeft.y = sky.y + 410;
 		add(floatingIslandLeft);
 
+		FlxTween.tween(floatingIslandLeft, {y: floatingIslandLeft.y + 40}, 4.4, {ease: FlxEase.quartInOut, type: PINGPONG});
+
 		floatingIslandRight = new BGSprite('stages/trickyStage/floatingIslandRight', -1350, -1020, 0.4, 0.4);
         floatingIslandRight.updateHitbox();
-		floatingIslandRight.x = sky.x + sky.width - floatingIslandRight.width - 120;
-		floatingIslandRight.y = sky.y + 825;
+		floatingIslandRight.x = sky.x + sky.width - floatingIslandRight.width - 340;
+		floatingIslandRight.y = sky.y + 845;
 		add(floatingIslandRight);
+
+		FlxTween.tween(floatingIslandRight, {y: floatingIslandRight.y + 40}, 4.4, {ease: FlxEase.quartInOut, type: PINGPONG});
 
 		islandBehind = new BGSprite('stages/trickyStage/islandBehind', -1350, -1020, 0.8, 0.8);
         islandBehind.updateHitbox();
@@ -79,6 +87,13 @@ class TrickyStage extends BaseStage
 		bg.y = sky.y + 355; 
 		add(bg);
 
+		blackFullThingie = new FlxSprite(-1000, -1000);
+		blackFullThingie.makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
+		blackFullThingie.scrollFactor.set(0, 0);
+		blackFullThingie.antialiasing = ClientPrefs.data.antialiasing;
+		blackFullThingie.alpha = 0;
+		add(blackFullThingie);
+
 		if(ClientPrefs.data.shaders)
 		{
 			voidShader = new WaterShader();
@@ -88,8 +103,15 @@ class TrickyStage extends BaseStage
             dubswitcherShader = new Dubswitcher();
             dubswitcherShader.intensity.value = [0.004];
 
+			chromaticAberration = new ChromaticAberration();
+			chromaticAberration.rOffset.value = [0.0];
+			chromaticAberration.gOffset.value = [0.0];
+			chromaticAberration.bOffset.value = [0.0];
+
+			chromaticAberrationFilter = new ShaderFilter(chromaticAberration);
+
             dubswitcherFilter = new ShaderFilter(dubswitcherShader);
-            if(ClientPrefs.data.shaders) FlxG.camera.filters = [dubswitcherFilter];
+            if(ClientPrefs.data.shaders) FlxG.camera.filters = [dubswitcherFilter, chromaticAberrationFilter];
 		}
 	}
 
@@ -122,7 +144,41 @@ class TrickyStage extends BaseStage
 
 	override function update(elapsed:Float)
 	{
-        if(voidShader != null) voidShader.iTime.value[0] += (elapsed / 1.25);
+        if(voidShader != null) voidShader.iTime.value[0] += (elapsed / 1.15);
 		if(dubswitcherShader != null) dubswitcherShader.iTime.value[0] += elapsed;
+
+		if(curStep >= 768 && curStep < 1024 && !game.endingSong)
+		{
+			FlxG.camera.shake(0.004, 0.15);
+		}
+	}
+
+	override function stepHit()
+	{
+        switch(game.curSong)
+        {
+            case 'Madness':
+                switch(curStep)
+                {
+					case 768:
+						blackFullThingie.alpha = 0.05;
+						smoke.alpha = 0;
+						light.alpha = 0;
+
+            			dubswitcherShader.intensity.value = [0.0045];
+						chromaticAberration.rOffset.value = [0.0007];
+						chromaticAberration.gOffset.value = [0.0];
+						chromaticAberration.bOffset.value = [-0.0007];
+					case 1024:
+						blackFullThingie.alpha = 0;
+						smoke.alpha = 1;
+						light.alpha = 1;
+
+            			dubswitcherShader.intensity.value = [0.004];
+						chromaticAberration.rOffset.value = [0.0];
+						chromaticAberration.gOffset.value = [0.0];
+						chromaticAberration.bOffset.value = [0.0];
+				}
+		}
 	}
 }
