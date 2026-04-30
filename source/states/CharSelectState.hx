@@ -1,5 +1,6 @@
 package states;
 
+import backend.Conductor;
 import flixel.addons.display.FlxBackdrop;
 import shaders.WaterShader;
 
@@ -20,13 +21,21 @@ class CharSelectState extends MusicBeatState
     var waterShader:WaterShader;
     var gradient:FlxSprite;
     var graphicColor:FlxSprite;
+    var line:FlxSprite;
     var blackThing:FlxSprite;
+    var selectorLeft:FlxSprite;
+    var selectorRight:FlxSprite;
     var light:FlxSprite;
+    var poloUp:FlxSprite;
+    var poloDown:FlxSprite;
+    var nametag:FlxSprite;
 
     var checkerSpeed:Float = 14;
     override function create()
     {
         super.create();
+
+        Conductor.bpm = 85;
 
 		#if DISCORD_ALLOWED
 		// Updating Discord Rich Presence
@@ -90,6 +99,12 @@ class CharSelectState extends MusicBeatState
         gradient.y = FlxG.height -gradient.height;
         add(gradient);
 
+        line = new FlxSprite();
+        line.loadGraphic(Paths.image('charSelect/line'));
+        line.screenCenter();
+        line.antialiasing = ClientPrefs.data.antialiasing;
+        add(line);
+
         blackThing = new FlxSprite();
         blackThing.makeGraphic(FlxG.width, FlxG.height, 0xFF000000);
         blackThing.alpha = 0;
@@ -98,6 +113,14 @@ class CharSelectState extends MusicBeatState
         avaibleCharactersGrp = new FlxTypedGroup<CharSelectObject>();
         add(avaibleCharactersGrp);
 
+        nametag = new FlxSprite();
+        nametag.loadGraphic(Paths.image('charSelect/characters/${avaibleCharactersArr[curSelected][0]}Name'));
+        nametag.antialiasing = ClientPrefs.data.antialiasing;
+        nametag.screenCenter(X);
+        nametag.y = 70;
+        nametag.shader = waterShader;
+        add(nametag);
+
         light = new FlxSprite();
         light.loadGraphic(Paths.image('charSelect/light'));
         light.blend = ADD;
@@ -105,11 +128,15 @@ class CharSelectState extends MusicBeatState
         light.antialiasing = ClientPrefs.data.antialiasing;
         //add(light);
 
-        var selectorLeft = new Alphabet(300, 0, '<', true);
+        selectorLeft = new FlxSprite(300, 0);
+        selectorLeft.loadGraphic(Paths.image('charSelect/arrow'));
+        selectorLeft.flipX = true;
+        selectorLeft.antialiasing = ClientPrefs.data.antialiasing;
         selectorLeft.screenCenter(Y);
         add(selectorLeft);
 
-        var selectorRight = new Alphabet(0, 0, '>', true);
+        selectorRight = new FlxSprite(0, 0);
+        selectorRight.loadGraphic(Paths.image('charSelect/arrow'));
         selectorRight.x = FlxG.width - selectorRight.width - 300;
         selectorRight.screenCenter(Y);
         add(selectorRight);
@@ -119,6 +146,12 @@ class CharSelectState extends MusicBeatState
             var char = new CharSelectObject(0, 0, avaibleCharactersArr[i][0], avaibleCharactersArr[i][1]);
             char.useTargets = true;
             char.screenCenter();
+            char.y += 55;
+            switch(avaibleCharactersArr[i][0])
+            {
+                case 'bf': char.offset.set(30, 0);
+                case 'pico': char.offset.set(-30, 0);
+            }
             char.startPosition = new FlxPoint(char.x, char.y);
             trace('startposition.x is ${char.startPosition.x}');
             char.targetX = i;
@@ -127,6 +160,17 @@ class CharSelectState extends MusicBeatState
             char.snap();
             avaibleCharactersGrp.add(char);
         }
+
+        poloUp = new FlxSprite();
+        poloUp.loadGraphic(Paths.image('charSelect/poloUp'));
+        poloUp.antialiasing = ClientPrefs.data.antialiasing;
+        add(poloUp);
+
+        poloDown = new FlxSprite();
+        poloDown.loadGraphic(Paths.image('charSelect/poloDown'));
+        poloDown.antialiasing = ClientPrefs.data.antialiasing;
+        poloDown.y = FlxG.height - poloDown.height;
+        add(poloDown);
 
         changeSelect();
     }
@@ -140,17 +184,27 @@ class CharSelectState extends MusicBeatState
     {
         super.update(elapsed);
 
+        var multRight:Float = FlxMath.lerp(selectorRight.scale.x, 1, elapsed * 21);
+        selectorRight.scale.set(multRight, multRight);
+        
+        var multLeft:Float = FlxMath.lerp(selectorLeft.scale.x, 1, elapsed * 21);
+        selectorLeft.scale.set(multLeft, multLeft);
+
+        if(FlxG.sound.music != null) Conductor.songPosition = FlxG.sound.music.time;
+
         if(waterShader != null) waterShader.iTime.value[0] += elapsed;
 
         if(!selectedCharacter && canInteract)
         {
             if(controls.UI_LEFT_P)
             {
+                selectorLeft.scale.set(1.1, 1.1);
                 changeSelect(-1);
             }
 
             if(controls.UI_RIGHT_P)
             {
+                selectorRight.scale.set(1.1, 1.1);
                 changeSelect(1);
             }
 
@@ -169,7 +223,7 @@ class CharSelectState extends MusicBeatState
                 FlxTween.tween(FlxG.camera, {zoom: 1.1}, 0.4, {ease: FlxEase.quartOut});
                 FlxTween.tween(blackBg, {alpha: 0.7}, 0.4, {ease: FlxEase.quartOut});
                 FlxTween.tween(light, {alpha: 0.65}, 0.4, {ease: FlxEase.quartOut});
-                FlxTween.tween(blackThing, {alpha: 0.25}, 0.4, {ease: FlxEase.quartOut});
+                FlxTween.tween(blackThing, {alpha: 0.35}, 0.4, {ease: FlxEase.quartOut});
 
                 avaibleCharactersGrp.forEach(function(obj:CharSelectObject)
                 {
@@ -219,10 +273,10 @@ class CharSelectState extends MusicBeatState
                 // cancel anim
                 if(currentCharacter == null) throw "Ermm, what the hell? currentCharacter seems to be null.";
 
-                currentCharacter.animation.play('accept', true, true);
+                currentCharacter.animation.play('deny', true);
                 currentCharacter.animation.finishCallback = function(name)
                 {
-                    if(name == 'accept') 
+                    if(name == 'deny') 
                     {
                         currentCharacter.animation.play('idle');
                     }
@@ -232,6 +286,16 @@ class CharSelectState extends MusicBeatState
             {
                 goBack();
             }
+        }
+    }
+
+    override function beatHit()
+    {
+        super.beatHit();
+
+        for(obj in avaibleCharactersGrp)
+        {
+            if(!selectedCharacter) obj.animation.play('idle', true);
         }
     }
 
@@ -263,6 +327,9 @@ class CharSelectState extends MusicBeatState
 
         FlxTween.color(graphicColor, 0.2, graphicColor.color, avaibleCharactersGrp.members[curSelected].charColor);
         //FlxTween.color(gradient, 0.2, gradient.color, avaibleCharactersGrp.members[curSelected].charColor);
+        
+        nametag.loadGraphic(Paths.image('charSelect/characters/${avaibleCharactersArr[curSelected][0]}Name'));
+        nametag.screenCenter(X);
 
         avaibleCharactersGrp.forEach(function(obj:CharSelectObject)
         {
@@ -289,8 +356,9 @@ class CharSelectObject extends FlxSprite
         super(x, y);
 
         frames = Paths.getSparrowAtlas('charSelect/characters/$name');
-        animation.addByPrefix('idle', 'bf', 24, true);
-        animation.addByPrefix('accept', 'accept', 24, false);
+        animation.addByPrefix('idle', 'bf', 12, false);
+        animation.addByPrefix('accept', 'accept', 12, false);
+        animation.addByPrefix('deny', 'deny', 12, false);
         animation.play('idle');
 
         charColor = _charColor;

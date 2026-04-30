@@ -1,14 +1,14 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<TextureAtlas imagePath="chahcah.png">
-	<!-- Created with Adobe Animate version 22.0.2.168 -->
-	<!-- http://www.adobe.com/products/animate.html -->
-	<SubTexture name="accept0000" x="24" y="1180" width="413" height="554" frameX="-4" frameY="0" frameWidth="417" frameHeight="554"/>
-	<SubTexture name="accept0001" x="24" y="1180" width="413" height="554" frameX="-4" frameY="0" frameWidth="417" frameHeight="554"/>
-	<SubTexture name="accept0002" x="24" y="24" width="417" height="554"/>
-	<SubTexture name="accept0003" x="24" y="24" width="417" height="554"/>
-	<SubTexture name="accept0004" x="461" y="602" width="413" height="554" frameX="-4" frameY="0" frameWidth="417" frameHeight="554"/>
-	<SubTexture name="accept0005" x="465" y="24" width="413" height="554" frameX="-4" frameY="0" frameWidth="417" frameHeight="554"/>
-	<SubTexture name="accept0006" x="465" y="24" width="413" height="554" frameX="-4" frameY="0" frameWidth="417" frameHeight="554"/>
-	<SubTexture name="accept0007" x="461" y="1180" width="413" height="554" frameX="-4" frameY="0" frameWidth="417" frameHeight="554"/>
-	<SubTexture name="bf0000" x="24" y="602" width="413" height="554"/>
+<?xml version='1.0' encoding='utf-8'?>
+<TextureAtlas imagePath="pico.png">
+<SubTexture name="bf0000" x="738" y="569" width="372" height="551" frameX="-10" frameY="-20" frameWidth="488" frameHeight="564" />
+<SubTexture name="bf0001" x="369" y="569" width="369" height="552" frameX="-12" frameY="-19" frameWidth="488" frameHeight="564" />
+<SubTexture name="bf0002" x="0" y="569" width="369" height="554" frameX="-11" frameY="-17" frameWidth="488" frameHeight="564" />
+<SubTexture name="bf0003" x="964" y="0" width="370" height="555" frameX="-11" frameY="-16" frameWidth="488" frameHeight="564" />
+<SubTexture name="bf0004" x="964" y="0" width="370" height="555" frameX="-11" frameY="-16" frameWidth="488" frameHeight="564" />
+<SubTexture name="bf0005" x="964" y="0" width="370" height="555" frameX="-11" frameY="-16" frameWidth="488" frameHeight="564" />
+<SubTexture name="accept0000" x="0" y="0" width="477" height="569" frameX="-11" frameY="-2" frameWidth="488" frameHeight="564" />
+<SubTexture name="accept0001" x="477" y="0" width="487" height="566" frameX="-10" frameY="-5" frameWidth="488" frameHeight="564" />
+<SubTexture name="accept0002" x="477" y="0" width="487" height="566" frameX="-10" frameY="-5" frameWidth="488" frameHeight="564" />
+<SubTexture name="deny0000" x="0" y="1123" width="393" height="546" frameX="-1" frameY="-26" frameWidth="488" frameHeight="564" />
+<SubTexture name="deny0001" x="1334" y="0" width="389" height="547" frameX="-1" frameY="-24" frameWidth="488" frameHeight="564" />
 </TextureAtlas>
