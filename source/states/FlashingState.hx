@@ -6,6 +6,8 @@ import flixel.util.FlxGradient;
 import flixel.addons.display.FlxBackdrop;
 import objects.ParticleGroup;
 import objects.CheckOptionObject;
+import openfl.events.KeyboardEvent;
+import flixel.input.keyboard.FlxKey;
 
 import openfl.filters.ShaderFilter;
 import shaders.DeflectiveLens;
@@ -44,6 +46,9 @@ class FlashingState extends MusicBeatState
 	override function create()
 	{
 		super.create();
+
+		FlxG.sound.playMusic(Paths.music('initialSetup'), 0);
+		FlxG.sound.music.fadeIn(1.6);
 
 		var startTweenDuration:Float = 0.6;
 
@@ -192,114 +197,239 @@ class FlashingState extends MusicBeatState
 			return;
 		}
 
-		if(FlxG.mouse.overlaps(flashingLightsOpt))
+		if(isChangingControls)
 		{
-			FlxTween.cancelTweensOf(flashingLightsOpt.background);
-			FlxTween.tween(flashingLightsOpt.background, {alpha: 0.3}, 0.05);
-			if(FlxG.mouse.justPressed)
+			if(selectBox != null) selectBox.y = FlxMath.lerp(selectBox.y, selectBoxTargetY, elapsed * 21);
+			if(FlxG.keys.justPressed.UP)
 			{
-				FlxG.sound.play(Paths.sound('scrollMenu'));
-				trace('Changing from ${flashingLightsOpt.value} to ${!flashingLightsOpt.value}');
-				flashingLightsOpt.value = !flashingLightsOpt.value;
+				controlsChangeSelect(-1);
+			}
+
+			if(FlxG.keys.justPressed.DOWN)
+			{
+				controlsChangeSelect(1);
+			}
+
+			// in this case i want harcoded ENTER
+			if(FlxG.keys.justPressed.ENTER)
+			{
+				leftState = true;
+				var tweenDuration:Float = 1.2;
+
+				FlxTween.cancelTweensOf(selectBox);
+				for(obj in bindNameGrp)
+				{
+					FlxTween.cancelTweensOf(obj);
+					FlxTween.tween(obj, {alpha: 0}, tweenDuration);
+				}
+				for(obj in bindAssignedGrp)
+				{
+					FlxTween.cancelTweensOf(obj);
+					FlxTween.tween(obj, {alpha: 0}, tweenDuration);
+				}
+
+				FlxTween.cancelTweensOf(gradient);
+				FlxTween.cancelTweensOf(gradient2);
+				FlxTween.cancelTweensOf(particles);
+				FlxTween.cancelTweensOf(icons);
+
+				FlxTween.tween(selectBox, {alpha: 0}, tweenDuration);
+				
+				FlxTween.tween(gradient, {alpha: 0}, tweenDuration, {ease: FlxEase.cubeOut});
+				FlxTween.tween(gradient2, {alpha: 0}, tweenDuration, {ease: FlxEase.cubeOut});
+				FlxTween.tween(particles, {alpha: 0}, tweenDuration, {ease: FlxEase.cubeOut});
+				FlxTween.tween(icons, {alpha: 0}, tweenDuration, {ease: FlxEase.cubeOut});
+
+				FlxG.sound.music.fadeOut(tweenDuration);
+				FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
+				new FlxTimer().start(1.5, function(t:FlxTimer)
+				{
+					MusicBeatState.switchState(new TitleState());
+				});
 			}
 		}
 		else
 		{
-			FlxTween.cancelTweensOf(flashingLightsOpt.background);
-			FlxTween.tween(flashingLightsOpt.background, {alpha: 0}, 0.05);
-		}
-
-		if(FlxG.mouse.overlaps(shadersOpt))
-		{
-			FlxTween.cancelTweensOf(shadersOpt.background);
-			FlxTween.tween(shadersOpt.background, {alpha: 0.3}, 0.05);
-			if(FlxG.mouse.justPressed)
+			if(FlxG.mouse.overlaps(flashingLightsOpt))
 			{
-				FlxG.sound.play(Paths.sound('scrollMenu'));
-				trace('Changing from ${shadersOpt.value} to ${!shadersOpt.value}');
-				shadersOpt.value = !shadersOpt.value;
+				FlxTween.cancelTweensOf(flashingLightsOpt.background);
+				FlxTween.tween(flashingLightsOpt.background, {alpha: 0.3}, 0.05);
+				if(FlxG.mouse.justPressed)
+				{
+					FlxG.sound.play(Paths.sound('scrollMenu'));
+					trace('Changing from ${flashingLightsOpt.value} to ${!flashingLightsOpt.value}');
+					flashingLightsOpt.value = !flashingLightsOpt.value;
+				}
 			}
-		}
-		else
-		{
-			FlxTween.cancelTweensOf(shadersOpt.background);
-			FlxTween.tween(shadersOpt.background, {alpha: 0}, 0.05);
-		}
-
-		if (controls.ACCEPT) {
-			leftState = true;
-			FlxTransitionableState.skipNextTransIn = true;
-			FlxTransitionableState.skipNextTransOut = true;
-			FlxG.sound.play(Paths.sound('confirmMenu'));
-
-			var tweenDuration:Float = 1.2;
-
-			//FlxG.camera.zoom = 1.15;
-			//FlxTween.tween(FlxG.camera, {zoom: 1}, tweenDuration, {ease: FlxEase.cubeOut});
-
-			ClientPrefs.data.shaders = shadersOpt.value;
-			ClientPrefs.data.flashing = flashingLightsOpt.value;
-			ClientPrefs.saveSettings();
-
-			if(ClientPrefs.data.flashing && ClientPrefs.data.shaders) FlxG.camera.filters = [bloomFilter, rgbFilter];
-
-			FlxTween.num(0, 1.8, tweenDuration, {ease: FlxEase.cubeOut}, function(v:Float)
-            {
-				deflectiveLensShader.distortionScale.value[0] = v;
-            });
-
-			FlxTween.num(0.001, 0, tweenDuration, {ease: FlxEase.cubeOut}, function(v:Float)
-            {
-				rgbShader.rOffset.value[0] = v;
-				rgbShader.gOffset.value[0] = 0;
-				rgbShader.bOffset.value[0] = -v;
-            });
-
-			FlxTween.num(1.35, 10, tweenDuration, {ease: FlxEase.cubeOut}, function(v:Float)
-            {
-				bloomShader.Directions.value[0] = v;
-            });
-
-			FlxTween.num(1.45, 2, tweenDuration, {ease: FlxEase.cubeOut}, function(v:Float)
-            {
-				bloomShader.dim.value[0] = v;
-            });
-
-			FlxTween.cancelTweensOf(gradient);
-			FlxTween.cancelTweensOf(gradient2);
-			FlxTween.cancelTweensOf(particles);
-			FlxTween.cancelTweensOf(infoText);
-			FlxTween.cancelTweensOf(infoText2);
-			FlxTween.cancelTweensOf(infoText3);
-			FlxTween.cancelTweensOf(flashingLightsOpt.checkbox);
-			FlxTween.cancelTweensOf(flashingLightsOpt.optionText);
-			FlxTween.cancelTweensOf(flashingLightsOpt.background);
-			FlxTween.cancelTweensOf(shadersOpt.checkbox);
-			FlxTween.cancelTweensOf(shadersOpt.optionText);
-			FlxTween.cancelTweensOf(shadersOpt.background);
-			FlxTween.cancelTweensOf(pressEnterToContinueText);
-
-			FlxTween.tween(gradient, {alpha: 0}, tweenDuration, {ease: FlxEase.cubeOut});
-			FlxTween.tween(gradient2, {alpha: 0}, tweenDuration, {ease: FlxEase.cubeOut});
-			FlxTween.tween(particles, {alpha: 0}, tweenDuration, {ease: FlxEase.cubeOut});
-
-			FlxTween.tween(warningText, {alpha: 0, y: warningText.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
-			FlxTween.tween(infoText, {alpha: 0, y: infoText.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
-			FlxTween.tween(infoText2, {alpha: 0, y: infoText2.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
-			FlxTween.tween(infoText3, {alpha: 0, y: infoText3.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
-			FlxTween.tween(flashingLightsOpt.checkbox, {alpha: 0, y: flashingLightsOpt.checkbox.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
-			FlxTween.tween(flashingLightsOpt.optionText, {alpha: 0, y: flashingLightsOpt.optionText.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
-			FlxTween.tween(flashingLightsOpt.background, {alpha: 0, y: flashingLightsOpt.background.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
-			FlxTween.tween(shadersOpt.checkbox, {alpha: 0, y: shadersOpt.checkbox.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
-			FlxTween.tween(shadersOpt.optionText, {alpha: 0, y: shadersOpt.optionText.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
-			FlxTween.tween(shadersOpt.background, {alpha: 0, y: shadersOpt.background.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
-			FlxTween.tween(pressEnterToContinueText, {alpha: 0, y: pressEnterToContinueText.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
-
-			new FlxTimer().start(1.5, function(t:FlxTimer)
+			else
 			{
-				MusicBeatState.switchState(new TitleState());
-			});
+				FlxTween.cancelTweensOf(flashingLightsOpt.background);
+				FlxTween.tween(flashingLightsOpt.background, {alpha: 0}, 0.05);
+			}
+
+			if(FlxG.mouse.overlaps(shadersOpt))
+			{
+				FlxTween.cancelTweensOf(shadersOpt.background);
+				FlxTween.tween(shadersOpt.background, {alpha: 0.3}, 0.05);
+				if(FlxG.mouse.justPressed)
+				{
+					FlxG.sound.play(Paths.sound('scrollMenu'));
+					trace('Changing from ${shadersOpt.value} to ${!shadersOpt.value}');
+					shadersOpt.value = !shadersOpt.value;
+				}
+			}
+			else
+			{
+				FlxTween.cancelTweensOf(shadersOpt.background);
+				FlxTween.tween(shadersOpt.background, {alpha: 0}, 0.05);
+			}
+
+			if (controls.ACCEPT) {
+				isChangingControls = true;
+				FlxTransitionableState.skipNextTransIn = true;
+				FlxTransitionableState.skipNextTransOut = true;
+				FlxG.sound.play(Paths.sound('confirmMenu'));
+
+				var tweenDuration:Float = 1.2;
+
+				//FlxG.camera.zoom = 1.15;
+				//FlxTween.tween(FlxG.camera, {zoom: 1}, tweenDuration, {ease: FlxEase.cubeOut});
+
+				ClientPrefs.data.shaders = shadersOpt.value;
+				ClientPrefs.data.flashing = flashingLightsOpt.value;
+				ClientPrefs.saveSettings();
+
+				if(ClientPrefs.data.flashing && ClientPrefs.data.shaders) FlxG.camera.filters = [bloomFilter, rgbFilter];
+
+				FlxTween.num(0, 1.8, tweenDuration, {ease: FlxEase.cubeOut}, function(v:Float)
+				{
+					deflectiveLensShader.distortionScale.value[0] = v;
+				});
+
+				FlxTween.num(0.001, 0, tweenDuration, {ease: FlxEase.cubeOut}, function(v:Float)
+				{
+					rgbShader.rOffset.value[0] = v;
+					rgbShader.gOffset.value[0] = 0;
+					rgbShader.bOffset.value[0] = -v;
+				});
+
+				FlxTween.num(1.35, 10, tweenDuration, {ease: FlxEase.cubeOut}, function(v:Float)
+				{
+					bloomShader.Directions.value[0] = v;
+				});
+
+				FlxTween.num(1.45, 2, tweenDuration, {ease: FlxEase.cubeOut}, function(v:Float)
+				{
+					bloomShader.dim.value[0] = v;
+				});
+
+				FlxTween.cancelTweensOf(gradient);
+				FlxTween.cancelTweensOf(gradient2);
+				//FlxTween.cancelTweensOf(particles);
+				FlxTween.cancelTweensOf(infoText);
+				FlxTween.cancelTweensOf(infoText2);
+				FlxTween.cancelTweensOf(infoText3);
+				FlxTween.cancelTweensOf(flashingLightsOpt.checkbox);
+				FlxTween.cancelTweensOf(flashingLightsOpt.optionText);
+				FlxTween.cancelTweensOf(flashingLightsOpt.background);
+				FlxTween.cancelTweensOf(shadersOpt.checkbox);
+				FlxTween.cancelTweensOf(shadersOpt.optionText);
+				FlxTween.cancelTweensOf(shadersOpt.background);
+				FlxTween.cancelTweensOf(pressEnterToContinueText);
+
+				FlxTween.tween(gradient, {alpha: 0.55}, tweenDuration, {ease: FlxEase.cubeOut});
+				FlxTween.tween(gradient2, {alpha: 0.25}, tweenDuration, {ease: FlxEase.cubeOut});
+				//FlxTween.tween(particles, {alpha: 0}, tweenDuration, {ease: FlxEase.cubeOut});
+
+				FlxTween.tween(warningText, {alpha: 0, y: warningText.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
+				FlxTween.tween(infoText, {alpha: 0, y: infoText.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
+				FlxTween.tween(infoText2, {alpha: 0, y: infoText2.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
+				FlxTween.tween(infoText3, {alpha: 0, y: infoText3.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
+				FlxTween.tween(flashingLightsOpt.checkbox, {alpha: 0, y: flashingLightsOpt.checkbox.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
+				FlxTween.tween(flashingLightsOpt.optionText, {alpha: 0, y: flashingLightsOpt.optionText.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
+				FlxTween.tween(flashingLightsOpt.background, {alpha: 0, y: flashingLightsOpt.background.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
+				FlxTween.tween(shadersOpt.checkbox, {alpha: 0, y: shadersOpt.checkbox.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
+				FlxTween.tween(shadersOpt.optionText, {alpha: 0, y: shadersOpt.optionText.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
+				FlxTween.tween(shadersOpt.background, {alpha: 0, y: shadersOpt.background.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
+				FlxTween.tween(pressEnterToContinueText, {alpha: 0, y: pressEnterToContinueText.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
+
+				new FlxTimer().start(1.5, function(t:FlxTimer)
+				{
+					goToControlsConfig();
+					//MusicBeatState.switchState(new TitleState());
+				});
+			}
 		}
 		super.update(elapsed);
+	}
+
+	var bindsToConfig:Array<Dynamic> = [
+		['Left', 'note_left'],
+		['Down', 'note_down'],
+		['Up', 'note_up'],
+		['Right', 'note_right'],
+		['Mechanic', 'mechanic']
+	];
+	var selectBox:FlxSprite;
+	var bindNameGrp:FlxTypedGroup<Alphabet>;
+	var bindAssignedGrp:FlxTypedGroup<Alphabet>;
+	function goToControlsConfig()
+	{
+		selectBox = new FlxSprite();
+		selectBox.makeGraphic(850, 80, 0xFF000000);
+		selectBox.screenCenter(X);
+		selectBox.alpha = 0.5;
+		add(selectBox);
+
+		bindNameGrp = new FlxTypedGroup<Alphabet>();
+		add(bindNameGrp);
+
+		bindAssignedGrp = new FlxTypedGroup<Alphabet>();
+		add(bindAssignedGrp);
+
+		for(num => bind in bindsToConfig)
+		{
+			var bindNameText = new Alphabet(200, 200 + (num * 70), bind[0], true);
+			bindNameText.x = FlxG.width / 2 - 150 - 225;
+			bindNameGrp.add(bindNameText);
+
+			bindNameText.alpha = 0;
+			FlxTween.tween(bindNameText, {alpha: 1}, 0.7);
+
+			var bindAssignedText = new Alphabet(700, 200 + (num * 70), ClientPrefs.keyBinds.get(bind[1])[0]);
+			bindAssignedText.x = FlxG.width / 2 + 185;
+			bindAssignedGrp.add(bindAssignedText);
+
+			bindAssignedText.alpha = 0;
+			FlxTween.tween(bindAssignedText, {alpha: 1}, 0.7);
+		}
+
+		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
+		controlsChangeSelect();
+	}
+
+	var isChangingControls:Bool = false;
+	var curSelectedControls:Int = 0;
+	var selectBoxTargetY:Float = 0;
+	function controlsChangeSelect(change:Int = 0)
+	{
+		if(change != 0) FlxG.sound.play(Paths.sound('scrollMenu'));
+		curSelectedControls = FlxMath.wrap(curSelectedControls + change, 0, bindsToConfig.length - 1);
+
+		selectBoxTargetY = bindNameGrp.members[curSelectedControls].y + bindNameGrp.members[curSelectedControls].height / 2 - selectBox.height / 2;
+	}
+
+	function onKeyPress(event:KeyboardEvent)
+	{
+		var eventKey:FlxKey = event.keyCode;
+		if(eventKey == LEFT || eventKey == DOWN || eventKey == UP || eventKey == RIGHT || eventKey == ENTER) return;
+
+		var ogArray:Array<FlxKey> = ClientPrefs.keyBinds.get(bindsToConfig[curSelectedControls][1]);
+		ogArray.remove(ogArray[0]);
+		ogArray.unshift(eventKey);
+
+		ClientPrefs.keyBinds.set(bindsToConfig[curSelectedControls][1], ogArray);
+		bindAssignedGrp.members[curSelectedControls].text = ClientPrefs.keyBinds.get(bindsToConfig[curSelectedControls][1])[0];
+		FlxG.sound.play(Paths.sound('keyInput'));
 	}
 }
