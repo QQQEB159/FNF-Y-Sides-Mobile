@@ -1,5 +1,6 @@
 package states.vault;
 
+import backend.GameProgress;
 import backend.PsychCamera;
 import objects.Bar;
 
@@ -27,6 +28,9 @@ class CollectionablesSubState extends MusicBeatSubstate
     var awardItemsGrp:FlxTypedGroup<AwardItem>;
     var awardCamera:FlxCamera;
     var splashCamera:FlxCamera;
+
+    // progress thingie
+    var progressItemsGrp:FlxTypedGroup<ProgressItem>;
 
     override function create()
     {
@@ -65,6 +69,7 @@ class CollectionablesSubState extends MusicBeatSubstate
 
             var item:CollectItem = new CollectItem();
             item.makeGraphic(120, 120, 0xFFFFFFFF);
+            item.antialiasing = ClientPrefs.data.antialiasing;
             item.x = collectBackground.x + 20 + ((item.width + 25) * (i % rowAmount));
             item.y = collectBackground.y + 60 + ((item.height + 25) * rows);
             item.ID = i;
@@ -81,6 +86,7 @@ class CollectionablesSubState extends MusicBeatSubstate
             var item:AwardItem = new AwardItem(0, 0, key);
             item.makeGraphic(120, 120, 0xFFFFFFFF);
             item.cameras = [awardCamera];
+            item.antialiasing = ClientPrefs.data.antialiasing;
             //item.x = collectBackground.x + 40;
             //item.y = 60 + ((item.height + 25) * awardNum);
             item.x = 20;
@@ -89,6 +95,20 @@ class CollectionablesSubState extends MusicBeatSubstate
             awardItemsGrp.add(item);
 
             awardNum++;
+        }
+
+        progressItemsGrp = new FlxTypedGroup<ProgressItem>();
+        add(progressItemsGrp);
+
+        for(i in 0...GameProgress.todoTasks.length)
+        {
+            var item:ProgressItem = new ProgressItem(0, 0, 0, GameProgress.todoTasks[i][0]);
+            item.setFormat(Paths.font('GAU_pop_magic.ttf'), 14, 0xFFFFFFFF, LEFT);
+            item.antialiasing = ClientPrefs.data.antialiasing;
+            item.x = collectBackground.x + 20;
+            item.y = FlxG.height - collectBackground.height + 40 + ((item.height + 4) * item.ID);
+            item.ID = i;
+            progressItemsGrp.add(item);
         }
 
         itemsPageText = new FlxText(0, collectBackground.y, 250, 'Items');
@@ -141,6 +161,7 @@ class CollectionablesSubState extends MusicBeatSubstate
 
         initCollectTransition();
         initAwardsTransition();
+        initProgressTransition();
     }
 
     function initCollectTransition()
@@ -156,6 +177,14 @@ class CollectionablesSubState extends MusicBeatSubstate
         awardItemsGrp.forEach(function(spr:AwardItem)
         {
             FlxTween.tween(spr, {y: FlxG.height - collectBackground.height + 60 + ((spr.height + 10) * spr.ID)}, 0.8, {ease: FlxEase.quartOut});
+        });
+    }
+
+    function initProgressTransition()
+    {
+        progressItemsGrp.forEach(function(spr:ProgressItem)
+        {
+            FlxTween.tween(spr, {y: FlxG.height - collectBackground.height + 40 + ((spr.height + 4) * spr.ID)}, 0.8, {ease: FlxEase.quartOut});
         });
     }
 
@@ -190,6 +219,12 @@ class CollectionablesSubState extends MusicBeatSubstate
                 FlxTween.tween(spr, {y: FlxG.height + 60 + ((spr.height + 10) * spr.ID)}, 0.15, {ease: FlxEase.quartOut});
             });
 
+            progressItemsGrp.forEach(function(spr:ProgressItem)
+            {
+                FlxTween.cancelTweensOf(spr);
+                FlxTween.tween(spr, {y: FlxG.height + 60 + ((spr.height + 10) * spr.ID)}, 0.15, {ease: FlxEase.quartOut});
+            });
+
             FlxG.sound.play(Paths.sound('vault/shop/zoomOut'));
             if(VaultState.blurShaderTween != null) VaultState.blurShaderTween.cancel();
             VaultState.blurShaderTween = FlxTween.num(5, 0, 1, {ease: FlxEase.quartOut, onComplete: (_) -> VaultState.blurShaderTween = null}, function(v:Float)
@@ -212,6 +247,8 @@ class CollectionablesSubState extends MusicBeatSubstate
         //
         if(FlxG.mouse.wheel != 0)
         {
+            if(currentPage != AWARDS) return;
+
             var wheelSpeed:Float = 20;
             awardCamera.followLerp = 0.8;
             awardCamera.scroll.y -= FlxG.mouse.wheel * wheelSpeed;
@@ -271,6 +308,11 @@ class CollectionablesSubState extends MusicBeatSubstate
                 {
                     item.visible = false;
                 });
+
+                progressItemsGrp.forEach(function(item:ProgressItem)
+                {
+                    item.visible = false;
+                });
             case AWARDS:
                 collectItemsGrp.forEach(function(item:CollectItem)
                 {
@@ -281,6 +323,11 @@ class CollectionablesSubState extends MusicBeatSubstate
                 {
                     item.visible = true;
                 });
+
+                progressItemsGrp.forEach(function(item:ProgressItem)
+                {
+                    item.visible = false;
+                });
             case PROGRESS:
                 collectItemsGrp.forEach(function(item:CollectItem)
                 {
@@ -290,6 +337,11 @@ class CollectionablesSubState extends MusicBeatSubstate
                 awardItemsGrp.forEach(function(item:AwardItem)
                 {
                     item.visible = false;
+                });
+                
+                progressItemsGrp.forEach(function(item:ProgressItem)
+                {
+                    item.visible = true;
                 });
         }
     }
@@ -383,5 +435,13 @@ class AwardItem extends FlxSpriteGroup
             awardProgressBar.x += 600;
             awardProgressText.x += 600;
         }
+    }
+}
+
+class ProgressItem extends FlxText
+{
+    public function new(x:Float, y:Float, fieldWidth:Int, text:String)
+    {
+        super(x, y, fieldWidth, text);
     }
 }
