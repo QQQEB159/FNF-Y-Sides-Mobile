@@ -26,6 +26,7 @@ class CollectionablesSubState extends MusicBeatSubstate
     // awards thingie
     var awardItemsGrp:FlxTypedGroup<AwardItem>;
     var awardCamera:FlxCamera;
+    var splashCamera:FlxCamera;
 
     override function create()
     {
@@ -47,7 +48,11 @@ class CollectionablesSubState extends MusicBeatSubstate
         awardCamera.scroll.y = 200;
         add(awardCamera);
 
+        splashCamera = new FlxCamera();
+        splashCamera.bgColor.alpha = 0;
+
         FlxG.cameras.add(awardCamera, false);
+        FlxG.cameras.add(splashCamera, false);
 
         collectItemsGrp = new FlxTypedGroup<CollectItem>();
         add(collectItemsGrp);
@@ -165,10 +170,24 @@ class CollectionablesSubState extends MusicBeatSubstate
             FlxTween.cancelTweensOf(collectBackground);
             FlxTween.cancelTweensOf(VaultState.poloDown);
 
+            FlxTween.cancelTweensOf(itemsPageText);
+            FlxTween.cancelTweensOf(awardsPageText);
+            FlxTween.cancelTweensOf(progressPageText);
+
             collectItemsGrp.forEach(function(spr:CollectItem)
             {
                 FlxTween.cancelTweensOf(spr);
                 FlxTween.tween(spr, {y: FlxG.height + ((spr.height + 10) * spr.row)}, 0.15, {ease: FlxEase.quartOut});
+            });
+
+            FlxTween.tween(itemsPageText, {y: FlxG.height}, 0.15, {ease: FlxEase.quartOut});
+            FlxTween.tween(awardsPageText, {y: FlxG.height}, 0.15, {ease: FlxEase.quartOut});
+            FlxTween.tween(progressPageText, {y: FlxG.height}, 0.15, {ease: FlxEase.quartOut});
+
+            awardItemsGrp.forEach(function(spr:AwardItem)
+            {
+                FlxTween.cancelTweensOf(spr);
+                FlxTween.tween(spr, {y: FlxG.height + 60 + ((spr.height + 10) * spr.ID)}, 0.15, {ease: FlxEase.quartOut});
             });
 
             FlxG.sound.play(Paths.sound('vault/shop/zoomOut'));
@@ -178,6 +197,8 @@ class CollectionablesSubState extends MusicBeatSubstate
                 VaultState.blurShader.radius.value[0] = v;
             });
 
+            FlxG.cameras.remove(awardCamera);
+            FlxG.cameras.remove(splashCamera);
             FlxTween.tween(collectBackground, {y: FlxG.height}, 0.15, {ease: FlxEase.quartOut, onComplete: function(twn:FlxTween)
             {
                 close();
