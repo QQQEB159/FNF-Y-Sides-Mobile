@@ -67,11 +67,12 @@ class CollectionablesSubState extends MusicBeatSubstate
         {
             if(i % rowAmount == 0) rows++;
 
-            var item:CollectItem = new CollectItem();
-            item.makeGraphic(120, 120, 0xFFFFFFFF);
+            var item:CollectItem = new CollectItem(ShopSubState.itemsListArr[i]);
+            //item.makeGraphic(120, 120, 0xFFFFFFFF);
             item.antialiasing = ClientPrefs.data.antialiasing;
             item.x = collectBackground.x + 20 + ((item.width + 25) * (i % rowAmount));
-            item.y = collectBackground.y + 60 + ((item.height + 25) * rows);
+            item.y = collectBackground.y + 60 + ((120 + 25) * rows);
+            if(ShopSubState.isItemUnlocked(ShopSubState.itemsListArr[i][0])) item.y += 60 - item.height / 2;
             item.ID = i;
             item.row = rows;
             collectItemsGrp.add(item);
@@ -106,7 +107,7 @@ class CollectionablesSubState extends MusicBeatSubstate
             item.setFormat(Paths.font('GAU_pop_magic.ttf'), 14, 0xFFFFFFFF, LEFT);
             item.antialiasing = ClientPrefs.data.antialiasing;
             item.x = collectBackground.x + 20;
-            item.y = FlxG.height - collectBackground.height + 40 + ((item.height + 4) * item.ID);
+            item.y = FlxG.height - collectBackground.height + 40 + ((item.height + 4) * i);
             item.ID = i;
             progressItemsGrp.add(item);
         }
@@ -168,7 +169,9 @@ class CollectionablesSubState extends MusicBeatSubstate
     {
         collectItemsGrp.forEach(function(spr:CollectItem)
         {
-            FlxTween.tween(spr, {y: FlxG.height - collectBackground.height + 60 + ((spr.height + 10) * spr.row)}, 0.8, {ease: FlxEase.quartOut});
+            var offset:Float = 0;
+            if(ShopSubState.isItemUnlocked(spr.arrayData[0])) offset = 60 - spr.height / 2;
+            FlxTween.tween(spr, {y: FlxG.height - collectBackground.height + 60 + ((120 + 10) * spr.row) + offset}, 0.8, {ease: FlxEase.quartOut});
         });
     }
 
@@ -350,9 +353,27 @@ class CollectionablesSubState extends MusicBeatSubstate
 class CollectItem extends FlxSprite
 {
     public var row:Int = 0;
-    public function new(x:Float = 0, y:Float = 0)
+    public var arrayData:Array<Dynamic> = [];
+
+    public function new(arrayData:Array<Dynamic>)
     {
-        super(x, y);
+        super();
+
+        this.arrayData = arrayData;
+
+        if(ShopSubState.isItemUnlocked(arrayData[0]) && FileSystem.exists('assets/shared/images/vault/shop/items/${arrayData[3]}.png'))
+        {
+            loadGraphic(Paths.image('vault/shop/items/${arrayData[3]}'));
+            var newHeight = (120 * height) / width;
+            setGraphicSize(120, newHeight);
+            updateHitbox();
+        }
+        else
+        {
+            makeGraphic(120, 120);
+        }
+
+        antialiasing = ClientPrefs.data.antialiasing;
     }
 }
 
