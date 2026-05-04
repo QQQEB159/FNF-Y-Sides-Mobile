@@ -18,7 +18,7 @@ class GameProgress
     public static function init()
     {
         if(FlxG.save.data.todoTasks == null) FlxG.save.data.todoTasks = todoTasks;
-        else todoTasks = FlxG.save.data.todoTasks;
+        todoTasks = FlxG.save.data.todoTasks;
         
         FlxG.save.flush();
     }

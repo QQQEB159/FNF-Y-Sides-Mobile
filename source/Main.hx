@@ -1,6 +1,7 @@
 package;
 
 import backend.PlayedTime;
+import backend.GameProgress;
 #if android
 import android.content.Context;
 #end
@@ -112,6 +113,7 @@ class Main extends Sprite
 		@:privateAccess
 		Saves.init();
 		Highscore.load();
+		GameProgress.init();
 
 		#if HSCRIPT_ALLOWED
 		Iris.warn = function(x, ?pos:haxe.PosInfos) {
