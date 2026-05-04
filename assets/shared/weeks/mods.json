@@ -1,7 +1,8 @@
 {
 	"songs": [
 		["Improbable Outset", "triko", [150, 150, 150], false, true],
-		["Madness", "tiky", [150, 150, 150], false, true]
+		["Madness", "tiky", [150, 150, 150], false, true],
+		["R.A.M", "dad", [150, 150, 150]]
 	],
 
 	"weekCharacters": [
