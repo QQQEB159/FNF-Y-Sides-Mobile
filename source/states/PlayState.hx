@@ -759,7 +759,7 @@ class PlayState extends MusicBeatState
 		fcSprite.antialiasing = ClientPrefs.data.antialiasing;
 		fcSprite.visible = !ClientPrefs.data.hideHud;
 		fcSprite.alpha = ClientPrefs.data.healthBarAlpha;
-		if(ClientPrefs.data.downScroll) fcSprite.y = -550 + hbOffset;
+		//if(ClientPrefs.data.downScroll) fcSprite.y = healthBar.y;
 		uiGroup.add(fcSprite);
 
 		iconP1 = new HealthIcon(boyfriend.healthIcon, true);

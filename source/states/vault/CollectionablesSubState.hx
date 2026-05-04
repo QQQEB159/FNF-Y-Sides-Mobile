@@ -367,9 +367,9 @@ class CollectItem extends FlxSprite
 
         this.arrayData = arrayData;
 
-        if(ShopSubState.isItemUnlocked(arrayData[0]) && FileSystem.exists('assets/shared/images/vault/shop/items/${arrayData[3]}.png'))
+        if(ShopSubState.isItemUnlocked(arrayData[0]) && FileSystem.exists('assets/shared/images/vault/collectionables/items/${arrayData[3]}.png'))
         {
-            loadGraphic(Paths.image('vault/shop/items/${arrayData[3]}'));
+            loadGraphic(Paths.image('vault/collectionables/items/${arrayData[3]}'));
             var newHeight = (120 * height) / width;
             setGraphicSize(120, newHeight);
             updateHitbox();
