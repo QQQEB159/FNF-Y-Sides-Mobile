@@ -147,9 +147,13 @@ class TrickyStage extends BaseStage
         if(voidShader != null) voidShader.iTime.value[0] += (elapsed / 1.15);
 		if(dubswitcherShader != null) dubswitcherShader.iTime.value[0] += elapsed;
 
-		if(curStep >= 768 && curStep < 1024 && !game.endingSong)
+		switch(game.curSong)
 		{
-			FlxG.camera.shake(0.004, 0.15);
+			case 'Madness':
+				if(curStep >= 768 && curStep < 1024 && !game.endingSong)
+				{
+					FlxG.camera.shake(0.004, 0.15);
+				}
 		}
 	}
 
@@ -165,19 +169,25 @@ class TrickyStage extends BaseStage
 						smoke.alpha = 0;
 						light.alpha = 0;
 
-            			dubswitcherShader.intensity.value = [0.0045];
-						chromaticAberration.rOffset.value = [0.0007];
-						chromaticAberration.gOffset.value = [0.0];
-						chromaticAberration.bOffset.value = [-0.0007];
+						if(ClientPrefs.data.shaders)
+						{
+							dubswitcherShader.intensity.value = [0.0045];
+							chromaticAberration.rOffset.value = [0.0007];
+							chromaticAberration.gOffset.value = [0.0];
+							chromaticAberration.bOffset.value = [-0.0007];
+						}
 					case 1024:
 						blackFullThingie.alpha = 0;
 						smoke.alpha = 1;
 						light.alpha = 1;
 
-            			dubswitcherShader.intensity.value = [0.004];
-						chromaticAberration.rOffset.value = [0.0];
-						chromaticAberration.gOffset.value = [0.0];
-						chromaticAberration.bOffset.value = [0.0];
+						if(ClientPrefs.data.shaders)
+						{
+							dubswitcherShader.intensity.value = [0.004];
+							chromaticAberration.rOffset.value = [0.0];
+							chromaticAberration.gOffset.value = [0.0];
+							chromaticAberration.bOffset.value = [0.0];
+						}
 				}
 		}
 	}
