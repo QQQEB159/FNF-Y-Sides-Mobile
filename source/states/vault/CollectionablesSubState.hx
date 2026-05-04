@@ -3,6 +3,7 @@ package states.vault;
 import backend.GameProgress;
 import backend.PsychCamera;
 import objects.Bar;
+import flixel.addons.display.FlxBackdrop;
 
 enum CollectPage
 {
@@ -15,17 +16,20 @@ class CollectionablesSubState extends MusicBeatSubstate
 {
     var bg:FlxSprite;
     var collectBackground:FlxSprite;
+    var border:FlxSprite;
+    var pattern:FlxBackdrop;
     var currentPage:CollectPage = ITEMS;
 
-    var itemsPageText:FlxText;
-    var awardsPageText:FlxText;
-    var progressPageText:FlxText;
+    var upOptionsArray:Array<String> = ['items', 'awards', 'progress'];
+    var upOptionsGrp:FlxTypedGroup<UpOption>;
 
     // collectionables thingie
     var collectItemsGrp:FlxTypedGroup<CollectItem>;
+    var mousePointer:FlxSprite;
 
     // awards thingie
     var awardItemsGrp:FlxTypedGroup<AwardItem>;
+    var collectionableCamera:FlxCamera;
     var awardCamera:FlxCamera;
     var splashCamera:FlxCamera;
 
@@ -41,13 +45,23 @@ class CollectionablesSubState extends MusicBeatSubstate
         add(bg);
 
         collectBackground = new FlxSprite();
-        collectBackground.makeGraphic(750, 570, 0xFFDAB5FE);
+        collectBackground.makeGraphic(750, 540, 0xFFB19BE7);
         collectBackground.antialiasing = ClientPrefs.data.antialiasing;
         collectBackground.screenCenter(X);
         collectBackground.y = FlxG.height;
         add(collectBackground);
 
-        awardCamera = new FlxCamera(collectBackground.x, FlxG.height - collectBackground.height + 15, Std.int(collectBackground.width), Std.int(collectBackground.height));
+        border = new FlxSprite(collectBackground.x - 33, collectBackground.y - 35);
+        border.loadGraphic(Paths.image('vault/collectionables/border'));
+        border.antialiasing = ClientPrefs.data.antialiasing;
+        add(border);
+
+        collectionableCamera = new FlxCamera(collectBackground.x, FlxG.height - collectBackground.height - 30, Std.int(collectBackground.width), Std.int(collectBackground.height));
+        collectionableCamera.bgColor.alpha = 0;
+        collectionableCamera.scroll.y = 130;
+        add(collectionableCamera);
+
+        awardCamera = new FlxCamera(collectBackground.x, FlxG.height - collectBackground.height - 30 + 90, Std.int(collectBackground.width), Std.int(collectBackground.height - 90));
         awardCamera.bgColor.alpha = 0;
         awardCamera.scroll.y = 200;
         add(awardCamera);
@@ -55,8 +69,26 @@ class CollectionablesSubState extends MusicBeatSubstate
         splashCamera = new FlxCamera();
         splashCamera.bgColor.alpha = 0;
 
+        FlxG.cameras.add(collectionableCamera, false);
         FlxG.cameras.add(awardCamera, false);
         FlxG.cameras.add(splashCamera, false);
+
+        pattern = new FlxBackdrop(Paths.image('vault/collectionables/weird_checker'), XY);
+        pattern.alpha = 0.65;
+        pattern.cameras = [collectionableCamera];
+        pattern.antialiasing = ClientPrefs.data.antialiasing;
+        pattern.velocity.set(10, 10);
+        add(pattern);
+
+        upOptionsGrp = new FlxTypedGroup<UpOption>();
+        add(upOptionsGrp);
+
+        for(i in 0...upOptionsArray.length)
+        {
+            var opt = new UpOption(250 * i, collectBackground.y, upOptionsArray[i], collectionableCamera);
+            opt.cameras = [collectionableCamera];
+            upOptionsGrp.add(opt);
+        }
 
         collectItemsGrp = new FlxTypedGroup<CollectItem>();
         add(collectItemsGrp);
@@ -70,13 +102,22 @@ class CollectionablesSubState extends MusicBeatSubstate
             var item:CollectItem = new CollectItem(ShopSubState.itemsListArr[i]);
             //item.makeGraphic(120, 120, 0xFFFFFFFF);
             item.antialiasing = ClientPrefs.data.antialiasing;
-            item.x = collectBackground.x + 20 + ((item.width + 25) * (i % rowAmount));
+            item.cameras = [collectionableCamera];
+            item.x = 20 + ((item.width + 25) * (i % rowAmount));
             item.y = collectBackground.y + 60 + ((120 + 25) * rows);
             if(ShopSubState.isItemUnlocked(ShopSubState.itemsListArr[i][0])) item.y += 60 - item.height / 2;
             item.ID = i;
             item.row = rows;
             collectItemsGrp.add(item);
         }
+
+        mousePointer = new FlxSprite();
+        mousePointer.loadGraphic(Paths.image('vault/collectionables/mouse_thing'));
+        mousePointer.cameras = [collectionableCamera];
+        mousePointer.antialiasing = ClientPrefs.data.antialiasing;
+        mousePointer.x = collectItemsGrp.members[0].x;
+        mousePointer.y = collectItemsGrp.members[0].y;
+        add(mousePointer);
 
         awardItemsGrp = new FlxTypedGroup<AwardItem>();
         add(awardItemsGrp);
@@ -91,7 +132,7 @@ class CollectionablesSubState extends MusicBeatSubstate
             //item.x = collectBackground.x + 40;
             //item.y = 60 + ((item.height + 25) * awardNum);
             item.x = 20;
-            item.y = FlxG.height - collectBackground.height + 60 + ((item.height + 10) * awardNum);
+            item.y = FlxG.height - collectBackground.height - 30 + 60 + ((item.height + 10) * awardNum);
             item.ID = awardNum;
             awardItemsGrp.add(item);
 
@@ -105,31 +146,14 @@ class CollectionablesSubState extends MusicBeatSubstate
         {
             var item:ProgressItem = new ProgressItem(0, 0, 0, GameProgress.todoTasks[i][0]);
             item.antialiasing = ClientPrefs.data.antialiasing;
-            item.x = collectBackground.x + 20;
-            item.y = FlxG.height - collectBackground.height + 40 + ((item.height + 4) * i);
+            item.cameras = [collectionableCamera];
+            item.x = 20;
+            item.y = FlxG.height - collectBackground.height - 30 + 40 + ((item.height + 4) * i);
             item.completed = GameProgress.todoTasks[i][1];
             item.updateText();
             item.ID = i;
             progressItemsGrp.add(item);
         }
-
-        itemsPageText = new FlxText(0, collectBackground.y, 250, 'Items');
-        itemsPageText.setFormat(Paths.font('GAU_pop_magic.ttf'), 25, 0xFFE0DEEA, CENTER);
-        itemsPageText.antialiasing = ClientPrefs.data.antialiasing;
-        itemsPageText.x = collectBackground.x;
-        add(itemsPageText);
-
-        awardsPageText = new FlxText(0, collectBackground.y, 250, 'Awards');
-        awardsPageText.setFormat(Paths.font('GAU_pop_magic.ttf'), 25, 0xFFE0DEEA, CENTER);
-        awardsPageText.antialiasing = ClientPrefs.data.antialiasing;
-        awardsPageText.x = collectBackground.x + 250;
-        add(awardsPageText);
-
-        progressPageText = new FlxText(0, collectBackground.y, 250, 'Progress');
-        progressPageText.setFormat(Paths.font('GAU_pop_magic.ttf'), 25, 0xFFE0DEEA, CENTER);
-        progressPageText.antialiasing = ClientPrefs.data.antialiasing;
-        progressPageText.x = collectBackground.x + 500;
-        add(progressPageText);
 
         setCurrentPage(currentPage);
         initTransition();
@@ -141,16 +165,15 @@ class CollectionablesSubState extends MusicBeatSubstate
         FlxTween.tween(bg, {alpha: 0.2}, 0.8, {ease: FlxEase.quartOut});
 
         collectBackground.y = FlxG.height;
-        FlxTween.tween(collectBackground, {y: FlxG.height - collectBackground.height}, 0.8, {ease: FlxEase.quartOut});
+        FlxTween.tween(collectBackground, {y: FlxG.height - collectBackground.height - 30}, 0.8, {ease: FlxEase.quartOut});
 
-        itemsPageText.y = FlxG.height;
-        FlxTween.tween(itemsPageText, {y: FlxG.height - collectBackground.height - itemsPageText.height / 2}, 0.8, {ease: FlxEase.quartOut});
+        border.y = FlxG.height - 35;
+        FlxTween.tween(border, {y: FlxG.height - collectBackground.height - 30 - 35}, 0.8, {ease: FlxEase.quartOut});
 
-        awardsPageText.y = FlxG.height;
-        FlxTween.tween(awardsPageText, {y: FlxG.height - collectBackground.height - awardsPageText.height / 2}, 0.8, {ease: FlxEase.quartOut});
-
-        progressPageText.y = FlxG.height;
-        FlxTween.tween(progressPageText, {y: FlxG.height - collectBackground.height - progressPageText.height / 2}, 0.8, {ease: FlxEase.quartOut});
+        upOptionsGrp.forEach(function(opt:UpOption)
+        {
+            FlxTween.tween(opt, {y: FlxG.height - collectBackground.height - 30 - 20}, 0.8, {ease: FlxEase.quartOut});
+        });
 
         /*
         switch(currentPage)
@@ -172,7 +195,7 @@ class CollectionablesSubState extends MusicBeatSubstate
         {
             var offset:Float = 0;
             if(ShopSubState.isItemUnlocked(spr.arrayData[0])) offset = 60 - spr.height / 2;
-            FlxTween.tween(spr, {y: FlxG.height - collectBackground.height + 60 + ((120 + 10) * spr.row) + offset}, 0.8, {ease: FlxEase.quartOut});
+            FlxTween.tween(spr, {y: FlxG.height - collectBackground.height - 30 + 60 + ((120 + 10) * spr.row) + offset + 30}, 0.8, {ease: FlxEase.quartOut});
         });
     }
 
@@ -180,7 +203,7 @@ class CollectionablesSubState extends MusicBeatSubstate
     {
         awardItemsGrp.forEach(function(spr:AwardItem)
         {
-            FlxTween.tween(spr, {y: FlxG.height - collectBackground.height + 60 + ((spr.height + 10) * spr.ID)}, 0.8, {ease: FlxEase.quartOut});
+            FlxTween.tween(spr, {y: FlxG.height - collectBackground.height - 30 + 60 + ((spr.height + 10) * spr.ID)}, 0.8, {ease: FlxEase.quartOut});
         });
     }
 
@@ -188,7 +211,7 @@ class CollectionablesSubState extends MusicBeatSubstate
     {
         progressItemsGrp.forEach(function(spr:ProgressItem)
         {
-            FlxTween.tween(spr, {y: FlxG.height - collectBackground.height + 40 + ((spr.height + 4) * spr.ID)}, 0.8, {ease: FlxEase.quartOut});
+            FlxTween.tween(spr, {y: FlxG.height - collectBackground.height - 30 + 40 + ((spr.height + 4) * spr.ID) + 50}, 0.8, {ease: FlxEase.quartOut});
         });
     }
 
@@ -201,21 +224,20 @@ class CollectionablesSubState extends MusicBeatSubstate
         if(controls.BACK)
         {
             FlxTween.cancelTweensOf(collectBackground);
+            FlxTween.cancelTweensOf(border);
             FlxTween.cancelTweensOf(VaultState.poloDown);
 
-            FlxTween.cancelTweensOf(itemsPageText);
-            FlxTween.cancelTweensOf(awardsPageText);
-            FlxTween.cancelTweensOf(progressPageText);
+            upOptionsGrp.forEach(function(spr:UpOption)
+            {
+                spr.active = false;
+            });
 
             collectItemsGrp.forEach(function(spr:CollectItem)
             {
+                spr.active = false;
                 FlxTween.cancelTweensOf(spr);
                 FlxTween.tween(spr, {y: FlxG.height + ((spr.height + 10) * spr.row)}, 0.15, {ease: FlxEase.quartOut});
             });
-
-            FlxTween.tween(itemsPageText, {y: FlxG.height}, 0.15, {ease: FlxEase.quartOut});
-            FlxTween.tween(awardsPageText, {y: FlxG.height}, 0.15, {ease: FlxEase.quartOut});
-            FlxTween.tween(progressPageText, {y: FlxG.height}, 0.15, {ease: FlxEase.quartOut});
 
             awardItemsGrp.forEach(function(spr:AwardItem)
             {
@@ -236,8 +258,9 @@ class CollectionablesSubState extends MusicBeatSubstate
                 VaultState.blurShader.radius.value[0] = v;
             });
 
-            FlxG.cameras.remove(awardCamera);
+            FlxG.cameras.remove(collectionableCamera);
             FlxG.cameras.remove(splashCamera);
+            FlxTween.tween(border, {y: FlxG.height}, 0.15, {ease: FlxEase.quartOut});
             FlxTween.tween(collectBackground, {y: FlxG.height}, 0.15, {ease: FlxEase.quartOut, onComplete: function(twn:FlxTween)
             {
                 close();
@@ -249,7 +272,7 @@ class CollectionablesSubState extends MusicBeatSubstate
     var mouseScroll:Float = 200;
     function handleMouseBehaviour(elapsed:Float)
     {
-        //
+        // awards thingie
         if(FlxG.mouse.wheel != 0)
         {
             if(currentPage != AWARDS) return;
@@ -257,50 +280,66 @@ class CollectionablesSubState extends MusicBeatSubstate
             var wheelSpeed:Float = 60;
             mouseScroll -= FlxG.mouse.wheel * wheelSpeed;
             if(mouseScroll < 200) mouseScroll = 200;
-            if(mouseScroll > 10 + (awardItemsGrp.members.length - 3) * 145 + 25) mouseScroll = 10 + (awardItemsGrp.members.length - 3) * 145 + 25;
+            if(mouseScroll > 10 + (awardItemsGrp.members.length - 3) * 145 + 135) mouseScroll = 10 + (awardItemsGrp.members.length - 3) * 145 + 135;
         }
 
         if(currentPage == AWARDS)
         {
-            awardCamera.scroll.y = FlxMath.lerp(awardCamera.scroll.y, mouseScroll, elapsed * 19);
+            if(awardCamera != null) awardCamera.scroll.y = FlxMath.lerp(awardCamera.scroll.y, mouseScroll, elapsed * 19);
         }
+
+
+        // collectionables item select
+        if(collectionableCamera != null)
+        {
+            for(item in collectItemsGrp)
+            {
+                if(!item.active) return;
+                
+                var hudMousePos = FlxG.mouse.getWorldPosition(collectionableCamera);
+                if(item.overlapsPoint(hudMousePos))
+                {
+                    mousePointer.alpha = 1;
+                    mousePointer.x = item.x - 3;
+                    mousePointer.y = item.y - 4;
+                    break;
+                }
+                else
+                {
+                    mousePointer.alpha = 0;
+                }
+            }
+        }
+
+        mousePointer.visible = currentPage == ITEMS;
+        
 
         // changing shitty pages
         // items
-        if(FlxG.mouse.overlaps(itemsPageText))
+        upOptionsGrp.forEach(function(opt:UpOption)
         {
-            if(FlxG.mouse.justPressed)
-            {
-                currentPage = ITEMS;
-                setCurrentPage(currentPage);
-            }
-        }
+            if(collectionableCamera == null) return;
 
-        if(FlxG.mouse.overlaps(awardsPageText))
-        {
-            if(FlxG.mouse.justPressed)
+            var hudMousePos = FlxG.mouse.getWorldPosition(collectionableCamera);
+            if(opt.overlapsPoint(hudMousePos))
             {
-                currentPage = AWARDS;
-                setCurrentPage(currentPage);
+                if(FlxG.mouse.justPressed)
+                {
+                    switch(opt.name)
+                    {
+                        case 'items':
+                            currentPage = ITEMS;
+                            setCurrentPage(currentPage);
+                        case 'awards':
+                            currentPage = AWARDS;
+                            setCurrentPage(currentPage);
+                        case 'progress':
+                            currentPage = PROGRESS;
+                            setCurrentPage(currentPage);
+                    }
+                }
             }
-        }
-
-        if(FlxG.mouse.overlaps(progressPageText))
-        {
-            if(FlxG.mouse.justPressed)
-            {
-                currentPage = PROGRESS;
-                setCurrentPage(currentPage);
-            }
-        }
-
-        // depending on the page
-        switch(currentPage)
-        {
-            case AWARDS:
-                var wheelSpeed:Int = 10;
-            default:
-        }
+        });
     }
 
     function setCurrentPage(page:CollectPage)
@@ -380,6 +419,55 @@ class CollectItem extends FlxSprite
         }
 
         antialiasing = ClientPrefs.data.antialiasing;
+    }
+}
+
+class UpOption extends FlxSpriteGroup
+{
+    public var background:FlxSprite;
+    public var spr:FlxSprite;
+
+    public var parentCamera:FlxCamera;
+    public var name:String = '';
+
+    public function new(x:Float = 0, y:Float = 0, sprName:String, parentCamera:FlxCamera)
+    {
+        super(x, y);
+
+        this.name = sprName;
+        this.parentCamera = parentCamera;
+
+        background = new FlxSprite();
+        background.makeGraphic(250, 90, 0xFF130024);
+        background.alpha = 0.45;
+        add(background);
+
+        spr = new FlxSprite();
+        spr.loadGraphic(Paths.image('vault/collectionables/${sprName}Spr'));
+        spr.antialiasing = ClientPrefs.data.antialiasing;
+        spr.x += background.width / 2 - spr.width / 2;
+        spr.y += background.height / 2 - spr.height / 2;
+        add(spr);
+    }
+
+    override function update(elapsed:Float)
+    {
+        super.update(elapsed);
+
+        if(!this.active) return;
+
+        if(parentCamera != null)
+        {
+            var hudMousePos = FlxG.mouse.getWorldPosition(parentCamera);
+            if(this.overlapsPoint(hudMousePos))
+            {
+                background.color = 0xFF666666;
+            }
+            else
+            {
+                background.color = 0xFFFFFFFF;
+            }
+        }
     }
 }
 
