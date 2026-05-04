@@ -1,7 +1,7 @@
 {
 	"songs": [
 		["Bopeebo", "dad", [97, 181, 180]],
-		["Fresh", "dad", [97, 181, 180]],
+		["Fresh", "dad", [97, 181, 180], true],
 		["Dad Battle", "dad", [97, 181, 180]]
 	],
 
