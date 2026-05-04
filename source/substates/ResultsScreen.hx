@@ -365,17 +365,21 @@ class ResultsScreen extends MusicBeatSubstate
 		            ShopSubState.addMoney(150);
 		            trace(ShopSubState.money);
 
-                    BeatenSongs.beatSong('${PlayState.instance.curSong.toLowerCase()}-${CharSelectState.currentFreeplaySelectedName}');
-
                     FlxG.sound.playMusic(Paths.music('freakyMenu'));
                     if(PlayState.isStoryMode)
                     {
+                        for(song in PlayState.storyPlaylistOG)
+                        {
+                            BeatenSongs.beatSong('${Paths.formatToSongPath(song)}-${CharSelectState.currentFreeplaySelectedName}');
+                        }
 		            	FlxTransitionableState.skipNextTransIn = true;
 		            	FlxTransitionableState.skipNextTransOut = true;
                         MusicBeatState.switchState(new NewStoryMenuState());
                     }
                     else
                     {
+                        BeatenSongs.beatSong('${Paths.formatToSongPath(PlayState.instance.curSong)}-${CharSelectState.currentFreeplaySelectedName}');
+
 		            	FlxTransitionableState.skipNextTransIn = true;
 		            	FlxTransitionableState.skipNextTransOut = true;
                         MusicBeatState.switchState(new NewFreeplayState(CharSelectState.currentFreeplaySelectedName == 'pico'));

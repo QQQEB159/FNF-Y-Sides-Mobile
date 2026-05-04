@@ -16,7 +16,7 @@ class BeatenSongs
 			    var leWeek:WeekData = WeekData.weeksLoaded.get(WeekData.weeksList[i]);
 			    for (song in leWeek.songs)
 			    {
-                    if(!beatenSongs.exists('${song[0].toLowerCase()}-bf')) beatenSongs.set('${song[0].toLowerCase()}-bf', false);
+                    if(!beatenSongs.exists('${Paths.formatToSongPath(song[0])}-bf')) beatenSongs.set('${Paths.formatToSongPath(song[0])}-bf', false);
                 }
             }
 
@@ -27,7 +27,7 @@ class BeatenSongs
 			    for (song in leWeek.songs)
 			    {
 					if(!song[3]) continue;
-                    if(!beatenSongs.exists('${song[0].toLowerCase()}-pico')) beatenSongs.set('${song[0].toLowerCase()}-pico', false);
+                    if(!beatenSongs.exists('${Paths.formatToSongPath(song[0])}-pico')) beatenSongs.set('${Paths.formatToSongPath(song[0])}-pico', false);
                 }
             }
 
