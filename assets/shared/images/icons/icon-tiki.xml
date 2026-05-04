@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="icontiki.png">
+	<!-- Created with Adobe Animate version 22.0.2.168 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="lose_loop0000" x="0" y="0" width="208" height="245"/>
+	<SubTexture name="lose_loop0001" x="0" y="0" width="208" height="245"/>
+	<SubTexture name="lose_loop0002" x="0" y="0" width="208" height="245"/>
+	<SubTexture name="lose_loop0003" x="208" y="0" width="208" height="245"/>
+	<SubTexture name="lose_loop0004" x="208" y="0" width="208" height="245"/>
+	<SubTexture name="lose_loop0005" x="208" y="0" width="208" height="245"/>
+	<SubTexture name="lose_loop0006" x="416" y="0" width="208" height="245"/>
+	<SubTexture name="lose_loop0007" x="416" y="0" width="208" height="245"/>
+	<SubTexture name="lose_loop0008" x="416" y="0" width="208" height="245"/>
+	<SubTexture name="normal_loop0000" x="624" y="0" width="208" height="245"/>
+	<SubTexture name="normal_loop0001" x="624" y="0" width="208" height="245"/>
+	<SubTexture name="normal_to_lose0000" x="624" y="0" width="208" height="245"/>
+	<SubTexture name="normal_to_lose0001" x="624" y="0" width="208" height="245"/>
+	<SubTexture name="normal_to_lose0002" x="0" y="245" width="208" height="245"/>
+	<SubTexture name="normal_to_lose0003" x="0" y="245" width="208" height="245"/>
+	<SubTexture name="normal_to_lose0004" x="208" y="245" width="208" height="245"/>
+	<SubTexture name="normal_to_lose0005" x="208" y="245" width="208" height="245"/>
+	<SubTexture name="normal_to_lose0006" x="0" y="0" width="208" height="245"/>
+	<SubTexture name="normal_to_lose0007" x="0" y="0" width="208" height="245"/>
+	<SubTexture name="lose_to_normal0007" x="624" y="0" width="208" height="245"/>
+	<SubTexture name="lose_to_normal0006" x="624" y="0" width="208" height="245"/>
+	<SubTexture name="lose_to_normal0005" x="0" y="245" width="208" height="245"/>
+	<SubTexture name="lose_to_normal0004" x="0" y="245" width="208" height="245"/>
+	<SubTexture name="lose_to_normal0003" x="208" y="245" width="208" height="245"/>
+	<SubTexture name="lose_to_normal0002" x="208" y="245" width="208" height="245"/>
+	<SubTexture name="lose_to_normal0001" x="0" y="0" width="208" height="245"/>
+	<SubTexture name="lose_to_normal0000" x="0" y="0" width="208" height="245"/>
+</TextureAtlas>
