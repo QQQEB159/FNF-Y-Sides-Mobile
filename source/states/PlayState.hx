@@ -6,6 +6,7 @@ import backend.WeekData;
 import backend.Song;
 import backend.Rating;
 import backend.InputFormatter;
+import backend.GameProgress;
 
 import flixel.graphics.frames.FlxBitmapFont;
 import flixel.text.FlxBitmapText;
@@ -3367,6 +3368,15 @@ class PlayState extends MusicBeatState
 					if(!ClientPrefs.getGameplaySetting('practice') && !ClientPrefs.getGameplaySetting('botplay')) {
 						NewStoryMenuState.weekCompleted.set(WeekData.weeksList[storyWeek], true);
 						Highscore.saveWeekScore(WeekData.getWeekFileName(), CharSelectState.currentFreeplaySelectedName, campaignScore, storyDifficulty);
+
+						switch(WeekData.getWeekFileName())
+						{
+							case 'week1': GameProgress.completeTask(0);
+							case 'week2': GameProgress.completeTask(1);
+							case 'week3': GameProgress.completeTask(2);
+							case 'week4': GameProgress.completeTask(3);
+							case 'week5': GameProgress.completeTask(4);
+						}
 
 						FlxG.save.data.weekCompleted = NewStoryMenuState.weekCompleted;
 						FlxG.save.flush();

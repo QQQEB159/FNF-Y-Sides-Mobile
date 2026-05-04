@@ -85,7 +85,7 @@ class CollectionablesSubState extends MusicBeatSubstate
         for(key => value in Achievements.achievements)
         {
             var item:AwardItem = new AwardItem(0, 0, key);
-            item.makeGraphic(120, 120, 0xFFFFFFFF);
+            //item.makeGraphic(120, 120, 0xFFFFFFFF);
             item.cameras = [awardCamera];
             item.antialiasing = ClientPrefs.data.antialiasing;
             //item.x = collectBackground.x + 40;
@@ -104,10 +104,11 @@ class CollectionablesSubState extends MusicBeatSubstate
         for(i in 0...GameProgress.todoTasks.length)
         {
             var item:ProgressItem = new ProgressItem(0, 0, 0, GameProgress.todoTasks[i][0]);
-            item.setFormat(Paths.font('GAU_pop_magic.ttf'), 14, 0xFFFFFFFF, LEFT);
             item.antialiasing = ClientPrefs.data.antialiasing;
             item.x = collectBackground.x + 20;
             item.y = FlxG.height - collectBackground.height + 40 + ((item.height + 4) * i);
+            item.completed = GameProgress.todoTasks[i][1];
+            item.updateText();
             item.ID = i;
             progressItemsGrp.add(item);
         }
@@ -399,7 +400,8 @@ class AwardItem extends FlxSpriteGroup
         add(background);
 
         awardLogo = new FlxSprite();
-        awardLogo.loadGraphic(Paths.image('achievements/$awardName'));
+        if(Achievements.isUnlocked(awardName)) awardLogo.loadGraphic(Paths.image('achievements/$awardName'));
+        else awardLogo.loadGraphic(Paths.image('achievements/lockedachievement'));
         awardLogo.antialiasing = ClientPrefs.data.antialiasing;
         awardLogo.scale.set(0.85, 0.85);
         awardLogo.updateHitbox();
@@ -459,10 +461,31 @@ class AwardItem extends FlxSpriteGroup
     }
 }
 
-class ProgressItem extends FlxText
+class ProgressItem extends FlxSpriteGroup
 {
+    public var completed:Bool = false;
+    public function updateText()
+    {
+        if(!completed) completedLine.x = FlxG.width;
+    }
+
+    public var progressText:FlxText;
+    public var completedLine:FlxSprite;
+
     public function new(x:Float, y:Float, fieldWidth:Int, text:String)
     {
-        super(x, y, fieldWidth, text);
+        super(x, y);
+
+        progressText = new FlxText();
+        progressText.text = text;
+        progressText.setFormat(Paths.font('GAU_pop_magic.ttf'), 14, 0xFFFFFFFF, LEFT);
+        add(progressText);
+
+        completedLine = new FlxSprite();
+        completedLine.makeGraphic(Std.int(progressText.width + 4), 2, 0xFFFFFFFF);
+        completedLine.x += -2;
+        completedLine.y += progressText.height / 2 - completedLine.height / 2;
+        completedLine.visible = false;
+        add(completedLine);
     }
 }
