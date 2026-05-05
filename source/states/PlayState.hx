@@ -2389,7 +2389,8 @@ class PlayState extends MusicBeatState
 
 		if(watchingMechanicInfo)
 		{
-			if(FlxG.keys.justPressed.ENTER)
+			// people who play with gamepad also deserves getting out of here bro (now i'm curious who would play this with a gamepad lmfao) -madera
+			if(controls.ACCEPT)
 			{
 				FlxTween.cancelTweensOf(mechanicPoster);
 				FlxTween.cancelTweensOf(mechanicPosterText);
