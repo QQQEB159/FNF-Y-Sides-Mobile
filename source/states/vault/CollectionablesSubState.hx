@@ -414,6 +414,7 @@ class CollectionablesSubState extends MusicBeatSubstate
                 collectItemsGrp.forEach(function(item:CollectItem)
                 {
                     item.visible = true;
+                    item.canPlaySound = true;
                 });
 
                 awardItemsGrp.forEach(function(item:AwardItem)
@@ -430,6 +431,7 @@ class CollectionablesSubState extends MusicBeatSubstate
                 collectItemsGrp.forEach(function(item:CollectItem)
                 {
                     item.visible = false;
+                    item.canPlaySound = false;
                 });
 
                 awardItemsGrp.forEach(function(item:AwardItem)
@@ -446,6 +448,7 @@ class CollectionablesSubState extends MusicBeatSubstate
                 collectItemsGrp.forEach(function(item:CollectItem)
                 {
                     item.visible = false;
+                    item.canPlaySound = false;
                 });
 
                 awardItemsGrp.forEach(function(item:AwardItem)
@@ -499,13 +502,18 @@ class CollectItem extends FlxSpriteGroup
     }
 
     public var hasPlayedSound:Bool = false;
+    public var canPlaySound:Bool = true;
     override function update(elapsed:Float)
     {
         super.update(elapsed);
 
+        if(!this.active) return;
+
         var hudMousePos = FlxG.mouse.getWorldPosition(CollectionablesSubState.collectionableCamera);
         if(itemSpr.overlapsPoint(hudMousePos))
         {
+            if(!canPlaySound) return;
+
             if(!hasPlayedSound) FlxG.sound.play(Paths.sound('scrollMenu'));
             hasPlayedSound = true;
         }
