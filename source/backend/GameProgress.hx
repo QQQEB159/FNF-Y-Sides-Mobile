@@ -10,9 +10,12 @@ class GameProgress
         ['Beat Week 5', false],
         ['Unlock Pico', false],
         ['Unlock Madness', false],
+        ['Unlock R.A.M', false],
+        ['Unlock Options SONG'],
         ['Buy all items', false],
         ['Get all trophies', false],
-        ['Talk to Madera', false]
+        ['Talk to Madera', false],
+        ['Get ItsTapiiii out of the dev team plz']
     ];
 
     public static function init()

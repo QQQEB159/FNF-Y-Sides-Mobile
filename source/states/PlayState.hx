@@ -344,8 +344,6 @@ class PlayState extends MusicBeatState
 		startCallback = startCountdown;
 		endCallback = endSong;
 
-		storyPlaylistOG = storyPlaylist.copy();
-
 		// for lua
 		instance = this;
 

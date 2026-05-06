@@ -368,8 +368,10 @@ class ResultsScreen extends MusicBeatSubstate
                     FlxG.sound.playMusic(Paths.music('freakyMenu'));
                     if(PlayState.isStoryMode)
                     {
+                        trace(PlayState.storyPlaylistOG);
                         for(song in PlayState.storyPlaylistOG)
                         {
+                            trace('STORYMODE BEAT!');
                             BeatenSongs.beatSong('${Paths.formatToSongPath(song)}-${CharSelectState.currentFreeplaySelectedName}');
                         }
 		            	FlxTransitionableState.skipNextTransIn = true;

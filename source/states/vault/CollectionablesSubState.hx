@@ -34,6 +34,7 @@ class CollectionablesSubState extends MusicBeatSubstate
 	var confetti:FlxSprite;
     public static var collectionableCamera:FlxCamera;
     public static var awardCamera:FlxCamera;
+    public static var progressCamera:FlxCamera;
     public static var splashCamera:FlxCamera;
 
     // progress thingie
@@ -67,14 +68,20 @@ class CollectionablesSubState extends MusicBeatSubstate
 
         awardCamera = new FlxCamera(collectBackground.x, FlxG.height - collectBackground.height - 30 + 90, Std.int(collectBackground.width), Std.int(collectBackground.height - 90));
         awardCamera.bgColor.alpha = 0;
-        awardCamera.scroll.y = mouseScroll;
+        awardCamera.scroll.y = mouseScrollAwards;
         add(awardCamera);
+
+        progressCamera = new FlxCamera(collectBackground.x, FlxG.height - collectBackground.height - 30 + 90, Std.int(collectBackground.width), Std.int(collectBackground.height - 90));
+        progressCamera.bgColor.alpha = 0;
+        progressCamera.scroll.y = mouseScrollProgress;
+        add(progressCamera);
 
         splashCamera = new FlxCamera();
         splashCamera.bgColor.alpha = 0;
 
         FlxG.cameras.add(collectionableCamera, false);
         FlxG.cameras.add(awardCamera, false);
+        FlxG.cameras.add(progressCamera, false);
         FlxG.cameras.add(splashCamera, false);
 
         pattern = new FlxBackdrop(Paths.image('vault/collectionables/weird_checker'), XY);
@@ -177,7 +184,7 @@ class CollectionablesSubState extends MusicBeatSubstate
         {
             var item:ProgressItem = new ProgressItem(0, 0, 0, GameProgress.todoTasks[i][0]);
             item.antialiasing = ClientPrefs.data.antialiasing;
-            item.cameras = [collectionableCamera];
+            item.cameras = [progressCamera];
             item.x = 20;
             item.y = FlxG.height - collectBackground.height - 30 + 40 + ((item.height + 4) * i);
             item.completed = GameProgress.todoTasks[i][1];
@@ -327,7 +334,8 @@ class CollectionablesSubState extends MusicBeatSubstate
         }
     }
 
-    var mouseScroll:Float = 190;
+    var mouseScrollAwards:Float = 190;
+    var mouseScrollProgress:Float = 230;
     var mousePointerX:Float = 0;
     var mousePointerY:Float = 0;
     function handleMouseBehaviour(elapsed:Float)
@@ -335,19 +343,31 @@ class CollectionablesSubState extends MusicBeatSubstate
         // awards thingie
         if(FlxG.mouse.wheel != 0)
         {
-            if(currentPage != AWARDS) return;
+            // note: i really hope there's another way to do this shitty effect instead that with tons of camera, my eyes are about to fall and my brain's going to rot -madera
+            switch(currentPage)
+            {
+                case AWARDS:
+                    var wheelSpeed:Float = 60;
+                    mouseScrollAwards -= FlxG.mouse.wheel * wheelSpeed;
+                    if(mouseScrollAwards < 190) mouseScrollAwards = 190;
+                    if(mouseScrollAwards > 10 + (awardItemsGrp.members.length - 3) * 145 + 135) mouseScrollAwards = 10 + (awardItemsGrp.members.length - 3) * 145 + 135;
+                case PROGRESS:
+                    if(progressItemsGrp.members.length < 11) return;
 
-            var wheelSpeed:Float = 60;
-            mouseScroll -= FlxG.mouse.wheel * wheelSpeed;
-            if(mouseScroll < 190) mouseScroll = 190;
-            if(mouseScroll > 10 + (awardItemsGrp.members.length - 3) * 145 + 135) mouseScroll = 10 + (awardItemsGrp.members.length - 3) * 145 + 135;
+                    var wheelSpeed:Float = 60;
+                    mouseScrollProgress -= FlxG.mouse.wheel * wheelSpeed;
+                    if(mouseScrollProgress < 230) mouseScrollProgress = 230;
+                    if(mouseScrollProgress > 10 + (progressItemsGrp.members.length - 5) * 25 + 75) mouseScrollProgress = 10 + (progressItemsGrp.members.length - 5) * 25 + 75;
+                default:
+            }
         }
 
-        if(currentPage == AWARDS)
+        switch(currentPage)
         {
-            if(awardCamera != null) awardCamera.scroll.y = FlxMath.lerp(awardCamera.scroll.y, mouseScroll, elapsed * 19);
+            case AWARDS: if(awardCamera != null) awardCamera.scroll.y = FlxMath.lerp(awardCamera.scroll.y, mouseScrollAwards, elapsed * 19);
+            case PROGRESS: if(progressCamera != null) progressCamera.scroll.y = FlxMath.lerp(progressCamera.scroll.y, mouseScrollProgress, elapsed * 19);
+            default:
         }
-
 
         // collectionables item select
         if(collectionableCamera != null)
@@ -675,11 +695,16 @@ class ProgressItem extends FlxSpriteGroup
     public var completed:Bool = false;
     public function updateText()
     {
-        if(!completed) completedLine.x = FlxG.width;
+        if(!completed) 
+        {
+            completedLine.x = FlxG.width;
+            checkSprite.x = FlxG.width;
+        }
     }
 
     public var progressText:FlxText;
     public var completedLine:FlxSprite;
+    public var checkSprite:FlxSprite;
 
     public function new(x:Float, y:Float, fieldWidth:Int, text:String)
     {
@@ -687,7 +712,7 @@ class ProgressItem extends FlxSpriteGroup
 
         progressText = new FlxText();
         progressText.text = text;
-        progressText.setFormat(Paths.font('GAU_pop_magic.ttf'), 14, 0xFFFFFFFF, LEFT);
+        progressText.setFormat(Paths.font('AudioNugget.ttf'), 30, 0xFF0F001D, LEFT);
         add(progressText);
 
         completedLine = new FlxSprite();
@@ -696,5 +721,13 @@ class ProgressItem extends FlxSpriteGroup
         completedLine.y += progressText.height / 2 - completedLine.height / 2;
         completedLine.visible = false;
         add(completedLine);
+
+        checkSprite = new FlxSprite();
+        checkSprite.loadGraphic(Paths.image('vault/collectionables/check'));
+        checkSprite.antialiasing = ClientPrefs.data.antialiasing;
+        checkSprite.x += progressText.width + 10;
+        checkSprite.setGraphicSize(30, 30);
+        checkSprite.updateHitbox();
+        add(checkSprite);
     }
 }
