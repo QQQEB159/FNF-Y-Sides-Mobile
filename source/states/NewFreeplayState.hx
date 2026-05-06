@@ -7,9 +7,16 @@ import backend.WeekData;
 import backend.Highscore;
 import backend.Song;
 
+enum SongCategory
+{
+    OG;
+    MODS;
+}
+
 class NewFreeplayState extends MusicBeatState
 {
     private static var curSelected:Int = 0;
+    private static var curCategory:SongCategory = OG;
 	private static var lastDifficultyName:String = Difficulty.getDefault();
 	var curDifficulty:Int = -1;
 	var lerpScore:Int = 0;
@@ -37,7 +44,9 @@ class NewFreeplayState extends MusicBeatState
     var difText:FlxSprite;
 
     public static var unlockedModSongs:Map<String, Bool> = [
-        'Madness' => false
+        'Improbable Outset' => false,
+        'Madness' => false,
+        'R.A.M' => false
     ];
 
 	public var isPicoMix:Bool = false;
@@ -273,6 +282,7 @@ class NewFreeplayState extends MusicBeatState
 
 		curDifficulty = Math.round(Math.max(0, Difficulty.defaultList.indexOf(lastDifficultyName)));
         changeSelect(0, true);
+        changeCategory();
 
         initTransition();
     }
@@ -333,6 +343,114 @@ class NewFreeplayState extends MusicBeatState
         }
     }
 
+    function changeCategory(targetCategory:SongCategory = OG)
+    {
+        curCategory = targetCategory;
+        reloadSongsList(curCategory);
+    }
+
+    function reloadSongsList(category:SongCategory)
+    {
+        songs = [];
+        grpSongs.forEach(function(cap:FreeplayCapsule)
+        {
+            cap.destroy();
+        });
+        grpSongs.clear();
+
+        if(WeekData.weeksList.length < 1)
+		{
+			FlxTransitionableState.skipNextTransIn = true;
+			persistentUpdate = false;
+			MusicBeatState.switchState(new states.ErrorState("NO WEEKS ADDED FOR FREEPLAY\n\nPress ACCEPT to go to the Week Editor Menu.\nPress BACK to return to Main Menu.",
+				function() MusicBeatState.switchState(new states.editors.WeekEditorState()),
+				function() MusicBeatState.switchState(new states.MainMenuState())));
+			return;
+		}
+
+		for (i in 0...WeekData.weeksList.length)
+		{
+			if(weekIsLocked(WeekData.weeksList[i])) continue;
+
+			var leWeek:WeekData = WeekData.weeksLoaded.get(WeekData.weeksList[i]);
+			var leSongs:Array<String> = [];
+			var leChars:Array<String> = [];
+
+			for (j in 0...leWeek.songs.length)
+			{
+				leSongs.push(leWeek.songs[j][0]);
+				leChars.push(leWeek.songs[j][1]);
+			}
+
+			WeekData.setDirectoryFromWeek(leWeek);
+			for (song in leWeek.songs)
+			{
+				var colors:Array<Int> = song[2];
+				if(colors == null || colors.length < 3)
+				{
+					colors = [146, 113, 253];
+				}
+				if(!isPicoMix) 
+                {
+                    switch(category)
+                    {
+                        // modded songs (maybe you hate this code, but i won't change it)
+                        // so your eyes can bleed ;) (and mine too)
+                        case MODS:
+                            // quick explanation so there's no lose
+                            // when this equals '' it means no item has to be unlocked, so basically the song just appears.
+                            // if you have something inside, like ':sob:' then you have to unlock :sob: to play the song.
+                            // and now i'm wondering who's gonna read this like i'm the only coder who writes this shit
+                            if(song[4] == '')
+                            {
+                                addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]));
+                                continue;
+                            }
+
+                            unlockedModSongs.set(song[0], ShopSubState.isItemUnlocked(song[4]));
+                            if(!unlockedModSongs.get(song[0])) continue;
+                            addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]));
+                        case OG:
+                            // just ignore that shitty code up there right? i love you y sides main content, fuck mods. -madera <3
+                            if(song[4] != null) continue;
+                            addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]));
+                    }
+                }
+				else
+				{
+					if(!song[3]) continue;
+                    if(song[4] == null) continue;
+					addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]));
+				}
+			}
+		}
+		Mods.loadTopMod();
+
+        for(i in 0...songs.length)
+        {
+            var capsule = new FreeplayCapsule(0, 0, songs[i].songName, songs[i].songCharacter);
+			capsule.targetX = i;
+			capsule.targetY = i;
+            capsule.x = 120;
+            capsule.screenCenter(Y);
+            capsule.y += 40;
+            capsule.startPosition.x = capsule.x;
+            capsule.startPosition.y = capsule.y;
+			capsule.snapToPosition();
+
+            var fullSongName = '${Paths.formatToSongPath(songs[i].songName)}-${CharSelectState.currentFreeplaySelectedName}';
+            capsule.isNewSong = (!BeatenSongs.isSongBeaten(fullSongName) && BeatenSongs.isSongNew(fullSongName));
+            grpSongs.add(capsule);
+        }
+
+        changeSelect(0, true);
+
+		for (num => item in grpSongs.members)
+        {
+            item.x -= 500;
+        }
+    }
+
 	var stopMusicPlay:Bool = false;
     var canInteract:Bool = true;
     var alphaSine:Float = 90;
@@ -378,6 +496,16 @@ class NewFreeplayState extends MusicBeatState
             {
                 changeDiff(1);
                 _updateSongLastDifficulty();
+            }
+
+            if(FlxG.keys.justPressed.Q)
+            {
+                changeCategory(OG);
+            }
+
+            if(FlxG.keys.justPressed.E)
+            {
+                changeCategory(MODS);
             }
 
             if(controls.BACK)
