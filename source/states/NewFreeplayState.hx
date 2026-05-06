@@ -23,6 +23,11 @@ class NewFreeplayState extends MusicBeatState
     var hint:FlxBackdrop;
     var backgroundDiff:FlxSprite;
     var backgroundDiffLight:FlxSprite;
+    var categoryBackground:FlxSprite;
+    var categoryOg:FlxSprite;
+    var categoryDot:FlxSprite;
+    var categoryMods:FlxSprite;
+    var qeSwitch:FlxSprite;
     var poloUp:FlxSprite;
     var poloDown:FlxSprite;
     var bombox:FlxSprite;
@@ -193,6 +198,37 @@ class NewFreeplayState extends MusicBeatState
         backgroundDiffLight.blend = ADD;
         add(backgroundDiffLight);
 
+        categoryBackground = new FlxSprite();
+        categoryBackground.loadGraphic(Paths.image('freePlay/NEW/categorySelectorBackground'));
+        categoryBackground.x = 0;
+        add(categoryBackground);
+
+        categoryOg = new FlxSprite();
+        categoryOg.loadGraphic(Paths.image('freePlay/NEW/categoryOg'));
+        categoryOg.antialiasing = ClientPrefs.data.antialiasing;
+        categoryOg.x = 120;
+        add(categoryOg);
+
+        categoryDot = new FlxSprite();
+        categoryDot.loadGraphic(Paths.image('freePlay/NEW/categoryDot'));
+        categoryDot.antialiasing = ClientPrefs.data.antialiasing;
+        categoryDot.x = 250;
+        add(categoryDot);
+
+        categoryMods = new FlxSprite();
+        categoryMods.loadGraphic(Paths.image('freePlay/NEW/categoryMods'));
+        categoryMods.antialiasing = ClientPrefs.data.antialiasing;
+        categoryMods.x = 290;
+        add(categoryMods);
+
+        qeSwitch = new FlxSprite();
+        qeSwitch.loadGraphic(Paths.image('freePlay/NEW/qeswitch'));
+        qeSwitch.antialiasing = ClientPrefs.data.antialiasing;
+        qeSwitch.x = FlxG.width - qeSwitch.width - 10;
+        qeSwitch.y = 290;
+        qeSwitch.alpha = 0;
+        add(qeSwitch);
+
         poloUp = new FlxSprite();
         poloUp.loadGraphic(Paths.image('freePlay/NEW/poloUp'));
         poloUp.antialiasing = ClientPrefs.data.antialiasing;
@@ -248,6 +284,18 @@ class NewFreeplayState extends MusicBeatState
         checker.alpha = 0;
         FlxTween.tween(checker, {alpha: 1}, transitionDuration, {ease: FlxEase.expoOut});
     
+        categoryBackground.y = -poloUp.height + 55;
+        FlxTween.tween(categoryBackground, {y: 55}, transitionDuration, {ease: FlxEase.expoOut});
+
+        categoryOg.y = -poloUp.height + 55;
+        FlxTween.tween(categoryOg, {y: 55 + (categoryBackground.height / 2) - (categoryOg.height / 2)}, transitionDuration, {ease: FlxEase.expoOut, startDelay: 0.03});
+
+        categoryDot.y = -poloUp.height + 55;
+        FlxTween.tween(categoryDot, {y: 55 + (categoryBackground.height / 2) - (categoryDot.height / 2)}, transitionDuration, {ease: FlxEase.expoOut, startDelay: 0.06});
+
+        categoryMods.y = -poloUp.height + 55;
+        FlxTween.tween(categoryMods, {y: 55 + (categoryBackground.height / 2) - (categoryMods.height / 2)}, transitionDuration, {ease: FlxEase.expoOut, startDelay: 0.09});
+
         poloUp.y = 0 - poloUp.height;
         FlxTween.tween(poloUp, {y: 0}, transitionDuration, {ease: FlxEase.expoOut});
 
@@ -287,9 +335,16 @@ class NewFreeplayState extends MusicBeatState
 
 	var stopMusicPlay:Bool = false;
     var canInteract:Bool = true;
+    var alphaSine:Float = 90;
     override function update(elapsed:Float)
     {
         super.update(elapsed);
+
+        if(MusicBeatState.timePassedOnState > transitionDuration)
+        {
+            alphaSine += elapsed * 180;
+            qeSwitch.alpha = 1 - Math.sin((Math.PI * alphaSine) / 180);
+        }
 
 		if (FlxG.sound.music != null)
 			Conductor.songPosition = FlxG.sound.music.time;
