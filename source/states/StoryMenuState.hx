@@ -468,7 +468,6 @@ class StoryMenuState extends MusicBeatState
 			try
 			{
 				PlayState.storyPlaylist = songArray;
-				PlayState.storyPlaylistOG = songArray;
 				PlayState.isStoryMode = true;
 				selectedWeek = true;
 	
