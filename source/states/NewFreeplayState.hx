@@ -162,12 +162,12 @@ class NewFreeplayState extends MusicBeatState
         backgroundHint.antialiasing = ClientPrefs.data.antialiasing;
         add(backgroundHint);
 
-        hint = new FlxBackdrop(Paths.image('freePlay/NEW/hint'), X, 35);
+        if(unlockedPico) hint = new FlxBackdrop(Paths.image('freePlay/NEW/hint'), X, 35);
+        else hint = new FlxBackdrop(Paths.image('freePlay/NEW/hint2'), X, 35);
         hint.antialiasing = ClientPrefs.data.antialiasing;
         hint.y = backgroundHint.y + 19;
         hint.velocity.set(-40, 0);
         hint.screenCenter(X);
-        hint.visible = unlockedPico;
         add(hint);
         
         bombox = new FlxSprite(705, 315);
