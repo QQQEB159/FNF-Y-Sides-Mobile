@@ -29,9 +29,9 @@ class CollectionablesSubState extends MusicBeatSubstate
 
     // awards thingie
     var awardItemsGrp:FlxTypedGroup<AwardItem>;
-    var collectionableCamera:FlxCamera;
-    var awardCamera:FlxCamera;
-    var splashCamera:FlxCamera;
+    public static var collectionableCamera:FlxCamera;
+    public static var awardCamera:FlxCamera;
+    public static var splashCamera:FlxCamera;
 
     // progress thingie
     var progressItemsGrp:FlxTypedGroup<ProgressItem>;
@@ -405,10 +405,13 @@ class CollectionablesSubState extends MusicBeatSubstate
     }
 }
 
-class CollectItem extends FlxSprite
+class CollectItem extends FlxSpriteGroup
 {
     public var row:Int = 0;
     public var arrayData:Array<Dynamic> = [];
+
+    public var background:FlxSprite;
+    public var itemSpr:FlxSprite;
 
     public function new(arrayData:Array<Dynamic>)
     {
@@ -416,19 +419,40 @@ class CollectItem extends FlxSprite
 
         this.arrayData = arrayData;
 
+        background = new FlxSprite();
+        background.makeGraphic(120, 120, 0xFF0F001D);
+        background.alpha = 0.5;
+        add(background);
+
+        itemSpr = new FlxSprite();
         if(ShopSubState.isItemUnlocked(arrayData[0]) && FileSystem.exists('assets/shared/images/vault/collectionables/items/${arrayData[3]}.png'))
         {
-            loadGraphic(Paths.image('vault/collectionables/items/${arrayData[3]}'));
-            var newHeight = (120 * height) / width;
-            setGraphicSize(120, newHeight);
-            updateHitbox();
+            itemSpr.loadGraphic(Paths.image('vault/collectionables/items/${arrayData[3]}'));
+            var newHeight = (120 * itemSpr.height) / itemSpr.width;
+            itemSpr.setGraphicSize(120, newHeight);
+            itemSpr.updateHitbox();
         }
         else
         {
-            makeGraphic(120, 120);
+            itemSpr.makeGraphic(120, 120);
         }
+        add(itemSpr);
 
         antialiasing = ClientPrefs.data.antialiasing;
+    }
+
+    public var hasPlayedSound:Bool = false;
+    override function update(elapsed:Float)
+    {
+        super.update(elapsed);
+
+        var hudMousePos = FlxG.mouse.getWorldPosition(CollectionablesSubState.collectionableCamera);
+        if(itemSpr.overlapsPoint(hudMousePos))
+        {
+            if(!hasPlayedSound) FlxG.sound.play(Paths.sound('scrollMenu'));
+            hasPlayedSound = true;
+        }
+        else hasPlayedSound = false;
     }
 }
 
