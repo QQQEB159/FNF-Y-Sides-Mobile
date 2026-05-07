@@ -622,6 +622,10 @@ class NewFreeplayState extends MusicBeatState
 
                 FlxTween.cancelTweensOf(background);
                 FlxTween.cancelTweensOf(checker);
+                FlxTween.cancelTweensOf(categoryBackground);
+                FlxTween.cancelTweensOf(categoryOg);
+                FlxTween.cancelTweensOf(categoryDot);
+                FlxTween.cancelTweensOf(categoryMods);
                 FlxTween.cancelTweensOf(poloUp);
                 FlxTween.cancelTweensOf(poloDown);
                 FlxTween.cancelTweensOf(backgroundHint);
@@ -641,6 +645,12 @@ class NewFreeplayState extends MusicBeatState
                 });
 
                 FlxTween.color(background, transitionDuration, background.color, 0xFFBFB4F1, {ease: FlxEase.expoIn});
+
+                FlxTween.tween(categoryBackground, {y: -poloUp.height + 55}, transitionDuration, {ease: FlxEase.expoIn});
+                FlxTween.tween(categoryOg, {y: -poloUp.height + 55}, transitionDuration, {ease: FlxEase.expoIn});
+                FlxTween.tween(categoryDot, {y: -poloUp.height + 55}, transitionDuration, {ease: FlxEase.expoIn});
+                FlxTween.tween(categoryMods, {y: -poloUp.height + 55}, transitionDuration, {ease: FlxEase.expoIn});
+                qeSwitch.visible = false;
 
                 FlxTween.tween(checker, {alpha: 0}, transitionDuration, {ease: FlxEase.expoIn});
                 FlxTween.tween(poloUp, {y: 0 - poloUp.height}, transitionDuration, {ease: FlxEase.expoIn});
