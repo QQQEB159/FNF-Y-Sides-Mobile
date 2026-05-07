@@ -49,6 +49,7 @@ class NewFreeplayState extends MusicBeatState
         'R.A.M' => false
     ];
 
+    public var moddedSongs:Bool = true;
 	public var isPicoMix:Bool = false;
     public var unlockedPico:Bool = false;
 	public function new(_isPicoMix:Bool = false)
@@ -279,12 +280,81 @@ class NewFreeplayState extends MusicBeatState
             capsule.isNewSong = (!BeatenSongs.isSongBeaten(fullSongName) && BeatenSongs.isSongNew(fullSongName));
             grpSongs.add(capsule);
         }
-
+        
+        moddedSongs = hasModdedSongs();
+        if(!moddedSongs)
+        {
+            categoryBackground.visible = false;
+            categoryOg.visible = false;
+            categoryDot.visible = false;
+            categoryMods.visible = false;
+            qeSwitch.visible = false;
+        }
+        
 		curDifficulty = Math.round(Math.max(0, Difficulty.defaultList.indexOf(lastDifficultyName)));
         changeSelect(0, true);
-        changeCategory();
+        changeCategory(moddedSongs ? curCategory : OG, false);
 
         initTransition();
+    }
+
+    public function hasModdedSongs():Bool
+    {
+		for (i in 0...WeekData.weeksList.length)
+		{
+			if(weekIsLocked(WeekData.weeksList[i])) continue;
+
+			var leWeek:WeekData = WeekData.weeksLoaded.get(WeekData.weeksList[i]);
+			var leSongs:Array<String> = [];
+			var leChars:Array<String> = [];
+
+			for (j in 0...leWeek.songs.length)
+			{
+				leSongs.push(leWeek.songs[j][0]);
+				leChars.push(leWeek.songs[j][1]);
+			}
+
+			WeekData.setDirectoryFromWeek(leWeek);
+			for (song in leWeek.songs)
+			{
+				var colors:Array<Int> = song[2];
+				if(colors == null || colors.length < 3)
+				{
+					colors = [146, 113, 253];
+				}
+				if(!isPicoMix) 
+                {
+                    if(song[4] == null) continue;
+                    if(song[4] == '')
+                    {
+                        return true;
+                    }
+
+                    if(song[4] != '')
+                    {
+                        unlockedModSongs.set(song[0], ShopSubState.isItemUnlocked(song[4]));
+                        if(unlockedModSongs.get(song[0])) return true;
+                    }
+                }
+				else
+				{
+					if(!song[3]) continue; // pico mix thingie
+
+                    if(song[4] == null) continue;
+                    if(song[4] == '')
+                    {
+                        return true;
+                    }
+
+                    if(song[4] != '')
+                    {
+                        unlockedModSongs.set(song[0], ShopSubState.isItemUnlocked(song[4]));
+                        if(unlockedModSongs.get(song[0])) return true;
+                    }
+				}
+			}
+		}
+        return false;
     }
 
     var transitionDuration:Float = 0.5;
@@ -343,10 +413,30 @@ class NewFreeplayState extends MusicBeatState
         }
     }
 
-    function changeCategory(targetCategory:SongCategory = OG)
+    var tinyScale:Float = 0.85;
+    var tinyAlpha:Float = 0.75;
+    function changeCategory(targetCategory:SongCategory = OG, playSound:Bool = true)
     {
+        if(!moddedSongs) return;
+
         curCategory = targetCategory;
         reloadSongsList(curCategory);
+
+        if(playSound) FlxG.sound.play(Paths.sound('scrollMenu'));
+
+        switch(curCategory)
+        {
+            case OG:
+                targetScaleOg = 1;
+                targetAlphaOg = 1;
+                targetScaleMods = tinyScale;
+                targetAlphaMods = tinyAlpha;
+            case MODS:
+                targetScaleOg = tinyScale;
+                targetAlphaOg = tinyAlpha;
+                targetScaleMods = 1;
+                targetAlphaMods = 1;
+        }
     }
 
     function reloadSongsList(category:SongCategory)
@@ -454,9 +544,26 @@ class NewFreeplayState extends MusicBeatState
 	var stopMusicPlay:Bool = false;
     var canInteract:Bool = true;
     var alphaSine:Float = 90;
+
+    var targetsSpeed:Float = 20;
+    var targetScaleOg:Float = 1;
+    var targetScaleMods:Float = 1;
+    var targetAlphaOg:Float = 1;
+    var targetAlphaMods:Float = 1;
+
     override function update(elapsed:Float)
     {
         super.update(elapsed);
+
+        var multScaleOg:Float = FlxMath.lerp(categoryOg.scale.x, targetScaleOg, elapsed * targetsSpeed);
+        var multScaleMods:Float = FlxMath.lerp(categoryMods.scale.x, targetScaleMods, elapsed * targetsSpeed);
+        var multAlphaOg:Float = FlxMath.lerp(categoryOg.alpha, targetAlphaOg, elapsed * targetsSpeed);
+        var multAlphaMods:Float = FlxMath.lerp(categoryMods.alpha, targetAlphaMods, elapsed * targetsSpeed);
+
+        categoryOg.scale.set(multScaleOg, multScaleOg);
+        categoryMods.scale.set(multScaleMods, multScaleMods);
+        categoryOg.alpha = multAlphaOg;
+        categoryMods.alpha = multAlphaMods;
 
         if(MusicBeatState.timePassedOnState > transitionDuration)
         {
