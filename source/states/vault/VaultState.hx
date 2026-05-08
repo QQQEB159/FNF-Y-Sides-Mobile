@@ -44,6 +44,7 @@ class VaultState extends MusicBeatState
 
     var dialogueBox:FlxSprite;
     var dialogueText:FlxTypeText;
+    var dialogueBoxContinueSprite:FlxSprite;
 
     override function create()
     {
@@ -265,6 +266,15 @@ class VaultState extends MusicBeatState
         dialogueText.cameras = [camHUD];
 		add(dialogueText);
 
+        dialogueBoxContinueSprite = new FlxSprite();
+        dialogueBoxContinueSprite.loadGraphic(Paths.image('vault/continueDialogue'));
+        dialogueBoxContinueSprite.x = dialogueBox.x + dialogueBox.width - dialogueBoxContinueSprite.width - 3;
+        dialogueBoxContinueSprite.y = dialogueBox.y + dialogueBox.height - dialogueBoxContinueSprite.height - 3;
+        dialogueBoxContinueSprite.visible = false;
+        dialogueBoxContinueSprite.cameras = [camHUD];
+		dialogueBoxContinueSprite.scrollFactor.set();
+        add(dialogueBoxContinueSprite);
+
         initTransition();
 
         // handle spawn times
@@ -294,25 +304,42 @@ class VaultState extends MusicBeatState
 
         var dialogue:Array<String> = [
             "Hey! I think it's the first time we see each other.",
-            "Welcome to the vault! This is the place where we store your progress, and also where you can buy some cool stuff with the points you earn in the game.",
-            "Break a let out there!"
+            "Welcome to the vault! This is the place where we store your progress",
+            "You can also buy some cool stuff here",
+            "Well, that's all for now...",
+            "Break a leg out there!"
         ];
 
-        var firstTime:Bool = true;
-        if(firstTime)
+        new FlxTimer().start(transDuration, function(tmr:FlxTimer)
         {
-            startInteractiveDialogue(dialogue, 0.04, function()
+            FlxG.save.data.firstTimeOnVault = FlxG.save.data.firstTimeOnVault != null ? FlxG.save.data.firstTimeOnVault : true;
+            if(FlxG.save.data.firstTimeOnVault)
             {
+                updateScroll = false;
+                FlxTween.cancelTweensOf(FlxG.camera);
+                FlxTween.cancelTweensOf(blackShopBackground);
 
-            });
-        }
-        else
-        {
-            new FlxTimer().start(transDuration, function(tmr:FlxTimer)
+                FlxTween.tween(FlxG.camera, {zoom: 1.25, "scroll.x": 100}, 1.45, {ease: FlxEase.quartOut});
+                FlxTween.tween(blackShopBackground, {alpha: 0.07}, 1.45);
+                
+                startInteractiveDialogue(dialogue, 0.04, function()
+                {
+                    FlxG.save.data.firstTimeOnVault = false;
+
+                    updateScroll = true;
+
+                    FlxTween.cancelTweensOf(FlxG.camera);
+                    FlxTween.cancelTweensOf(blackShopBackground);
+
+                    FlxTween.tween(FlxG.camera, {zoom: 1}, 1.05, {ease: FlxEase.quartOut});
+                    FlxTween.tween(blackShopBackground, {alpha: 0}, 1.05);
+                });
+            }
+            else
             {
-                startDialogue('Hey! We are finishing to place your progress...');
-            });
-        }
+                    startDialogue('Hey! We are finishing to place your progress...');
+            }
+        });
 
     }
 
@@ -490,8 +517,13 @@ class VaultState extends MusicBeatState
         {
             if(controls.ACCEPT)
             {
-                if(!dialogueEnded) currentDialogue.remove(currentDialogue[0]);
+                if(!dialogueEnded) 
+                {
+                    dialogueText.skip();
+                    currentDialogue.remove(currentDialogue[0]);
+                }
                 startInteractiveDialogue(currentDialogue, interactiveDialogueSpeed, interactiveDialogueEndCallback);
+                dialogueBoxContinueSprite.visible = false;
             }
         }
 
@@ -714,6 +746,7 @@ class VaultState extends MusicBeatState
                 dialogueEnded = true;
                 madreaCharacter.animation.play('idle');
                 currentDialogue.remove(currentLine);
+                dialogueBoxContinueSprite.visible = true;
                 dialogueTimer = new FlxTimer().start(thingTimer, function(t:FlxTimer)
                 {
                     //endDialogue(false);
@@ -724,7 +757,7 @@ class VaultState extends MusicBeatState
         else
         {
             isInInteractiveDialogue = false;
-            endDialogue(false);
+            endDialogue(true);
             if(endCallback != null) endCallback();
         }
     }
