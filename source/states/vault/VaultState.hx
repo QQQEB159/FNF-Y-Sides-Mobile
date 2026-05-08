@@ -291,6 +291,29 @@ class VaultState extends MusicBeatState
 
         preShopChangeSelection();
         randomStartIndex = FlxG.random.int(0, randomTextsArr.length - 1);
+
+        var dialogue:Array<String> = [
+            "Hey! I think it's the first time we see each other.",
+            "Welcome to the vault! This is the place where we store your progress, and also where you can buy some cool stuff with the points you earn in the game.",
+            "Break a let out there!"
+        ];
+
+        var firstTime:Bool = true;
+        if(firstTime)
+        {
+            startInteractiveDialogue(dialogue, 0.04, function()
+            {
+
+            });
+        }
+        else
+        {
+            new FlxTimer().start(transDuration, function(tmr:FlxTimer)
+            {
+                startDialogue('Hey! We are finishing to place your progress...');
+            });
+        }
+
     }
 
     var transDuration:Float = 0.65;
@@ -330,11 +353,6 @@ class VaultState extends MusicBeatState
 
         poloDown.y = FlxG.height;
         FlxTween.tween(poloDown, {y: FlxG.height - poloDown.height}, transDuration, {ease: FlxEase.quartOut});
-
-        new FlxTimer().start(transDuration, function(tmr:FlxTimer)
-        {
-            startDialogue('Hey! We are finishing to place your progress...');
-        });
     }
 
     function spawnGbv()
@@ -468,6 +486,15 @@ class VaultState extends MusicBeatState
         preShopHand.x = FlxMath.lerp(preShopHand.x, preShopHandXTarget, elapsed * 15);
         preShopHand.y = FlxMath.lerp(preShopHand.y, preShopHandYTarget, elapsed * 15);
 
+        if(isInInteractiveDialogue)
+        {
+            if(controls.ACCEPT)
+            {
+                if(!dialogueEnded) currentDialogue.remove(currentDialogue[0]);
+                startInteractiveDialogue(currentDialogue, interactiveDialogueSpeed, interactiveDialogueEndCallback);
+            }
+        }
+
         if(isOnPreShop && canInteractPreShopUI)
         {
             if(controls.UI_UP_P)
@@ -494,7 +521,7 @@ class VaultState extends MusicBeatState
         }
         else if(!isOnPreShop && !isOnCollectionables)
         {
-            if(controls.BACK && !wentBack)
+            if(controls.BACK && !wentBack && !isInInteractiveDialogue)
             {
                 wentBack = true;
                 endDialogue();
@@ -548,6 +575,8 @@ class VaultState extends MusicBeatState
 
     function handleMouseBehaviour(elapsed:Float)
     {
+        if(isInInteractiveDialogue) return;
+
         if(isOnPreShop)
         {
 
@@ -640,6 +669,65 @@ class VaultState extends MusicBeatState
 			});
 		}
 	}
+
+    var currentDialogue:Array<String> = [];
+    var interactiveDialogueSpeed:Float = 0.04;
+    var interactiveDialogueEndCallback:Void->Void;
+
+    var dialogueEnded:Bool = false;
+    var isInInteractiveDialogue:Bool = false;
+    public function startInteractiveDialogue(text:Array<String>, speed:Float = 0.04, ?endCallback:Void->Void)
+    {
+        isInInteractiveDialogue = true;
+        dialogueEnded = false;
+
+        currentDialogue = text;
+        interactiveDialogueSpeed = speed;
+        interactiveDialogueEndCallback = endCallback;
+
+        if(currentDialogue.length > 0)
+        {
+            var currentLine:String = currentDialogue[0];
+            madreaCharacter.animation.play('talk');
+
+            if(dialogueTimer != null)
+            {
+                if(!dialogueTimer.finished) dialogueTimer.cancel();
+                dialogueTimer.destroy();
+            }
+
+            FlxTween.cancelTweensOf(dialogueBox);
+            FlxTween.cancelTweensOf(dialogueText);
+
+            dialogueBox.y = 600;
+            dialogueText.y = dialogueBox.y + 10;
+
+            FlxTween.tween(dialogueBox, {alpha: 0.6, y: dialogueBox.y - 10}, 0.35, {ease: FlxEase.linear});
+            FlxTween.tween(dialogueText, {alpha: 1, y: dialogueText.y - 10}, 0.35, {ease: FlxEase.linear});
+            //dialogueBox.alpha = 0;
+            //dialogueText.alpha = 0;
+
+            dialogueText.resetText(currentLine);
+            dialogueText.start(speed, true);
+            dialogueText.completeCallback = function() 
+            {
+                dialogueEnded = true;
+                madreaCharacter.animation.play('idle');
+                currentDialogue.remove(currentLine);
+                dialogueTimer = new FlxTimer().start(thingTimer, function(t:FlxTimer)
+                {
+                    //endDialogue(false);
+                    //if(endCallback != null) endCallback();
+                });
+            }
+        }
+        else
+        {
+            isInInteractiveDialogue = false;
+            endDialogue(false);
+            if(endCallback != null) endCallback();
+        }
+    }
 
     function endDialogue(playAnimation:Bool = true)
     {
