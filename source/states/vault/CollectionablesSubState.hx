@@ -636,17 +636,18 @@ class AwardItem extends FlxSpriteGroup
         awardLogo.y += 10;
         add(awardLogo);
 
-        awardNameText = new FlxText(0, 0, background.width - awardLogo.width - 20 - 30, achievementData.name);
+        awardNameText = new FlxText(0, 0, background.width - awardLogo.width - 20 - 30 - 10, Achievements.isUnlocked(awardName) ? achievementData.name : '???');
         awardNameText.setFormat(Paths.font('GAU_pop_magic.ttf'), 20, 0xFFE0DEEA, LEFT);
         awardNameText.antialiasing = ClientPrefs.data.antialiasing;
         awardNameText.x += 30 + awardLogo.width + 10;
+        awardNameText.y += 10;
         add(awardNameText);
 
-        awardDescriptionText = new FlxText(0, 0, background.width - awardLogo.width - 20 - 30, achievementData.description);
+        awardDescriptionText = new FlxText(0, 0, background.width - awardLogo.width - 20 - 30 - 10, achievementData.description);
         awardDescriptionText.setFormat(Paths.font('GAU_pop_magic.ttf'), 16, 0xFFE0DEEA, LEFT);
         awardDescriptionText.antialiasing = ClientPrefs.data.antialiasing;
         awardDescriptionText.x += 30 + awardLogo.width + 10;
-        awardDescriptionText.y += awardNameText.height + 5;
+        awardDescriptionText.y += 10 + awardNameText.height + 5;
         add(awardDescriptionText);
 
 		awardProgressBar = new Bar(0, 0, 'vault/collectionables/award_bar', function() return Achievements.getScore(awardName) / achievementData.maxScore);
@@ -658,7 +659,7 @@ class AwardItem extends FlxSpriteGroup
         awardProgressBar.updateBar();
 
         awardProgressBar.x += 30 + awardLogo.width + 10;
-        awardProgressBar.y += awardNameText.height + 5 + awardDescriptionText.height + 5;
+        awardProgressBar.y += 10 + awardNameText.height + 5 + awardDescriptionText.height + 5;
         
 		awardProgressBar.leftToRight = true;
         add(awardProgressBar);
@@ -668,7 +669,7 @@ class AwardItem extends FlxSpriteGroup
         awardProgressText.setFormat(Paths.font('GAU_pop_magic.ttf'), 10, 0xFFE0DEEA, LEFT);
         awardProgressText.antialiasing = ClientPrefs.data.antialiasing;
         awardProgressText.x += 30 + awardLogo.width + 10;
-        awardProgressText.y += awardNameText.height + 5 + awardDescriptionText.height + 5 + awardProgressBar.height + 5;
+        awardProgressText.y += 10 + awardNameText.height + 5 + awardDescriptionText.height + 5 + awardProgressBar.height + 5;
         add(awardProgressText);
 
         if(achievementData.maxScore != null && achievementData.maxScore > 0) 
