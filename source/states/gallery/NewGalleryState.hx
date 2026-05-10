@@ -429,6 +429,9 @@ class NewGalleryState extends MusicBeatState
                     }
                 }
 
+                FlxTween.cancelTweensOf(galleryTheme);
+                FlxTween.tween(galleryTheme, {alpha: 1}, tweenTransSpeed, {ease: FlxEase.quartOut});
+
                 FlxTween.num(0.025, 0, 0.3, {ease: FlxEase.quartOut}, function(v:Float)
                 {
                     dubswitcherShader.intensity.value[0] = v;
@@ -536,6 +539,9 @@ class NewGalleryState extends MusicBeatState
                         {
                             FlxTween.cancelTweensOf(obj);
                         }
+
+                        FlxTween.cancelTweensOf(galleryTheme);
+                        FlxTween.tween(galleryTheme, {alpha: 0}, tweenTransSpeed, {ease: FlxEase.quartOut});
 
                         isPreviewingMusics = true;
                         disposeImages();
