@@ -315,8 +315,7 @@ class VaultState extends MusicBeatState
         new FlxTimer().start(transDuration, function(tmr:FlxTimer)
         {
             FlxG.save.data.firstTimeOnVault = FlxG.save.data.firstTimeOnVault != null ? FlxG.save.data.firstTimeOnVault : true;
-            var test = true;
-            if(test)
+            if(FlxG.save.data.firstTimeOnVault)
             {
                 updateScroll = false;
                 FlxTween.cancelTweensOf(FlxG.camera);
