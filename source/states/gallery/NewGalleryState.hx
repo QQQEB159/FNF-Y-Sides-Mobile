@@ -32,7 +32,9 @@ class NewGalleryState extends MusicBeatState
         'eggnog',
         'winter-horrorland',
         'test',
-        'madness'
+        'improbable-outset',
+        'madness',
+        'ram'
     ];
     static var musicSongsArray:Array<String> = [
         'tutorial',
@@ -418,10 +420,13 @@ class NewGalleryState extends MusicBeatState
 
                 playMusicTimer = 0;
                 //if(isPreviewingMusics) resetTimer();
-                if(!inst.playing) 
+                if(inst != null)
                 {
-                    FlxG.sound.playMusic(Paths.music('galleryMenu'), 0);
-                    FlxG.sound.music.fadeIn(1);
+                    if(!inst.playing) 
+                    {
+                        FlxG.sound.playMusic(Paths.music('galleryMenu'), 0);
+                        FlxG.sound.music.fadeIn(1);
+                    }
                 }
 
                 FlxTween.num(0.025, 0, 0.3, {ease: FlxEase.quartOut}, function(v:Float)
@@ -789,7 +794,9 @@ class NewGalleryState extends MusicBeatState
             musicSongsArray.push('cocoa');
             musicSongsArray.push('eggnog');
             musicSongsArray.push('winter-horrorland');
+            musicSongsArray.push('improbable-outset');
             musicSongsArray.push('madness');
+            musicSongsArray.push('ram');
             return;
         }
 
@@ -828,8 +835,14 @@ class NewGalleryState extends MusicBeatState
             musicSongsArray.push('winter-horrorland');
         }
 
+        if(ShopSubState.isItemUnlocked('Tricky Sign'))
+        {
+            musicSongsArray.push('improbable-outset');
+            musicSongsArray.push('madness');
+        }
+
         // last song on the playlist
         musicSongsArray.push('test');
-        musicSongsArray.push('madness');
+        musicSongsArray.push('ram');
     }
 }
