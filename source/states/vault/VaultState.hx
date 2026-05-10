@@ -269,11 +269,13 @@ class VaultState extends MusicBeatState
         dialogueBoxContinueSprite = new FlxSprite();
         dialogueBoxContinueSprite.loadGraphic(Paths.image('vault/continueDialogue'));
         dialogueBoxContinueSprite.x = dialogueBox.x + dialogueBox.width - dialogueBoxContinueSprite.width - 3;
-        dialogueBoxContinueSprite.y = dialogueBox.y + dialogueBox.height - dialogueBoxContinueSprite.height - 3;
-        dialogueBoxContinueSprite.visible = false;
+        dialogueBoxContinueSprite.y = (dialogueBox.y - 10) + dialogueBox.height - dialogueBoxContinueSprite.height - 3;
+        dialogueBoxContinueSprite.alpha = 0;
         dialogueBoxContinueSprite.cameras = [camHUD];
 		dialogueBoxContinueSprite.scrollFactor.set();
         add(dialogueBoxContinueSprite);
+        
+        FlxTween.tween(dialogueBoxContinueSprite, {x: dialogueBoxContinueSprite.x - 15}, 0.92, {ease: FlxEase.cubeInOut, type: PINGPONG});
 
         initTransition();
 
@@ -313,7 +315,8 @@ class VaultState extends MusicBeatState
         new FlxTimer().start(transDuration, function(tmr:FlxTimer)
         {
             FlxG.save.data.firstTimeOnVault = FlxG.save.data.firstTimeOnVault != null ? FlxG.save.data.firstTimeOnVault : true;
-            if(FlxG.save.data.firstTimeOnVault)
+            var test = true;
+            if(test)
             {
                 updateScroll = false;
                 FlxTween.cancelTweensOf(FlxG.camera);
@@ -523,7 +526,9 @@ class VaultState extends MusicBeatState
                     currentDialogue.remove(currentDialogue[0]);
                 }
                 startInteractiveDialogue(currentDialogue, interactiveDialogueSpeed, interactiveDialogueEndCallback);
-                dialogueBoxContinueSprite.visible = false;
+
+                FlxTween.tween(dialogueBoxContinueSprite, {alpha: 0}, 0.2);
+                //dialogueBoxContinueSprite.visible = false;
             }
         }
 
@@ -746,7 +751,8 @@ class VaultState extends MusicBeatState
                 dialogueEnded = true;
                 madreaCharacter.animation.play('idle');
                 currentDialogue.remove(currentLine);
-                dialogueBoxContinueSprite.visible = true;
+                FlxTween.tween(dialogueBoxContinueSprite, {alpha: 1}, 0.4);
+                //dialogueBoxContinueSprite.visible = true;
                 dialogueTimer = new FlxTimer().start(thingTimer, function(t:FlxTimer)
                 {
                     //endDialogue(false);
