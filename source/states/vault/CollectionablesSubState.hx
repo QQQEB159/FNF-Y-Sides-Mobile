@@ -652,7 +652,18 @@ class AwardItem extends FlxSpriteGroup
         awardDescriptionText.y += 10 + awardNameText.height + 5;
         add(awardDescriptionText);
 
-		awardProgressBar = new Bar(0, 0, 'vault/collectionables/award_bar', function() return Achievements.getScore(awardName) / achievementData.maxScore);
+        awardProgressText = new FlxText(0, 0, background.width - awardLogo.width - 20, '${Achievements.getScore(awardName)}/${achievementData.maxScore}');
+        awardProgressText.visible = false;
+        awardProgressText.setFormat(Paths.font('GAU_pop_magic.ttf'), 10, 0xFFE0DEEA, LEFT);
+        awardProgressText.antialiasing = ClientPrefs.data.antialiasing;
+        awardProgressText.x += 30 + awardLogo.width + 10;
+
+		awardProgressBar = new Bar(0, 0, 'vault/collectionables/award_bar', function():Float {
+            final score:Float = Achievements.getScore(awardName);
+            awardProgressText.text = '${score}/${achievementData.maxScore}';
+            final value:Float = score / achievementData.maxScore;
+            return value;
+        });
         awardProgressBar.visible = false;
 		awardProgressBar.barOffset = new FlxPoint(0, 0);
 		awardProgressBar.setColors(0xFFFFFFFF, 0xFF000000);
@@ -666,11 +677,6 @@ class AwardItem extends FlxSpriteGroup
 		awardProgressBar.leftToRight = true;
         add(awardProgressBar);
 
-        awardProgressText = new FlxText(0, 0, background.width - awardLogo.width - 20, '${Achievements.getScore(awardName)}/${achievementData.maxScore}');
-        awardProgressText.visible = false;
-        awardProgressText.setFormat(Paths.font('GAU_pop_magic.ttf'), 10, 0xFFE0DEEA, LEFT);
-        awardProgressText.antialiasing = ClientPrefs.data.antialiasing;
-        awardProgressText.x += 30 + awardLogo.width + 10;
         awardProgressText.y += 10 + awardNameText.height + 5 + awardDescriptionText.height + 5 + awardProgressBar.height + 5;
         add(awardProgressText);
 
