@@ -664,14 +664,15 @@ class NewGalleryState extends MusicBeatState
 
     function generateImages(folderName:String)
     {
-        var imagesOnFolder = FileSystem.readDirectory('assets/shared/images/gallery/$folderName');
+        var imagesOnFolder:Array<String> = [];
 
         // Delete json files
-        for(obj in imagesOnFolder)
+        for(obj in FileSystem.readDirectory('assets/shared/images/gallery/$folderName'))
         {
-            if(StringTools.endsWith(obj, '.json'))
+            trace(obj, obj.endsWith('.png'));
+            if(obj.endsWith('.png'))
             {
-                imagesOnFolder.remove(obj);
+                imagesOnFolder.push(obj);
             }
         }
 
@@ -701,6 +702,7 @@ class NewGalleryState extends MusicBeatState
             }
 
             var spr = new GalleryObject();
+            trace(imageName);
             spr.loadGraphic(Paths.image('gallery/$folderName/$imageName'));
             #if debug
             trace(' - [$num] Path: ${'assets/shared/images/gallery/$folderName/$imageName.png'}');
