@@ -5,6 +5,19 @@ import objects.AttachedSprite;
 import flixel.addons.display.FlxBackdrop;
 import shaders.WiggleEffect;
 
+typedef Credit = {
+	name:String,
+	icon:String,
+	roles:Array<String>,
+	socialMedias:Array<SocialMedia>,
+	color:FlxColor
+}
+
+typedef SocialMedia = {
+	icon:String,
+	link:String
+}
+
 class CreditsStateYSides extends MusicBeatState
 {
 	public var canGoBack:Bool = false;
@@ -12,21 +25,212 @@ class CreditsStateYSides extends MusicBeatState
 	public static var creditsTransition:Bool = false;
 	var wentBack:Bool = false;
 
-    var developers:Array<Dynamic> = [
-        ['gBv2209',         'gbv',      ['Director', 'Concept Artist', 'Artist', 'Animator', 'Musician', 'Charter', 'Coder'], 		[['yt', 'https://www.youtube.com/@gBv2209'], ['x', 'https://x.com/gbv2209']], 0xFF2F6662],
-        ['Mr. Madera',      'madera',   ['Director', 'Main Coder', 'Charter', 'Musician', 'Voice Actor'], 						                                [['yt', 'https://www.youtube.com/@mrmadera1237'], ['x', 'https://x.com/MrMadera625']], 0xFF8ACCE1],
-        ['Heromax',         'hero',     ['Co-Director', 'Concept Artist', 'Artist', 'Charter'], 			                            [['x', 'https://x.com/heromax_2498']], 0xFF424452],
-		['SFoxyDAC',        'foxy',     ['Co-Director', 'Artist', 'Animator', 'Musician', 'Voice Actor'], 					                                    [['yt', 'https://www.youtube.com/@SFoxyDAC'], ['x', 'https://x.com/SFoxyDAC']], 0xFFDC7D6F],
-        ['ItsTapiiii',      'tapi',     ['Co-Director', 'Musician', 'Charter'], 					                                                [['yt', 'https://www.youtube.com/@ItsTapiiii']], 0xFF363676],
-		['Zhadnii',         'ema',  	['Musician'], 					                                                [['yt', 'https://youtube.com/@zhadnii_']], 0xFF3A3A75],
-        ['FlashMan07',      'flash',    ['Musician', 'Concept Artist', 'Artist'],                                       [['yt', 'https://www.youtube.com/@FlashMan07']], 0xFF912197],
-        ['Snowlui',         'snowlui',  ['Musician'], 			                            							[['yt', 'https://www.youtube.com/channel/UCSt4Fyu2syVMeGBHeZaWzyA'], ['x', 'https://x.com/Snowlui0831']], 0xFF9C0053],
-        ['E1000MC',          'emil',    ['Artist', 'Charter'], 					                                        [['yt', 'https://www.youtube.com/@E1000YT/videos'], ['x', 'https://x.com/E1000TWOF ']], 0xFF1A8758],
-        ['JabaNSL',          'jaba',    ['Musician', 'Charter'], 					                                        		[['yt', 'https://www.youtube.com/@jaba6969']], 0xFFB8519D],
-        ['EliAnima',         'elianimador',   ['Musician'], 					                                        		[['yt', 'https://www.youtube.com/@EliMusic-v1i'], ['x', 'https://x.com/EliAnima_']], 0xFFFFDD8E],
-        ['Dyscarn',         'dyscarn',   ['Guest Coder'], 					                                        		[['yt', 'https://www.youtube.com/@Dyscarn'], ['x', 'https://x.com/Dyscarn']], 0xFF5B556D],
-		['Saturn',           'sas',    ['- Me composer... -', 'drawer', 'I not cook'],                                                             [['yt', 'https://youtu.be/-ThnaxyC6J8?si=1IuB_kx1GUeJ-4Ad'], ['x', 'https://youtu.be/MvRARbFMCBI?si=bfBbcig20FQwUgGL']], 0xFF45725F]
-    ];
+	var devs:Array<Credit> = [
+		{
+			name: 'gBv2209',
+			icon: 'gbv',
+			roles: ['Director', 'Concept Artist', 'Artist', 'Animator', 'Musician', 'Charter', 'Coder'],
+			socialMedias: [
+				{
+					icon: 'yt',
+					link: 'https://www.youtube.com/@gBv2209'
+				},
+				{
+					icon: 'x',
+					link: 'https://x.com/gbv2209'
+				}
+			],
+			color: 0xFF2F6662
+		},
+		{
+			name: 'Mr. Madera',
+			icon: 'madera',
+			roles: ['Director', 'Main Coder', 'Charter', 'Musician', 'Voice Actor'],
+			socialMedias: [
+				{
+					icon: 'yt',
+					link: 'https://www.youtube.com/@mrmadera1237'
+				},
+				{
+					icon: 'x',
+					link: 'https://x.com/MrMadera625'
+				}
+			],
+			color: 0xFF8ACCE1
+		},
+		{
+			name: 'Heromax',
+			icon: 'hero',
+			roles: ['Co-Director', 'Concept Artist', 'Artist', 'Charter'],
+			socialMedias: [
+				{
+					icon: 'x',
+					link: 'https://x.com/heromax_2498'
+				}
+			],
+			color: 0xFF424452
+		},
+		{
+			name: 'SFoxyDAC',
+			icon: 'foxy',
+			roles: ['Co-Director', 'Artist', 'Animator', 'Musician', 'Voice Actor'],
+			socialMedias: [
+				{
+					icon: 'yt',
+					link: 'https://www.youtube.com/@SFoxyDAC'
+				},
+				{
+					icon: 'x',
+					link: 'SFoxyDAC'
+				}
+			],
+			color: 0xFFDC7D6F
+		},
+		{
+			name: 'ItsTapiiii',
+			icon: 'tapi',
+			roles: ['Co-Director', 'Musician', 'Charter'],
+			socialMedias: [
+				{
+					icon: 'yt',
+					link: 'https://www.youtube.com/@ItsTapiiii'
+				}
+			],
+			color: 0xFF363676
+		},
+		{
+			name: 'Zhadnii',
+			icon: 'ema',
+			roles: ['Musician'],
+			socialMedias: [
+				{
+					icon: 'yt',
+					link: 'https://www.youtube.com/@zhadnii_'
+				}
+			],
+			color: 0xFF3A3A75
+		},
+		{
+			name: 'FlashMan07',
+			icon: 'flash',
+			roles: ['Musician', 'Concept Artist', 'Artist'],
+			socialMedias: [
+				{
+					icon: 'yt',
+					link: 'https://www.youtube.com/@https://www.youtube.com/@FlashMan07'
+				}
+			],
+			color: 0xFF912197
+		},
+		{
+			name: 'gBv2209',
+			icon: 'gbv',
+			roles: ['Director', 'Concept Artist', 'Artist', 'Animator', 'Musician', 'Charter', 'Coder'],
+			socialMedias: [
+				{
+					icon: 'yt',
+					link: 'https://www.youtube.com/@gBv2209'
+				},
+				{
+					icon: 'x',
+					link: 'https://x.com/gbv2209'
+				}
+			],
+			color: 0xFF2F6662
+		},
+		{
+			name: 'Snowlui',
+			icon: 'snowlui',
+			roles: ['Musician'],
+			socialMedias: [
+				{
+					icon: 'yt',
+					link: 'https://www.youtube.com/channel/UCSt4Fyu2syVMeGBHeZaWzyA'
+				},
+				{
+					icon: 'x',
+					link: 'https://x.com/Snowlui0831'
+				}
+			],
+			color: 0xFF9C0053
+		},
+		{
+			name: 'E1000MC',
+			icon: 'emil',
+			roles: ['Artist', 'Charter'],
+			socialMedias: [
+				{
+					icon: 'yt',
+					link: 'https://www.youtube.com/@E1000YT'
+				},
+				{
+					icon: 'x',
+					link: 'https://x.com/E1000TWOF'
+				}
+			],
+			color: 0xFF1A8758
+		},
+		{
+			name: 'JabaNSL',
+			icon: 'jaba',
+			roles: ['Musician', 'Charter'],
+			socialMedias: [
+				{
+					icon: 'yt',
+					link: 'https://www.youtube.com/@jaba6969'
+				}
+			],
+			color: 0xFFB8519D
+		},
+		{
+			name: 'EliAnima',
+			icon: 'elianimador',
+			roles: ['Musician'],
+			socialMedias: [
+				{
+					icon: 'yt',
+					link: 'https://www.youtube.com/@EliMusic-v1i'
+				},
+				{
+					icon: 'x',
+					link: 'https://x.com/EliAnima_'
+				}
+			],
+			color: 0xFFFFDD8E
+		},
+		{
+			name: 'Dyscarn',
+			icon: 'dyscarn',
+			roles: ['Guest Coder'],
+			socialMedias: [
+				{
+					icon: 'yt',
+					link: 'https://www.youtube.com/@Dyscarn'
+				},
+				{
+					icon: 'x',
+					link: 'https://x.com/Dyscarn'
+				}
+			],
+			color: 0xFF5B556D
+		},
+		{
+			name: 'Saturn',
+			icon: 'sas',
+			roles: ['- Me composer... -', 'drawer', 'I not cook'],
+			socialMedias: [
+				{
+					icon: 'yt',
+					link: 'https://youtu.be/-ThnaxyC6J8?si=1IuB_kx1GUeJ-4Ad'
+				},
+				{
+					icon: 'x',
+					link: 'https://youtu.be/MvRARbFMCBI?si=bfBbcig20FQwUgGL'
+				}
+			],
+			color: 0xFF45725F
+		}
+	];
 
 	var bg:FlxSprite;
 
@@ -92,7 +296,7 @@ class CreditsStateYSides extends MusicBeatState
 		currentCharacter.antialiasing = ClientPrefs.data.antialiasing;
 		add(currentCharacter);
 
-        devInfo = new InfoAboutPerson('gbv2209', 		['Concept Artist', 'Artist', 'Animator', 'Musician', 'Charter', 'Coder'], 		[['yt', 'https://www.youtube.com/@gBv2209'], ['x', 'https://x.com/gbv2209']], 0xFF666666);
+        devInfo = new InfoAboutPerson(devs[0].name, devs[0].roles, devs[0].socialMedias, devs[0].color);
         devInfo.x += 200;
         add(devInfo);
 
@@ -225,7 +429,7 @@ class CreditsStateYSides extends MusicBeatState
 			MusicBeatState.switchState(new CreditsState());	
 		}
 
-		if(developers[curSelected][0] == 'Saturn') callMeAGoodBOOOY.volume = 1;
+		if(devs[curSelected].name == 'Saturn') callMeAGoodBOOOY.volume = 1;
 		else callMeAGoodBOOOY.volume = 0;
 
 		FlxG.mouse.visible = true;
@@ -233,9 +437,10 @@ class CreditsStateYSides extends MusicBeatState
 
     function changeSelection(change:Int = 0)
     {
-        curSelected = FlxMath.wrap(curSelected + change, 0, developers.length - 1);
+        curSelected = FlxMath.wrap(curSelected + change, 0, devs.length - 1);
 
-		if(developers[curSelected][0] == 'Saturn') FlxG.sound.play(Paths.sound('sosoasoas'));
+		final selectedDev: Credit = devs[curSelected];
+		if(selectedDev.name == 'Saturn') FlxG.sound.play(Paths.sound('sosoasoas'));
 
 		FlxTween.cancelTweensOf(currentCharacter);
 
@@ -243,17 +448,17 @@ class CreditsStateYSides extends MusicBeatState
 		FlxTween.tween(currentCharacter, {"scale.x": 1, "scale.y": 1}, 0.3, {ease: FlxEase.quartOut});
 
         // reload char
-		currentCharacter.loadGraphic(Paths.image('credits2/people/${developers[curSelected][1]}'));
+		currentCharacter.loadGraphic(Paths.image('credits2/people/${selectedDev.icon}'));
         currentCharacter.screenCenter(Y);
 		currentCharacter.antialiasing = ClientPrefs.data.antialiasing;
 		add(currentCharacter);
 
 		// background color tween
 		FlxTween.cancelTweensOf(bg);
-		FlxTween.color(bg, 0.7, bg.color, developers[curSelected][4], {ease: FlxEase.quartOut});
+		FlxTween.color(bg, 0.7, bg.color, selectedDev.color, {ease: FlxEase.quartOut});
 
         // reload info
-        devInfo.refresh(developers[curSelected][0], developers[curSelected][2], developers[curSelected][3], developers[curSelected][4]);
+        devInfo.refresh(selectedDev.name, selectedDev.roles, selectedDev.socialMedias, selectedDev.color);
     }
 }
 
@@ -263,9 +468,9 @@ class InfoAboutPerson extends FlxSpriteGroup
 	var personName:Alphabet;
 	var rolsGrp:FlxSpriteGroup;
 	var socialMediasGrp:FlxSpriteGroup;
-	var socialMedias:Array<Dynamic> = [];
+	var socialMedias:Array<SocialMedia> = [];
 
-	public function new(name:String, rols:Array<String>, avaibleSocialMedias:Array<Dynamic>, color:FlxColor)
+	public function new(name:String, rols:Array<String>, avaibleSocialMedias:Array<SocialMedia>, color:FlxColor)
 	{
 		super();
 
@@ -308,8 +513,8 @@ class InfoAboutPerson extends FlxSpriteGroup
 			if(socialMediasGrp.members[i-1] != null) socialMediasGrp.members[i-1].x -= socialMediasGrp.members[i-1].width;
 
 			var socialMediaIcon = new FlxSprite();
-			trace('Loading the following social media ($name): ${avaibleSocialMedias[i][0]}');
-			switch(avaibleSocialMedias[i][0])
+			trace('Loading the following social media ($name): ${avaibleSocialMedias[i].icon}');
+			switch(avaibleSocialMedias[i].icon)
 			{
 				case 'yt':
 					socialMediaIcon.loadGraphic(Paths.image('credits2/icons/yt'));
@@ -326,7 +531,7 @@ class InfoAboutPerson extends FlxSpriteGroup
 		}
 	}
 
-    public function refresh(name:String, rols:Array<String>, avaibleSocialMedias:Array<Dynamic>, color:FlxColor)
+    public function refresh(name:String, rols:Array<String>, avaibleSocialMedias:Array<SocialMedia>, color:FlxColor)
     {
 		socialMedias = avaibleSocialMedias;
 
@@ -354,8 +559,8 @@ class InfoAboutPerson extends FlxSpriteGroup
 			if(socialMediasGrp.members[i-1] != null) socialMediasGrp.members[i-1].x -= socialMediasGrp.members[i-1].width;
 
 			var socialMediaIcon = new FlxSprite();
-			trace('Loading the following social media ($name): ${avaibleSocialMedias[i][0]}');
-			switch(avaibleSocialMedias[i][0])
+			trace('Loading the following social media ($name): ${avaibleSocialMedias[i].icon}');
+			switch(avaibleSocialMedias[i].icon)
 			{
 				case 'yt':
 					socialMediaIcon.loadGraphic(Paths.image('credits2/icons/yt'));
@@ -383,7 +588,7 @@ class InfoAboutPerson extends FlxSpriteGroup
 				spr.alpha = 1;
 				if(FlxG.mouse.justPressed)
 				{
-					CoolUtil.browserLoad(socialMedias[spr.ID][1]);
+					CoolUtil.browserLoad(socialMedias[spr.ID].link);
 				}
 			}
 			else spr.alpha = 0.7;
