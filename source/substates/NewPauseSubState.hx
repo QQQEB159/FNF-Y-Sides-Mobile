@@ -342,14 +342,14 @@ class PaperObject extends FlxSpriteGroup
         add(exitButton);
 
         progressBar = new FlxSprite();
-        progressBar.loadGraphic(Paths.image('pause/new/progressbar'));
+        progressBar.loadGraphic(Paths.image('pause/new/progressBar'));
         centerSprite(progressBar, paperBack);
         progressBar.y += 150;
         progressBar.antialiasing = ClientPrefs.data.antialiasing;
         add(progressBar);
 
         progressArrow = new FlxSprite();
-        progressArrow.loadGraphic(Paths.image('pause/new/progressarrow'));
+        progressArrow.loadGraphic(Paths.image('pause/new/progressArrow'));
         progressArrow.antialiasing = ClientPrefs.data.antialiasing;
         progressArrow.y = progressBar.y - 25;
         progressArrow.x = progressBar.x;
