@@ -24,6 +24,7 @@ class CreditsStateYSides extends MusicBeatState
         ['E1000MC',          'emil',    ['Artist', 'Charter'], 					                                        [['yt', 'https://www.youtube.com/@E1000YT/videos'], ['x', 'https://x.com/E1000TWOF ']], 0xFF1A8758],
         ['JabaNSL',          'jaba',    ['Musician', 'Charter'], 					                                        		[['yt', 'https://www.youtube.com/@jaba6969']], 0xFFB8519D],
         ['EliAnima',         'elianimador',   ['Musician'], 					                                        		[['yt', 'https://www.youtube.com/@EliMusic-v1i'], ['x', 'https://x.com/EliAnima_']], 0xFFFFDD8E],
+        ['Dyscarn',         'dyscarn',   ['Guest Coder'], 					                                        		[['yt', 'https://www.youtube.com/@Dyscarn'], ['x', 'https://x.com/Dyscarn']], 0xFFFFDD8E],
 		['Saturn',           'sas',    ['- Me composer... -', 'drawer', 'I not cook'],                                                             [['yt', 'https://youtu.be/-ThnaxyC6J8?si=1IuB_kx1GUeJ-4Ad'], ['x', 'https://youtu.be/MvRARbFMCBI?si=bfBbcig20FQwUgGL']], 0xFF45725F]
     ];
 
