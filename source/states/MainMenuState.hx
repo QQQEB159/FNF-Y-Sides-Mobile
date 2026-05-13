@@ -144,7 +144,7 @@ class MainMenuState extends MusicBeatState
 
         characterY = character.y;
 
-        leftBarThorns = new FlxBackdrop(Paths.image('mainmenu/new/lettabox'), Y);
+        leftBarThorns = new FlxBackdrop(Paths.image('mainmenu/new/lettaBox'), Y);
         leftBarThorns.velocity.set(0, thornsSpeed);
         leftBarThorns.antialiasing = ClientPrefs.data.antialiasing;
         add(leftBarThorns);
@@ -166,7 +166,7 @@ class MainMenuState extends MusicBeatState
 
         circle.y = leftBar.y + -100;
 
-        rightBarThorns = new FlxBackdrop(Paths.image('mainmenu/new/lettabox'), Y);
+        rightBarThorns = new FlxBackdrop(Paths.image('mainmenu/new/lettaBox'), Y);
         rightBarThorns.velocity.set(0, -thornsSpeed);
         rightBarThorns.antialiasing = ClientPrefs.data.antialiasing;
         rightBarThorns.flipX = true;
