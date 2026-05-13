@@ -753,7 +753,7 @@ class NewFreeplayState extends MusicBeatState
 		#end
 
 		lastDifficultyName = Difficulty.getString(curDifficulty, false);
-		var displayDiff:String = Difficulty.getString(curDifficulty);
+		var displayDiff:String = Difficulty.getString(curDifficulty).toLowerCase();
         difText.loadGraphic(Paths.image('freePlay/NEW/diff/$displayDiff'));
         difText.x = 1020 - difText.width / 2;
         difText.y = 55;
