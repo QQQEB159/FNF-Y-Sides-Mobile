@@ -4818,6 +4818,14 @@ class PlayState extends MusicBeatState
 						cameraFollowInstant = false;
 						blackThing.alpha = 0;
 				}
+			case 'Improbable Outset-bf':
+				switch(curStep)
+				{
+					case 960:
+						setHbFire(true);
+					case 1216:
+						setHbFire(false);
+				}
 			case 'Madness-bf':
 				switch(curStep)
 				{
