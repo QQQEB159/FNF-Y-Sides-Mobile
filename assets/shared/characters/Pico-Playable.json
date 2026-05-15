@@ -103,6 +103,7 @@
 	"position": [-260, -55],
 	"healthicon": "pico",
 	"flip_x": false,
+	"icon_offset": [0, -20],
 	"healthbar_colors": [254, 0, 103],
 	"camera_position": [-40, 50],
 	"sing_duration": 4,

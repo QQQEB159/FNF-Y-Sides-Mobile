@@ -74,6 +74,8 @@ class CharSelectState extends MusicBeatState
         blackBg.makeGraphic(FlxG.width, FlxG.height, 0xFF000000);
         blackBg.screenCenter();
         blackBg.alpha = 0.4;
+        acceptOptions.set(blackBg, 0.7);
+        backOptions.set(blackBg, 0.4);
         add(blackBg);
 
         checker = new FlxBackdrop(Paths.image('charSelect/checker'), XY);
@@ -108,6 +110,8 @@ class CharSelectState extends MusicBeatState
         blackThing = new FlxSprite();
         blackThing.makeGraphic(FlxG.width, FlxG.height, 0xFF000000);
         blackThing.alpha = 0;
+        acceptOptions.set(blackBg, 0.35);
+        backOptions.set(blackBg, 0);
         add(blackThing);
 
         avaibleCharactersGrp = new FlxTypedGroup<CharSelectObject>();
@@ -126,6 +130,8 @@ class CharSelectState extends MusicBeatState
         light.blend = ADD;
         light.alpha = 0.55;
         light.antialiasing = ClientPrefs.data.antialiasing;
+        acceptOptions.set(light, 0.65);
+        backOptions.set(light, 0.55);
         //add(light);
 
         selectorLeft = new FlxSprite(300, 0);
@@ -181,6 +187,8 @@ class CharSelectState extends MusicBeatState
     var acceptTimer:FlxTimer;
     var idleTimer:FlxTimer;
     var canInteract:Bool = true;
+    final acceptOptions:Map<FlxSprite, Float> = new Map<FlxSprite, Float>();
+    final backOptions:Map<FlxSprite, Float> = new Map<FlxSprite, Float>();
     override function update(elapsed:Float)
     {
         super.update(elapsed);
@@ -217,14 +225,14 @@ class CharSelectState extends MusicBeatState
                 FlxG.sound.play(Paths.sound('charSelect/CS_confirm'));
 
                 FlxTween.cancelTweensOf(FlxG.camera);
-                FlxTween.cancelTweensOf(blackBg);
-                FlxTween.cancelTweensOf(light);
-                FlxTween.cancelTweensOf(blackThing);
-
                 FlxTween.tween(FlxG.camera, {zoom: 1.1}, 0.4, {ease: FlxEase.quartOut});
-                FlxTween.tween(blackBg, {alpha: 0.7}, 0.4, {ease: FlxEase.quartOut});
-                FlxTween.tween(light, {alpha: 0.65}, 0.4, {ease: FlxEase.quartOut});
-                FlxTween.tween(blackThing, {alpha: 0.35}, 0.4, {ease: FlxEase.quartOut});
+
+                for(object in acceptOptions.keys())
+                {
+                    FlxTween.cancelTweensOf(object);
+                    final alphaValue:Float = acceptOptions.get(object);
+                    FlxTween.tween(object, {alpha: alphaValue}, 0.4, {ease: FlxEase.quartOut});
+                }
 
                 avaibleCharactersGrp.forEach(function(obj:CharSelectObject)
                 {
@@ -262,14 +270,14 @@ class CharSelectState extends MusicBeatState
                 FlxTween.tween(FlxG.sound.music, {pitch: 1}, 0.6);
 
                 FlxTween.cancelTweensOf(FlxG.camera);
-                FlxTween.cancelTweensOf(blackBg);
-                FlxTween.cancelTweensOf(light);
-                FlxTween.cancelTweensOf(blackThing);
-
                 FlxTween.tween(FlxG.camera, {zoom: 1}, 0.25, {ease: FlxEase.quartOut});
-                FlxTween.tween(blackBg, {alpha: 0.4}, 0.25, {ease: FlxEase.quartOut});
-                FlxTween.tween(light, {alpha: 0.55}, 0.25, {ease: FlxEase.quartOut});
-                FlxTween.tween(blackThing, {alpha: 0}, 0.25, {ease: FlxEase.quartOut});
+
+                for(object in backOptions.keys())
+                {
+                    FlxTween.cancelTweensOf(object);
+                    final alphaValue:Float = backOptions.get(object);
+                    FlxTween.tween(object, {alpha: alphaValue}, 0.4, {ease: FlxEase.quartOut});
+                }
 
                 // cancel anim
                 if(currentCharacter == null) throw "Ermm, what the hell? currentCharacter seems to be null.";

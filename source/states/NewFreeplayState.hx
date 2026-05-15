@@ -13,6 +13,15 @@ enum SongCategory
     MODS;
 }
 
+typedef FreeplayTransProperties = {
+    initialProperties:Map<String, Dynamic>,
+    tweenProperties:Dynamic,
+    // Listen, I KNOW I could make this a TweenOptions field, but who gives a shit?
+    // Every option in each tween has the same ease, the only thing that changes is the delay. Fuck it!
+    // -Dyscarn
+    tweenDelay:Float,
+}
+
 class NewFreeplayState extends MusicBeatState
 {
     private static var curSelected:Int = 0;
@@ -166,6 +175,18 @@ class NewFreeplayState extends MusicBeatState
         checker = new FlxBackdrop(Paths.image('freePlay/NEW/checker'));
         checker.antialiasing = ClientPrefs.data.antialiasing;
         checker.velocity.set(15, 15);
+        transOptions.set(checker, {
+            initialProperties: [
+                "alpha" => 0
+            ],
+            tweenProperties: {
+                alpha: 1,
+            },
+            tweenDelay: 0
+        });
+        backOptions.set(checker, {
+            alpha: 0
+        });
         add(checker);
 
 		grpSongs = new FlxTypedGroup<FreeplayCapsule>();
@@ -175,6 +196,18 @@ class NewFreeplayState extends MusicBeatState
         backgroundHint.loadGraphic(Paths.image('freePlay/NEW/backgroundHint'));
         backgroundHint.y = FlxG.height - backgroundHint.height;
         backgroundHint.antialiasing = ClientPrefs.data.antialiasing;
+        transOptions.set(backgroundHint, {
+            initialProperties: [
+                "y" => FlxG.height, // I know height could be dynamic, but since the game is locked at 1280x720, who cares? -Dyscarn
+            ],
+            tweenProperties: {
+                y: FlxG.height - backgroundHint.height
+            },
+            tweenDelay: transitionHintDelay
+        });
+        backOptions.set(backgroundHint, {
+            y: FlxG.height
+        });
         add(backgroundHint);
 
         if(unlockedPico) hint = new FlxBackdrop(Paths.image('freePlay/NEW/hint'), X, 35);
@@ -183,6 +216,18 @@ class NewFreeplayState extends MusicBeatState
         hint.y = backgroundHint.y + 19;
         hint.velocity.set(-40, 0);
         hint.screenCenter(X);
+        transOptions.set(hint, {
+            initialProperties: [
+                "y" => FlxG.height
+            ],
+            tweenProperties: {
+                y: FlxG.height - backgroundHint.height + 16
+            },
+            tweenDelay: transitionHintDelay
+        });
+        backOptions.set(hint, {
+            y: FlxG.height
+        });
         add(hint);
         
         bombox = new FlxSprite(705, 315);
@@ -191,44 +236,158 @@ class NewFreeplayState extends MusicBeatState
         bombox.animation.play('idle', true, true);
         bombox.antialiasing = ClientPrefs.data.antialiasing;
         if(CharSelectState.currentFreeplaySelectedName == 'pico') bombox.y += -95;
+        transOptions.set(bombox, {
+            initialProperties: [
+                "x" => FlxG.width
+            ],
+            tweenProperties: {
+                x: 705
+            },
+            tweenDelay: 0
+        });
+        backOptions.set(bombox, {
+            x: FlxG.width
+        });
         add(bombox);
 
         backgroundDiff = new FlxSprite(695, 12);
         backgroundDiff.loadGraphic(Paths.image('freePlay/NEW/backgroundDiff'));
         backgroundDiff.antialiasing = ClientPrefs.data.antialiasing;
+        transOptions.set(backgroundDiff, {
+            initialProperties: [
+                "y" => 12 - backgroundDiff.height
+            ],
+            tweenProperties: {
+                y: 12
+            },
+            tweenDelay: 0
+        });
+        backOptions.set(backgroundDiff, {
+            y: -backgroundDiff.height
+        });
         add(backgroundDiff);
 
         difText = new FlxSprite(0, 55);
         difText.loadGraphic(Paths.image('freePlay/NEW/diff/hard'));
+        transOptions.set(difText, {
+            initialProperties: [
+                "y" => 12 - backgroundDiff.height,
+                "alpha" => 0
+            ],
+            tweenProperties: {
+                y: 55,
+                alpha: 1
+            },
+            tweenDelay: 0
+        });
+        backOptions.set(difText, {
+            y: -backgroundDiff.height + 60
+        });
         add(difText);
 
         backgroundDiffLight = new FlxSprite();
         backgroundDiffLight.loadGraphic(Paths.image('freePlay/NEW/light'));
         backgroundDiffLight.antialiasing = ClientPrefs.data.antialiasing;
         backgroundDiffLight.blend = ADD;
+        transOptions.set(backgroundDiffLight, {
+            initialProperties: [
+                "y" => -300
+            ],
+            tweenProperties: {
+                y: 0
+            },
+            tweenDelay: 0
+        });
+        backOptions.set(backgroundDiffLight, {
+            y: -backgroundDiff.height
+        });
         add(backgroundDiffLight);
+        
+        poloUp = new FlxSprite();
+        poloUp.loadGraphic(Paths.image('freePlay/NEW/poloUp'));
+        poloUp.antialiasing = ClientPrefs.data.antialiasing;
+        transOptions.set(poloUp, {
+            initialProperties: [
+                "y" => 0 - poloUp.height
+            ],
+            tweenProperties: {
+                y: 0
+            },
+            tweenDelay: 0
+        });
+        backOptions.set(poloUp, {
+            y: 0 - poloUp.height
+        });
 
         categoryBackground = new FlxSprite();
         categoryBackground.loadGraphic(Paths.image('freePlay/NEW/categorySelectorBackground'));
         categoryBackground.x = 0;
+        transOptions.set(categoryBackground, {
+            initialProperties: [
+                "y" => -poloUp.height + 55
+            ],
+            tweenProperties: {
+                y: 55
+            },
+            tweenDelay: 0
+        });
+        backOptions.set(categoryBackground, {
+            y: -poloUp.height + 55
+        });
         add(categoryBackground);
 
         categoryOg = new FlxSprite();
         categoryOg.loadGraphic(Paths.image('freePlay/NEW/categoryOg'));
         categoryOg.antialiasing = ClientPrefs.data.antialiasing;
         categoryOg.x = 120;
+        transOptions.set(categoryOg, {
+            initialProperties: [
+                "y" => -poloUp.height + 55
+            ],
+            tweenProperties: {
+                y: 55 + (categoryBackground.height / 2) - (categoryOg.height / 2)
+            },
+            tweenDelay: 0.03
+        });
+        backOptions.set(categoryOg, {
+            y: -poloUp.height + 55
+        });
         add(categoryOg);
 
         categoryDot = new FlxSprite();
         categoryDot.loadGraphic(Paths.image('freePlay/NEW/categoryDot'));
         categoryDot.antialiasing = ClientPrefs.data.antialiasing;
         categoryDot.x = 250;
+        transOptions.set(categoryDot, {
+            initialProperties: [
+                "y" => -poloUp.height + 55
+            ],
+            tweenProperties: {
+                y: 55 + (categoryBackground.height / 2) - (categoryDot.height / 2)
+            },
+            tweenDelay: 0.06
+        });
+        backOptions.set(categoryDot, {
+            y: -poloUp.height + 55
+        });
         add(categoryDot);
 
         categoryMods = new FlxSprite();
         categoryMods.loadGraphic(Paths.image('freePlay/NEW/categoryMods'));
         categoryMods.antialiasing = ClientPrefs.data.antialiasing;
         categoryMods.x = 290;
+        transOptions.set(categoryMods, {
+            initialProperties: [
+                "y" => -poloUp.height + 55
+            ],
+            tweenProperties: {
+                y: 55 + (categoryBackground.height / 2) - (categoryMods.height / 2)
+            },
+            tweenDelay: 0.09
+        });
+        backOptions.set(categoryMods, {
+            y: -poloUp.height + 55
+        });
         add(categoryMods);
 
         qeSwitch = new FlxSprite();
@@ -239,9 +398,6 @@ class NewFreeplayState extends MusicBeatState
         qeSwitch.alpha = 0;
         add(qeSwitch);
 
-        poloUp = new FlxSprite();
-        poloUp.loadGraphic(Paths.image('freePlay/NEW/poloUp'));
-        poloUp.antialiasing = ClientPrefs.data.antialiasing;
         add(poloUp);
 
         poloDown = new FlxSprite();
@@ -249,6 +405,18 @@ class NewFreeplayState extends MusicBeatState
         poloDown.antialiasing = ClientPrefs.data.antialiasing;
         poloDown.y = FlxG.height - poloDown.height;
         poloDown.screenCenter(X);
+        transOptions.set(poloDown, {
+            initialProperties: [
+                "y" => FlxG.height
+            ],
+            tweenProperties: {
+                y: FlxG.height - poloDown.height
+            },
+            tweenDelay: 0
+        });
+        backOptions.set(poloDown, {
+            y: FlxG.height
+        });
         add(poloDown);
 
         character = new FlxSprite(895, 390);
@@ -256,12 +424,27 @@ class NewFreeplayState extends MusicBeatState
         character.animation.addByPrefix('idle', 'coso', 24, false);
         character.animation.play('idle', true);
         character.antialiasing = ClientPrefs.data.antialiasing;
+        backOptions.set(character, {
+            x: FlxG.width
+        });
         add(character);
 
         scoreText = new FlxText(0, 0, 0, 'Score: 0');
         scoreText.setFormat(Paths.font('GAU_pop_magic.ttf'), 28, 0xFFFFFFFF);
         scoreText.x = backgroundDiff.x + 130;
         scoreText.y = backgroundDiff.y + backgroundDiff.height - scoreText.height - 10;
+        transOptions.set(scoreText, {
+            initialProperties: [
+                "y" => 12 - scoreText.height - 10
+            ],
+            tweenProperties: {
+                y: 12 + backgroundDiff.height - scoreText.height - 10
+            },
+            tweenDelay: 0
+        });
+        backOptions.set(scoreText, {
+            y: -backgroundDiff.height + 230
+        });
         add(scoreText);
 
         for(i in 0...songs.length)
@@ -359,58 +542,33 @@ class NewFreeplayState extends MusicBeatState
 
     var transitionDuration:Float = 0.5;
     var transitionHintDelay:Float = 0.4;
+    final transOptions:Map<FlxSprite, FreeplayTransProperties> = new Map<FlxSprite, FreeplayTransProperties>();
     function initTransition()
     {
-        checker.alpha = 0;
-        FlxTween.tween(checker, {alpha: 1}, transitionDuration, {ease: FlxEase.expoOut});
-    
-        categoryBackground.y = -poloUp.height + 55;
-        FlxTween.tween(categoryBackground, {y: 55}, transitionDuration, {ease: FlxEase.expoOut});
+        for(object in transOptions.keys())
+        {
+            final info:FreeplayTransProperties = transOptions.get(object);
 
-        categoryOg.y = -poloUp.height + 55;
-        FlxTween.tween(categoryOg, {y: 55 + (categoryBackground.height / 2) - (categoryOg.height / 2)}, transitionDuration, {ease: FlxEase.expoOut, startDelay: 0.03});
+            if(info.initialProperties != null)
+                for(key in info.initialProperties.keys()) {
+                    final value:Dynamic = info.initialProperties.get(key);
+                    if (key == "x")
+                        object.x = value;
+                    else if(key == "y")
+                        object.y = value;
+                    else
+                        // WHY can Reflect NOT read `x` and `y` properties of an FlxSprite??? FUCK REFLECT!!1! -Dyscarn
+                        Reflect.setProperty(object, key, value);
+                }
 
-        categoryDot.y = -poloUp.height + 55;
-        FlxTween.tween(categoryDot, {y: 55 + (categoryBackground.height / 2) - (categoryDot.height / 2)}, transitionDuration, {ease: FlxEase.expoOut, startDelay: 0.06});
-
-        categoryMods.y = -poloUp.height + 55;
-        FlxTween.tween(categoryMods, {y: 55 + (categoryBackground.height / 2) - (categoryMods.height / 2)}, transitionDuration, {ease: FlxEase.expoOut, startDelay: 0.09});
-
-        poloUp.y = 0 - poloUp.height;
-        FlxTween.tween(poloUp, {y: 0}, transitionDuration, {ease: FlxEase.expoOut});
-
-        poloDown.y = FlxG.height;
-        FlxTween.tween(poloDown, {y: FlxG.height - poloDown.height}, transitionDuration, {ease: FlxEase.expoOut});
-
-        backgroundHint.y = FlxG.height;
-        FlxTween.tween(backgroundHint, {y: FlxG.height - backgroundHint.height}, transitionDuration, {ease: FlxEase.expoOut, startDelay: transitionHintDelay});
-
-        hint.y = FlxG.height;
-        FlxTween.tween(hint, {y: FlxG.height - backgroundHint.height + 16}, transitionDuration, {ease: FlxEase.expoOut, startDelay: transitionHintDelay});
-
-        backgroundDiff.y = 12 - backgroundDiff.height;
-        FlxTween.tween(backgroundDiff, {y: 12}, transitionDuration, {ease: FlxEase.expoOut});
-
-        difText.y = 55 - difText.height;
-        difText.alpha = 0;
-        FlxTween.tween(difText, {y: 55, alpha: 1}, transitionDuration, {ease: FlxEase.expoOut});
-
-        backgroundDiffLight.y = -300;
-        FlxTween.tween(backgroundDiffLight, {y: 0}, transitionDuration, {ease: FlxEase.expoOut});
-
-        scoreText.y = backgroundDiff.y + backgroundDiff.height - scoreText.height - 10;
-        FlxTween.tween(scoreText, {y: 12 + backgroundDiff.height - scoreText.height - 10}, transitionDuration, {ease: FlxEase.expoOut});
-
-        bombox.x = FlxG.width;
-        FlxTween.tween(bombox, {x: 705}, transitionDuration, {ease: FlxEase.expoOut});
+            FlxTween.tween(object, info.tweenProperties, {ease: FlxEase.expoOut, startDelay: info.tweenDelay ?? 0});
+        }
 
         character.x = FlxG.width + (895 - 705);
         FlxTween.tween(character, {x: CharSelectState.currentFreeplaySelectedName == 'bf' ? 895 : 845}, transitionDuration, {ease: FlxEase.expoOut});
 
 		for (num => item in grpSongs.members)
-        {
             item.x -= 500;
-        }
     }
 
     var tinyScale:Float = 0.85;
@@ -419,12 +577,7 @@ class NewFreeplayState extends MusicBeatState
     {
         if(!moddedSongs) return;
 
-        curCategory = targetCategory;
-        reloadSongsList(curCategory);
-
-        if(playSound) FlxG.sound.play(Paths.sound('scrollMenu'));
-
-        switch(curCategory)
+        switch(targetCategory)
         {
             case OG:
                 targetScaleOg = 1;
@@ -437,6 +590,13 @@ class NewFreeplayState extends MusicBeatState
                 targetScaleMods = 1;
                 targetAlphaMods = 1;
         }
+
+        if(curCategory == targetCategory) return;
+
+        curCategory = targetCategory;
+        reloadSongsList(targetCategory);
+
+        if(playSound) FlxG.sound.play(Paths.sound('scrollMenu'));
     }
 
     function reloadSongsList(category:SongCategory)
@@ -551,6 +711,7 @@ class NewFreeplayState extends MusicBeatState
     var targetAlphaOg:Float = 1;
     var targetAlphaMods:Float = 1;
 
+    final backOptions:Map<FlxSprite, Dynamic> = new Map<FlxSprite, Dynamic>();
     override function update(elapsed:Float)
     {
         super.update(elapsed);
@@ -584,14 +745,10 @@ class NewFreeplayState extends MusicBeatState
         if(canInteract)
         {
             if(controls.UI_UP_P)
-            {
                 changeSelect(-1);
-            }
 
             if(controls.UI_DOWN_P)
-            {
                 changeSelect(1);
-            }
 
             if(controls.UI_LEFT_P)
             {
@@ -606,35 +763,31 @@ class NewFreeplayState extends MusicBeatState
             }
 
             if(FlxG.keys.justPressed.Q)
-            {
                 changeCategory(OG);
-            }
 
             if(FlxG.keys.justPressed.E)
-            {
                 changeCategory(MODS);
-            }
 
             if(controls.BACK)
             {
                 canInteract = false;
                 FlxG.sound.play(Paths.sound('cancelMenu'));
 
-                FlxTween.cancelTweensOf(background);
-                FlxTween.cancelTweensOf(checker);
-                FlxTween.cancelTweensOf(categoryBackground);
-                FlxTween.cancelTweensOf(categoryOg);
-                FlxTween.cancelTweensOf(categoryDot);
-                FlxTween.cancelTweensOf(categoryMods);
-                FlxTween.cancelTweensOf(poloUp);
-                FlxTween.cancelTweensOf(poloDown);
-                FlxTween.cancelTweensOf(backgroundHint);
-                FlxTween.cancelTweensOf(hint);
-                FlxTween.cancelTweensOf(backgroundDiff);
-                FlxTween.cancelTweensOf(difText);
-                FlxTween.cancelTweensOf(scoreText);
-                FlxTween.cancelTweensOf(bombox);
-                FlxTween.cancelTweensOf(character);
+                // FlxTween.cancelTweensOf(background);
+                // FlxTween.cancelTweensOf(checker);
+                // FlxTween.cancelTweensOf(categoryBackground);
+                // FlxTween.cancelTweensOf(categoryOg);
+                // FlxTween.cancelTweensOf(categoryDot);
+                // FlxTween.cancelTweensOf(categoryMods);
+                // FlxTween.cancelTweensOf(poloUp);
+                // FlxTween.cancelTweensOf(poloDown);
+                // FlxTween.cancelTweensOf(backgroundHint);
+                // FlxTween.cancelTweensOf(hint);
+                // FlxTween.cancelTweensOf(backgroundDiff);
+                // FlxTween.cancelTweensOf(difText);
+                // FlxTween.cancelTweensOf(scoreText);
+                // FlxTween.cancelTweensOf(bombox);
+                // FlxTween.cancelTweensOf(character);
 
                 grpSongs.forEach(function(cap:FreeplayCapsule)
                 {
@@ -646,23 +799,29 @@ class NewFreeplayState extends MusicBeatState
 
                 FlxTween.color(background, transitionDuration, background.color, 0xFFBFB4F1, {ease: FlxEase.expoIn});
 
-                FlxTween.tween(categoryBackground, {y: -poloUp.height + 55}, transitionDuration, {ease: FlxEase.expoIn});
-                FlxTween.tween(categoryOg, {y: -poloUp.height + 55}, transitionDuration, {ease: FlxEase.expoIn});
-                FlxTween.tween(categoryDot, {y: -poloUp.height + 55}, transitionDuration, {ease: FlxEase.expoIn});
-                FlxTween.tween(categoryMods, {y: -poloUp.height + 55}, transitionDuration, {ease: FlxEase.expoIn});
+                for(object in backOptions.keys())
+                {
+                    FlxTween.cancelTweensOf(object);
+                    FlxTween.tween(object, backOptions.get(object), transitionDuration, {ease: FlxEase.expoIn});
+                }
+
+                // FlxTween.tween(categoryBackground, {y: -poloUp.height + 55}, transitionDuration, {ease: FlxEase.expoIn});
+                // FlxTween.tween(categoryOg, {y: -poloUp.height + 55}, transitionDuration, {ease: FlxEase.expoIn});
+                // FlxTween.tween(categoryDot, {y: -poloUp.height + 55}, transitionDuration, {ease: FlxEase.expoIn});
+                // FlxTween.tween(categoryMods, {y: -poloUp.height + 55}, transitionDuration, {ease: FlxEase.expoIn});
                 qeSwitch.visible = false;
 
-                FlxTween.tween(checker, {alpha: 0}, transitionDuration, {ease: FlxEase.expoIn});
-                FlxTween.tween(poloUp, {y: 0 - poloUp.height}, transitionDuration, {ease: FlxEase.expoIn});
-                FlxTween.tween(poloDown, {y: FlxG.height}, transitionDuration, {ease: FlxEase.expoIn});
-                FlxTween.tween(backgroundHint, {y: FlxG.height}, transitionDuration, {ease: FlxEase.expoIn});
-                FlxTween.tween(hint, {y: FlxG.height}, transitionDuration, {ease: FlxEase.expoIn});
-                FlxTween.tween(backgroundDiff, {y: -backgroundDiff.height}, transitionDuration, {ease: FlxEase.expoIn});
-                FlxTween.tween(difText, {y: -backgroundDiff.height + 60}, transitionDuration, {ease: FlxEase.expoIn});
-                FlxTween.tween(backgroundDiffLight, {y: -backgroundDiff.height}, transitionDuration, {ease: FlxEase.expoIn});
-                FlxTween.tween(scoreText, {y: -backgroundDiff.height + 230}, transitionDuration, {ease: FlxEase.expoIn});
-                FlxTween.tween(bombox, {x: FlxG.width}, transitionDuration, {ease: FlxEase.expoIn});
-                FlxTween.tween(character, {x: FlxG.width + (895 - 705)}, transitionDuration, {ease: FlxEase.expoIn});
+                // FlxTween.tween(checker, {alpha: 0}, transitionDuration, {ease: FlxEase.expoIn});
+                // FlxTween.tween(poloUp, {y: 0 - poloUp.height}, transitionDuration, {ease: FlxEase.expoIn});
+                // FlxTween.tween(poloDown, {y: FlxG.height}, transitionDuration, {ease: FlxEase.expoIn});
+                // FlxTween.tween(backgroundHint, {y: FlxG.height}, transitionDuration, {ease: FlxEase.expoIn});
+                // FlxTween.tween(hint, {y: FlxG.height}, transitionDuration, {ease: FlxEase.expoIn});
+                // FlxTween.tween(backgroundDiff, {y: -backgroundDiff.height}, transitionDuration, {ease: FlxEase.expoIn});
+                // FlxTween.tween(difText, {y: -backgroundDiff.height + 60}, transitionDuration, {ease: FlxEase.expoIn});
+                // FlxTween.tween(backgroundDiffLight, {y: -backgroundDiff.height}, transitionDuration, {ease: FlxEase.expoIn});
+                // FlxTween.tween(scoreText, {y: -backgroundDiff.height + 230}, transitionDuration, {ease: FlxEase.expoIn});
+                // FlxTween.tween(bombox, {x: FlxG.width}, transitionDuration, {ease: FlxEase.expoIn});
+                // FlxTween.tween(character, {x: FlxG.width + (895 - 705)}, transitionDuration, {ease: FlxEase.expoIn});
 
                 new FlxTimer().start(transitionDuration, function(tmr:FlxTimer)
                 {
