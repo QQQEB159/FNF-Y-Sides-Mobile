@@ -2196,6 +2196,7 @@ class PlayState extends MusicBeatState
 
 		if(constantHealthDrainActive)
 		{
+			// i need to make sure the health drain is consistent across different framerates (but needs test)
 			if (health > 0.1) applyDifficultyBasedHealthDrain(constantHealthDrainAmount, storyDifficultyText.toLowerCase());
 		}
 
