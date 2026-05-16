@@ -192,6 +192,9 @@ class PlayState extends MusicBeatState
 	public var healthShower:Float = 1;
 	public var combo:Int = 0;
 
+	public var currentRatingSpr:FlxSprite;
+	public var currentComboNum:FlxText;
+
 	public var healthBarFire:FlxSprite;
 	public var healthBarFireBlur:FlxSprite;
 	public var healthBarGlow:FlxSprite;
@@ -586,10 +589,24 @@ class PlayState extends MusicBeatState
 
 		uiGroup = new FlxSpriteGroup();
 		comboGroup = new FlxSpriteGroup();
+		ySidesComboGroup = new FlxSpriteGroup();
 		noteGroup = new FlxTypedGroup<FlxBasic>();
-		add(comboGroup);
+		// add(comboGroup);
+		add(ySidesComboGroup);
 		add(uiGroup);
 		add(noteGroup);
+
+		currentRatingSpr = new FlxSprite();
+		currentRatingSpr.loadGraphic(Paths.image('hud/ratings/sick'));
+		currentRatingSpr.antialiasing = ClientPrefs.data.antialiasing;
+		currentRatingSpr.alpha = 0;
+		ySidesComboGroup.add(currentRatingSpr);
+
+		currentComboNum = new FlxText(0, 0, 0, '', 16);
+		currentComboNum.setFormat(Paths.font("GAU_pop_magic.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, 0xFF130024);
+		currentComboNum.antialiasing = ClientPrefs.data.antialiasing;
+		currentComboNum.alpha = 0;
+		ySidesComboGroup.add(currentComboNum);
 
 		Conductor.songPosition = -Conductor.crochet * 5 + Conductor.offset;
 		var showTime:Bool = (ClientPrefs.data.timeBarType != 'Disabled');
@@ -602,6 +619,12 @@ class PlayState extends MusicBeatState
 		timeBar.visible = showTime;
 		timeBar.antialiasing = ClientPrefs.data.antialiasing;
 		uiGroup.add(timeBar);
+
+		currentRatingSpr.x = timeBar.x + timeBar.width / 2 - currentRatingSpr.width / 2;
+		currentRatingSpr.y = timeBar.y + timeBar.height + 10;
+
+		currentComboNum.x = timeBar.x + timeBar.width / 2 - currentComboNum.width / 2;
+		currentComboNum.y = currentRatingSpr.y + currentRatingSpr.height + 10;
 
 		if(ClientPrefs.data.middleScroll)
 		{
@@ -908,6 +931,7 @@ class PlayState extends MusicBeatState
 		uiGroup.cameras = [camHUD];
 		noteGroup.cameras = [camHUD];
 		comboGroup.cameras = [camHUD];
+		ySidesComboGroup.cameras = [camHUD];
 
 		blackThing = new FlxSprite().makeGraphic(1480, 1280, 0xFF000000);
 		blackThing.alpha = 0;
@@ -3485,6 +3509,8 @@ class PlayState extends MusicBeatState
 
 	// Stores Ratings and Combo Sprites in a group
 	public var comboGroup:FlxSpriteGroup;
+	// Stores Ratings of Y Sides (static ones)
+	public var ySidesComboGroup:FlxSpriteGroup;
 	// Stores HUD Objects in a Group
 	public var uiGroup:FlxSpriteGroup;
 	// Stores Note Objects in a Group
@@ -3502,6 +3528,7 @@ class PlayState extends MusicBeatState
 			Paths.image(uiFolder + 'num' + i + uiPostfix);
 	}
 
+	var ratingSprTimer:FlxTimer;
 	private function popUpScore(note:Note = null):Void
 	{
 		var noteDiff:Float = Math.abs(note.strumTime - Conductor.songPosition + ClientPrefs.data.ratingOffset);
@@ -3564,6 +3591,74 @@ class PlayState extends MusicBeatState
 		rating.y -= ClientPrefs.data.comboOffset[1];
 		rating.antialiasing = antialias;
 
+		FlxTween.cancelTweensOf(currentRatingSpr);
+		FlxTween.cancelTweensOf(currentComboNum);
+
+		var xOffset:Float = 0;
+		currentRatingSpr.loadGraphic(Paths.image('hud/ratings/${daRating.image}${uiPostfix}'));
+		currentRatingSpr.scale.set(0.68, 0.68);
+		currentRatingSpr.updateHitbox();
+		currentRatingSpr.x = timeBar.x + timeBar.width / 2 - currentRatingSpr.width / 2 + xOffset;
+		currentRatingSpr.y = timeBar.y + timeBar.height + 10;
+		currentRatingSpr.visible = !ClientPrefs.data.hideHud;
+		currentRatingSpr.alpha = 1;
+		currentRatingSpr.antialiasing = antialias;
+
+		final targetAngle:Int = 2;
+		currentRatingSpr.angle = FlxG.random.int(-targetAngle, targetAngle);
+		FlxTween.tween(currentRatingSpr, {"scale.x": 0.6, "scale.y": 0.6}, 0.25 / playbackRate, {ease: FlxEase.expoOut});
+
+		var threeDigitScore:String = Std.string(combo).lpad('0', 3);
+		currentComboNum.text = '${threeDigitScore}';
+		currentComboNum.alpha = 1;
+		currentComboNum.scale.set(1.1, 1.1);
+		currentComboNum.updateHitbox();
+		currentComboNum.x = timeBar.x + (timeBar.width / 2) - (currentComboNum.width / 2) - 5;
+		currentComboNum.y = currentRatingSpr.y + currentRatingSpr.height;
+
+		FlxTween.tween(currentComboNum, {"scale.x": 1, "scale.y": 1}, 0.25 / playbackRate, {ease: FlxEase.expoOut});
+
+		if(daRating.image == 'sick')
+		{
+			var starLeftScale:Float = FlxG.random.float(0.97, 1);
+			var starLeft = new FlxSprite().loadGraphic(Paths.image('hud/ratings/star${FlxG.random.int(0, 1)}'));
+			starLeft.x = currentRatingSpr.x + 5;
+			starLeft.y = currentRatingSpr.y + 5 + FlxG.random.int(5, 12);
+			starLeft.scale.set(starLeftScale, starLeftScale);
+			starLeft.antialiasing = ClientPrefs.data.antialiasing;
+			starLeft.acceleration.y = 380 * playbackRate * playbackRate;
+			starLeft.velocity.y -= FlxG.random.int(140, 175) * playbackRate;
+			starLeft.velocity.x -= FlxG.random.int(0, 10) * playbackRate;
+			ySidesComboGroup.add(starLeft);
+
+			var starRightScale:Float = FlxG.random.float(0.97, 1);
+			var starRight = new FlxSprite().loadGraphic(Paths.image('hud/ratings/star${FlxG.random.int(0, 1)}'));
+			starRight.x = currentRatingSpr.x + currentRatingSpr.width - starRight.width - 5;
+			starRight.y = currentRatingSpr.y + 5 + FlxG.random.int(5, 12);
+			starRight.scale.set(starRightScale, starRightScale);
+			starRight.antialiasing = ClientPrefs.data.antialiasing;
+			starRight.acceleration.y = 380 * playbackRate * playbackRate;
+			starRight.velocity.y -= FlxG.random.int(140, 175) * playbackRate;
+			starRight.velocity.x -= FlxG.random.int(0, 5) * playbackRate;
+			ySidesComboGroup.add(starRight);
+
+			FlxTween.tween(starLeft, {alpha: 0, angle: 65}, 0.65 / playbackRate, {
+				onComplete: function(twn:FlxTween)
+				{
+					ySidesComboGroup.remove(starLeft);
+					starLeft.destroy();
+				}
+			});
+
+			FlxTween.tween(starRight, {alpha: 0, angle: 65}, 0.65 / playbackRate, {
+				onComplete: function(twn:FlxTween)
+				{
+					ySidesComboGroup.remove(starRight);
+					starRight.destroy();
+				}
+			});
+		}
+
 		var comboSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.image(uiFolder + 'combo' + uiPostfix));
 		comboSpr.screenCenter();
 		comboSpr.x = placement;
@@ -3576,6 +3671,19 @@ class PlayState extends MusicBeatState
 		comboSpr.y += 60;
 		comboSpr.velocity.x += FlxG.random.int(1, 10) * playbackRate;
 		comboGroup.add(rating);
+		
+		if(ratingSprTimer != null) ratingSprTimer.cancel();
+		ratingSprTimer = new FlxTimer().start(0.9 * playbackRate, function(tmr:FlxTimer)
+		{
+			FlxTween.tween(currentRatingSpr, {alpha: 0}, 0.2 / playbackRate, {
+				onComplete: function(tween:FlxTween)
+				{
+					ratingSprTimer = null;
+				}
+			});
+			
+			FlxTween.tween(currentComboNum, {alpha: 0}, 0.2 / playbackRate);
+		});
 
 		if (!PlayState.isPixelStage)
 		{
