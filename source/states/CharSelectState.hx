@@ -110,8 +110,8 @@ class CharSelectState extends MusicBeatState
         blackThing = new FlxSprite();
         blackThing.makeGraphic(FlxG.width, FlxG.height, 0xFF000000);
         blackThing.alpha = 0;
-        acceptOptions.set(blackBg, 0.35);
-        backOptions.set(blackBg, 0);
+        acceptOptions.set(blackThing, 0.35);
+        backOptions.set(blackThing, 0);
         add(blackThing);
 
         avaibleCharactersGrp = new FlxTypedGroup<CharSelectObject>();
@@ -221,6 +221,9 @@ class CharSelectState extends MusicBeatState
             {
                 selectedCharacter = true;
 
+                if(idleTimer != null && !idleTimer.finished)
+                    idleTimer.cancel();
+
                 FlxG.sound.music.fadeOut(0.5);
                 FlxG.sound.play(Paths.sound('charSelect/CS_confirm'));
 
@@ -287,10 +290,8 @@ class CharSelectState extends MusicBeatState
                 {
                     if(name == 'deny') 
                     {
-                        if(idleTimer != null)
-                        {
-                            if(!idleTimer.finished) idleTimer.cancel();
-                        }
+                        if(idleTimer != null && !idleTimer.finished)
+                            idleTimer.cancel();
                         idleTimer = new FlxTimer().start(0.5, function(tmr:FlxTimer)
                         {
                             currentCharacter.animation.play('idle');
@@ -298,10 +299,7 @@ class CharSelectState extends MusicBeatState
                     }
                 }
             }
-            else
-            {
-                goBack();
-            }
+            else goBack();
         }
     }
 
