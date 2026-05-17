@@ -472,6 +472,8 @@ class PlayState extends MusicBeatState
 			startCharacterPos(gf);
 			//gfGroup.scrollFactor.set(0.95, 0.95);
 			gfGroup.add(gf);
+
+			if(SONG.gfVersion == 'nogf') gf.visible = false;
 		}
 
 		for(name in songsWith3Player) if(Paths.formatToSongPath(name) == songName) use3Player = true;

@@ -42,38 +42,8 @@ class StageWeek1Pico extends BaseStage
 		}
         
 		// lights on characters
-		var rimBF = new DropShadowShader();
-		rimBF.setAdjustColor(-30, -10, 24, -13);
-		rimBF.color = 0xFFFEF9AA;
-		game.boyfriend.shader = rimBF;
-		rimBF.attachedSprite = game.boyfriend;
-
-		game.boyfriend.animation.callback = function()
-		{
-			if (game.boyfriend != null)
-			{
-				rimBF.updateFrameInfo(game.boyfriend.frame);
-			}
-		};
-
-		var rimGF = new DropShadowShader();
-		rimGF.setAdjustColor(-30, -10, 24, -13);
-		rimGF.color = 0xFFFEF9AA;
-		game.gf.shader = rimGF;
-		rimGF.attachedSprite = game.gf;
-		rimGF.distance = 10;
-        rimGF.angle = 180;
-        
-		game.gf.animation.callback = function()
-		{
-			if (game.gf != null)
-			{
-				rimGF.updateFrameInfo(game.gf.frame);
-			}
-		};
-
         var rimDad = new DropShadowShader();
-        rimDad.setAdjustColor(-30, -10, 24, -13);
+        rimDad.setAdjustColor(0, 0, 0, 0);
         rimDad.color = 0xFFFEF9AA;
         game.dad.shader = rimDad;
         rimDad.attachedSprite = game.dad;

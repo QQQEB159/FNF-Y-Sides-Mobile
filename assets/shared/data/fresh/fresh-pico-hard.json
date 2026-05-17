@@ -1,6 +1,6 @@
 {
 	"player1": "Pico-Playable",
-	"gfVersion": "gf",
+	"gfVersion": "nogf",
 	"notes": [
 		{
 			"sectionBeats": 4,
