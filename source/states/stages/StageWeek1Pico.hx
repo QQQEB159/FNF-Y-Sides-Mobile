@@ -29,6 +29,7 @@ class StageWeek1Pico extends BaseStage
 
         var bigLight:BGSprite = new BGSprite('stages/stagePico/bigLight', -1350, -1000, 1, 1);
         bigLight.blend = ADD;
+		bigLight.alpha = 0.39;
         add(bigLight);
 	}
 
