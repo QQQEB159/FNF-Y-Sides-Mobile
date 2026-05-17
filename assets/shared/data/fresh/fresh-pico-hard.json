@@ -816,7 +816,7 @@
 	"offset": 0,
 	"song": "Fresh",
 	"needsVoices": true,
-	"stage": "stage",
+	"stage": "stagePico",
 	"bpm": 120,
 	"speed": 2.7,
 	"format": "psych_v1"
