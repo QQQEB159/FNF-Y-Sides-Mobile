@@ -62,6 +62,7 @@ class BeatenSongs
         var songsWithNewFlag:Array<String> = [
             'fresh-pico',
             'south-pico',
+            'pico-pico',
             'satin-panties-bf',
             'high-bf',
             'high-pico',

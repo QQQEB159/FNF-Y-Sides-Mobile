@@ -1,6 +1,6 @@
 {
 	"songs": [
-		["Pico", "pico", [254, 0, 103]],
+		["Pico", "pico", [254, 0, 103], true],
 		["Philly Nice", "pico", [254, 0, 103]],
 		["Blammed", "pico", [254, 0, 103]]
 	],
