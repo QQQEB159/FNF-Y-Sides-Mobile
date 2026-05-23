@@ -408,8 +408,16 @@ class ResultsScreen extends MusicBeatSubstate
             case 5:
                 startBfAnim();
 
-                var pathSound = 'resultsScreenBadRanking';
-                FlxG.sound.play(Paths.sound(pathSound), 0.7);
+                if(getRankName() == 'e')
+                {
+                    var pathSound = 'resultsScreenBadRanking';
+                    FlxG.sound.play(Paths.sound(pathSound), 0.7);
+                }
+                else
+                {
+                    var pathSound = 'resultsScreenGoodRanking';
+                    FlxG.sound.play(Paths.sound(pathSound), 0.7);
+                }
 
                 PlayState.instance.camOther.zoom = 1;
 
