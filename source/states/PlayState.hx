@@ -456,6 +456,7 @@ class PlayState extends MusicBeatState
 			case 'skiingStage': new SkiStage();
 			case 'skiingStageCreepy': new SkiCreepyStage();
 			case 'trickyStage': new TrickyStage();
+			case 'hexStage': new HexStage();
 		}
 		if(isPixelStage) introSoundsSuffix = '-pixel';
 

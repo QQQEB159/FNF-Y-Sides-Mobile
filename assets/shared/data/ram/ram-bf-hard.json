@@ -1,6 +1,6 @@
 {
 	"speed": 2.8,
-	"stage": "stage",
+	"stage": "hexStage",
 	"player1": "bf",
 	"player2": "dad",
 	"events": [],
