@@ -3,6 +3,7 @@ package states.stages;
 import states.stages.objects.*;
 import flixel.addons.display.FlxBackdrop;
 import objects.Character;
+import shaders.DropShadowShader;
 
 class HexStage extends BaseStage
 {
@@ -55,6 +56,55 @@ class HexStage extends BaseStage
 
 			var front:BGSprite = new BGSprite('stages/hexStage/front', -1350, -1020 + 253, 1.2, 1.2);
 			add(front);
+		}
+
+		if(ClientPrefs.data.shaders)
+		{
+			var rimBF = new DropShadowShader();
+			rimBF.setAdjustColor(-6, -12, 6, -22);
+			rimBF.color = 0x0;
+			game.boyfriend.shader = rimBF;
+			rimBF.attachedSprite = game.boyfriend;
+			rimBF.angle = 90;
+
+			game.boyfriend.animation.callback = function()
+			{
+				if (game.boyfriend != null)
+				{
+					rimBF.updateFrameInfo(game.boyfriend.frame);
+				}
+			};
+
+			var rimGF = new DropShadowShader();
+			rimGF.setAdjustColor(-6, -12, 6, -22);
+			rimGF.color = 0x0;
+			game.gf.shader = rimGF;
+			rimGF.attachedSprite = game.gf;
+			rimGF.distance = 10;
+			rimGF.angle = 90;
+
+			game.gf.animation.callback = function()
+			{
+				if (game.gf != null)
+				{
+					rimGF.updateFrameInfo(game.gf.frame);
+				}
+			};
+
+			var rimDad = new DropShadowShader();
+			rimDad.setAdjustColor(-6, -12, 6, -22);
+			rimDad.color = 0x0;
+			game.dad.shader = rimDad;
+			rimDad.attachedSprite = game.dad;
+			rimDad.angle = 90;
+
+			game.dad.animation.callback = function()
+			{
+				if (game.dad != null)
+				{
+					rimDad.updateFrameInfo(game.dad.frame);
+				}
+			};
 		}
 	}
 }
