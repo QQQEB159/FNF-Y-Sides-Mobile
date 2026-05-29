@@ -4949,6 +4949,31 @@ class PlayState extends MusicBeatState
 					case 1024:
 						setHbFire(false);
 				}
+			case 'Ram-bf':
+				switch(curStep)
+				{
+					case 64:
+						blackThing.alpha = 0;
+						FlxTween.tween(blackThingBelow, {alpha: 0}, 15);
+
+						cameraFollowInstant = true;
+						isCameraOnForcedPos = true;
+						FlxG.camera.followLerp = 1;
+						camFollow.y = -1500;
+
+						FlxG.camera.zoom *= 1.15;
+						FlxTween.tween(FlxG.camera, {zoom: defaultCamZoom}, 15, {ease: FlxEase.cubeOut});
+
+						FlxTween.tween(
+							camFollow, 
+							{y: boyfriend.getMidpoint().y - 100 + (boyfriend.cameraPosition[1] + boyfriendCameraOffset[1])}, 
+							15, 
+							{ease: FlxEase.cubeOut}
+						);
+					case 190:
+						isCameraOnForcedPos = false;
+						cameraFollowInstant = false;
+				}
 		}
 
 		lastStepHit = curStep;
