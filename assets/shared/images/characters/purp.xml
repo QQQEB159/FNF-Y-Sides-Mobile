@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TextureAtlas imagePath="purp.png">
+<SubTexture name="purp idle0000" x="28" y="0" width="14" height="19" frameX="-15" frameY="-18" frameWidth="41" frameHeight="51" />
+<SubTexture name="purp idle0001" x="0" y="41" width="14" height="18" frameX="-15" frameY="-19" frameWidth="41" frameHeight="51" />
+<SubTexture name="purp left0000" x="0" y="22" width="21" height="19" frameX="-4" frameY="-18" frameWidth="41" frameHeight="51" />
+<SubTexture name="purp left0001" x="21" y="22" width="20" height="19" frameX="-5" frameY="-18" frameWidth="41" frameHeight="51" />
+<SubTexture name="purp right0000" x="42" y="0" width="17" height="19" frameX="-16" frameY="-18" frameWidth="41" frameHeight="51" />
+<SubTexture name="purp right0001" x="42" y="19" width="15" height="19" frameX="-16" frameY="-18" frameWidth="41" frameHeight="51" />
+<SubTexture name="purp down0000" x="29" y="41" width="16" height="16" frameX="-13" frameY="-21" frameWidth="41" frameHeight="51" />
+<SubTexture name="purp down0001" x="14" y="41" width="15" height="17" frameX="-14" frameY="-20" frameWidth="41" frameHeight="51" />
+<SubTexture name="purp up0000" x="0" y="0" width="14" height="22" frameX="-14" frameY="-15" frameWidth="41" frameHeight="51" />
+<SubTexture name="purp up0001" x="14" y="0" width="14" height="21" frameX="-14" frameY="-16" frameWidth="41" frameHeight="51" />
+</TextureAtlas>

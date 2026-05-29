@@ -2,7 +2,8 @@
 	"songs": [
 		["Improbable Outset", "triko", [150, 150, 150], false, "Tricky Sign"],
 		["Madness", "tiky", [150, 150, 150], false, "Tricky Sign"],
-		["R.A.M", "dad", [150, 150, 150], false, ""]
+		["R.A.M", "dad", [150, 150, 150], false, ""],
+		["Returny", "dad", [150, 150, 150], false, ""]
 	],
 
 	"weekCharacters": [

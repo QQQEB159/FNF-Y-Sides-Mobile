@@ -1,0 +1,55 @@
+{
+	"animations": [
+		{
+			"offsets": [18, 0],
+			"loop": true,
+			"fps": 16,
+			"anim": "idle",
+			"indices": [],
+			"name": "idle"
+		},
+		{
+			"offsets": [25, 7],
+			"loop": false,
+			"fps": 20,
+			"anim": "singRIGHT",
+			"indices": [],
+			"name": "right"
+		},
+		{
+			"offsets": [31, 28],
+			"loop": false,
+			"fps": 20,
+			"anim": "singUP",
+			"indices": [],
+			"name": "up"
+		},
+		{
+			"offsets": [68, -113],
+			"loop": false,
+			"fps": 20,
+			"anim": "singDOWN",
+			"indices": [],
+			"name": "down"
+		},
+		{
+			"offsets": [72, 4],
+			"loop": false,
+			"fps": 20,
+			"anim": "singLEFT",
+			"indices": [],
+			"name": "left"
+		}
+	],
+	"vocals_file": "",
+	"no_antialiasing": false,
+	"image": "characters/aquareal",
+	"position": [4670, 580],
+	"healthicon": "aqua",
+	"flip_x": true,
+	"healthbar_colors": [111, 210, 187],
+	"camera_position": [-130, 30],
+	"sing_duration": 6,
+	"scale": 1,
+	"_editor_isPlayer": true
+}

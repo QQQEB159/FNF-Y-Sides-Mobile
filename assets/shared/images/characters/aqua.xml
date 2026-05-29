@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TextureAtlas imagePath="aqua.png">
+<SubTexture name="aqua idle0000" x="30" y="0" width="10" height="26" frameX="-8" frameY="-22" frameWidth="25" frameHeight="50" />
+<SubTexture name="aqua idle0001" x="24" y="28" width="11" height="25" frameX="-7" frameY="-23" frameWidth="25" frameHeight="50" />
+<SubTexture name="aqua left0000" x="40" y="0" width="13" height="26" frameX="-3" frameY="-22" frameWidth="25" frameHeight="50" />
+<SubTexture name="aqua left0001" x="53" y="0" width="12" height="26" frameX="-4" frameY="-22" frameWidth="25" frameHeight="50" />
+<SubTexture name="aqua right0000" x="0" y="28" width="12" height="26" frameX="-9" frameY="-22" frameWidth="25" frameHeight="50" />
+<SubTexture name="aqua right0001" x="12" y="28" width="12" height="26" frameX="-8" frameY="-22" frameWidth="25" frameHeight="50" />
+<SubTexture name="aqua down0000" x="48" y="28" width="15" height="21" frameX="-5" frameY="-27" frameWidth="25" frameHeight="50" />
+<SubTexture name="aqua down0001" x="35" y="28" width="13" height="22" frameX="-6" frameY="-26" frameWidth="25" frameHeight="50" />
+<SubTexture name="aqua up0000" x="0" y="0" width="16" height="28" frameX="-6" frameY="-20" frameWidth="25" frameHeight="50" />
+<SubTexture name="aqua up0001" x="16" y="0" width="14" height="27" frameX="-7" frameY="-21" frameWidth="25" frameHeight="50" />
+</TextureAtlas>

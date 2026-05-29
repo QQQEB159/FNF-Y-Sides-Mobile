@@ -322,6 +322,7 @@ class PlayState extends MusicBeatState
 	var monsterClone:Character;
 	var blackThingBelow:FlxSprite;
 	var blackThing:FlxSprite;
+	var blackThingSupreme:FlxSprite;
 	var vignette:FlxSprite;
 
 	var noteSplashHoldPurple:HoldNoteSplash;
@@ -582,6 +583,11 @@ class PlayState extends MusicBeatState
 		if(SONG.song == 'Winter Horrorland') blackThingBelow.alpha = 1;
 		blackThingBelow.cameras = [camHUD];
 		add(blackThingBelow);
+
+		blackThingSupreme = new FlxSprite().makeGraphic(1480, 1280, 0xFF000000);
+		blackThingSupreme.alpha = 0;
+		blackThingSupreme.cameras = [camOther];
+		add(blackThingSupreme);
 
 		monsterClone = new Character(0, 0, 'monstergloom');
 		if(SONG.song != 'Monster') monsterClone.alpha = 0;
@@ -4973,6 +4979,15 @@ class PlayState extends MusicBeatState
 					case 190:
 						isCameraOnForcedPos = false;
 						cameraFollowInstant = false;
+				}
+			case 'Returny-bf':
+				switch(curStep)
+				{
+					case 260:
+						blackThingSupreme.alpha = 0;
+						FlxTween.tween(blackThingSupreme, {alpha: 1}, 0.15);
+					case 288:
+						blackThingSupreme.alpha = 0;
 				}
 		}
 

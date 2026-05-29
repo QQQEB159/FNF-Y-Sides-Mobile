@@ -1,0 +1,55 @@
+{
+	"animations": [
+		{
+			"loop": true,
+			"offsets": [18, 0],
+			"anim": "idle",
+			"fps": 4,
+			"name": "aqua idle",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [18, 0],
+			"anim": "singRIGHT",
+			"fps": 8,
+			"name": "aqua right",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [19, 0],
+			"anim": "singDOWN",
+			"fps": 8,
+			"name": "aqua down",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [22, 0],
+			"anim": "singLEFT",
+			"fps": 8,
+			"name": "aqua left",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [17, 1],
+			"anim": "singUP",
+			"fps": 8,
+			"name": "aqua up",
+			"indices": []
+		}
+	],
+	"vocals_file": "",
+	"no_antialiasing": true,
+	"image": "characters/aqua",
+	"position": [40, 220],
+	"healthicon": "aqua",
+	"flip_x": true,
+	"healthbar_colors": [27, 150, 68],
+	"camera_position": [-70, -40],
+	"sing_duration": 6,
+	"scale": 7.5,
+	"_editor_isPlayer": false
+}
