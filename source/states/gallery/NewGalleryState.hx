@@ -708,6 +708,7 @@ class NewGalleryState extends MusicBeatState
             trace(' - [$num] Path: ${'assets/shared/images/gallery/$folderName/$imageName.png'}');
             #end
             spr.antialiasing = ClientPrefs.data.antialiasing;
+            spr.setGraphicSize((spr.width * 400) / spr.height, 400);
             spr.screenCenter();
             spr.x = 800;
             spr.x += -(spr.width / 2);
