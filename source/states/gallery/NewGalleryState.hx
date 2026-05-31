@@ -85,6 +85,8 @@ class NewGalleryState extends MusicBeatState
     var bgCamera:FlxCamera;
     var hudCamera:FlxCamera;
 
+    var curtainsTransition:FlxSprite;
+
     var glitchEffect(default, set):Bool = false;
     function set_glitchEffect(value:Bool)
     {
@@ -329,6 +331,17 @@ class NewGalleryState extends MusicBeatState
 		FlxTween.tween(blackTop, {alpha: 0}, 1.3, {ease: FlxEase.expoOut});
 		FlxTween.tween(FlxG.camera, {zoom: 1}, 1, {ease: FlxEase.expoOut});
 
+        curtainsTransition = new FlxSprite();
+        curtainsTransition.frames = Paths.getSparrowAtlas('transition/transCurtains');
+        curtainsTransition.animation.addByPrefix('close', 'closeCurtains', 12, false);
+        curtainsTransition.animation.addByPrefix('open', 'openCurtains', 12, false);
+        curtainsTransition.animation.play('open');
+        //curtainsTransition.visible = false;
+        curtainsTransition.antialiasing = ClientPrefs.data.antialiasing;
+        curtainsTransition.screenCenter();
+        curtainsTransition.y += 10;
+        add(curtainsTransition);
+
         changeSelect(0, true);
     }
 
@@ -501,6 +514,9 @@ class NewGalleryState extends MusicBeatState
             if(controls.BACK)
             {
                 comingFromGallery = true;
+                
+                curtainsTransition.animation.play('close', true);
+
 		        FlxTween.tween(blackTop, {alpha: 1}, 1.3, {ease: FlxEase.expoOut});
 		        FlxTween.tween(FlxG.camera, {zoom: 1.05}, 1, {ease: FlxEase.expoOut});
 

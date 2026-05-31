@@ -54,6 +54,8 @@ class MainMenuState extends MusicBeatState
     var menuItemsAngle:Int = 1;
     var menuItemsAngleReverse:Int = -1;
     var usingMouse:Bool = false;
+    
+    var curtainsTransition:FlxSprite;
 
     override function create()
     {
@@ -291,7 +293,6 @@ class MainMenuState extends MusicBeatState
 		if(NewGalleryState.comingFromGallery) {
 			FlxG.sound.playMusic(Paths.music('freakyMenu'));
 			FlxG.sound.music.fadeIn(1);
-			NewGalleryState.comingFromGallery = false;
 			changeColumn(RIGHT, true);
 
             blackTop.alpha = 1;
@@ -332,6 +333,24 @@ class MainMenuState extends MusicBeatState
 		}
 
         changeSelection(0, true);
+
+        curtainsTransition = new FlxSprite();
+        curtainsTransition.frames = Paths.getSparrowAtlas('transition/transCurtains');
+        curtainsTransition.animation.addByPrefix('close', 'closeCurtains', 12, false);
+        curtainsTransition.animation.addByPrefix('open', 'openCurtains', 12, false);
+        curtainsTransition.animation.play('close');
+        curtainsTransition.visible = false;
+        curtainsTransition.antialiasing = ClientPrefs.data.antialiasing;
+        curtainsTransition.screenCenter();
+        curtainsTransition.y += 10;
+        add(curtainsTransition);
+
+        if(NewGalleryState.comingFromGallery) 
+        {
+            curtainsTransition.visible = true;
+            curtainsTransition.animation.play('open', true);
+			NewGalleryState.comingFromGallery = false;
+        }
 
         //openSubState(new backend.IconFadeTransition(4, 'test', true));
     }
@@ -604,6 +623,9 @@ class MainMenuState extends MusicBeatState
 		        	FlxTransitionableState.skipNextTransOut = true;
 		        	MusicBeatState.switchState(new NewGalleryState());
                 });
+
+                curtainsTransition.visible = true;
+                curtainsTransition.animation.play('close', true);
 
             default:
 				trace('Menu Item ${option} doesn\'t do anything');
