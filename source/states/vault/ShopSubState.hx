@@ -60,6 +60,8 @@ class ShopSubState extends MusicBeatSubstate
     public static var itemsListArr:Array<Dynamic> = [ // Name - Price - Stars - Image name
         ['Picostola', 150, 2, 'picostola'],
         ['Tricky Sign', 150, 2, 'tricky'],
+        ['Tennis Racket', 175, 3, 'racket'],
+        ['Banana', 125, 2, 'banana'],
         ['Calcetines', 75, 2, 'picostola'],
         ['Chocha de gbv', 75, 5, 'picostola'],
         ['Super saiyan 7', 100, 5, 'picostola'],

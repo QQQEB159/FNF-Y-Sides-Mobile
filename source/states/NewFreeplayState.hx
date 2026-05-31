@@ -55,7 +55,8 @@ class NewFreeplayState extends MusicBeatState
     public static var unlockedModSongs:Map<String, Bool> = [
         'Improbable Outset' => false,
         'Madness' => false,
-        'R.A.M' => false
+        'R.A.M' => false,
+        'Returny' => false
     ];
 
     public var moddedSongs:Bool = true;
