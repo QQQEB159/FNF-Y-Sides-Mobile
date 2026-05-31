@@ -133,7 +133,6 @@
 - [x] Cocoa
 - [x] Eggnog
 - [ ] Mistletoe
-- [x] Winter Horrorland
 
 ## HUD
 
@@ -141,13 +140,10 @@
 - [x] Mommy icons
 - [ ] Mommy and daddy xmas sprites
 - [ ] Mommy and daddy xmas icons
-- [ ] Boyfriend Death (WEEK 4)
-- [ ] Boyfriend Death (WEEK 5)
 - [x] BF (Hair Blow Version)
 - [x] GF (Hair Blow Version)
 - [x] BF (Xmas Version)
 - [x] GF (Xmas Version)
-- [ ] Monster (Xmas Version)
 
 ## MENUS
 
