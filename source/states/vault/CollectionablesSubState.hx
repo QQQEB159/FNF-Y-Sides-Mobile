@@ -4,6 +4,7 @@ import backend.GameProgress;
 import backend.PsychCamera;
 import objects.Bar;
 import flixel.addons.display.FlxBackdrop;
+import flixel.util.FlxSort;
 
 enum CollectPage
 {
@@ -133,10 +134,20 @@ class CollectionablesSubState extends MusicBeatSubstate
         awardItemsGrp = new FlxTypedGroup<AwardItem>();
         add(awardItemsGrp);
 
-        var awardNum:Int = 0;
+        var group:Array<Dynamic> = [];
         for(key => value in Achievements.achievements)
         {
-            var item:AwardItem = new AwardItem(0, 0, key);
+			var unlocked:Bool = Achievements.isUnlocked(key);
+			if(value.hidden != true || unlocked)
+				group.push(makeAchievement(key, value, unlocked, value.mod));
+        }
+
+		group.sort(sortByID);
+
+        var awardNum:Int = 0;
+        for(award in group)
+        {
+            var item:AwardItem = new AwardItem(0, 0, award.name);
             //item.makeGraphic(120, 120, 0xFFFFFFFF);
             item.cameras = [awardCamera];
             item.antialiasing = ClientPrefs.data.antialiasing;
@@ -196,6 +207,24 @@ class CollectionablesSubState extends MusicBeatSubstate
         setCurrentPage(currentPage);
         initTransition();
     }
+
+	public static function sortByID(Obj1:Dynamic, Obj2:Dynamic):Int
+		return FlxSort.byValues(FlxSort.ASCENDING, Obj1.ID, Obj2.ID);
+
+	function makeAchievement(achievement:String, data:Achievement, unlocked:Bool, mod:String = null)
+	{
+		return {
+			name: achievement,
+			displayName: unlocked ? Language.getPhrase('achievement_$achievement', data.name) : '???',
+			description: Language.getPhrase('description_$achievement', data.description),
+			curProgress: data.maxScore > 0 ? Achievements.getScore(achievement) : 0,
+			maxProgress: data.maxScore > 0 ? data.maxScore : 0,
+			decProgress: data.maxScore > 0 ? data.maxDecimals : 0,
+			unlocked: unlocked,
+			ID: data.ID,
+			mod: mod
+		};
+	}
 
     function initTransition()
     {
