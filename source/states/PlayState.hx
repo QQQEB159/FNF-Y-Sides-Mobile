@@ -2912,8 +2912,17 @@ class PlayState extends MusicBeatState
 				}
 				#end
 
+				boyfriend.visible = false;
+
+				// FlxTween.num(playbackRate, 0, 0.6, {ease: FlxEase.quartOut}, function(v:Float)
+				// {
+				// 	playbackRate = v;
+				// });
+
+				songCard.visible = false;
+				camHUD.visible = false;
 				persistentUpdate = false;
-				persistentDraw = false;
+				persistentDraw = true;
 				FlxTimer.globalManager.clear();
 				FlxTween.globalManager.clear();
 				FlxG.camera.setFilters([]);

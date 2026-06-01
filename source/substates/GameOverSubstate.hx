@@ -17,11 +17,15 @@ class GameOverSubstate extends MusicBeatSubstate
 
 	var stagePostfix:String = "";
 
-	public static var characterName:String = 'bf-dead';
+	public static var characterName:String = 'bf-dead-new';
 	public static var deathSoundName:String = 'fnf_loss_sfx';
 	public static var loopSoundName:String = 'gameOver';
 	public static var endSoundName:String = 'gameOverEnd';
 	public static var deathDelay:Float = 0;
+
+	public var firstDeathDelay:Float = 0.85;
+
+	var blackBackground:FlxSprite;
 
 	public static var instance:GameOverSubstate;
 	public function new(?playStateBoyfriend:Character = null)
@@ -34,7 +38,7 @@ class GameOverSubstate extends MusicBeatSubstate
 	}
 
 	public static function resetVariables() {
-		characterName = 'bf-dead';
+		characterName = 'bf-dead-new';
 		deathSoundName = 'fnf_loss_sfx';
 		loopSoundName = 'gameOver';
 		endSoundName = 'gameOverEnd';
@@ -59,13 +63,27 @@ class GameOverSubstate extends MusicBeatSubstate
 	{
 		instance = this;
 
+		bgColor = FlxColor.TRANSPARENT;
+
 		Conductor.songPosition = 0;
+
+		blackBackground = new FlxSprite();
+		blackBackground.makeGraphic(FlxG.width * 2, FlxG.height * 2, 0xFF000000);
+		blackBackground.alpha = 0;
+		blackBackground.screenCenter();
+		blackBackground.scrollFactor.set();
+		add(blackBackground);
+
+		FlxTween.tween(blackBackground, {alpha: 0.4}, 1.2);
 
 		if(boyfriend == null)
 		{
-			boyfriend = new Character(PlayState.instance.boyfriend.getScreenPosition().x, PlayState.instance.boyfriend.getScreenPosition().y, characterName, true);
-			boyfriend.x += boyfriend.positionArray[0] - PlayState.instance.boyfriend.positionArray[0];
-			boyfriend.y += boyfriend.positionArray[1] - PlayState.instance.boyfriend.positionArray[1];
+			boyfriend = new Character(PlayState.instance.boyfriend.getPosition().x, PlayState.instance.boyfriend.getPosition().y, characterName, true);
+			//boyfriend.x += boyfriend.positionArray[0] - PlayState.instance.boyfriend.positionArray[0];
+			//boyfriend.y += boyfriend.positionArray[1] - PlayState.instance.boyfriend.positionArray[1];
+			boyfriend.x += boyfriend.positionArray[0];
+			boyfriend.y += boyfriend.positionArray[1];
+
 		}
 		boyfriend.skipDance = true;
 		add(boyfriend);
@@ -74,12 +92,15 @@ class GameOverSubstate extends MusicBeatSubstate
 		FlxG.camera.scroll.set();
 		FlxG.camera.target = null;
 
-		boyfriend.playAnim('firstDeath');
+		new FlxTimer().start(firstDeathDelay, function(tmr:FlxTimer)
+		{
+			boyfriend.playAnim('firstDeath');
+		});
 
 		camFollow = new FlxObject(0, 0, 1, 1);
 		camFollow.setPosition(boyfriend.getGraphicMidpoint().x + boyfriend.cameraPosition[0], boyfriend.getGraphicMidpoint().y + boyfriend.cameraPosition[1]);
 		FlxG.camera.focusOn(new FlxPoint(FlxG.camera.scroll.x + (FlxG.camera.width / 2), FlxG.camera.scroll.y + (FlxG.camera.height / 2)));
-		FlxG.camera.follow(camFollow, LOCKON, 0.01);
+		FlxG.camera.follow(camFollow, LOCKON, 0.015);
 		add(camFollow);
 
 		FlxTween.cancelTweensOf(FlxG.camera);
