@@ -2934,7 +2934,7 @@ class PlayState extends MusicBeatState
 						vocals.stop();
 						opponentVocals.stop();
 						FlxG.sound.music.stop();
-						openSubState(new GameOverSubstate(boyfriend));
+						openSubState(new GameOverSubstate(boyfriend, camFollow));
 						gameOverTimer = null;
 					});
 				}
@@ -2943,7 +2943,7 @@ class PlayState extends MusicBeatState
 					vocals.stop();
 					opponentVocals.stop();
 					FlxG.sound.music.stop();
-					openSubState(new GameOverSubstate(boyfriend));
+					openSubState(new GameOverSubstate(boyfriend, camFollow));
 				}
 
 				// MusicBeatState.switchState(new GameOverState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));

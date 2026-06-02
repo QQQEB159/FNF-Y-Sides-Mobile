@@ -25,15 +25,18 @@ class GameOverSubstate extends MusicBeatSubstate
 
 	public var firstDeathDelay:Float = 0.85;
 
+	public var currentCamPos:FlxObject;
+
 	var blackBackground:FlxSprite;
 
 	public static var instance:GameOverSubstate;
-	public function new(?playStateBoyfriend:Character = null)
+	public function new(?playStateBoyfriend:Character = null, currentCamPos:FlxObject)
 	{
 		if(playStateBoyfriend != null && playStateBoyfriend.curCharacter == characterName) //Avoids spawning a second boyfriend cuz animate atlas is laggy
 		{
 			this.boyfriend = playStateBoyfriend;
 		}
+		if(currentCamPos != null) this.camFollow = currentCamPos;
 		super();
 	}
 
@@ -57,6 +60,8 @@ class GameOverSubstate extends MusicBeatSubstate
 	var charX:Float = 0;
 	var charY:Float = 0;
 
+	var coolLight:FlxSprite;
+
 	var overlay:FlxSprite;
 	var overlayConfirmOffsets:FlxPoint = FlxPoint.get();
 	override function create()
@@ -74,7 +79,7 @@ class GameOverSubstate extends MusicBeatSubstate
 		blackBackground.scrollFactor.set();
 		add(blackBackground);
 
-		FlxTween.tween(blackBackground, {alpha: 0.4}, 1.2);
+		FlxTween.tween(blackBackground, {alpha: 0.6}, 1.2);
 
 		if(boyfriend == null)
 		{
@@ -88,20 +93,59 @@ class GameOverSubstate extends MusicBeatSubstate
 		boyfriend.skipDance = true;
 		add(boyfriend);
 
+		coolLight = new FlxSprite();
+		coolLight.loadGraphic(Paths.image('gameover/light'));
+		//coolLight.scrollFactor.set(0, 0);
+		coolLight.alpha = 0;
+		coolLight.antialiasing = ClientPrefs.data.antialiasing;
+		coolLight.blend = ADD;
+		coolLight.screenCenter(X);
+		coolLight.scale.set(1.1, 1.1);
+		coolLight.updateHitbox();
+		//coolLight.y += -36;
+		coolLight.x = boyfriend.getGraphicMidpoint().x - (coolLight.width / 2);
+		coolLight.y = boyfriend.y - 360;
+		add(coolLight);
+
+		// lights sequence
+		new FlxTimer().start(1.73, function(tmr:FlxTimer)
+		{
+			coolLight.alpha = 0.87;
+		});
+
+		new FlxTimer().start(1.83, function(tmr:FlxTimer)
+		{
+			coolLight.alpha = 0;
+		});
+
+		new FlxTimer().start(1.94, function(tmr:FlxTimer)
+		{
+			coolLight.alpha = 1;
+		});
+
 		FlxG.sound.play(Paths.sound(deathSoundName));
-		FlxG.camera.scroll.set();
-		FlxG.camera.target = null;
+		//FlxG.camera.scroll.set();
+		//FlxG.camera.target = null;
 
 		new FlxTimer().start(firstDeathDelay, function(tmr:FlxTimer)
 		{
 			boyfriend.playAnim('firstDeath');
 		});
 
-		camFollow = new FlxObject(0, 0, 1, 1);
+		if(camFollow == null) 
+		{
+			camFollow = new FlxObject(0, 0, 1, 1);
+			add(camFollow);
+		}
+
+		//FlxG.camera.scroll.x = camFollow.x;
+		//FlxG.camera.scroll.y = camFollow.y;
+
 		camFollow.setPosition(boyfriend.getGraphicMidpoint().x + boyfriend.cameraPosition[0], boyfriend.getGraphicMidpoint().y + boyfriend.cameraPosition[1]);
-		FlxG.camera.focusOn(new FlxPoint(FlxG.camera.scroll.x + (FlxG.camera.width / 2), FlxG.camera.scroll.y + (FlxG.camera.height / 2)));
-		FlxG.camera.follow(camFollow, LOCKON, 0.015);
-		add(camFollow);
+		//FlxG.camera.focusOn(new FlxPoint(FlxG.camera.scroll.x + (FlxG.camera.width / 2), FlxG.camera.scroll.y + (FlxG.camera.height / 2)));
+		//FlxG.camera.follow(camFollow, LOCKON, 0.015);
+
+		FlxG.camera.followLerp = 0.02;
 
 		FlxTween.cancelTweensOf(FlxG.camera);
 		FlxTween.tween(FlxG.camera, {zoom: 0.9}, 3, {ease: FlxEase.smoothStepInOut});
