@@ -61,6 +61,7 @@ class GameOverSubstate extends MusicBeatSubstate
 	var charY:Float = 0;
 
 	var coolLight:FlxSprite;
+	var retryButton:FlxSprite;
 
 	var overlay:FlxSprite;
 	var overlayConfirmOffsets:FlxPoint = FlxPoint.get();
@@ -93,6 +94,16 @@ class GameOverSubstate extends MusicBeatSubstate
 		boyfriend.skipDance = true;
 		add(boyfriend);
 
+		retryButton = new FlxSprite();
+		retryButton.frames = Paths.getSparrowAtlas('gameover/retryButton');
+		retryButton.animation.addByPrefix('idle', 'idle', 4, true);
+		retryButton.animation.play('idle', true);
+		retryButton.antialiasing = ClientPrefs.data.antialiasing;
+		retryButton.alpha = 0;
+		retryButton.x = boyfriend.getGraphicMidpoint().x - (retryButton.width / 2) + 40;
+		retryButton.y = boyfriend.y - retryButton.height - 0;
+		add(retryButton);
+
 		coolLight = new FlxSprite();
 		coolLight.loadGraphic(Paths.image('gameover/light'));
 		//coolLight.scrollFactor.set(0, 0);
@@ -104,7 +115,7 @@ class GameOverSubstate extends MusicBeatSubstate
 		coolLight.updateHitbox();
 		//coolLight.y += -36;
 		coolLight.x = boyfriend.getGraphicMidpoint().x - (coolLight.width / 2);
-		coolLight.y = boyfriend.y - 360;
+		coolLight.y = boyfriend.y - 400;
 		add(coolLight);
 
 		// lights sequence
@@ -121,6 +132,11 @@ class GameOverSubstate extends MusicBeatSubstate
 		new FlxTimer().start(1.94, function(tmr:FlxTimer)
 		{
 			coolLight.alpha = 1;
+		});
+
+		new FlxTimer().start(2.02, function(tmr:FlxTimer)
+		{
+			FlxTween.tween(retryButton, {alpha: 1}, 0.7);
 		});
 
 		FlxG.sound.play(Paths.sound(deathSoundName));
@@ -283,6 +299,10 @@ class GameOverSubstate extends MusicBeatSubstate
 	{
 		if (!isEnding)
 		{
+			FlxTween.cancelTweensOf(retryButton);
+
+			FlxTween.tween(retryButton, {alpha: 0, y: retryButton.y + 10}, 1.2, {ease: FlxEase.quartOut});
+
 			isEnding = true;
 			if(boyfriend.hasAnimation('deathConfirm'))
 				boyfriend.playAnim('deathConfirm', true);

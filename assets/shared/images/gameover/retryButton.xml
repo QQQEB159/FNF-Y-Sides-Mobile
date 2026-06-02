@@ -1,0 +1,5 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TextureAtlas imagePath="retryButton.png">
+<SubTexture name="idle0000" x="352" y="0" width="344" height="188" frameX="-29" frameY="-16" frameWidth="382" frameHeight="200" />
+<SubTexture name="idle0001" x="0" y="0" width="352" height="192" frameX="-25" frameY="-14" frameWidth="382" frameHeight="200" />
+</TextureAtlas>
