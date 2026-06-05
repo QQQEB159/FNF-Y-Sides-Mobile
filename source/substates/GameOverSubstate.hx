@@ -60,6 +60,9 @@ class GameOverSubstate extends MusicBeatSubstate
 	var charX:Float = 0;
 	var charY:Float = 0;
 
+	var tomatosFrontGrp:FlxTypedGroup<FlxSprite>;
+	var tomatosBackGrp:FlxTypedGroup<FlxSprite>;
+
 	var coolLight:FlxSprite;
 	var retryButton:FlxSprite;
 
@@ -81,6 +84,9 @@ class GameOverSubstate extends MusicBeatSubstate
 		add(blackBackground);
 
 		FlxTween.tween(blackBackground, {alpha: 0.6}, 1.2);
+
+		tomatosBackGrp = new FlxTypedGroup<FlxSprite>();
+		add(tomatosBackGrp);
 
 		if(boyfriend == null)
 		{
@@ -117,6 +123,30 @@ class GameOverSubstate extends MusicBeatSubstate
 		coolLight.x = boyfriend.getGraphicMidpoint().x - (coolLight.width / 2);
 		coolLight.y = boyfriend.y - 400;
 		add(coolLight);
+
+		tomatosFrontGrp = new FlxTypedGroup<FlxSprite>();
+		add(tomatosFrontGrp);
+
+		new FlxTimer().start(3, function(tmr:FlxTimer)
+		{
+			var tomatoBack = new FlxSprite();
+			tomatoBack.loadGraphic(Paths.image('gameover/tomatoback'));
+			tomatoBack.antialiasing = ClientPrefs.data.antialiasing;
+			tomatoBack.scrollFactor.set();
+			tomatoBack.y = FlxG.random.int(-200, -250);
+			tomatoBack.x = FlxG.random.int(-30, FlxG.width - 50);
+			tomatoBack.velocity.set(0, 70);
+			tomatosBackGrp.add(tomatoBack);
+
+			var tomatoFront = new FlxSprite();
+			tomatoFront.loadGraphic(Paths.image('gameover/tomatofront'));
+			tomatoFront.antialiasing = ClientPrefs.data.antialiasing;
+			tomatoFront.scrollFactor.set();
+			tomatoFront.y = FlxG.random.int(-200, -250);
+			tomatoFront.x = FlxG.random.int(-30, FlxG.width - 50);
+			tomatoFront.velocity.set(0, 85);
+			tomatosFrontGrp.add(tomatoFront);
+		}, 0);
 
 		// lights sequence
 		new FlxTimer().start(1.73, function(tmr:FlxTimer)
@@ -219,6 +249,26 @@ class GameOverSubstate extends MusicBeatSubstate
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
+
+		tomatosBackGrp.forEach(function(spr:FlxSprite)
+		{
+			spr.angle += 15 * elapsed;
+			if(spr.y > 800) 
+			{
+				tomatosBackGrp.remove(spr);
+				spr.destroy();
+			}
+		});
+
+		tomatosFrontGrp.forEach(function(spr:FlxSprite)
+		{
+			spr.angle += 15.5 * elapsed;
+			if(spr.y > 800) 
+			{
+				tomatosFrontGrp.remove(spr);
+				spr.destroy();
+			}
+		});
 
 		PlayState.instance.callOnScripts('onUpdate', [elapsed]);
 
