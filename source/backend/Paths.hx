@@ -222,7 +222,9 @@ class Paths
 		return returnSound('music/$key', modsAllowed);
 
 	inline static public function inst(song:String, char:String, ?modsAllowed:Bool = true):Sound
+	{
 		return returnSound('${formatToSongPath(song)}/Inst-${char}', 'songs', modsAllowed);
+	}
 
 	inline static public function voices(song:String, postfix:String = null, char:String, ?modsAllowed:Bool = true):Sound
 	{

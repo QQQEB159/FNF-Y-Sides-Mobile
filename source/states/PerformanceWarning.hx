@@ -24,9 +24,9 @@ class PerformanceWarning extends MusicBeatState
 		super();
 		
 		// preload gallery stuff
-		GalleryPreload.preloadMusic();
-		GalleryPreload.preloadImages('outdated_concepts');
-		GalleryPreload.preloadImages('bored');
+		// GalleryPreload.preloadMusic();
+		// GalleryPreload.preloadImages('outdated_concepts');
+		// GalleryPreload.preloadImages('bored');
 	}
 
 	override function create()

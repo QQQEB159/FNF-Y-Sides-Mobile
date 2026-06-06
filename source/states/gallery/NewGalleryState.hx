@@ -36,8 +36,8 @@ class NewGalleryState extends MusicBeatState
         'madness',
         'ram'
     ];
-    static var musicSongsArray:Array<String> = [
-        'tutorial',
+    static var musicSongsArray:Array<Dynamic> = [ // Song name - Is pico mix?
+        ['tutorial', false],
     ];
 
     var optionsGrp:FlxTypedGroup<GalleryObject>;
@@ -59,9 +59,6 @@ class NewGalleryState extends MusicBeatState
     var infoButton:FlxSprite;
     var infoBackground:FlxSprite;
     var infoText:FlxText;
-    var variantText:FlxText;
-    var variantUpArrow:FlxText;
-    var variantDownArrow:FlxText;
     var blackTop:FlxSprite;
 
     var waterShader:WaterShader;
@@ -295,28 +292,6 @@ class NewGalleryState extends MusicBeatState
         infoText.visible = false;
         infoText.antialiasing = ClientPrefs.data.antialiasing;
         add(infoText);
-
-        variantText = new FlxText(0, 530, 0, '');
-        variantText.setFormat(Paths.font("vcr.ttf"), 36, 0xFFFFFFFF);
-        variantText.visible = false;
-        variantText.antialiasing = ClientPrefs.data.antialiasing;
-        add(variantText);
-
-        variantDownArrow = new FlxText(0, 0, 0, '>');
-        variantDownArrow.setFormat(Paths.font("vcr.ttf"), 36, 0xFFFFFFFF);
-        variantDownArrow.visible = false;
-        variantDownArrow.y = 530 + variantText.height + 10;
-        variantDownArrow.angle = 90;
-        variantDownArrow.antialiasing = ClientPrefs.data.antialiasing;
-        add(variantDownArrow);
-
-        variantUpArrow = new FlxText(0, 0, 0, '>');
-        variantUpArrow.setFormat(Paths.font("vcr.ttf"), 36, 0xFFFFFFFF);
-        variantUpArrow.visible = false;
-        variantUpArrow.y = 530 - variantUpArrow.height - 10;
-        variantUpArrow.angle = -90;
-        variantUpArrow.antialiasing = ClientPrefs.data.antialiasing;
-        add(variantUpArrow);
         
         blackTop = new FlxSprite();
         blackTop.makeGraphic(Std.int(FlxG.width * 1.2), FlxG.height, 0xFF000000);
@@ -394,23 +369,11 @@ class NewGalleryState extends MusicBeatState
                 };
             }
 
-            // has pico mix...
-            if(GalleryPreload.preloadedInstMap.exists('${musicSongsArray[curSelectedMusics]}-pico'))
-            {
-                if(controls.UI_UP_P)
-                {
-                    changeVariant(-1);
-                }
-
-                if(controls.UI_DOWN_P)
-                {
-                    changeVariant(1);
-                }
-            }
-
             if(controls.BACK)
             {
                 FlxG.sound.play(Paths.sound('cancelMenu'));
+
+                destroyInstrumental();
 
                 FlxTween.tween(infoButtonBackground, {alpha: 0}, tweenTransSpeed, {ease: FlxEase.quartInOut});
                 FlxTween.tween(infoButton, {alpha: 0}, tweenTransSpeed, {ease: FlxEase.quartInOut, onComplete: function(twn:FlxTween)
@@ -426,9 +389,6 @@ class NewGalleryState extends MusicBeatState
                     FlxTween.tween(obj, {y: 1280}, tweenTransSpeed, {ease: FlxEase.quartInOut});
                 }
 
-                variantText.visible = false;
-                variantUpArrow.visible = false;
-                variantDownArrow.visible = false;
                 FlxTween.tween(optionsGrp.members[curSelected], {y: 150}, tweenTransSpeed, {ease: FlxEase.quartInOut});
 
                 playMusicTimer = 0;
@@ -591,11 +551,6 @@ class NewGalleryState extends MusicBeatState
         {
             resetTimer(firstTime);
             curSelectedMusics = FlxMath.wrap(curSelectedMusics + change, 0, musicSongsArray.length - 1);
-            variantText.visible = GalleryPreload.preloadedInstMap.exists('${musicSongsArray[curSelectedMusics]}-pico'); // has pico mix
-            variantUpArrow.visible = variantText.visible;
-            variantDownArrow.visible = variantText.visible;
-            if(!variantText.visible) curCharacter = 0; // go back to bf themes
-            variantText.text = GalleryPreload.avaiableCharacters[curCharacter];
 
 		    for (num => item in imagesGrp.members)
 		    {
@@ -631,29 +586,33 @@ class NewGalleryState extends MusicBeatState
         {
             if(inst.playing) inst.pause();
         }
+
+        destroyInstrumental();
     }
 
     function playMusic()
     {
-        if(FileSystem.exists('assets/songs/${musicSongsArray[curSelectedMusics]}/Inst-${GalleryPreload.avaiableCharacters[curCharacter].toLowerCase()}.ogg'))
+        var charSuffix:String = musicSongsArray[curSelectedMusics][1] ? 'pico' : 'bf';
+        if(FileSystem.exists('assets/songs/${musicSongsArray[curSelectedMusics][0]}/Inst-$charSuffix.ogg'))
         {
             if(FlxG.sound.music != null)
                 FlxG.sound.music.stop();
         
-            FlxG.sound.list.remove(inst);
+            destroyInstrumental();
 
-            #if debug trace('Changing song to ${musicSongsArray[curSelectedMusics]}-${GalleryPreload.avaiableCharacters[curCharacter].toLowerCase()}'); #end
+            #if debug trace('Changing song to ${musicSongsArray[curSelectedMusics][0]}$charSuffix'); #end
 
             //FlxG.sound.playMusic('assets/songs/${musicSongsArray[curSelected]}/Full.ogg');
             //inst = preloadedInstMap.get(musicSongsArray[curSelected]);
 
             inst = new FlxSound();
-            inst.loadEmbedded('assets/songs/${musicSongsArray[curSelectedMusics]}/Inst-${GalleryPreload.avaiableCharacters[curCharacter].toLowerCase()}.ogg');
+            inst.loadEmbedded(Paths.inst(musicSongsArray[curSelectedMusics][0], charSuffix));
             
             FlxG.sound.list.add(inst);
 
-            @:privateAccess
-            FlxG.sound.playMusic(inst._sound);
+            //@:privateAccess
+            //FlxG.sound.playMusic(inst._sound);
+            inst.play();
 
             #if debug
             trace('INST ' + FlxG.sound.music);
@@ -662,20 +621,11 @@ class NewGalleryState extends MusicBeatState
         else
         {
             #if debug
-            trace('No music found for ${musicSongsArray[curSelectedMusics]}-${GalleryPreload.avaiableCharacters[curCharacter].toLowerCase()}');
+            trace('No music found for ${musicSongsArray[curSelectedMusics][0]}$charSuffix');
             #end
         }
-    }
 
-    function changeVariant(change:Int = 0)
-    {
-        resetTimer();
-        curCharacter = FlxMath.wrap(curCharacter + change, 0, GalleryPreload.avaiableCharacters.length - 1);
-
-        variantText.text = GalleryPreload.avaiableCharacters[curCharacter];
-        variantText.x = 800 - variantText.width/2;
-        variantUpArrow.x = variantText.x + variantText.width / 2 - variantUpArrow.width / 2;
-        variantDownArrow.x = variantText.x + variantText.width / 2 - variantDownArrow.width / 2;
+        trace('MUSIC SHIT LENGTH -> ${FlxG.sound.list.length}');
     }
 
     function generateImages(folderName:String)
@@ -760,8 +710,10 @@ class NewGalleryState extends MusicBeatState
 
     function generateMusics()
     {
-        for(num => image in musicSongsArray)
+        for(num => arr in musicSongsArray)
         {
+            var image = arr[0];
+
             #if debug
                 trace(' * $image');
             #end
@@ -789,7 +741,6 @@ class NewGalleryState extends MusicBeatState
 
         curSelectedMusics = 0;
         changeSelect(0, true);
-        changeVariant();
 
         for(obj in imagesGrp)
         {
@@ -800,74 +751,109 @@ class NewGalleryState extends MusicBeatState
 
     function lockedWeeks(unlockEverything:Bool = false)
     {
-        musicSongsArray = ['tutorial'];
+        musicSongsArray = [['tutorial', false]];
 
         if(unlockEverything)
         {
-            musicSongsArray.push('bopeebo');
-            musicSongsArray.push('fresh');
-            musicSongsArray.push('dad-battle');
-            musicSongsArray.push('spookeez');
-            musicSongsArray.push('south');
-            musicSongsArray.push('monster');
-            musicSongsArray.push('pico');
-            musicSongsArray.push('philly-nice');
-            musicSongsArray.push('blammed');
-            musicSongsArray.push('satin-panties');
-            musicSongsArray.push('high');
-            musicSongsArray.push('milf');
-            musicSongsArray.push('cocoa');
-            musicSongsArray.push('eggnog');
-            musicSongsArray.push('winter-horrorland');
-            musicSongsArray.push('improbable-outset');
-            musicSongsArray.push('madness');
-            musicSongsArray.push('ram');
+            musicSongsArray.push(['bopeebo', false]);
+            musicSongsArray.push(['fresh', false]);
+            musicSongsArray.push(['dad-battle', false]);
+            musicSongsArray.push(['spookeez', false]);
+            musicSongsArray.push(['south', false]);
+            musicSongsArray.push(['monster', false]);
+            musicSongsArray.push(['pico', false]);
+            musicSongsArray.push(['philly-nice', false]);
+            musicSongsArray.push(['blammed', false]);
+            musicSongsArray.push(['satin-panties', false]);
+            musicSongsArray.push(['high', false]);
+            musicSongsArray.push(['milf', false]);
+            musicSongsArray.push(['cocoa', false]);
+            musicSongsArray.push(['eggnog', false]);
+            musicSongsArray.push(['winter-horrorland', false]);
+            musicSongsArray.push(['improbable-outset', false]);
+            musicSongsArray.push(['madness', false]);
+            musicSongsArray.push(['ram', false]);
             return;
         }
 
         if(NewStoryMenuState.weekCompleted.exists('week1'))
         {
-            musicSongsArray.push('bopeebo');
-            musicSongsArray.push('fresh');
-            musicSongsArray.push('dad-battle');
+            musicSongsArray.push(['bopeebo', false]);
+            musicSongsArray.push(['fresh', false]);
+            if(picoUnlocked()) musicSongsArray.push(['fresh', true]);
+            musicSongsArray.push(['dad-battle', false]);
         }
 
         if(NewStoryMenuState.weekCompleted.exists('week2'))
         {
-            musicSongsArray.push('spookeez');
-            musicSongsArray.push('south');
-            musicSongsArray.push('monster');
+            musicSongsArray.push(['spookeez', false]);
+            musicSongsArray.push(['south', false]);
+            if(picoUnlocked()) musicSongsArray.push(['south', true]);
+            musicSongsArray.push(['monster', false]);
         }
 
         if(NewStoryMenuState.weekCompleted.exists('week3'))
         {
-            musicSongsArray.push('pico');
-            musicSongsArray.push('philly-nice');
-            musicSongsArray.push('blammed');
+            musicSongsArray.push(['pico', false]);
+            if(picoUnlocked()) musicSongsArray.push(['pico', true]);
+            musicSongsArray.push(['philly-nice', false]);
+            musicSongsArray.push(['blammed', false]);
         }
 
         if(NewStoryMenuState.weekCompleted.exists('week4'))
         {
-            musicSongsArray.push('satin-panties');
-            musicSongsArray.push('high');
-            musicSongsArray.push('milf');
+            musicSongsArray.push(['satin-panties', false]);
+            musicSongsArray.push(['high', false]);
+            if(picoUnlocked()) musicSongsArray.push(['high', true]);
+            musicSongsArray.push(['milf', false]);
+            if(picoUnlocked()) musicSongsArray.push(['milf', true]);
         }
 
         if(NewStoryMenuState.weekCompleted.exists('week5'))
         {
-            musicSongsArray.push('cocoa');
-            musicSongsArray.push('eggnog');
-            musicSongsArray.push('winter-horrorland');
+            musicSongsArray.push(['cocoa', false]);
+            musicSongsArray.push(['eggnog', false]);
+            musicSongsArray.push(['winter-horrorland', false]);
         }
 
         if(ShopSubState.isItemUnlocked('Tricky Sign'))
         {
-            musicSongsArray.push('improbable-outset');
-            musicSongsArray.push('madness');
+            musicSongsArray.push(['improbable-outset', false]);
+            musicSongsArray.push(['madness', false]);
+        }
+
+        if(ShopSubState.isItemUnlocked('Tennis Racket'))
+        {
+            musicSongsArray.push(['ram', false]);
         }
 
         // last song on the playlist
-        musicSongsArray.push('test');
-        musicSongsArray.push('ram');
+        musicSongsArray.push(['test', false]);
+    }
+
+    function picoUnlocked():Bool
+    {
+        return ShopSubState.isItemUnlocked('Picostola');
+    }
+
+    function destroyInstrumental()
+    {
+        if(inst != null)
+        {
+            inst.stop();
+            FlxG.sound.list.remove(inst);
+            inst.destroy();
+            inst = null;
+        }
+    }
+
+    override function destroy()
+    {
+        destroyInstrumental();
+
+        Paths.clearStoredMemory();
+        Paths.clearUnusedMemory();
+
+        super.destroy();
     }
 }
