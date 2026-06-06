@@ -33,6 +33,8 @@ class ShopSubState extends MusicBeatSubstate
         if(!boughtItems.get(name)) boughtItems.set(name, true);
         trace('Unlocked item $name (${boughtItems.get(name)})');
 
+        Achievements.unlock('first_purchase');
+
         FlxG.save.data.boughtItems = boughtItems;
         FlxG.save.flush();
     }

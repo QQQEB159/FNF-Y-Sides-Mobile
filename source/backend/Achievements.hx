@@ -42,6 +42,7 @@ class Achievements {
 		createAchievement('week5_nomiss',				{name: "Santa, gimme gifts!", description: "Beat Week 5 on Hard with no Misses."});
 		createAchievement('weekTest_nomissfreeplay',	{name: "Thanks for testing!", description: "Play test with no Misses."});
 		createAchievement('dumbbells',					{name: "Stop playing with those dumbbells", description: "Lift dumbbells 50 times.", maxScore: 50, maxDecimals: 0});
+		createAchievement('first_purchase',				{name: "Gimme your yoins!", description: "Purchase an item for the first time."});
 		createAchievement('click',						{name: "The art of clicks", description: "Click 1000 times", maxScore: 1000, maxDecimals: 0, hidden: true});
 		createAchievement('click2',						{name: "Are you seriously still clicking?", description: "Click 2000 times", maxScore: 2000, maxDecimals: 0, hidden: true});
 		
