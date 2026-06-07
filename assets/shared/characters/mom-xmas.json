@@ -48,7 +48,7 @@
 	"healthicon": "mom",
 	"flip_x": false,
 	"healthbar_colors": [202, 55, 127],
-	"camera_position": [0, 0],
+	"camera_position": [0, 130],
 	"sing_duration": 4,
 	"scale": 1,
 	"_editor_isPlayer": false
