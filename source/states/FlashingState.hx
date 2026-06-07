@@ -200,22 +200,28 @@ class FlashingState extends MusicBeatState
 		if(isChangingControls)
 		{
 			if(selectBox != null) selectBox.y = FlxMath.lerp(selectBox.y, selectBoxTargetY, elapsed * 21);
-			if(FlxG.keys.justPressed.UP)
+			if(controls.UI_UP_P)
 			{
 				controlsChangeSelect(-1);
 			}
 
-			if(FlxG.keys.justPressed.DOWN)
+			if(controls.UI_DOWN_P)
 			{
 				controlsChangeSelect(1);
 			}
 
+			if(FlxG.keys.justPressed.ENTER && !selectedControl)
+			{
+				selectBindThing();
+			}
+
 			// in this case i want harcoded ENTER
-			if(FlxG.keys.justPressed.ENTER)
+			if(FlxG.keys.justPressed.SPACE && !selectedControl)
 			{
 				leftState = true;
 				var tweenDuration:Float = 1.2;
 
+				FlxTween.cancelTweensOf(explainText);
 				FlxTween.cancelTweensOf(selectBox);
 				for(obj in bindNameGrp)
 				{
@@ -233,6 +239,7 @@ class FlashingState extends MusicBeatState
 				FlxTween.cancelTweensOf(particles);
 				FlxTween.cancelTweensOf(icons);
 
+				FlxTween.tween(explainText, {alpha: 0});
 				FlxTween.tween(selectBox, {alpha: 0}, tweenDuration);
 				
 				FlxTween.tween(gradient, {alpha: 0}, tweenDuration, {ease: FlxEase.cubeOut});
@@ -370,11 +377,19 @@ class FlashingState extends MusicBeatState
 		['Right', 'note_right'],
 		['Mechanic', 'mechanic']
 	];
+	var explainText:FlxText;
 	var selectBox:FlxSprite;
 	var bindNameGrp:FlxTypedGroup<Alphabet>;
 	var bindAssignedGrp:FlxTypedGroup<Alphabet>;
 	function goToControlsConfig()
 	{
+		explainText = new FlxText(0, 0, 0, 'To change, press ENTER and reconfig your bind. You can press ESCAPE to deselect it.');
+		explainText.setFormat(Paths.font("FredokaOne-Regular.ttf"), 30, 0xFFF1E7FF, CENTER);
+		explainText.screenCenter(X);
+		explainText.y = 110;
+		explainText.antialiasing = ClientPrefs.data.antialiasing;
+		add(explainText);
+
 		selectBox = new FlxSprite();
 		selectBox.makeGraphic(850, 80, 0xFF000000);
 		selectBox.screenCenter(X);
@@ -413,16 +428,28 @@ class FlashingState extends MusicBeatState
 	var selectBoxTargetY:Float = 0;
 	function controlsChangeSelect(change:Int = 0)
 	{
+		if(selectedControl) return;
+
 		if(change != 0) FlxG.sound.play(Paths.sound('scrollMenu'));
 		curSelectedControls = FlxMath.wrap(curSelectedControls + change, 0, bindsToConfig.length - 1);
 
 		selectBoxTargetY = bindNameGrp.members[curSelectedControls].y + bindNameGrp.members[curSelectedControls].height / 2 - selectBox.height / 2;
 	}
 
+	function selectBindThing()
+	{
+		FlxG.sound.play(Paths.sound('confirmMenuFlash'));
+		selectedControl = true;
+	}
+
+	var selectedControl:Bool = false;
 	function onKeyPress(event:KeyboardEvent)
 	{
 		var eventKey:FlxKey = event.keyCode;
-		if(eventKey == LEFT || eventKey == DOWN || eventKey == UP || eventKey == RIGHT || eventKey == ENTER) return;
+		//if(eventKey == LEFT || eventKey == DOWN || eventKey == UP || eventKey == RIGHT || eventKey == ENTER) return;
+
+		if(!selectedControl) return;
+		if(eventKey == ESCAPE) return;
 
 		var ogArray:Array<FlxKey> = ClientPrefs.keyBinds.get(bindsToConfig[curSelectedControls][1]);
 		ogArray.remove(ogArray[0]);
@@ -431,5 +458,11 @@ class FlashingState extends MusicBeatState
 		ClientPrefs.keyBinds.set(bindsToConfig[curSelectedControls][1], ogArray);
 		bindAssignedGrp.members[curSelectedControls].text = ClientPrefs.keyBinds.get(bindsToConfig[curSelectedControls][1])[0];
 		FlxG.sound.play(Paths.sound('keyInput'));
+
+		new FlxTimer().start(0.2, function(tmr:FlxTimer)
+		{
+			selectedControl = false;
+			trace(selectedControl);
+		});
 	}
 }
