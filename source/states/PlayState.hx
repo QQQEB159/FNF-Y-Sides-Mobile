@@ -314,7 +314,9 @@ class PlayState extends MusicBeatState
 
 	public var songsWith3Player:Array<String> = [
 		'Spookeez',
-		'South'
+		'South',
+		'Cocoa',
+		'Eggnog'
 	];
 	public var use3Player:Bool = false;
 
@@ -1092,6 +1094,82 @@ class PlayState extends MusicBeatState
 		endLiftingSound = new FlxSound();
 		endLiftingSound.loadEmbedded(Paths.sound('liftDumbellsEnding'));
 		FlxG.sound.list.add(endLiftingSound);
+
+		var idleFrame0:Array<Float> = [0, 13];
+		var idleFrame1:Array<Float> = [0, 8];
+		var idleFrame2:Array<Float> = [0, 4];
+		var idleFrame3:Array<Float> = [0, 0];
+		var singLEFTFrame0:Array<Float> = [-56, 0];
+		var singLEFTFrame1:Array<Float> = [-51, 0];
+		var singDOWNFrame0:Array<Float> = [-10, 27];
+		var singDOWNFrame1:Array<Float> = [-10, 20];
+		var singUPFrame0:Array<Float> = [-10, -10];
+		var singUPFrame1:Array<Float> = [-10, -3];
+		var singRIGHTFrame0:Array<Float> = [29, 0];
+		var singRIGHTFrame1:Array<Float> = [6, 0];
+
+		var ogPlayer3Pos:Array<Float> = [player3.x, player3.y];
+		
+		// offsets thingie
+		// harcoded cuz it's so fucking bullshit to code something that's gonna be used in 2 FCKING songs
+		if(curSong == 'Cocoa' || curSong == 'Egggnog')
+		{
+			dad.animation.callback = function(name:String, frame:Int, frameIndex:Int)
+			{
+				if(player3 == null) return;
+
+				switch(name)
+				{
+					case 'idle':
+						switch(frame)
+						{
+							case 0:
+								player3.setPosition(ogPlayer3Pos[0] + idleFrame0[0], ogPlayer3Pos[1] + idleFrame0[1]);
+							case 2:
+								player3.setPosition(ogPlayer3Pos[0] + idleFrame1[0], ogPlayer3Pos[1] + idleFrame1[1]);
+							case 4:
+								player3.setPosition(ogPlayer3Pos[0] + idleFrame2[0], ogPlayer3Pos[1] + idleFrame2[1]);
+							case 6:
+								player3.setPosition(ogPlayer3Pos[0] + idleFrame3[0], ogPlayer3Pos[1] + idleFrame3[1]);
+						}
+					case 'singLEFT':
+						switch(frame)
+						{
+							case 0:
+								player3.setPosition(ogPlayer3Pos[0] + singLEFTFrame0[0], ogPlayer3Pos[1] + singLEFTFrame0[1]);
+							case 1:
+								player3.setPosition(ogPlayer3Pos[0] + singLEFTFrame1[0], ogPlayer3Pos[1] + singLEFTFrame1[1]);
+						}
+					case 'singDOWN':
+						switch(frame)
+						{
+							case 0:
+								player3.setPosition(ogPlayer3Pos[0] + singDOWNFrame0[0], ogPlayer3Pos[1] + singDOWNFrame0[1]);
+							case 2:
+								player3.setPosition(ogPlayer3Pos[0] + singDOWNFrame1[0], ogPlayer3Pos[1] + singDOWNFrame1[1]);
+						}
+					case 'singUP':
+						switch(frame)
+						{
+							case 0:
+								player3.setPosition(ogPlayer3Pos[0] + singUPFrame0[0], ogPlayer3Pos[1] + singUPFrame0[1]);
+							case 2:
+								player3.setPosition(ogPlayer3Pos[0] + singUPFrame1[0], ogPlayer3Pos[1] + singUPFrame1[1]);
+						}
+					case 'singRIGHT':
+						switch(frame)
+						{
+							case 0:
+								player3.setPosition(ogPlayer3Pos[0] + singRIGHTFrame0[0], ogPlayer3Pos[1] + singRIGHTFrame0[1]);
+							case 2:
+								player3.setPosition(ogPlayer3Pos[0] + singRIGHTFrame1[0], ogPlayer3Pos[1] + singRIGHTFrame1[1]);
+						}
+					default: 
+							player3.setPosition(ogPlayer3Pos[0], ogPlayer3Pos[1]);
+						trace('Played default player3 offset for sm reason');
+				}
+			}
+		}
 
 		if(eventNotes.length < 1) checkEventNote();
 	}
@@ -5079,7 +5157,9 @@ class PlayState extends MusicBeatState
 			}
 		}
 		if (dad != null && beat % dad.danceEveryNumBeats == 0 && !dad.getAnimationName().startsWith('sing') && !dad.stunned)
+		{
 			dad.dance();
+		}
 
 		if(curSong == 'Monster')
 		{
