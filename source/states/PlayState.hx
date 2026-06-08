@@ -2311,7 +2311,8 @@ class PlayState extends MusicBeatState
 		if(constantHealthDrainActive)
 		{
 			// i need to make sure the health drain is consistent across different framerates (but needs test)
-			if (health > 0.1) applyDifficultyBasedHealthDrain(constantHealthDrainAmount, storyDifficultyText.toLowerCase());
+			// i already did it after like, 1 month lmao :] 
+			if (health > 0.1) applyDifficultyBasedHealthDrain(elapsed, constantHealthDrainAmount, storyDifficultyText.toLowerCase());
 		}
 
 		if(isLiftMechanicEnabled && !watchingMechanicInfo && !inCutscene && !paused)
@@ -4236,9 +4237,9 @@ class PlayState extends MusicBeatState
 				{
 					case 'Tutorial': // do nothing
 					case 'Dad Battle':
-						if (drainHealth && health > 0.1) applyDifficultyBasedHealthDrain(0.025, storyDifficultyText.toLowerCase());
+						if (drainHealth && health > 0.1) applyDifficultyBasedHealthDrain(null, 0.025, storyDifficultyText.toLowerCase());
 					default:
-						if (drainHealth && health > 0.1) applyDifficultyBasedHealthDrain(0.01, storyDifficultyText.toLowerCase());
+						if (drainHealth && health > 0.1) applyDifficultyBasedHealthDrain(null, 0.01, storyDifficultyText.toLowerCase());
 				}
 			}
 
@@ -4479,13 +4480,26 @@ class PlayState extends MusicBeatState
 		if(!note.isSustainNote) invalidateNote(note);
 	}
 
-	function applyDifficultyBasedHealthDrain(healthAmount:Float, difficulty:String)
+	function applyDifficultyBasedHealthDrain(elapsed:Null<Float>, healthAmount:Float, difficulty:String)
 	{
-		switch(difficulty)
+		if(elapsed != null)
 		{
-			case 'easy': health -= healthAmount * 0;
-			case 'normal': health -= healthAmount * 0.5;
-			case 'hard': health -= healthAmount * 1;
+			var deltaIntensity:Float = ClientPrefs.data.framerate;
+			switch(difficulty)
+			{
+				case 'easy': health -= healthAmount * 0 * (elapsed * deltaIntensity);
+				case 'normal': health -= healthAmount * 0.5 * (elapsed * deltaIntensity);
+				case 'hard': health -= healthAmount * 1 * (elapsed * deltaIntensity);
+			}
+		}
+		else
+		{
+			switch(difficulty)
+			{
+				case 'easy': health -= healthAmount * 0;
+				case 'normal': health -= healthAmount * 0.5;
+				case 'hard': health -= healthAmount * 1;
+			}
 		}
 	}
 
