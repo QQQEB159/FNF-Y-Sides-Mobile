@@ -126,20 +126,18 @@
 # WEEK 4 & 5 UPDATE
 
 ## SONGS
-- [ ] Candy Floss
 - [x] Satin Panties
 - [x] High
 - [x] MILF
 - [x] Cocoa
 - [x] Eggnog
-- [ ] Mistletoe
 
 ## HUD
 
 - [x] Mommy sprites
 - [x] Mommy icons
-- [ ] Mommy and daddy xmas sprites
-- [ ] Mommy and daddy xmas icons
+- [x] Mommy and daddy xmas sprites
+- [x] Mommy and daddy xmas icons
 - [x] BF (Hair Blow Version)
 - [x] GF (Hair Blow Version)
 - [x] BF (Xmas Version)
@@ -151,21 +149,23 @@
 
 ## OTHER
 
-- [ ] Week 2 Mechanic
-- [ ] Week 3 Mechanic
-- [ ] Week 4 Mechanic
-- [ ] Week 5 Mechanic
-- [ ] Candy Floss (SONGCARD)
+- [ ] RAM Mechanic
 - [ ] Satin Panties (SONGCARD)
 - [ ] High (SONGCARD)
 - [ ] MILF (SONGCARD)
 - [ ] Cocoa (SONGCARD)
 - [ ] Eggnog (SONGCARD)
-- [ ] Mistletoe (SONGCARD)
-- [ ] Winter Horrorland (SONGCARD)
+- [ ] Improbable Outset (SONGCARD)
+- [ ] Madness (SONGCARD)
+- [ ] RAM (SONGCARD)
+- [ ] Returny (SONGCARD)
+- [ ] Fresh (Pico Mix) (SONGCARD)
+- [ ] South (Pico Mix) (SONGCARD)
+- [ ] High (Pico Mix) (SONGCARD)
+- [ ] MILF (Pico Mix) (SONGCARD)
 
-- [] Week 4 Award
-- [] Week 5 Award
+- [x] Week 4 Award
+- [x] Week 5 Award
 - [x] First purchase Award
 
 - [x] Pico resulsts screen sprites
