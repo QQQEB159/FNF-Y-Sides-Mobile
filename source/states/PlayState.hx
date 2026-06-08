@@ -599,8 +599,8 @@ class PlayState extends MusicBeatState
 		if(SONG.song != 'Monster') monsterClone.alpha = 0;
 		monsterClone.cameras = [camHUD];
 		monsterClone.screenCenter();
-		monsterClone.x += 680;
-		monsterClone.y += 340;
+		monsterClone.x += -40;
+		monsterClone.y += 210;
 		add(monsterClone);
 
 		uiGroup = new FlxSpriteGroup();

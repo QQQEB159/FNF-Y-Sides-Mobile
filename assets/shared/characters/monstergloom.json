@@ -9,7 +9,7 @@
 			"indices": []
 		},
 		{
-			"offsets": [1070, 440],
+			"offsets": [0, 420],
 			"loop": false,
 			"fps": 20,
 			"anim": "singUP",
@@ -17,7 +17,7 @@
 			"name": "up"
 		},
 		{
-			"offsets": [760, 407],
+			"offsets": [40, 171],
 			"loop": false,
 			"fps": 20,
 			"anim": "singLEFT",
@@ -25,7 +25,7 @@
 			"name": "left"
 		},
 		{
-			"offsets": [62, 429],
+			"offsets": [12, -41],
 			"loop": false,
 			"fps": 20,
 			"anim": "singDOWN",
@@ -33,7 +33,7 @@
 			"name": "down"
 		},
 		{
-			"offsets": [593, 410],
+			"offsets": [-49, 178],
 			"loop": false,
 			"fps": 16,
 			"anim": "singRIGHT",
@@ -43,12 +43,12 @@
 	],
 	"vocals_file": "",
 	"no_antialiasing": false,
-	"image": "characters/monstergloom",
-	"position": [100, 250],
+	"image": "characters/monsteroscuro",
+	"position": [60, 210],
 	"healthicon": "monster",
 	"flip_x": false,
 	"healthbar_colors": [243, 255, 110],
-	"camera_position": [-990, -300],
+	"camera_position": [-140, -140],
 	"sing_duration": 4,
 	"scale": 0.9,
 	"_editor_isPlayer": false
