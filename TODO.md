@@ -175,7 +175,7 @@
 - [x] Main Menu Overhaul
 - [x] Story Menu Overhaul
 - [x] Freeplay Menu Overhaul
-    - [ ] Character selector
+    - [x] Character selector
 - [x] Gallery Overhaul
 - [ ] Vault Menu
     - [ ] Shop Menu
