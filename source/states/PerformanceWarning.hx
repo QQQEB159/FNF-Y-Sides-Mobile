@@ -33,8 +33,18 @@ class PerformanceWarning extends MusicBeatState
 	{
 		super.create();
 
+		FlxG.sound.play(Paths.sound('performance/appear'), 0.9);
+
+		var colorBg = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, 0xFF120125);
+		add(colorBg);
+
 		var background = new FlxSprite().loadGraphic(Paths.image('performanceMenu/image'));
+		background.alpha = 0;
+		background.scale.set(0.75, 0.75);
 		add(background);
+
+		FlxTween.tween(background, {alpha: 1}, 0.3);
+		FlxTween.tween(background, {"scale.x": 1, "scale.y": 1}, 0.3, {ease: FlxEase.elasticOut});
 	}
 
 	override function update(elapsed:Float)
