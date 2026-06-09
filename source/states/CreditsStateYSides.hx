@@ -123,22 +123,6 @@ class CreditsStateYSides extends MusicBeatState
 			color: 0xFF912197
 		},
 		{
-			name: 'gBv2209',
-			icon: 'gbv',
-			roles: ['Director', 'Concept Artist', 'Artist', 'Animator', 'Musician', 'Charter', 'Coder'],
-			socialMedias: [
-				{
-					icon: 'yt',
-					link: 'https://www.youtube.com/@gBv2209'
-				},
-				{
-					icon: 'x',
-					link: 'https://x.com/gbv2209'
-				}
-			],
-			color: 0xFF2F6662
-		},
-		{
 			name: 'Snowlui',
 			icon: 'snowlui',
 			roles: ['Musician'],
