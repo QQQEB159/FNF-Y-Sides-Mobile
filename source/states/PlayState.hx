@@ -2934,8 +2934,8 @@ class PlayState extends MusicBeatState
 		chartingMode = true;
 		paused = true;
 
-		if(Achievements.getScore('50misses') < 50) Achievements.setScore('50misses', 0);
-        if(Achievements.getScore('10deaths') < 10) Achievements.setScore('10deaths', 0);
+		//if(Achievements.getScore('50misses') < 50) Achievements.setScore('50misses', 0);
+        //if(Achievements.getScore('10deaths') < 10) Achievements.setScore('10deaths', 0);
 
 		if(FlxG.sound.music != null)
 			FlxG.sound.music.stop();
@@ -2964,8 +2964,8 @@ class PlayState extends MusicBeatState
 		persistentUpdate = false;
 		paused = true;
 
-		if(Achievements.getScore('50misses') < 50) Achievements.setScore('50misses', 0);
-        if(Achievements.getScore('10deaths') < 10) Achievements.setScore('10deaths', 0);
+		//if(Achievements.getScore('50misses') < 50) Achievements.setScore('50misses', 0);
+        //if(Achievements.getScore('10deaths') < 10) Achievements.setScore('10deaths', 0);
 
 		if(FlxG.sound.music != null)
 			FlxG.sound.music.stop();
@@ -3040,7 +3040,11 @@ class PlayState extends MusicBeatState
 					openSubState(new GameOverSubstate(boyfriend, camFollow));
 				}
 
-				Achievements.addScore('10deaths');
+				//Achievements.addScore('10deaths');
+				if(deathCounter >= 10)
+				{
+					Achievements.unlock('10deaths');
+				}
 
 				// MusicBeatState.switchState(new GameOverState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 
@@ -3452,7 +3456,7 @@ class PlayState extends MusicBeatState
 		var weekNoMissFreeplay:String = WeekData.getWeekFileName() + '_nomissfreeplay';
 		checkForAchievement([weekNoMiss, weekNoMissFreeplay, 'ur_bad', 'ur_good', 'hype', 'two_keys', 'toastie', 'debugger', 'beat_tricky', 'beat_returny', 'beat_ram']);
 
-		if(Achievements.getScore('50misses') < 50) Achievements.setScore('50misses', 0);
+		//if(Achievements.getScore('50misses') < 50) Achievements.setScore('50misses', 0);
 		#end
 
 		var ret:Dynamic = callOnScripts('onEndSong', null, true);
@@ -4086,13 +4090,19 @@ class PlayState extends MusicBeatState
 		callOnScripts('noteMissPress', [direction]);
 	}
 
+	var totalMisses:Int = 0;
 	function noteMissCommon(direction:Int, note:Note = null)
 	{
 		// score and data
 		var subtract:Float = pressMissDamage;
 		if(note != null) subtract = note.missHealth;
 
-		Achievements.addScore('50misses');
+		totalMisses++;
+		if(totalMisses >= 50)
+		{
+			Achievements.unlock('50misses');
+		}
+		//Achievements.addScore('50misses');
 
 		noteSplashHoldPurple.visible = false;
 		noteSplashHoldBlue.visible = false;

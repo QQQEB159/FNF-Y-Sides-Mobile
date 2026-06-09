@@ -45,8 +45,8 @@ class Achievements {
 		createAchievement('beat_tricky',				{name: "YOU BEAT CLOWN!", description: "Beat Tricky on Hard"});
 		createAchievement('beat_returny',				{name: "Springfunked!", description: "Beat Groon on Hard"});
 		createAchievement('beat_ram',					{name: "Well played, funker!", description: "Beat Hex on Hard"});
-		createAchievement('50misses',					{name: "Buy new hands...", description: "Get 50 misses in a song", maxScore: 50, maxDecimals: 0});
-		createAchievement('10deaths',					{name: "Go play anything else please.", description: "Die 10 times in the same song", maxScore: 10, maxDecimals: 0});
+		createAchievement('50misses',					{name: "Buy new hands...", description: "Get 50 misses in a song"});
+		createAchievement('10deaths',					{name: "Go play anything else please.", description: "Die 10 times in the same song"});
 		createAchievement('dumbbells',					{name: "Stop playing with those dumbbells", description: "Lift dumbbells 50 times.", maxScore: 50, maxDecimals: 0});
 		createAchievement('first_purchase',				{name: "Gimme your yoins!", description: "Purchase an item for the first time."});
 		createAchievement('click',						{name: "The art of clicks", description: "Click 1000 times", maxScore: 1000, maxDecimals: 0, hidden: true});

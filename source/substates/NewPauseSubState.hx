@@ -222,8 +222,8 @@ class NewPauseSubState extends MusicBeatSubstate
             else if(isRestartSelected) restartSong();
             else
             {
-		        if(Achievements.getScore('50misses') < 50) Achievements.setScore('50misses', 0);
-                if(Achievements.getScore('10deaths') < 10) Achievements.setScore('10deaths', 0);
+		        //if(Achievements.getScore('50misses') < 50) Achievements.setScore('50misses', 0);
+                //if(Achievements.getScore('10deaths') < 10) Achievements.setScore('10deaths', 0);
 
 				#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
 				PlayState.deathCounter = 0;
