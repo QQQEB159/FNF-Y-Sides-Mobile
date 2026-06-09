@@ -476,8 +476,8 @@ class NewFreeplayState extends MusicBeatState
         }
         
 		curDifficulty = Math.round(Math.max(0, Difficulty.defaultList.indexOf(lastDifficultyName)));
-        changeSelect(0, true);
         changeCategory(moddedSongs ? curCategory : OG, false);
+        changeSelect(0, true);
 
         initTransition();
     }
