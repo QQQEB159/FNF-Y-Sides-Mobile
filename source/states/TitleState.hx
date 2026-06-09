@@ -676,6 +676,12 @@ class TitleState extends MusicBeatState
 		if(!closedState)
 		{
 			sickBeats++;
+
+			if(sickBeats > 17)
+			{
+				resetShaderEffect();
+			}
+
 			switch (sickBeats)
 			{
 				case 1:
@@ -776,6 +782,44 @@ class TitleState extends MusicBeatState
 		}
 	}
 
+	function resetShaderEffect()
+	{
+		FlxTween.cancelTweensOf(FlxG.camera);
+		FlxG.camera.zoom = 1;
+
+		if(deflectiveLensTween != null)
+		{
+			deflectiveLensTween.cancel();
+			deflectiveLensTween = null;
+		}
+
+		if(rgbTween != null)
+		{
+			rgbTween.cancel();
+			rgbTween = null;
+		}
+
+		if(bloomTween != null)
+		{
+			bloomTween.cancel();
+			bloomTween = null;
+		}
+
+		if(bloomTween2 != null)
+		{
+			bloomTween2.cancel();
+			bloomTween2 = null;
+		}
+
+		deflectiveLensShader.distortionScale.value[0] = 0;
+		rgbShader.rOffset.value[0] = 0.0;
+		rgbShader.gOffset.value[0] = 0.0;
+		rgbShader.bOffset.value[0] = 0.0;
+		bloomShader.Directions.value[0] = 10;
+		bloomShader.dim.value[0] = 2;
+		//deflectiveLensShader.fringeScale.value[0] = 0;
+	}
+
 	var skippedIntro:Bool = false;
 	var increaseVolume:Bool = false;
 	function skipIntro():Void
@@ -784,40 +828,8 @@ class TitleState extends MusicBeatState
 		{
 			FlxG.save.data.firstTimeTitleState = false;
 			FlxG.save.flush();
-			FlxTween.cancelTweensOf(FlxG.camera);
-			FlxG.camera.zoom = 1;
-
-			if(deflectiveLensTween != null)
-			{
-				deflectiveLensTween.cancel();
-				deflectiveLensTween = null;
-			}
-
-			if(rgbTween != null)
-			{
-				rgbTween.cancel();
-				rgbTween = null;
-			}
-
-			if(bloomTween != null)
-			{
-				bloomTween.cancel();
-				bloomTween = null;
-			}
-
-			if(bloomTween2 != null)
-			{
-				bloomTween2.cancel();
-				bloomTween2 = null;
-			}
-
-			deflectiveLensShader.distortionScale.value[0] = 0;
-			rgbShader.rOffset.value[0] = 0.0;
-			rgbShader.gOffset.value[0] = 0.0;
-			rgbShader.bOffset.value[0] = 0.0;
-			bloomShader.Directions.value[0] = 10;
-			bloomShader.dim.value[0] = 2;
-			//deflectiveLensShader.fringeScale.value[0] = 0;
+			
+			resetShaderEffect();
 
 			#if TITLE_SCREEN_EASTER_EGG
 			if (playJingle) //Ignore deez
