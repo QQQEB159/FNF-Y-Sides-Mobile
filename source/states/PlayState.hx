@@ -4383,6 +4383,18 @@ class PlayState extends MusicBeatState
 		if(result != LuaUtils.Function_Stop && result != LuaUtils.Function_StopHScript && result != LuaUtils.Function_StopAll) callOnHScript('opponentNoteHit', [note]);
 
 		if (!note.isSustainNote) invalidateNote(note);
+		if(dad.imageFile == 'characters/cardboardPico')
+		{
+			spawnCardboardNote(note);
+		}
+	}
+
+	function spawnCardboardNote(note:Note)
+	{
+		var direction = note.noteData;
+
+		var tinyNote = new PicoCardboardNote(dad.x + dad.width - 70, dad.y + FlxG.random.float(80, 100), direction);
+		add(tinyNote);
 	}
 
 	public function goodNoteHit(note:Note):Void

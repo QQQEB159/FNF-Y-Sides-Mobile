@@ -1398,7 +1398,7 @@
 			"bpm": 156
 		}
 	],
-	"player2": "Pico",
+	"player2": "Pico-cardboard",
 	"gameOverSound": "fnf_loss_sfx_pico",
 	"gameOverLoop": "gameOver",
 	"gameOverChar": "bf-dead-pico",
