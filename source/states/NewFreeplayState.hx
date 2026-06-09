@@ -661,7 +661,7 @@ class NewFreeplayState extends MusicBeatState
                             unlockedModSongs.set(song[0], ShopSubState.isItemUnlocked(song[4]));
                             if(!unlockedModSongs.get(song[0])) continue;
                             addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]));
-                            trace('Added ${song[0]} via mods');
+                            trace('Added ${song[0]} via MODS');
                         case OG:
                             // just ignore that shitty code up there right? i love you y sides main content, fuck mods. -madera <3
                             if(song[4] != null) continue;
@@ -676,14 +676,15 @@ class NewFreeplayState extends MusicBeatState
                                 addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]));
                             } 
 
-                            trace('Added ${song[0]} via og');
+                            trace('Added ${song[0]} via OG');
                     }
                 }
 				else
 				{
 					if(!song[3]) continue;
-                    if(song[4] == null) continue;
+                    //if(song[4] == null) continue;
 					addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]));
+                    trace('Added ${song[0]} via OG (Pico Mix)');
 				}
 			}
 		}
@@ -705,8 +706,6 @@ class NewFreeplayState extends MusicBeatState
             capsule.isNewSong = (!BeatenSongs.isSongBeaten(fullSongName) && BeatenSongs.isSongNew(fullSongName));
             grpSongs.add(capsule);
         }
-
-        changeSelect(0, true);
 
 		for (num => item in grpSongs.members)
         {

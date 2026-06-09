@@ -74,7 +74,8 @@ class BeatenSongs
             'winter-horrorland-bf',
             'improbable-outset-bf',
             'madness-bf',
-            'ram-bf'
+            'ram-bf',
+            'returny-bf'
         ];
 
         if(songsWithNewFlag.contains(name)) return true;

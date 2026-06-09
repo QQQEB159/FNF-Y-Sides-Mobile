@@ -70,12 +70,14 @@ class PerformanceWarning extends MusicBeatState
 	}
 
 	var loadingSound:FlxSound;
+	var pressedEnter:Bool = false;
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
 
-		if(controls.ACCEPT)
+		if(controls.ACCEPT && !pressedEnter)
 		{
+			pressedEnter = true;
 			FlxG.sound.play(Paths.sound('performance/enter'), 0.9);
 
 			FlxTween.tween(background, {alpha: 0}, 0.3, {ease: FlxEase.quartOut});
