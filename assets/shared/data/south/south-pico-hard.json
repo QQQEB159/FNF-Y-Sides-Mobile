@@ -2487,7 +2487,7 @@
 			"mustHitSection": true
 		}
 	],
-	"gfVersion": "gf-spooky",
+	"gfVersion": "nene",
 	"gameOverSound": "fnf_loss_sfx_spooky",
 	"player3": "frank",
 	"gameOverLoop": "gameOver",
