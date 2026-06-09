@@ -576,7 +576,7 @@ class NewFreeplayState extends MusicBeatState
     var tinyAlpha:Float = 0.75;
     function changeCategory(targetCategory:SongCategory = OG, playSound:Bool = true)
     {
-        if(!moddedSongs) return;
+        if(!moddedSongs) targetCategory = OG;
 
         switch(targetCategory)
         {
@@ -661,18 +661,22 @@ class NewFreeplayState extends MusicBeatState
                             unlockedModSongs.set(song[0], ShopSubState.isItemUnlocked(song[4]));
                             if(!unlockedModSongs.get(song[0])) continue;
                             addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]));
+                            trace('Added ${song[0]} via mods');
                         case OG:
                             // just ignore that shitty code up there right? i love you y sides main content, fuck mods. -madera <3
                             if(song[4] != null) continue;
 
+                            // this code really do sucks af.-
                             if(song[0] == 'Test' && ShopSubState.isItemUnlocked('Mic Bulb')) 
                             {
                                 addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]));
                             }
-                            else
+                            else if(song[0] != 'Test')
                             {
                                 addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]));
                             } 
+
+                            trace('Added ${song[0]} via og');
                     }
                 }
 				else
