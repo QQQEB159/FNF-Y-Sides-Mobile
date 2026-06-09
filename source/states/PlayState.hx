@@ -327,6 +327,7 @@ class PlayState extends MusicBeatState
 	var blackThingSupreme:FlxSprite;
 	var redVignetteIntro:FlxSprite;
 	var vignette:FlxSprite;
+	var vignette2:FlxSprite; //because i can
 
 	var noteSplashHoldPurple:HoldNoteSplash;
 	var noteSplashHoldBlue:HoldNoteSplash;
@@ -579,9 +580,15 @@ class PlayState extends MusicBeatState
 		if(SONG.song == 'Winter Horrorland') vignette.alpha = 1;
 		add(vignette);
 
+		vignette2 = new FlxSprite().loadGraphic(Paths.image('vignette'));
+		vignette2.alpha = 0;
+		vignette2.cameras = [camHUD];
+		add(vignette2);
+
 		fireVignette = new FlxSprite().loadGraphic(Paths.image('hud/fireVignette'));
 		fireVignette.cameras = [camHUD];
 		fireVignette.alpha = 0;
+		if(SONG.song == 'Monster') fireVignette.visible = false;
 		add(fireVignette);
 
 		blackThingBelow = new FlxSprite().makeGraphic(1480, 1280, 0xFF000000);
@@ -2309,6 +2316,19 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 
+		if(curSong != null)
+		{
+			var fullSongName:String = '$curSong-${CharSelectState.currentFreeplaySelectedName}';
+			switch(fullSongName)
+			{
+				case 'Monster-bf':
+					if(curStep >= 1088 && curStep <= 1520)
+					{
+						FlxG.camera.shake(0.002, 0.15, null, true);
+					}
+			}
+		}
+
 		var scoreLerpPolation:Float = elapsed * 24;
 
 		scoreLerp = Std.int(FlxMath.lerp(scoreLerp, songScore, scoreLerpPolation));
@@ -2583,8 +2603,17 @@ class PlayState extends MusicBeatState
 			var secondsTotal:Int = Math.floor(songCalc / 1000);
 			if(secondsTotal < 0) secondsTotal = 0;
 
-			clockIndicator.angle = (curTime / songLength) * 360;
-			clockIndicator2.angle = (curTime / songLength) * 720;
+			if(SONG.song == 'Monster' && curStep >= 1088 && curStep <= 1520)
+			{
+				//FlxTween.shake(timeBar, 0.05, 0.15, XY);
+				clockIndicator.angle += 28 * elapsed;
+				clockIndicator2.angle += 56 * elapsed;
+			}
+			else
+			{
+				clockIndicator.angle = (curTime / songLength) * 360;
+				clockIndicator2.angle = (curTime / songLength) * 720;
+			}
 		}
 
 		if (camZooming)
@@ -3739,6 +3768,12 @@ class PlayState extends MusicBeatState
 
 		FlxTween.tween(currentComboNum, {"scale.x": 1, "scale.y": 1}, 0.25 / playbackRate, {ease: FlxEase.expoOut});
 
+		if(ClientPrefs.data.downScroll)
+		{
+			currentRatingSpr.y = timeBar.y - currentRatingSpr.height - 15;
+			currentComboNum.y = currentRatingSpr.y + currentRatingSpr.height;
+		}
+
 		if(daRating.image == 'sick')
 		{
 			var starLeftScale:Float = FlxG.random.float(0.97, 1);
@@ -4817,6 +4852,16 @@ class PlayState extends MusicBeatState
 		{
 			FlxTween.tween(note, {alpha: _alpha}, _duration, {ease: _ease});
 		}
+
+		for(splash in grpNoteSplashes)
+		{
+			FlxTween.tween(splash, {alpha: _alpha}, _duration, {ease: _ease});
+		}
+		
+		FlxTween.tween(noteSplashHoldPurple, {alpha: _alpha}, _duration, {ease: _ease});
+		FlxTween.tween(noteSplashHoldBlue, {alpha: _alpha}, _duration, {ease: _ease});
+		FlxTween.tween(noteSplashHoldGreen, {alpha: _alpha}, _duration, {ease: _ease});
+		FlxTween.tween(noteSplashHoldRed, {alpha: _alpha}, _duration, {ease: _ease});
 	}
 
 	var lastStepHit:Int = -1;
@@ -4971,8 +5016,8 @@ class PlayState extends MusicBeatState
 						tweenNotesAlpha('all', 0, 0.23, FlxEase.linear);
 					case 580:
 						forcedCamHUDZoom = true;
-						FlxTween.tween(camHUD, {zoom: 1.15}, 1.8, {ease: FlxEase.sineIn});
-						FlxTween.tween(camHUD, {"scroll.y": -50}, 1.8, {ease: FlxEase.sineIn});
+						FlxTween.tween(camHUD, {zoom: 1.15}, 2.6, {ease: FlxEase.sineIn});
+						FlxTween.tween(camHUD, {"scroll.y": -52}, 2.6, {ease: FlxEase.sineIn});
 					case 608:
 						tweenNotesAlpha('all', 1, 0.001, FlxEase.linear);
 
@@ -4991,12 +5036,16 @@ class PlayState extends MusicBeatState
 						redVignetteIntro.alpha = 0;
 						monsterClone.alpha = 0;
 					case 1056:
+						//tweenNotesAlpha('all', 0, 1.2, FlxEase.linear);
 						FlxTween.tween(blackThingBelow, {alpha: 1}, 1.2);
 						//FlxTween.tween(uiGroup, {alpha: 0}, 1.2);
+					case 1076:
+						//tweenNotesAlpha('all', 1, 0.9, FlxEase.linear);
 					case 1088:
 						blackThingBelow.alpha = 0;
 						//uiGroup.alpha = 1;
-						vignette.alpha = 0.65;
+						vignette.alpha = 1;
+						vignette2.alpha = 1;
 
 						constantHealthDrainAmount = 0.0006;
 						setHbFire(true);

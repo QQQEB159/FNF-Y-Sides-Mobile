@@ -55,7 +55,7 @@ class HalloweenCreepyStage extends BaseStage
 			superBloomHUD = new BloomShader();
 
 			superBloomHUD.dim.value = [1.8]; // 1.8
-			superBloomHUD.Directions.value = [10.0]; // 2.0, 100.0 to remove
+			superBloomHUD.Directions.value = [20.0]; // 2.0, 100.0 to remove
 			superBloomHUD.Quality.value = [8.0]; // 8.0
 			superBloomHUD.Size.value = [4.0]; // 8.0, 1.0
 
@@ -145,17 +145,17 @@ class HalloweenCreepyStage extends BaseStage
 			case 580:
 				if(ClientPrefs.data.shaders)
 				{
-					FlxTween.num(2, 1.69, 1.8, {ease: FlxEase.sineOut}, function(v:Float)
+					FlxTween.num(2, 1.67, 2, {ease: FlxEase.sineOut}, function(v:Float)
 					{
 						superBloomHUD.dim.value[0] = v; // 1.8
 					});
 
-					FlxTween.num(4, 1.84, 1.8, {ease: FlxEase.sineOut}, function(v:Float)
+					FlxTween.num(4, 1.62, 2, {ease: FlxEase.sineOut}, function(v:Float)
 					{
 						superBloomHUD.Directions.value[0] = v; // 1.8
 					});
 
-					FlxTween.num(0, 0.0036, 1.8, {ease: FlxEase.sineOut}, function(v:Float)
+					FlxTween.num(0, 0.003, 1.8, {ease: FlxEase.sineOut}, function(v:Float)
 					{
 						chromaticAberration.rOffset.value[0] = v;
 						chromaticAberration.gOffset.value[0] = 0;
@@ -166,7 +166,7 @@ class HalloweenCreepyStage extends BaseStage
 				if(ClientPrefs.data.shaders)
 				{
 					superBloomHUD.dim.value[0] = 2.0;
-					superBloomHUD.Directions.value[0] = 100; // 1.8
+					superBloomHUD.Directions.value[0] = 20; // 1.8
 
 					game.camHUD.filters.remove(superBloomHUDFilter);
 					game.camHUD.filters.remove(chromaticAberrationFilter);
