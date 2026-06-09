@@ -63,7 +63,7 @@ const float epsilon = 1e-6;
 const float fringeExp = 2.3;
 const float fringeScale = 0.0;
 const float distortionExp = 2.0;
-uniform float distortionScale = 0.3;
+uniform float distortionScale;
 
 const float startAngle = 1.23456 + pi;	// tweak to get different fringe colouration
 const float angleStep = pi * 2.0 / 3.0;	// space samples every 120 degrees
@@ -112,5 +112,6 @@ void main() {
     public function new()
     {
         super();
+    	distortionScale.value = [0.3]; // default moved here
     }
 }
