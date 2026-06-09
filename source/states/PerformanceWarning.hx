@@ -66,6 +66,7 @@ class PerformanceWarning extends MusicBeatState
 
 		loadingSound = new FlxSound();
 		loadingSound.loadEmbedded(Paths.sound('performance/loading'));
+		FlxG.sound.list.add(loadingSound);
 	}
 
 	var loadingSound:FlxSound;

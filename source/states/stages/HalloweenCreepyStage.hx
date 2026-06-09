@@ -30,6 +30,9 @@ class HalloweenCreepyStage extends BaseStage
 	}
 
 	var chromaticAberration:ChromaticAberration;
+	var chromaticAberrationFilter:ShaderFilter;
+	var superBloomHUD:BloomShader;
+	var superBloomHUDFilter:ShaderFilter;
 	override function createPost()
 	{
 
@@ -49,16 +52,27 @@ class HalloweenCreepyStage extends BaseStage
 			bloom.Quality.value = [8.0]; // 8.0
 			bloom.Size.value = [4.0]; // 8.0, 1.0
 
+			superBloomHUD = new BloomShader();
+
+			superBloomHUD.dim.value = [1.8]; // 1.8
+			superBloomHUD.Directions.value = [4.0]; // 2.0, 100.0 to remove
+			superBloomHUD.Quality.value = [8.0]; // 8.0
+			superBloomHUD.Size.value = [4.0]; // 8.0, 1.0
+
+			superBloomHUDFilter = new ShaderFilter(superBloomHUD);
+			game.camHUD.filters = [superBloomHUDFilter];
+
 			var shaderFilter = new ShaderFilter(bloom);
 			FlxG.camera.filters = [shaderFilter];
 
 			chromaticAberration = new ChromaticAberration();
-			chromaticAberration.rOffset.value = [0.001];
+			chromaticAberration.rOffset.value = [0.0];
 			chromaticAberration.gOffset.value = [0.0];
-			chromaticAberration.bOffset.value = [-0.001];
+			chromaticAberration.bOffset.value = [0.0];
 
-			var shaderFilter2 = new ShaderFilter(chromaticAberration);
-			FlxG.camera.filters.push(shaderFilter2);
+			var chromaticAberrationFilter = new ShaderFilter(chromaticAberration);
+			FlxG.camera.filters.push(chromaticAberrationFilter);
+			game.camHUD.filters.push(chromaticAberrationFilter);
 
 			// lights on characters
 			var rimBF = new DropShadowShader();
@@ -126,14 +140,50 @@ class HalloweenCreepyStage extends BaseStage
 
 	override function stepHit()
 	{
-		if(curStep == 1088)
+		switch(curStep)
 		{
-			if(ClientPrefs.data.shaders)
-			{
-				chromaticAberration.rOffset.value = [0.002];
-				chromaticAberration.gOffset.value = [0.0];
-				chromaticAberration.bOffset.value = [-0.002];
-			}
+			case 580:
+				if(ClientPrefs.data.shaders)
+				{
+					FlxTween.num(2, 1.75, 1.8, {ease: FlxEase.sineOut}, function(v:Float)
+					{
+						superBloomHUD.dim.value[0] = v; // 1.8
+					});
+
+					FlxTween.num(4, 1.95, 1.8, {ease: FlxEase.sineOut}, function(v:Float)
+					{
+						superBloomHUD.Directions.value[0] = v; // 1.8
+					});
+
+					FlxTween.num(0, 0.003, 1.8, {ease: FlxEase.sineOut}, function(v:Float)
+					{
+						chromaticAberration.rOffset.value[0] = v;
+						chromaticAberration.gOffset.value[0] = 0;
+						chromaticAberration.bOffset.value[0] = -v;
+					});
+				}
+			case 608:
+				if(ClientPrefs.data.shaders)
+				{
+					superBloomHUD.dim.value[0] = 2.0;
+					superBloomHUD.Directions.value[0] = 100; // 1.8
+					
+					game.camHUD.filters.remove(superBloomHUDFilter);
+					game.camHUD.filters.remove(chromaticAberrationFilter);
+
+					chromaticAberration.rOffset.value = [0.001];
+					chromaticAberration.gOffset.value = [0.0];
+					chromaticAberration.bOffset.value = [-0.001];
+				}
+			case 1088:
+				if(ClientPrefs.data.shaders)
+				{
+
+					chromaticAberration.rOffset.value = [0.002];
+					chromaticAberration.gOffset.value = [0.0];
+					chromaticAberration.bOffset.value = [-0.002];
+				}
+
 		}
 	}
 }

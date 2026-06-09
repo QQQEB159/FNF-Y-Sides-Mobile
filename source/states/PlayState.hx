@@ -325,6 +325,7 @@ class PlayState extends MusicBeatState
 	var blackThingBelow:FlxSprite;
 	var blackThing:FlxSprite;
 	var blackThingSupreme:FlxSprite;
+	var redVignetteIntro:FlxSprite;
 	var vignette:FlxSprite;
 
 	var noteSplashHoldPurple:HoldNoteSplash;
@@ -590,6 +591,12 @@ class PlayState extends MusicBeatState
 		blackThingBelow.cameras = [camHUD];
 		add(blackThingBelow);
 
+		redVignetteIntro = new FlxSprite().loadGraphic(Paths.image('stages/halloweenStage/monster/effects/redvignette'));
+		redVignetteIntro.alpha = 0;
+		if(SONG.song == 'Monster') redVignetteIntro.alpha = 0.4;
+		redVignetteIntro.cameras = [camHUD];
+		add(redVignetteIntro);
+
 		blackThingSupreme = new FlxSprite().makeGraphic(1480, 1280, 0xFF000000);
 		blackThingSupreme.alpha = 0;
 		blackThingSupreme.cameras = [camOther];
@@ -835,7 +842,7 @@ class PlayState extends MusicBeatState
 		healthBarArrow.y = healthBar.y - healthBarArrow.height - 10;
 		//healthBarArrow.y = healthBar.y + 10;
 		healthBarArrow.visible = false;
-		uiGroup.add(healthBarArrow);
+		//uiGroup.add(healthBarArrow);
 
 		scoreTxt = new FlxText(0, healthBar.y + 100, FlxG.width, "", 18);
 		scoreTxt.setFormat(Paths.font("GAU_pop_magic.ttf"), 26, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, 0xFF130024);
@@ -2583,7 +2590,7 @@ class PlayState extends MusicBeatState
 		if (camZooming)
 		{
 			FlxG.camera.zoom = FlxMath.lerp(defaultCamZoom, FlxG.camera.zoom, Math.exp(-elapsed * 3.125 * camZoomingDecay * playbackRate));
-			camHUD.zoom = FlxMath.lerp(1, camHUD.zoom, Math.exp(-elapsed * 3.125 * camZoomingDecay * playbackRate));
+			if(!forcedCamHUDZoom) camHUD.zoom = FlxMath.lerp(1, camHUD.zoom, Math.exp(-elapsed * 3.125 * camZoomingDecay * playbackRate));
 		}
 
 		FlxG.watch.addQuick("secShit", curSection);
@@ -4794,6 +4801,14 @@ class PlayState extends MusicBeatState
 		super.destroy();
 	}
 
+	public function tweenNotesAlpha(type:String = 'all', _alpha:Float = 1, _duration:Float = 1, _ease:EaseFunction)
+	{
+		for(note in strumLineNotes)
+		{
+			FlxTween.tween(note, {alpha: _alpha}, _duration, {ease: _ease});
+		}
+	}
+
 	var lastStepHit:Int = -1;
 	override function stepHit()
 	{
@@ -4940,7 +4955,21 @@ class PlayState extends MusicBeatState
 						}
 
 						FlxTween.tween(blackThing, {alpha: 0}, 3);
+					case 320:
+						FlxTween.tween(redVignetteIntro, {alpha: 1}, 26);
+					case 570:
+						tweenNotesAlpha('all', 0, 0.23, FlxEase.linear);
+					case 580:
+						forcedCamHUDZoom = true;
+						FlxTween.tween(camHUD, {zoom: 1.15}, 1.8, {ease: FlxEase.sineIn});
+						FlxTween.tween(camHUD, {"scroll.y": -50}, 1.8, {ease: FlxEase.sineIn});
 					case 608:
+						tweenNotesAlpha('all', 1, 0.001, FlxEase.linear);
+
+						FlxTween.cancelTweensOf(camHUD);
+						camHUD.zoom = 1;
+						camHUD.scroll.y = 0;
+						forcedCamHUDZoom = false;
 						uiGroup.visible = true;
 						if(!ClientPrefs.getGameplaySetting('botplay')) botplayTxt.visible = false; //botplay text invisible if not active
 
@@ -4949,6 +4978,7 @@ class PlayState extends MusicBeatState
 							strumLineNotes.members[i].alpha = 1;
 						}
 						blackThingBelow.alpha = 0;
+						redVignetteIntro.alpha = 0;
 						monsterClone.alpha = 0;
 					case 1056:
 						FlxTween.tween(blackThingBelow, {alpha: 1}, 1.2);
@@ -5209,6 +5239,7 @@ class PlayState extends MusicBeatState
 		}
 	}
 
+	var forcedCamHUDZoom:Bool = false; 
 	override function sectionHit()
 	{
 		if (SONG.notes[curSection] != null)
@@ -5219,7 +5250,7 @@ class PlayState extends MusicBeatState
 			if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.data.camZooms)
 			{
 				FlxG.camera.zoom += 0.015 * camZoomingMult;
-				camHUD.zoom += 0.03 * camZoomingMult;
+				if(!forcedCamHUDZoom) camHUD.zoom += 0.03 * camZoomingMult;
 			}
 
 			if (SONG.notes[curSection].changeBPM)
