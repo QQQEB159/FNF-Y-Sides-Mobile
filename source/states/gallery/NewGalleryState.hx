@@ -775,7 +775,7 @@ class NewGalleryState extends MusicBeatState
         {
             musicSongsArray.push(['bopeebo', false]);
             musicSongsArray.push(['fresh', false]);
-            if(picoUnlocked()) musicSongsArray.push(['fresh', true]);
+            if(picoUnlocked() && BeatenSongs.isSongBeaten('fresh-pico')) musicSongsArray.push(['fresh', true]);
             musicSongsArray.push(['dad-battle', false]);
         }
 
@@ -783,14 +783,14 @@ class NewGalleryState extends MusicBeatState
         {
             musicSongsArray.push(['spookeez', false]);
             musicSongsArray.push(['south', false]);
-            if(picoUnlocked()) musicSongsArray.push(['south', true]);
+            if(picoUnlocked() && BeatenSongs.isSongBeaten('south-pico')) musicSongsArray.push(['south', true]);
             musicSongsArray.push(['monster', false]);
         }
 
         if(NewStoryMenuState.weekCompleted.exists('week3'))
         {
             musicSongsArray.push(['pico', false]);
-            if(picoUnlocked()) musicSongsArray.push(['pico', true]);
+            if(picoUnlocked() && BeatenSongs.isSongBeaten('pico-pico')) musicSongsArray.push(['pico', true]);
             musicSongsArray.push(['philly-nice', false]);
             musicSongsArray.push(['blammed', false]);
         }
@@ -799,9 +799,9 @@ class NewGalleryState extends MusicBeatState
         {
             musicSongsArray.push(['satin-panties', false]);
             musicSongsArray.push(['high', false]);
-            if(picoUnlocked()) musicSongsArray.push(['high', true]);
+            if(picoUnlocked() && BeatenSongs.isSongBeaten('high-pico')) musicSongsArray.push(['high', true]);
             musicSongsArray.push(['milf', false]);
-            if(picoUnlocked()) musicSongsArray.push(['milf', true]);
+            if(picoUnlocked() && BeatenSongs.isSongBeaten('milf-pico')) musicSongsArray.push(['milf', true]);
         }
 
         if(NewStoryMenuState.weekCompleted.exists('week5'))
