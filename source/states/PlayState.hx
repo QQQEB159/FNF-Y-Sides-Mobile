@@ -4562,12 +4562,12 @@ class PlayState extends MusicBeatState
 	{
 		if(elapsed != null)
 		{
-			var deltaIntensity:Float = ClientPrefs.data.framerate;
+			var deltaIntensity:Float = 120;
 			switch(difficulty)
 			{
-				case 'easy': health -= healthAmount * 0 * (elapsed * deltaIntensity);
-				case 'normal': health -= healthAmount * 0.5 * (elapsed * deltaIntensity);
-				case 'hard': health -= healthAmount * 1 * (elapsed * deltaIntensity);
+				case 'easy': health -= healthAmount * deltaIntensity * 0 * (elapsed);
+				case 'normal': health -= healthAmount * deltaIntensity * 0.5 * (elapsed);
+				case 'hard': health -= healthAmount * deltaIntensity * 1 * (elapsed);
 			}
 		}
 		else
