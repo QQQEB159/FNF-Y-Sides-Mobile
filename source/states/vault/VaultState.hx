@@ -261,7 +261,11 @@ class VaultState extends MusicBeatState
 		dialogueText = new FlxTypeText(50, dialogueBox.y + 10, 1180, "", 32);
 		dialogueText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		dialogueText.scrollFactor.set();
-		dialogueText.sounds = [FlxG.sound.load(Paths.sound('vault/maderatalk'), 0.6)];
+		dialogueText.sounds = [
+            FlxG.sound.load(Paths.sound('vault/maderatalk1'), 0.6),
+            FlxG.sound.load(Paths.sound('vault/maderatalk2'), 0.6),
+            FlxG.sound.load(Paths.sound('vault/maderatalk3'), 0.6)
+        ];
 		dialogueText.antialiasing = ClientPrefs.data.antialiasing;
         dialogueText.cameras = [camHUD];
 		add(dialogueText);
