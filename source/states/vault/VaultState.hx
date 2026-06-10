@@ -311,7 +311,8 @@ class VaultState extends MusicBeatState
         var dialogue:Array<String> = [
             "Hey! I think it's the first time we see each other.",
             "Welcome to the vault! This is the place where we store your progress",
-            "You can also buy some cool stuff here",
+            "As you play the mod, you can always come here and view the stuff you're still missing",
+            "You can also buy some cool stuff in the shop, which I'll try to mantain always open for you :D",
             "Well, that's all for now...",
             "Break a leg out there!"
         ];
