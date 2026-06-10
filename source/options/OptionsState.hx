@@ -12,6 +12,7 @@ class OptionsState extends MusicBeatState
 {
 	public static var comingFromOptions:Bool = false;
 	public static var iconsPos:Array<Float> = [0, 0];
+	public static var songThingPos:Array<Float> = [0, 0];
 	public static var currentFrame:Int = 0;
 
 	var options:Array<String> = [
@@ -35,6 +36,9 @@ class OptionsState extends MusicBeatState
 		
 		iconsPos.insert(0, icons.x);
 		iconsPos.insert(1, icons.y);
+
+		songThingPos.insert(0, songThing.x);
+		songThingPos.insert(1, songThing.y);
 
 		switch(label)
 		{
@@ -94,7 +98,7 @@ class OptionsState extends MusicBeatState
 	var bgColorr:FlxSprite;
 	var bg:FlxSprite;
 	var behindPoloUp:FlxSprite;
-	var songThing:FlxSprite;
+	var songThing:FlxBackdrop;
 	var poloUp:FlxSprite;
 	var poloDown:FlxSprite;
 	override function create()
@@ -168,11 +172,11 @@ class OptionsState extends MusicBeatState
 		behindPoloUp.antialiasing = ClientPrefs.data.antialiasing;
 		add(behindPoloUp);
 
-		songThing = new FlxSprite();
-		songThing.loadGraphic(Paths.image('optionsMenu/new/song'));
+		songThing = new FlxBackdrop(Paths.image('optionsMenu/new/song'), X);
 		songThing.antialiasing = ClientPrefs.data.antialiasing;
 		songThing.x = 50;
 		songThing.y = behindPoloUp.y + behindPoloUp.height / 2 - songThing.height / 2;
+		songThing.velocity.set(10, 0);
 		add(songThing);
 
 		poloUp = new FlxSprite();
@@ -347,7 +351,7 @@ class OptionsState extends MusicBeatState
 		FlxTween.tween(bg, {alpha: 1}, transDuration);
 		
 		icons.alpha = 0;
-		FlxTween.tween(icons, {alpha: 0.2}, transDuration);
+		FlxTween.tween(icons, {alpha: 1}, transDuration);
 
 		poloUp.y = -poloUp.height;
 		FlxTween.tween(poloUp, {y: 0}, transDuration, {ease: FlxEase.quartOut});
@@ -371,6 +375,7 @@ class OptionsState extends MusicBeatState
 		super.closeSubState();
 
 		icons.setPosition(iconsPos[0], iconsPos[1]);
+		songThing.x = songThingPos[0];
 
 		ClientPrefs.saveSettings();
 		#if DISCORD_ALLOWED

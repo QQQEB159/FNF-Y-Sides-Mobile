@@ -5,8 +5,8 @@
 <SubTexture name="idle0002" x="427" y="1020" width="436" height="491" frameX="-14" frameY="-26" frameWidth="515" frameHeight="501" />
 <SubTexture name="idle0003" x="1394" y="496" width="434" height="495" frameX="-15" frameY="-22" frameWidth="515" frameHeight="501" />
 <SubTexture name="idle0004" x="1394" y="0" width="434" height="496" frameX="-15" frameY="-21" frameWidth="515" frameHeight="501" />
-<SubTexture name="idle0005" x="0" y="0" width="434" height="513" frameX="-15" frameY="-4" frameWidth="515" frameHeight="501" />
-<SubTexture name="idle0006" x="528" y="513" width="430" height="506" frameX="-19" frameY="-11" frameWidth="515" frameHeight="501" />
+<SubTexture name="talk0000" x="0" y="0" width="434" height="513" frameX="-15" frameY="-4" frameWidth="515" frameHeight="501" />
+<SubTexture name="talk0001" x="528" y="513" width="430" height="506" frameX="-19" frameY="-11" frameWidth="515" frameHeight="501" />
 <SubTexture name="happy0000" x="863" y="0" width="531" height="511" frameX="-2" frameY="-6" frameWidth="515" frameHeight="501" />
 <SubTexture name="happy0001" x="0" y="513" width="528" height="507" frameX="-5" frameY="-10" frameWidth="515" frameHeight="501" />
 <SubTexture name="shocked0000" x="1828" y="956" width="438" height="467" frameX="-3" frameY="-50" frameWidth="515" frameHeight="501" />

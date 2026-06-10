@@ -39,7 +39,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 	public var thingTimer:Float = 1.8;
 
 	var behindPoloUp:FlxSprite;
-	var songThing:FlxSprite;
+	var songThing:FlxBackdrop;
 	var poloUp:FlxSprite;
 	var poloDown:FlxSprite;
 	public function new()
@@ -67,7 +67,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 
 		icons = new FlxBackdrop(Paths.image('optionsMenu/new/checkerthing'), XY);
 		icons.velocity.set(10, 10);
-		icons.alpha = 0.2;
+		icons.alpha = 1;
 		icons.antialiasing = ClientPrefs.data.antialiasing;
 		add(icons);
 
@@ -93,11 +93,12 @@ class BaseOptionsMenu extends MusicBeatSubstate
 		behindPoloUp.antialiasing = ClientPrefs.data.antialiasing;
 		add(behindPoloUp);
 
-		songThing = new FlxSprite();
-		songThing.loadGraphic(Paths.image('optionsMenu/new/song'));
+		songThing = new FlxBackdrop(Paths.image('optionsMenu/new/song'), X);
 		songThing.antialiasing = ClientPrefs.data.antialiasing;
-		songThing.x = 50;
+		//songThing.x = 50;
+		songThing.x = OptionsState.songThingPos[0];
 		songThing.y = behindPoloUp.y + behindPoloUp.height / 2 - songThing.height / 2;
+		songThing.velocity.set(10, 0);
 		add(songThing);
 
 		poloUp = new FlxSprite();
@@ -203,6 +204,9 @@ class BaseOptionsMenu extends MusicBeatSubstate
 		if (controls.BACK) {
 			OptionsState.iconsPos.insert(0, icons.x);
 			OptionsState.iconsPos.insert(1, icons.y);
+
+			OptionsState.songThingPos.insert(0, songThing.x);
+			OptionsState.songThingPos.insert(1, songThing.y);
 
 			close();
 			FlxG.sound.play(Paths.sound('cancelMenu'));
