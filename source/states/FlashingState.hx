@@ -223,6 +223,7 @@ class FlashingState extends MusicBeatState
 
 				FlxTween.cancelTweensOf(explainText);
 				FlxTween.cancelTweensOf(selectBox);
+				FlxTween.cancelTweensOf(spaceToContinueText);
 				for(obj in bindNameGrp)
 				{
 					FlxTween.cancelTweensOf(obj);
@@ -239,8 +240,9 @@ class FlashingState extends MusicBeatState
 				FlxTween.cancelTweensOf(particles);
 				FlxTween.cancelTweensOf(icons);
 
-				FlxTween.tween(explainText, {alpha: 0});
+				FlxTween.tween(explainText, {alpha: 0}, tweenDuration);
 				FlxTween.tween(selectBox, {alpha: 0}, tweenDuration);
+				FlxTween.tween(spaceToContinueText, {alpha: 0}, tweenDuration);
 				
 				FlxTween.tween(gradient, {alpha: 0}, tweenDuration, {ease: FlxEase.cubeOut});
 				FlxTween.tween(gradient2, {alpha: 0}, tweenDuration, {ease: FlxEase.cubeOut});
@@ -378,6 +380,7 @@ class FlashingState extends MusicBeatState
 		['Mechanic', 'mechanic']
 	];
 	var explainText:FlxText;
+	var spaceToContinueText:FlxText;
 	var selectBox:FlxSprite;
 	var bindNameGrp:FlxTypedGroup<Alphabet>;
 	var bindAssignedGrp:FlxTypedGroup<Alphabet>;
@@ -395,6 +398,13 @@ class FlashingState extends MusicBeatState
 		selectBox.screenCenter(X);
 		selectBox.alpha = 0.5;
 		add(selectBox);
+
+		spaceToContinueText = new FlxText(0, 0, 0, 'Press SPACE to continue');
+		spaceToContinueText.setFormat(Paths.font("FredokaOne-Regular.ttf"), 30, 0xFFF1E7FF, CENTER);
+		spaceToContinueText.screenCenter(X);
+		spaceToContinueText.y = 630;
+		spaceToContinueText.antialiasing = ClientPrefs.data.antialiasing;
+		add(spaceToContinueText);
 
 		bindNameGrp = new FlxTypedGroup<Alphabet>();
 		add(bindNameGrp);
