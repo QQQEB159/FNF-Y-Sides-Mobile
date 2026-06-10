@@ -482,6 +482,7 @@ class StoryMenuState extends MusicBeatState
 				PlayState.campaignScore = 0;
 				PlayState.campaignMisses = 0;
 				PlayState.campaignRating = 0;
+				PlayState.totalPlayedWeek = 0;
 
 				PlayState.campaignSicks = 0;
 				PlayState.campaignGoods = 0;

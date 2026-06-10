@@ -362,7 +362,11 @@ class ResultsScreen extends MusicBeatSubstate
             FlxTween.num(1, 0, 0.6, {ease: FlxEase.linear, onComplete: (_) -> {
                 new FlxTimer().start(0.6,(_) -> {
 
-		            ShopSubState.addMoney(Std.int(PlayState.instance.totalPlayed * 0.5));
+                    if(PlayState.isStoryMode)
+		                ShopSubState.addMoney(Std.int(PlayState.totalPlayedWeek * 0.5));
+                    else
+		                ShopSubState.addMoney(Std.int(PlayState.instance.totalPlayed * 0.5));
+
 		            trace('Earned ${ShopSubState.money} yoins!');
 
                     FlxG.sound.playMusic(Paths.music('freakyMenu'));

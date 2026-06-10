@@ -3509,6 +3509,7 @@ class PlayState extends MusicBeatState
 				campaignScore += songScore;
 				campaignMisses += songMisses;
 				campaignRating += Std.int(ratingPercent * 100);
+				totalPlayedWeek += totalPlayed;
 				totalSongsPlayed++;
 				trace('SUMA $totalSongsPlayed');
 
@@ -3650,6 +3651,7 @@ class PlayState extends MusicBeatState
 	}
 
 	public static var totalSongsPlayed:Int = 0;
+	public static var totalPlayedWeek:Int = 0;
 	public var totalPlayed:Int = 0;
 	public var totalNotesHit:Float = 0.0;
 
