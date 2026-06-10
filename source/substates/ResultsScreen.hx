@@ -457,6 +457,10 @@ class ResultsScreen extends MusicBeatSubstate
                     yoinsEarnedTxt.text = '+${PlayState.instance.totalPlayed * 0.5} yoins';
 
                 FlxTween.tween(yoinsEarnedTxt, {alpha: 1, y: yoinsEarnedTxt.y - 10}, 0.3, {ease: FlxEase.quartOut});
+                new FlxTimer().start(2.05, function(tmr:FlxTimer)
+                {
+                    FlxTween.tween(yoinsEarnedTxt, {alpha: 0, y: yoinsEarnedTxt.y + 10}, 0.3, {ease: FlxEase.quartOut});
+                });
         }
     }
 
@@ -504,6 +508,17 @@ class ResultsScreen extends MusicBeatSubstate
                         FlxTween.tween(rank, {"scale.x": 1.04, "scale.y": 1.04}, 0.3, {ease: FlxEase.quartOut, onComplete: (_) ->{
                             FlxTween.tween(rank, {"scale.x": 1, "scale.y": 1}, 0.3, {ease: FlxEase.quartInOut});
                         }});
+
+                        if(PlayState.isStoryMode)
+                            yoinsEarnedTxt.text = '+${PlayState.totalPlayedWeek * 0.5} yoins';
+                        else
+                            yoinsEarnedTxt.text = '+${PlayState.instance.totalPlayed * 0.5} yoins';
+
+                        FlxTween.tween(yoinsEarnedTxt, {alpha: 1, y: yoinsEarnedTxt.y - 10}, 0.3, {ease: FlxEase.quartOut});
+                        new FlxTimer().start(2.05, function(tmr:FlxTimer)
+                        {
+                            FlxTween.tween(yoinsEarnedTxt, {alpha: 0, y: yoinsEarnedTxt.y + 10}, 0.3, {ease: FlxEase.quartOut});
+                        });
                     }
                 case 5:
                     if(getRankName() == 'e') return;
@@ -535,6 +550,10 @@ class ResultsScreen extends MusicBeatSubstate
                         yoinsEarnedTxt.text = '+${PlayState.instance.totalPlayed * 0.5} yoins';
 
                     FlxTween.tween(yoinsEarnedTxt, {alpha: 1, y: yoinsEarnedTxt.y - 10}, 0.3, {ease: FlxEase.quartOut});
+                    new FlxTimer().start(2.05, function(tmr:FlxTimer)
+                    {
+                        FlxTween.tween(yoinsEarnedTxt, {alpha: 0, y: yoinsEarnedTxt.y + 10}, 0.3, {ease: FlxEase.quartOut});
+                    });
             }
         }
 
