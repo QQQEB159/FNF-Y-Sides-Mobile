@@ -323,6 +323,7 @@ class PlayState extends MusicBeatState
 	// monster specific stuff (sprites, stuff, stuff...)
 	var monsterClone:Character;
 	var blackThingBelow:FlxSprite;
+	var blackThingBelowFX:FlxSprite;
 	var blackThing:FlxSprite;
 	var blackThingSupreme:FlxSprite;
 	var redVignetteIntro:FlxSprite;
@@ -598,6 +599,15 @@ class PlayState extends MusicBeatState
 		if(SONG.song == 'Winter Horrorland') blackThingBelow.alpha = 1;
 		blackThingBelow.cameras = [camHUD];
 		add(blackThingBelow);
+
+		blackThingBelowFX = new FlxSprite();
+		blackThingBelowFX.frames = Paths.getSparrowAtlas('stages/halloweenStage/monster/effects/bgfx');
+		blackThingBelowFX.animation.addByPrefix('idle', 'idle', 2, true);
+		blackThingBelowFX.animation.play('idle');
+		blackThingBelowFX.alpha = 0;
+		blackThingBelowFX.cameras = [camHUD];
+		blackThingBelowFX.antialiasing = ClientPrefs.data.antialiasing;
+		add(blackThingBelowFX);
 
 		redVignetteIntro = new FlxSprite().loadGraphic(Paths.image('stages/halloweenStage/monster/effects/redvignette'));
 		redVignetteIntro.alpha = 0;
@@ -5028,6 +5038,7 @@ class PlayState extends MusicBeatState
 						FlxTween.tween(blackThing, {alpha: 0}, 3);
 					case 320:
 						FlxTween.tween(redVignetteIntro, {alpha: 0.65}, 22);
+						FlxTween.tween(blackThingBelowFX, {alpha: 1}, 14);
 					case 570:
 						tweenNotesAlpha('all', 0, 0.23, FlxEase.linear);
 					case 580:
@@ -5049,6 +5060,7 @@ class PlayState extends MusicBeatState
 							strumLineNotes.members[i].alpha = 1;
 						}
 						blackThingBelow.alpha = 0;
+						blackThingBelowFX.alpha = 0;
 						redVignetteIntro.alpha = 0.15;
 						monsterClone.alpha = 0;
 					case 1056:
