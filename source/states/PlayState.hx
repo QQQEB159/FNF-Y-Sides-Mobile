@@ -5023,13 +5023,13 @@ class PlayState extends MusicBeatState
 
 						FlxTween.tween(blackThing, {alpha: 0}, 3);
 					case 320:
-						FlxTween.tween(redVignetteIntro, {alpha: 1}, 26);
+						FlxTween.tween(redVignetteIntro, {alpha: 0.65}, 26);
 					case 570:
 						tweenNotesAlpha('all', 0, 0.23, FlxEase.linear);
 					case 580:
 						forcedCamHUDZoom = true;
 						FlxTween.tween(camHUD, {zoom: 1.15}, 2.6, {ease: FlxEase.sineIn});
-						FlxTween.tween(camHUD, {"scroll.y": -52}, 2.6, {ease: FlxEase.sineIn});
+						FlxTween.tween(camHUD, {"scroll.y": -80}, 2.6, {ease: FlxEase.sineIn});
 					case 608:
 						tweenNotesAlpha('all', 1, 0.001, FlxEase.linear);
 

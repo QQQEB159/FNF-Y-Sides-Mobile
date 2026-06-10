@@ -4,6 +4,7 @@ import openfl.filters.ShaderFilter;
 import shaders.BloomShader;
 import shaders.ChromaticAberration;
 import shaders.DropShadowShader;
+import shaders.DeflectiveLens;
 
 class HalloweenCreepyStage extends BaseStage
 {
@@ -33,6 +34,9 @@ class HalloweenCreepyStage extends BaseStage
 	var chromaticAberrationFilter:ShaderFilter;
 	var superBloomHUD:BloomShader;
 	var superBloomHUDFilter:ShaderFilter;
+	var deflectiveLensShader:DeflectiveLens;
+	var deflectiveLensFilter:ShaderFilter;
+
 	override function createPost()
 	{
 
@@ -135,6 +139,11 @@ class HalloweenCreepyStage extends BaseStage
 					}
 				};
 			}
+
+			deflectiveLensShader = new DeflectiveLens();
+			deflectiveLensShader.distortionScale.value = [0.0];
+			deflectiveLensFilter = new ShaderFilter(deflectiveLensShader);
+			FlxG.camera.filters.push(deflectiveLensFilter);
 		}
 	}
 
@@ -155,6 +164,11 @@ class HalloweenCreepyStage extends BaseStage
 						superBloomHUD.Directions.value[0] = v; // 1.8
 					});
 
+					FlxTween.num(0.0, 2.78, 2, {ease: FlxEase.sineOut}, function(v:Float)
+					{
+						deflectiveLensShader.distortionScale.value[0] = v; // 1.8
+					});
+
 					FlxTween.num(0, 0.003, 1.8, {ease: FlxEase.sineOut}, function(v:Float)
 					{
 						chromaticAberration.rOffset.value[0] = v;
@@ -167,6 +181,7 @@ class HalloweenCreepyStage extends BaseStage
 				{
 					superBloomHUD.dim.value[0] = 2.0;
 					superBloomHUD.Directions.value[0] = 20; // 1.8
+					deflectiveLensShader.distortionScale.value[0] = 0; // 1.8
 
 					game.camHUD.filters.remove(superBloomHUDFilter);
 					game.camHUD.filters.remove(chromaticAberrationFilter);
@@ -178,7 +193,7 @@ class HalloweenCreepyStage extends BaseStage
 			case 1088:
 				if(ClientPrefs.data.shaders)
 				{
-
+					deflectiveLensShader.distortionScale.value[0] = 0.4; // 1.8
 					chromaticAberration.rOffset.value = [0.002];
 					chromaticAberration.gOffset.value = [0.0];
 					chromaticAberration.bOffset.value = [-0.002];
