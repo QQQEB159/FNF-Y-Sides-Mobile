@@ -18,13 +18,13 @@ class PicoCardboardNote extends FlxSprite
 		rgbShader.copyValues(shaderValues);
 
         loadGraphic(Paths.image('hud/tinyNote${FlxG.random.int(1, 2)}'));
-        velocity.set(120, -145);
-        acceleration.y = 420;
+        velocity.set(190, -165);
+        acceleration.y = 430;
 
         angle = FlxG.random.float(0, 360);
         FlxTween.tween(this, {alpha: 0}, lifeTime, {ease: FlxEase.linear});
 
-        FlxTween.tween(this, {angle: this.angle + (360 * FlxG.random.float(0.25, 0.5))}, lifeTime, {ease: FlxEase.quartOut, onComplete: function(twn:FlxTween)
+        FlxTween.tween(this, {angle: this.angle + (360 * FlxG.random.float(0.1, 0.22))}, lifeTime, {ease: FlxEase.quartOut, onComplete: function(twn:FlxTween)
         {
             this.destroy();
         }});
