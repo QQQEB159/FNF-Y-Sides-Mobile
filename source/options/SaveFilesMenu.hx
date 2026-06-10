@@ -47,7 +47,7 @@ class SaveFilesMenu extends MusicBeatState
 
 		FlxG.cameras.add(camPrompt, false);
 
-		var bg:FlxSprite = new FlxSprite().makeGraphic(1280, 720, 0xFFBFB4F1);
+		var bg:FlxSprite = new FlxSprite().makeGraphic(1280, 720, 0xFF6C75D4);
 		bg.antialiasing = ClientPrefs.data.antialiasing;
 		bg.updateHitbox();
 

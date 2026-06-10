@@ -215,7 +215,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 				case BOOL:
 					if(controls.ACCEPT)
 					{
-						FlxG.sound.play(Paths.sound('scrollMenu'));
+						FlxG.sound.play(Paths.sound('options/optionsScrollMenu'));
 						curOption.setValue((curOption.getValue() == true) ? false : true);
 						curOption.change();
 						reloadCheckboxes();
@@ -242,7 +242,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 						bindingKey = true;
 						holdingEsc = 0;
 						ClientPrefs.toggleVolumeKeys(false);
-						FlxG.sound.play(Paths.sound('scrollMenu'));
+						FlxG.sound.play(Paths.sound('options/optionsScrollMenu'));
 					}
 
 				default:
@@ -293,7 +293,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 								}
 								updateTextFrom(curOption);
 								curOption.change();
-								FlxG.sound.play(Paths.sound('scrollMenu'));
+								FlxG.sound.play(Paths.sound('options/optionsScrollMenu'));
 							}
 							else if(curOption.type != STRING)
 							{
@@ -321,7 +321,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 					}
 					else if(controls.UI_LEFT_R || controls.UI_RIGHT_R)
 					{
-						if(holdTime > 0.5) FlxG.sound.play(Paths.sound('scrollMenu'));
+						if(holdTime > 0.5) FlxG.sound.play(Paths.sound('options/optionsScrollMenu'));
 						holdTime = 0;
 					}
 			}
@@ -585,7 +585,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 		}
 
 		curOption = optionsArray[curSelected]; //shorter lol
-		FlxG.sound.play(Paths.sound('scrollMenu'));
+		FlxG.sound.play(Paths.sound('options/optionsScrollMenu'));
 	}
 
 	function reloadCheckboxes()

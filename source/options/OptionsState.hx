@@ -491,7 +491,7 @@ class OptionsState extends MusicBeatState
 				}
 			}
 		}
-		FlxG.sound.play(Paths.sound('scrollMenu'));
+		FlxG.sound.play(Paths.sound('options/optionsScrollMenu'));
 	}
 
 	override function destroy()
