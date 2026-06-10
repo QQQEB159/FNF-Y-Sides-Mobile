@@ -29,8 +29,6 @@ class BaseOptionsMenu extends MusicBeatSubstate
 
 	public var bg:FlxSprite;
 	var icons:FlxBackdrop;
-	var verticalTriangleLeft:FlxBackdrop;
-	var verticalTriangleRight:FlxBackdrop;
 
 	public var character:Character;
 	var isDoingSpecialAnim:Bool = false;
@@ -40,6 +38,10 @@ class BaseOptionsMenu extends MusicBeatSubstate
 
 	public var thingTimer:Float = 1.8;
 
+	var behindPoloUp:FlxSprite;
+	var songThing:FlxSprite;
+	var poloUp:FlxSprite;
+	var poloDown:FlxSprite;
 	public function new()
 	{
 		super();
@@ -51,39 +53,25 @@ class BaseOptionsMenu extends MusicBeatSubstate
 		DiscordClient.changePresence(rpcTitle, null);
 		#end
 		
-		bg = new FlxSprite().makeGraphic(1280, 720, 0xFFBFB4F1);
+		var bgColor = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, 0xFF6C75D4);
+		add(bgColor);
+
+		bg = new FlxSprite();
+		//bg.makeGraphic(1280, 720, 0xFFBFB4F1);
+		bg.loadGraphic(Paths.image('optionsMenu/new/bg'));
 		bg.antialiasing = ClientPrefs.data.antialiasing;
 		bg.updateHitbox();
 
 		bg.screenCenter();
 		add(bg);
 
-		icons = new FlxBackdrop(Paths.image('mainmenu/icons'), XY);
+		icons = new FlxBackdrop(Paths.image('optionsMenu/new/checkerthing'), XY);
 		icons.velocity.set(10, 10);
 		icons.alpha = 0.2;
 		icons.antialiasing = ClientPrefs.data.antialiasing;
 		add(icons);
 
 		icons.setPosition(OptionsState.iconsPos[0], OptionsState.iconsPos[1]);
-
-		verticalTriangleLeft = new FlxBackdrop(Paths.image('optionsMenu/verticalTriangleThing'), Y);
-		verticalTriangleLeft.velocity.set(0, 20);
-		verticalTriangleLeft.x = 138;
-		verticalTriangleLeft.y = OptionsState.verticalTriangleLeftPos;
-		verticalTriangleLeft.antialiasing = ClientPrefs.data.antialiasing;
-		add(verticalTriangleLeft);
-
-		verticalTriangleRight = new FlxBackdrop(Paths.image('optionsMenu/verticalTriangleThing'), Y);
-
-		verticalTriangleRight.angle = 180;
-		//verticalTriangleRight.flipX = true;
-		verticalTriangleRight.updateHitbox();
-
-		verticalTriangleRight.velocity.set(0, -20);
-		verticalTriangleRight.x = FlxG.width - verticalTriangleRight.width - 138;
-		verticalTriangleRight.y = OptionsState.verticalTriangleRightPos;
-		verticalTriangleRight.antialiasing = ClientPrefs.data.antialiasing;
-		add(verticalTriangleRight);
 
 		// avoids lagspikes while scrolling through menus!
 		grpOptions = new FlxTypedGroup<Alphabet>();
@@ -95,15 +83,33 @@ class BaseOptionsMenu extends MusicBeatSubstate
 		checkboxGroup = new FlxTypedGroup<CheckboxThingie>();
 		add(checkboxGroup);
 
-		var boardThing:FlxSprite = new FlxSprite().loadGraphic(Paths.image('optionsMenu/boardThing'));
-		boardThing.screenCenter();
-		boardThing.antialiasing = ClientPrefs.data.antialiasing;
-		add(boardThing);
-
-		character = new Character(800, 200, 'options-guy');
+		character = new Character(730, 140, 'options-guy');
 		character.playAnim('idle', false, false, OptionsState.currentFrame);
 		character.antialiasing = ClientPrefs.data.antialiasing;
 		add(character);
+
+		behindPoloUp = new FlxSprite(0, 56);
+		behindPoloUp.loadGraphic(Paths.image('optionsMenu/new/poloUpBehind'));
+		behindPoloUp.antialiasing = ClientPrefs.data.antialiasing;
+		add(behindPoloUp);
+
+		songThing = new FlxSprite();
+		songThing.loadGraphic(Paths.image('optionsMenu/new/song'));
+		songThing.antialiasing = ClientPrefs.data.antialiasing;
+		songThing.x = 50;
+		songThing.y = behindPoloUp.y + behindPoloUp.height / 2 - songThing.height / 2;
+		add(songThing);
+
+		poloUp = new FlxSprite();
+		poloUp.loadGraphic(Paths.image('optionsMenu/new/poloUp'));
+		poloUp.antialiasing = ClientPrefs.data.antialiasing;
+		add(poloUp);
+
+		poloDown = new FlxSprite();
+		poloDown.loadGraphic(Paths.image('optionsMenu/new/poloDown'));
+		poloDown.antialiasing = ClientPrefs.data.antialiasing;
+		poloDown.y = FlxG.height - poloDown.height;
+		add(poloDown);
 
 		dialogueBox = new FlxSprite(40, 600).makeGraphic(1200, 80, FlxColor.BLACK);
 		dialogueBox.alpha = 0;
@@ -119,7 +125,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 
 		for (i in 0...optionsArray.length)
 		{
-			var optionText:Alphabet = new Alphabet(150, 260, optionsArray[i].name, false);
+			var optionText:Alphabet = new Alphabet(50, 260, optionsArray[i].name, false);
 			optionText.setScale(0.9, 0.9);
 			optionText.isMenuItem = true;
 			/*optionText.forceX = 300;
@@ -197,9 +203,6 @@ class BaseOptionsMenu extends MusicBeatSubstate
 		if (controls.BACK) {
 			OptionsState.iconsPos.insert(0, icons.x);
 			OptionsState.iconsPos.insert(1, icons.y);
-
-			OptionsState.verticalTriangleLeftPos = verticalTriangleLeft.y;
-			OptionsState.verticalTriangleRightPos = verticalTriangleRight.y;
 
 			close();
 			FlxG.sound.play(Paths.sound('cancelMenu'));

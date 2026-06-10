@@ -12,8 +12,6 @@ class OptionsState extends MusicBeatState
 {
 	public static var comingFromOptions:Bool = false;
 	public static var iconsPos:Array<Float> = [0, 0];
-	public static var verticalTriangleLeftPos:Float = 0;
-	public static var verticalTriangleRightPos:Float = 0;
 	public static var currentFrame:Int = 0;
 
 	var options:Array<String> = [
@@ -37,9 +35,6 @@ class OptionsState extends MusicBeatState
 		
 		iconsPos.insert(0, icons.x);
 		iconsPos.insert(1, icons.y);
-
-		verticalTriangleLeftPos = verticalTriangleLeft.y;
-		verticalTriangleRightPos = verticalTriangleRight.y;
 
 		switch(label)
 		{
@@ -75,10 +70,7 @@ class OptionsState extends MusicBeatState
 	}
 
 	var icons:FlxBackdrop;
-	var verticalTriangleLeft:FlxBackdrop;
-	var verticalTriangleRight:FlxBackdrop;
 
-	var boardThing:FlxSprite;
 	var selectorLeft:Alphabet;
 	var selectorRight:Alphabet;
 	var character:Character;
@@ -99,6 +91,12 @@ class OptionsState extends MusicBeatState
 		skipTransition = skipTrans;
 	}
 
+	var bgColorr:FlxSprite;
+	var bg:FlxSprite;
+	var behindPoloUp:FlxSprite;
+	var songThing:FlxSprite;
+	var poloUp:FlxSprite;
+	var poloDown:FlxSprite;
 	override function create()
 	{
 		#if DISCORD_ALLOWED
@@ -115,40 +113,25 @@ class OptionsState extends MusicBeatState
 			}
 		}
 
-		var bg:FlxSprite = new FlxSprite().makeGraphic(1280, 720, 0xFFBFB4F1);
+		bgColorr = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, 0xFFFFFFFF);
+		bgColorr.color = 0xFF6C75D4;
+		add(bgColorr);
+
+		bg = new FlxSprite();
+		//bg.makeGraphic(1280, 720, 0xFFBFB4F1);
+		bg.loadGraphic(Paths.image('optionsMenu/new/bg'));
 		bg.antialiasing = ClientPrefs.data.antialiasing;
 		bg.updateHitbox();
 
 		bg.screenCenter();
 		add(bg);
 
-		icons = new FlxBackdrop(Paths.image('mainmenu/icons'), XY);
+		icons = new FlxBackdrop(Paths.image('optionsMenu/new/checkerthing'), XY);
 		icons.setPosition(iconsPos[0], iconsPos[1]);
 		icons.velocity.set(10, 10);
 		icons.alpha = 0.45;
 		icons.antialiasing = ClientPrefs.data.antialiasing;
 		add(icons);
-
-		FlxTween.tween(icons, {alpha: 0.2}, 0.7);
-
-		verticalTriangleLeft = new FlxBackdrop(Paths.image('optionsMenu/verticalTriangleThing'), Y);
-		verticalTriangleLeft.x = 138;
-		verticalTriangleLeft.y = verticalTriangleLeftPos;
-		verticalTriangleLeft.velocity.set(0, 20);
-		verticalTriangleLeft.antialiasing = ClientPrefs.data.antialiasing;
-		add(verticalTriangleLeft);
-
-		verticalTriangleRight = new FlxBackdrop(Paths.image('optionsMenu/verticalTriangleThing'), Y);
-
-		verticalTriangleRight.angle = 180;
-		//verticalTriangleRight.flipX = true;
-		verticalTriangleRight.updateHitbox();
-
-		verticalTriangleRight.x = FlxG.width - verticalTriangleRight.width - 138;
-		verticalTriangleRight.y = verticalTriangleRightPos;
-		verticalTriangleRight.velocity.set(0, -20);
-		verticalTriangleRight.antialiasing = ClientPrefs.data.antialiasing;
-		add(verticalTriangleRight);
 
 		grpOptions = new FlxTypedGroup<Alphabet>();
 		add(grpOptions);
@@ -158,7 +141,7 @@ class OptionsState extends MusicBeatState
 			var optionText:Alphabet = new Alphabet(0, 0, Language.getPhrase('options_$option', option), true);
 			optionText.isMenuItem = true;
 			optionText.ID = num;
-			optionText.startPosition = new FlxPoint(150, 160);
+			optionText.startPosition = new FlxPoint(50, 160);
 			optionText.distancePerItem = new FlxPoint(0, 92);
 			optionText.snapToPosition();
 			optionText.screenCenter(Y);
@@ -175,15 +158,33 @@ class OptionsState extends MusicBeatState
 		selectorRight = new Alphabet(0, 0, '<', true);
 		//add(selectorRight);
 
-		boardThing = new FlxSprite().loadGraphic(Paths.image('optionsMenu/boardThing'));
-		boardThing.screenCenter();
-		boardThing.antialiasing = ClientPrefs.data.antialiasing;
-		add(boardThing);
-
-		character = new Character(800, 200, 'options-guy');
+		character = new Character(730, 140, 'options-guy');
 		character.playAnim('idle', false, false, OptionsState.currentFrame);
 		character.antialiasing = ClientPrefs.data.antialiasing;
 		add(character);
+
+		behindPoloUp = new FlxSprite(0, 56);
+		behindPoloUp.loadGraphic(Paths.image('optionsMenu/new/poloUpBehind'));
+		behindPoloUp.antialiasing = ClientPrefs.data.antialiasing;
+		add(behindPoloUp);
+
+		songThing = new FlxSprite();
+		songThing.loadGraphic(Paths.image('optionsMenu/new/song'));
+		songThing.antialiasing = ClientPrefs.data.antialiasing;
+		songThing.x = 50;
+		songThing.y = behindPoloUp.y + behindPoloUp.height / 2 - songThing.height / 2;
+		add(songThing);
+
+		poloUp = new FlxSprite();
+		poloUp.loadGraphic(Paths.image('optionsMenu/new/poloUp'));
+		poloUp.antialiasing = ClientPrefs.data.antialiasing;
+		add(poloUp);
+
+		poloDown = new FlxSprite();
+		poloDown.loadGraphic(Paths.image('optionsMenu/new/poloDown'));
+		poloDown.antialiasing = ClientPrefs.data.antialiasing;
+		poloDown.y = FlxG.height - poloDown.height;
+		add(poloDown);
 
 		dialogueBox = new FlxSprite(40, 600).makeGraphic(1200, 80, FlxColor.BLACK);
 		dialogueBox.alpha = 0;
@@ -254,14 +255,8 @@ class OptionsState extends MusicBeatState
 
 		if(!onPlayState && !skipTransition)
 		{
-			boardThing.alpha = 0;
-			verticalTriangleLeft.alpha = 0;
-			verticalTriangleRight.alpha = 0;
 			character.alpha = 0;
 
-			FlxTween.tween(boardThing, {alpha: 1}, 0.2);
-			FlxTween.tween(verticalTriangleLeft, {alpha: 1}, 0.2, {startDelay: 0.05});
-			FlxTween.tween(verticalTriangleRight, {alpha: 1}, 0.2, {startDelay: 0.1});
 			FlxTween.tween(character, {alpha: 1}, 0.2, {startDelay: 0.15});
 
 			new FlxTimer().start(0.45, function(t:FlxTimer)
@@ -341,7 +336,34 @@ class OptionsState extends MusicBeatState
 			FlxTween.tween(blackBackgroundOver, {alpha: 0}, 0.7, {ease: FlxEase.expoOut});
 		}
 
+		initTrans();
 		super.create();
+	}
+
+	var transDuration:Float = 0.57;
+	function initTrans()
+	{
+		bg.alpha = 0;
+		FlxTween.tween(bg, {alpha: 1}, transDuration);
+		
+		icons.alpha = 0;
+		FlxTween.tween(icons, {alpha: 0.2}, transDuration);
+
+		poloUp.y = -poloUp.height;
+		FlxTween.tween(poloUp, {y: 0}, transDuration, {ease: FlxEase.quartOut});
+
+		behindPoloUp.y = -100;
+		FlxTween.tween(behindPoloUp, {y: 56}, transDuration, {ease: FlxEase.quartOut, startDelay: 0.35});
+
+		songThing.y = -100;
+		FlxTween.tween(songThing, {y: 56 + behindPoloUp.height / 2 - songThing.height / 2}, transDuration, {ease: FlxEase.quartOut, startDelay: 0.35});
+		
+		poloDown.y = FlxG.height;
+		FlxTween.tween(poloDown, {y: FlxG.height - poloDown.height}, transDuration, {ease: FlxEase.quartOut});
+
+		character.alpha = 0;
+		character.y += 10;
+		FlxTween.tween(character, {alpha: 1, y: character.y - 10}, transDuration, {ease: FlxEase.quartOut});
 	}
 
 	override function closeSubState()
@@ -349,8 +371,6 @@ class OptionsState extends MusicBeatState
 		super.closeSubState();
 
 		icons.setPosition(iconsPos[0], iconsPos[1]);
-		verticalTriangleLeft.y = verticalTriangleLeftPos;
-		verticalTriangleRight.y = verticalTriangleRightPos;
 
 		ClientPrefs.saveSettings();
 		#if DISCORD_ALLOWED
@@ -391,23 +411,28 @@ class OptionsState extends MusicBeatState
 				CreditsStateYSides.backFromCredits = true;
 				comingFromOptions = true;
 
-				FlxTween.cancelTweensOf(boardThing);
-				FlxTween.cancelTweensOf(verticalTriangleLeft);
-				FlxTween.cancelTweensOf(verticalTriangleRight);
+				FlxTween.cancelTweensOf(bgColorr);
+				FlxTween.cancelTweensOf(dialogueBox);
+				FlxTween.cancelTweensOf(dialogueText);
 				FlxTween.cancelTweensOf(character);
+				FlxTween.cancelTweensOf(poloUp);
+				FlxTween.cancelTweensOf(poloDown);
+				FlxTween.cancelTweensOf(behindPoloUp);
+				FlxTween.cancelTweensOf(songThing);
 				FlxTween.cancelTweensOf(icons);
 
+				var finalTimer:Float = 0.4;
 				grpOptions.forEachAlive(function(spr:Alphabet)
 				{
 					FlxTween.cancelTweensOf(spr);
-					FlxTween.tween(spr, {alpha: 0}, 0.2);
+					FlxTween.tween(spr, {alpha: 0}, finalTimer);
 				});
 
-				FlxTween.tween(icons, {alpha: 0.45}, 0.2);
-				FlxTween.tween(boardThing, {alpha: 0}, 0.2);
-				FlxTween.tween(verticalTriangleLeft, {alpha: 0}, 0.2);
-				FlxTween.tween(verticalTriangleRight, {alpha: 0}, 0.2);
-				FlxTween.tween(character, {alpha: 0}, 0.2, {onComplete: function(t:FlxTween)
+				FlxTween.tween(bg, {alpha: 0}, finalTimer);
+				FlxTween.tween(icons, {alpha: 0}, finalTimer);
+				FlxTween.tween(dialogueBox, {alpha: 0}, finalTimer);
+				FlxTween.tween(dialogueText, {alpha: 0}, finalTimer);
+				FlxTween.tween(character, {alpha: 0, y: character.y + 10}, finalTimer, {onComplete: function(t:FlxTween)
 				{
 					MainMenuState.iconsPos.insert(0, icons.x);
 					MainMenuState.iconsPos.insert(1, icons.y);
@@ -416,6 +441,12 @@ class OptionsState extends MusicBeatState
 					FlxTransitionableState.skipNextTransOut = true;
 					MusicBeatState.switchState(new MainMenuState());
 				}});
+
+				FlxTween.tween(poloUp, {y: -poloUp.height}, finalTimer, {ease: FlxEase.quartOut});
+				FlxTween.tween(behindPoloUp, {y: -100}, finalTimer, {ease: FlxEase.quartOut});
+				FlxTween.tween(songThing, {y: -100}, finalTimer, {ease: FlxEase.quartOut});
+				FlxTween.tween(poloDown, {y: FlxG.height}, finalTimer, {ease: FlxEase.quartOut});
+				FlxTween.color(bgColorr, finalTimer, bgColorr.color, 0xFFBFB4F1);
 			}
 		}
 		else if (controls.ACCEPT) openSelectedSubstate(options[curSelected]);
@@ -424,15 +455,6 @@ class OptionsState extends MusicBeatState
 		{
 			for (num => item in grpOptions.members)
 			{
-				item.alpha = 0.6;
-				if (item.ID == curSelected)
-				{
-					item.alpha = 1;
-					selectorLeft.x = item.x - 63;
-					selectorLeft.y = item.y;
-					selectorRight.x = item.x + item.width + 15;
-					selectorRight.y = item.y;
-				}
 			}
 		}
 	}
@@ -456,6 +478,18 @@ class OptionsState extends MusicBeatState
 			}
 
 			if(change == 0) item.snapToPosition();
+			else
+			{
+				item.alpha = 0.6;
+				if (item.ID == curSelected)
+				{
+					item.alpha = 1;
+					selectorLeft.x = item.x - 63;
+					selectorLeft.y = item.y;
+					selectorRight.x = item.x + item.width + 15;
+					selectorRight.y = item.y;
+				}
+			}
 		}
 		FlxG.sound.play(Paths.sound('scrollMenu'));
 	}
