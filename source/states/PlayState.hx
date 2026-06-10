@@ -591,7 +591,8 @@ class PlayState extends MusicBeatState
 		if(SONG.song == 'Monster') fireVignette.visible = false;
 		add(fireVignette);
 
-		blackThingBelow = new FlxSprite().makeGraphic(1480, 1280, 0xFF000000);
+		blackThingBelow = new FlxSprite().makeGraphic(1480, 1380, 0xFF000000);
+		blackThingBelow.scrollFactor.set(0, 0);
 		blackThingBelow.alpha = 0;
 		if(SONG.song == 'Monster') blackThingBelow.alpha = 1;
 		if(SONG.song == 'Winter Horrorland') blackThingBelow.alpha = 1;
@@ -600,6 +601,7 @@ class PlayState extends MusicBeatState
 
 		redVignetteIntro = new FlxSprite().loadGraphic(Paths.image('stages/halloweenStage/monster/effects/redvignette'));
 		redVignetteIntro.alpha = 0;
+		redVignetteIntro.scrollFactor.set(0, 0);
 		if(SONG.song == 'Monster') redVignetteIntro.alpha = 0.4;
 		redVignetteIntro.cameras = [camHUD];
 		add(redVignetteIntro);
@@ -5025,7 +5027,7 @@ class PlayState extends MusicBeatState
 
 						FlxTween.tween(blackThing, {alpha: 0}, 3);
 					case 320:
-						FlxTween.tween(redVignetteIntro, {alpha: 0.65}, 26);
+						FlxTween.tween(redVignetteIntro, {alpha: 0.65}, 22);
 					case 570:
 						tweenNotesAlpha('all', 0, 0.23, FlxEase.linear);
 					case 580:
@@ -5047,7 +5049,7 @@ class PlayState extends MusicBeatState
 							strumLineNotes.members[i].alpha = 1;
 						}
 						blackThingBelow.alpha = 0;
-						redVignetteIntro.alpha = 0;
+						redVignetteIntro.alpha = 0.15;
 						monsterClone.alpha = 0;
 					case 1056:
 						//tweenNotesAlpha('all', 0, 1.2, FlxEase.linear);
@@ -5060,6 +5062,7 @@ class PlayState extends MusicBeatState
 						//uiGroup.alpha = 1;
 						vignette.alpha = 1;
 						vignette2.alpha = 1;
+						redVignetteIntro.alpha = 0.22;
 
 						constantHealthDrainAmount = 0.0006;
 						setHbFire(true);
