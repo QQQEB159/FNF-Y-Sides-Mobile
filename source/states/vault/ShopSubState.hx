@@ -60,19 +60,11 @@ class ShopSubState extends MusicBeatSubstate
     }
 
     public static var itemsListArr:Array<Dynamic> = [ // Name - Price - Stars - Image name
-        ['Picostola', 150, 2, 'picostola'],
-        ['Tricky Sign', 150, 2, 'tricky'],
+        ['Picostola', 150, 4, 'picostola'],
+        ['Tricky Sign', 150, 3, 'tricky'],
         ['Tennis Racket', 175, 3, 'racket'],
-        ['Banana', 125, 2, 'banana'],
-        ['Mic Bulb', 100, 2, 'micbulb'],
-        ['Calcetines', 75, 2, 'picostola'],
-        ['Chocha de gbv', 75, 5, 'picostola'],
-        ['Super saiyan 7', 100, 5, 'picostola'],
-        ['git pull origin', 1, 5, 'picostola'],
-        ['Mr. Tronco Breaktime', 999, 5, 'picostola'],
-        ['My hero academia', 0, 5, 'picostola'],
-        ['Mi academia de heroes', 75, 5, 'picostola'],
-        ['Mi bakugo', 75, 5, 'picostola'],
+        ['Banana', 125, 3, 'banana'],
+        ['Mic Bulb', 100, 3, 'micbulb']
     ];
     var itemsListGrp:FlxTypedGroup<ItemShop>;
 
@@ -502,9 +494,11 @@ class ShopSubState extends MusicBeatSubstate
                 Achievements.unlock('unlock_pico');
                 GameProgress.completeTask(5);
             case 'Tricky Sign': GameProgress.completeTask(6);
+            case 'Tennis Racket': GameProgress.completeTask(7);
+            case 'Mic Bulb': GameProgress.completeTask(8);
         }
 
-        if(hasBoughtAllItems()) GameProgress.completeTask(9);
+        if(hasBoughtAllItems()) GameProgress.completeTask(10);
 
         FlxG.sound.play(Paths.sound('vault/shop/confirmPurchase'));
         if(moneyTween != null) moneyTween.cancel();

@@ -1,5 +1,6 @@
 package states.vault;
 
+import backend.GameProgress;
 import flixel.FlxObject;
 import flixel.addons.display.FlxBackdrop;
 import flixel.addons.text.FlxTypeText;
@@ -46,6 +47,8 @@ class VaultState extends MusicBeatState
     var dialogueText:FlxTypeText;
     var dialogueBoxContinueSprite:FlxSprite;
 
+    public var maderaLinesProgress:Map<Int, Bool> = new Map<Int, Bool>(); 
+
     override function create()
     {
         super.create();
@@ -54,6 +57,9 @@ class VaultState extends MusicBeatState
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In the Vault", null);
 		#end
+
+        if(FlxG.save.data.maderaLinesProgress == null) FlxG.save.data.maderaLinesProgress = maderaLinesProgress;
+        else maderaLinesProgress = FlxG.save.data.maderaLinesProgress;
 
 		if(FlxG.sound.music != null)
 		{
@@ -252,7 +258,7 @@ class VaultState extends MusicBeatState
         poloDown.cameras = [camHUD];
         add(poloDown);
 
-		dialogueBox = new FlxSprite(40, 600).makeGraphic(1200, 80, FlxColor.BLACK);
+		dialogueBox = new FlxSprite(40, 600).makeGraphic(1200, 110, FlxColor.BLACK);
 		dialogueBox.alpha = 0;
 		dialogueBox.antialiasing = ClientPrefs.data.antialiasing;
         dialogueBox.cameras = [camHUD];
@@ -268,6 +274,7 @@ class VaultState extends MusicBeatState
         ];
 		dialogueText.antialiasing = ClientPrefs.data.antialiasing;
         dialogueText.cameras = [camHUD];
+        dialogueText.setTypingVariation(0.15, true);
 		add(dialogueText);
 
         dialogueBoxContinueSprite = new FlxSprite();
@@ -863,6 +870,12 @@ class VaultState extends MusicBeatState
         "Your progress is stored by Tapi, hopefully he won't erase your save files as he did with mines",
         "Oh, about the name of the company... it's a very gorgeous metaphor, isn't it?",
         "The last meeting we had was about starting to sell plushies. \nI refused.",
+        "Some of the items you buy won't unlock anything. You can guess it by the amount of stars tho.",
+        "Your achievements' list is in the shelf behind. Make sure to complete it 100% to get the 'Platinium Trophie' in your save file ;)",
+        "As a fun fact, I love skiing. I've only done it once in my life this year, but it has been one of the coolest experiences I've ever lived.",
+        "I still miss when random items like socks were sold in the dev build. Beautiful memories...",
+        "Maybe we are a tiny shop, but what I most like about it is the cozy ambient and enjoying what we do as friends <3",
+        "I once tried to talk with that guy who helps you with the options, but he only critiqued everything I touched. HE CALLED ME WEIRDO FOR ADDING SAVE FILES!!!"
     ];
     var randomStartIndex:Int = 0;
 
@@ -882,6 +895,23 @@ class VaultState extends MusicBeatState
                     zoomOutToCharacter();
                     showPreShopUI();
                 });
+
+                maderaLinesProgress.set(randomStartIndex, true);
+                FlxG.save.data.maderaLinesProgress = maderaLinesProgress;
+                FlxG.save.flush();
+
+                // check if everything is unlocked
+                var hasListenedToAllMaderaLines:Bool = true;
+                for(index => listened in maderaLinesProgress)
+                {
+                    if(!listened) hasListenedToAllMaderaLines = false;
+                }
+
+                if(hasListenedToAllMaderaLines)
+                {
+                    GameProgress.completeTask(12);
+                }
+
                 randomStartIndex = FlxMath.wrap(randomStartIndex + 1, 0, randomTextsArr.length - 1);
             case 'exit': zoomOutFromShop();
             default: // nothing

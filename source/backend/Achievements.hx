@@ -159,6 +159,8 @@ class Achievements {
 			if(!Achievements.isUnlocked(achievement))
 				return false;
 		}
+
+		GameProgress.completeTask(11);
 		return true;
 	}
 
