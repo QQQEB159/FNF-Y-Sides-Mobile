@@ -31,6 +31,9 @@ class PerformanceWarning extends MusicBeatState
 
 	var background:FlxSprite;
 	var bfSprite:FlxSprite;
+	var dot1:FlxSprite;
+	var dot2:FlxSprite;
+	var dot3:FlxSprite;
 
 	override function create()
 	{
@@ -64,6 +67,30 @@ class PerformanceWarning extends MusicBeatState
 			colorBg.alpha = 0;	
 		}});
 
+		dot1 = new FlxSprite();
+		dot1.loadGraphic(Paths.image('performanceMenu/loadingDot'));
+		dot1.antialiasing = ClientPrefs.data.antialiasing;
+		dot1.x = 15 + bfSprite.width + 70;
+		dot1.y = FlxG.height - dot1.height - 25;
+		dot1.alpha = 0;
+		add(dot1);
+
+		dot2 = new FlxSprite();
+		dot2.loadGraphic(Paths.image('performanceMenu/loadingDot'));
+		dot2.antialiasing = ClientPrefs.data.antialiasing;
+		dot2.x = dot1.x + dot1.width + 30;
+		dot2.y = FlxG.height - dot1.height - 25;
+		dot2.alpha = 0;
+		add(dot2);
+
+		dot3 = new FlxSprite();
+		dot3.loadGraphic(Paths.image('performanceMenu/loadingDot'));
+		dot3.antialiasing = ClientPrefs.data.antialiasing;
+		dot3.x = dot2.x + dot2.width + 30;
+		dot3.y = FlxG.height - dot1.height - 25;
+		dot3.alpha = 0;
+		add(dot3);
+
 		loadingSound = new FlxSound();
 		loadingSound.loadEmbedded(Paths.sound('performance/loading'));
 		FlxG.sound.list.add(loadingSound);
@@ -94,11 +121,24 @@ class PerformanceWarning extends MusicBeatState
 
 					Paths.permanentTrackedAssets.set('gameover', fnflosssfx);
 
+					loadingDotsAnim(dot1);
+					new FlxTimer().start(0.1, function(tmr:FlxTimer)
+					{
+						loadingDotsAnim(dot2);
+					});
+					new FlxTimer().start(0.2, function(tmr:FlxTimer)
+					{
+						loadingDotsAnim(dot3);
+					});
+
 					bfSprite.y += 10;
 					FlxTween.tween(bfSprite, {y: bfSprite.y - 10, alpha: 1}, 0.95, {ease: FlxEase.quartOut});
 					new FlxTimer().start(FlxG.random.float(1.85, 3.15), function(tmr:FlxTimer) // hehe random timer so it feels annoying sometimes
 					{
 						loadingSound.fadeOut(0.45);
+						FlxTween.tween(dot1, {alpha: 0}, 0.95, {ease: FlxEase.quartOut});
+						FlxTween.tween(dot2, {alpha: 0}, 0.95, {ease: FlxEase.quartOut});
+						FlxTween.tween(dot3, {alpha: 0}, 0.95, {ease: FlxEase.quartOut});
 						FlxTween.tween(bfSprite, {y: bfSprite.y + 10, alpha: 0}, 0.95, {ease: FlxEase.quartOut, onComplete: function(twn:FlxTween)
 						{
 							goToTitle();
@@ -107,6 +147,17 @@ class PerformanceWarning extends MusicBeatState
 				});
 			}}); 
 		}
+	}
+
+	function loadingDotsAnim(targetDot:FlxSprite)
+	{
+		FlxTween.tween(targetDot, {alpha: 1, y: FlxG.height - targetDot.height - 50}, 0.37, {ease: FlxEase.quartOut, onComplete: function(twn:FlxTween)
+		{
+			FlxTween.tween(targetDot, {y: FlxG.height - targetDot.height - 25}, 0.37, {ease: FlxEase.expoIn, onComplete: function(twn:FlxTween)
+			{
+				loadingDotsAnim(targetDot);
+			}});
+		}});
 	}
 
 	function goToTitle()
