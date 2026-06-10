@@ -47,6 +47,8 @@ class ResultsScreen extends MusicBeatSubstate
     var rank:ResultsScreenRank;
     var rankName:String = "";
 
+    var yoinsEarnedTxt:Alphabet;
+
     var blackBackground:FlxSprite;
     var whiteBackground:FlxSprite;
     var fullBlackBackground:FlxSprite;
@@ -78,6 +80,7 @@ class ResultsScreen extends MusicBeatSubstate
         shit = PlayState.isStoryMode ? PlayState.campaignShits : PlayState.instance.ratingsData[3].hits;
 
         rank = new ResultsScreenRank(0, 0, getRankName());
+        yoinsEarnedTxt = new Alphabet(0, 0, '+0 yoins', false);
 
         //FlxG.sound.playMusic(Paths.music(getRankName() == 'e' ? 'winScreenbad' : 'winScreen'));
         //Conductor.bpm = getRankName() == 'e' ? 100 : 127;
@@ -212,6 +215,13 @@ class ResultsScreen extends MusicBeatSubstate
         rank.antialiasing = ClientPrefs.data.antialiasing;
         rank.alpha = 0;
         add(rank);
+
+        yoinsEarnedTxt.setScale(0.4, 0.4);
+        yoinsEarnedTxt.x = board.x + 25;
+        yoinsEarnedTxt.y = board.y + board.height - yoinsEarnedTxt.height - 30;
+        yoinsEarnedTxt.antialiasing = ClientPrefs.data.antialiasing;
+        yoinsEarnedTxt.alpha = 0;
+        add(yoinsEarnedTxt);
 
         FlxTween.angle(rank, -5, 5, 4, {ease: FlxEase.quartInOut, type: PINGPONG});
 
@@ -440,6 +450,13 @@ class ResultsScreen extends MusicBeatSubstate
                 FlxTween.tween(rank, {"scale.x": 1.04, "scale.y": 1.04}, 0.3, {ease: FlxEase.quartOut, onComplete: (_) ->{
                     FlxTween.tween(rank, {"scale.x": 1, "scale.y": 1}, 0.3, {ease: FlxEase.quartInOut});
                 }});
+
+                if(PlayState.isStoryMode)
+                    yoinsEarnedTxt.text = '+${PlayState.totalPlayedWeek * 0.5} yoins';
+                else
+                    yoinsEarnedTxt.text = '+${PlayState.instance.totalPlayed * 0.5} yoins';
+
+                FlxTween.tween(yoinsEarnedTxt, {alpha: 1, y: yoinsEarnedTxt.y - 10}, 0.3, {ease: FlxEase.quartOut});
         }
     }
 
@@ -511,6 +528,13 @@ class ResultsScreen extends MusicBeatSubstate
                     FlxTween.tween(rank, {"scale.x": 1.04, "scale.y": 1.04}, 0.3, {ease: FlxEase.quartOut, onComplete: (_) ->{
                         FlxTween.tween(rank, {"scale.x": 1, "scale.y": 1}, 0.3, {ease: FlxEase.quartInOut});
                     }});
+
+                    if(PlayState.isStoryMode)
+                        yoinsEarnedTxt.text = '+${PlayState.totalPlayedWeek * 0.5} yoins';
+                    else
+                        yoinsEarnedTxt.text = '+${PlayState.instance.totalPlayed * 0.5} yoins';
+
+                    FlxTween.tween(yoinsEarnedTxt, {alpha: 1, y: yoinsEarnedTxt.y - 10}, 0.3, {ease: FlxEase.quartOut});
             }
         }
 
