@@ -30,11 +30,12 @@ class NewGalleryState extends MusicBeatState
         'milf',
         'cocoa',
         'eggnog',
-        'winter-horrorland',
         'test',
         'improbable-outset',
         'madness',
-        'ram'
+        'ram',
+        'returny',
+        'settings'
     ];
     static var musicSongsArray:Array<Dynamic> = [ // Song name - Is pico mix?
         ['tutorial', false],
@@ -714,7 +715,9 @@ class NewGalleryState extends MusicBeatState
             #end
             
             // removing the extension .png
-            var imageName = StringTools.replace(image, '.png', '');
+            var name = StringTools.replace(image, '.png', '');
+            var charSuffix:String = musicSongsArray[num][1] ? 'pico' : 'bf';
+            var imageName = '$name-$charSuffix';
 
             var spr = new GalleryObject();
             spr.loadGraphic(Paths.image('songCards/$imageName'));
@@ -764,10 +767,10 @@ class NewGalleryState extends MusicBeatState
             musicSongsArray.push(['milf', false]);
             musicSongsArray.push(['cocoa', false]);
             musicSongsArray.push(['eggnog', false]);
-            musicSongsArray.push(['winter-horrorland', false]);
             musicSongsArray.push(['improbable-outset', false]);
             musicSongsArray.push(['madness', false]);
             musicSongsArray.push(['ram', false]);
+            musicSongsArray.push(['settings', false]);
             return;
         }
 
@@ -808,7 +811,6 @@ class NewGalleryState extends MusicBeatState
         {
             musicSongsArray.push(['cocoa', false]);
             musicSongsArray.push(['eggnog', false]);
-            musicSongsArray.push(['winter-horrorland', false]);
         }
 
         if(ShopSubState.isItemUnlocked('Tricky Sign'))
@@ -825,6 +827,16 @@ class NewGalleryState extends MusicBeatState
         if(ShopSubState.isItemUnlocked('Mic Bulb'))
         {
             musicSongsArray.push(['test', false]);
+        }
+
+        if(ShopSubState.isItemUnlocked('Banana'))
+        {
+            musicSongsArray.push(['returny', false]);
+        }
+
+        if(ShopSubState.isItemUnlocked('Singing Module'))
+        {
+            musicSongsArray.push(['settings', false]);
         }
     }
 

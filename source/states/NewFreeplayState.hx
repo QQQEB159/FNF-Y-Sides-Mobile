@@ -718,6 +718,8 @@ class NewFreeplayState extends MusicBeatState
         {
             item.x -= 500;
         }
+
+        changeSelect();
     }
 
 	var stopMusicPlay:Bool = false;

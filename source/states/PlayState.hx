@@ -966,7 +966,7 @@ class PlayState extends MusicBeatState
 			botplayTxt.y = healthBar.y + 70;
 
 		songCard = new FlxSprite();
-		songCard.loadGraphic(Paths.image('songCards/${Paths.formatToSongPath(curSong)}'));
+		songCard.loadGraphic(Paths.image('songCards/${Paths.formatToSongPath(curSong)}-${CharSelectState.currentFreeplaySelectedName}'));
 		songCard.screenCenter(XY);
 		songCard.alpha = 0;
 		songCard.cameras = [camOther];
@@ -4939,6 +4939,15 @@ class PlayState extends MusicBeatState
 					case 96:
 						FlxTween.tween(songCard, {alpha: 0, y: songCard.y - 10}, 0.3);
 				}
+			case 'Fresh-pico':
+				switch(curStep)
+				{
+					case 64:
+						songCard.y += 10;
+						FlxTween.tween(songCard, {alpha: 1, y: songCard.y - 10}, 0.3);
+					case 96:
+						FlxTween.tween(songCard, {alpha: 0, y: songCard.y - 10}, 0.3);
+				}
 			case 'Dad Battle-bf':
 				switch(curStep)
 				{
@@ -5098,6 +5107,15 @@ class PlayState extends MusicBeatState
 					case 32:
 						FlxTween.tween(songCard, {alpha: 0, y: songCard.y - 10}, 0.3);
 				}
+			case 'Pico-pico':
+				switch(curStep)
+				{
+					case 16:
+						songCard.y += 10;
+						FlxTween.tween(songCard, {alpha: 1, y: songCard.y - 10}, 0.3);
+					case 80:
+						FlxTween.tween(songCard, {alpha: 0, y: songCard.y - 10}, 0.3);
+				}
 			case 'Philly Nice-bf':
 				switch(curStep)
 				{
@@ -5120,9 +5138,41 @@ class PlayState extends MusicBeatState
 					case 704:
 						setHbFire(false);
 				}
+			case 'Satin Panties-bf':
+				switch(curStep)
+				{
+					case 1:
+						songCard.y += 10;
+						FlxTween.tween(songCard, {alpha: 1, y: songCard.y - 10}, 0.3);
+					case 16:
+						FlxTween.tween(songCard, {alpha: 0, y: songCard.y - 10}, 0.3);
+				}
+			case 'High-bf':
+				switch(curStep)
+				{
+					case 48:
+						songCard.y += 10;
+						FlxTween.tween(songCard, {alpha: 1, y: songCard.y - 10}, 0.3);
+					case 64:
+						FlxTween.tween(songCard, {alpha: 0, y: songCard.y - 10}, 0.3);
+				}
+			case 'High-pico':
+				switch(curStep)
+				{
+					case 1:
+						songCard.y += 10;
+						FlxTween.tween(songCard, {alpha: 1, y: songCard.y - 10}, 0.3);
+					case 64:
+						FlxTween.tween(songCard, {alpha: 0, y: songCard.y - 10}, 0.3);
+				}
 			case 'Milf-bf':
 				switch(curStep)
 				{
+					case 32:
+						songCard.y += 10;
+						FlxTween.tween(songCard, {alpha: 1, y: songCard.y - 10}, 0.3);
+					case 48:
+						FlxTween.tween(songCard, {alpha: 0, y: songCard.y - 10}, 0.3);
 					case 1312:
 						setHbFire(true);
 					case 1440:
@@ -5131,9 +5181,36 @@ class PlayState extends MusicBeatState
 			case 'Milf-pico':
 				switch(curStep)
 				{
+					case 32:
+						songCard.y += 10;
+						FlxTween.tween(songCard, {alpha: 1, y: songCard.y - 10}, 0.3);
+					case 48:
+						FlxTween.tween(songCard, {alpha: 0, y: songCard.y - 10}, 0.3);
 					case 1312:
 						setHbFire(true);
 					case 1440:
+						setHbFire(false);
+				}
+			case 'Cocoa-bf':
+				switch(curStep)
+				{
+					case 1:
+						songCard.y += 10;
+						FlxTween.tween(songCard, {alpha: 1, y: songCard.y - 10}, 0.3);
+					case 16:
+						FlxTween.tween(songCard, {alpha: 0, y: songCard.y - 10}, 0.3);
+				}
+			case 'Eggnog-bf':
+				switch(curStep)
+				{
+					case 32:
+						songCard.y += 10;
+						FlxTween.tween(songCard, {alpha: 1, y: songCard.y - 10}, 0.3);
+					case 48:
+						FlxTween.tween(songCard, {alpha: 0, y: songCard.y - 10}, 0.3);
+					case 168:
+						setHbFire(true);
+					case 296:
 						setHbFire(false);
 				}
 			case 'Winter Horrorland-bf':
@@ -5179,6 +5256,12 @@ class PlayState extends MusicBeatState
 			case 'Improbable Outset-bf':
 				switch(curStep)
 				{
+					case 1:
+						songCard.y += 10;
+						FlxTween.shake(songCard, 0.003, 11, {ease: FlxEase.linear});
+						FlxTween.tween(songCard, {alpha: 1, y: songCard.y - 10}, 0.3);
+					case 64:
+						FlxTween.tween(songCard, {alpha: 0, y: songCard.y - 10}, 0.3);
 					case 960:
 						setHbFire(true);
 					case 1216:
@@ -5187,6 +5270,12 @@ class PlayState extends MusicBeatState
 			case 'Madness-bf':
 				switch(curStep)
 				{
+					case 1:
+						songCard.y += 10;
+						FlxTween.shake(songCard, 0.003, 11, {ease: FlxEase.linear});
+						FlxTween.tween(songCard, {alpha: 1, y: songCard.y - 10}, 0.3);
+					case 128:
+						FlxTween.tween(songCard, {alpha: 0, y: songCard.y - 10}, 0.3);
 					case 768:
 						setHbFire(true);
 					case 896:
@@ -5200,6 +5289,9 @@ class PlayState extends MusicBeatState
 					case 64:
 						blackThing.alpha = 0;
 						FlxTween.tween(blackThingBelow, {alpha: 0}, 15);
+
+						songCard.y += 10;
+						FlxTween.tween(songCard, {alpha: 1, y: songCard.y - 10}, 0.3);
 
 						cameraFollowInstant = true;
 						isCameraOnForcedPos = true;
@@ -5215,6 +5307,8 @@ class PlayState extends MusicBeatState
 							15, 
 							{ease: FlxEase.cubeOut}
 						);
+					case 128:
+						FlxTween.tween(songCard, {alpha: 0, y: songCard.y - 10}, 0.3);
 					case 190:
 						isCameraOnForcedPos = false;
 						cameraFollowInstant = false;
@@ -5222,11 +5316,25 @@ class PlayState extends MusicBeatState
 			case 'Returny-bf':
 				switch(curStep)
 				{
+					case 1:
+						songCard.y += 10;
+						FlxTween.tween(songCard, {alpha: 1, y: songCard.y - 10}, 0.3);
+					case 32:
+						FlxTween.tween(songCard, {alpha: 0, y: songCard.y - 10}, 0.3);
 					case 260:
 						blackThingSupreme.alpha = 0;
 						FlxTween.tween(blackThingSupreme, {alpha: 1}, 0.15);
 					case 288:
 						blackThingSupreme.alpha = 0;
+				}
+			case 'Settings-bf':
+				switch(curStep)
+				{
+					case 1:
+						songCard.y += 10;
+						FlxTween.tween(songCard, {alpha: 1, y: songCard.y - 10}, 0.3);
+					case 16:
+						FlxTween.tween(songCard, {alpha: 0, y: songCard.y - 10}, 0.3);
 				}
 		}
 
