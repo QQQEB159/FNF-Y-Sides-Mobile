@@ -338,6 +338,8 @@ class PlayState extends MusicBeatState
 	private static var _lastLoadedModDirectory:String = '';
 	public static var nextReloadAll:Bool = false;
 
+	var splash:NoteSplash;
+
 	var ogPlayer3Pos:Array<Float> = [];
 	override public function create()
 	{
@@ -1073,7 +1075,7 @@ class PlayState extends MusicBeatState
 		stagesFunc(function(stage:BaseStage) stage.createPost());
 		callOnScripts('onCreatePost');
 		
-		var splash:NoteSplash = new NoteSplash();
+		splash = new NoteSplash();
 		grpNoteSplashes.add(splash);
 		splash.alpha = 0.000001; //cant make it invisible or it won't allow precaching
 
@@ -4879,10 +4881,13 @@ class PlayState extends MusicBeatState
 			FlxTween.tween(note, {alpha: _alpha}, _duration, {ease: _ease});
 		}
 
-		for(splash in grpNoteSplashes)
+		for(splashSpr in grpNoteSplashes)
 		{
-			FlxTween.tween(splash, {alpha: _alpha}, _duration, {ease: _ease});
+			if(splashSpr == splash) continue;
+			FlxTween.tween(splashSpr, {alpha: _alpha}, _duration, {ease: _ease});
 		}
+
+		splash.alpha = 0.000001;
 		
 		FlxTween.tween(noteSplashHoldPurple, {alpha: _alpha}, _duration, {ease: _ease});
 		FlxTween.tween(noteSplashHoldBlue, {alpha: _alpha}, _duration, {ease: _ease});
