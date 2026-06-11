@@ -45,10 +45,11 @@
 	"no_antialiasing": false,
 	"image": "characters/optionsGuyGameplay",
 	"position": [-180, -250],
-	"healthicon": "face",
+	"healthicon": "options",
 	"flip_x": false,
-	"healthbar_colors": [161, 161, 161],
+	"healthbar_colors": [95, 92, 122],
 	"camera_position": [-260, 0],
+	"icon_offset": [20, 20],
 	"sing_duration": 4,
 	"scale": 1,
 	"_editor_isPlayer": false

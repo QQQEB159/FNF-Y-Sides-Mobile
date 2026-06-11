@@ -5335,6 +5335,10 @@ class PlayState extends MusicBeatState
 						FlxTween.tween(songCard, {alpha: 1, y: songCard.y - 10}, 0.3);
 					case 16:
 						FlxTween.tween(songCard, {alpha: 0, y: songCard.y - 10}, 0.3);
+					case 528:
+						setHbFire(true);
+					case 656:
+						setHbFire(false);
 				}
 		}
 
