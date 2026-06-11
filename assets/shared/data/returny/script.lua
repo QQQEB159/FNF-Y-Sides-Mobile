@@ -2,12 +2,13 @@ function onCreate()
 
     setObjectOrder('dadGroup', getObjectOrder('boyfriendGroup') + 1)
 
-    makeLuaSprite('n', 'stages/returnyStage/neg', -600, -450)
-    scaleObject('n', 30, 30)
+    makeLuaSprite('n', 'stages/returnyStage/neg', 0, 0)
+    scaleObject('n', 31, 31)
     addLuaSprite('n', false)  
     setObjectCamera('n', 'camHUD')
     setProperty('n.visible', true)
     setProperty('n.alpha', 0);
+    setScrollFactor('n', 0, 0)
 
     makeLuaSprite('bg', 'stages/returnyStage/gronbgpixel', -7500, -5040)
     scaleObject('bg', 8, 8)

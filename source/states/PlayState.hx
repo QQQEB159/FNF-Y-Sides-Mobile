@@ -621,6 +621,7 @@ class PlayState extends MusicBeatState
 		blackThingSupreme = new FlxSprite().makeGraphic(1480, 1280, 0xFF000000);
 		blackThingSupreme.alpha = 0;
 		blackThingSupreme.cameras = [camOther];
+		blackThingSupreme.scrollFactor.set(0, 0);
 		add(blackThingSupreme);
 
 		monsterClone = new Character(0, 0, 'monstergloom');
