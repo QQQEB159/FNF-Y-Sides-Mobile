@@ -47,6 +47,7 @@ class PerformanceWarning extends MusicBeatState
 		background = new FlxSprite().loadGraphic(Paths.image('performanceMenu/image'));
 		background.alpha = 0;
 		background.scale.set(0.75, 0.75);
+		background.antialiasing = ClientPrefs.data.antialiasing;
 		add(background);
 
 		bfSprite = new FlxSprite();
