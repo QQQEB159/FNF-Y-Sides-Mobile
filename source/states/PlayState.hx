@@ -3643,7 +3643,7 @@ class PlayState extends MusicBeatState
 		shit.alpha = 0;
 		add(shit);
 
-		moveCamera(true);
+		moveCamera(false);
 		camFollow.y += -40;
 
 		FlxTween.tween(shit, {alpha: 1}, 0.8, {onComplete: function(twn:FlxTween)
