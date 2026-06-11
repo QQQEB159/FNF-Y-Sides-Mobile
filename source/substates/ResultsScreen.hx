@@ -465,9 +465,9 @@ class ResultsScreen extends MusicBeatSubstate
                 }});
 
                 if(PlayState.isStoryMode)
-                    yoinsEarnedTxt.text = '+${PlayState.totalPlayedWeek * 0.5} yoins';
+                    yoinsEarnedTxt.text = '+${Std.int(PlayState.totalPlayedWeek * 0.5)} yoins';
                 else
-                    yoinsEarnedTxt.text = '+${PlayState.instance.totalPlayed * 0.5} yoins';
+                    yoinsEarnedTxt.text = '+${Std.int(PlayState.instance.totalPlayed * 0.5)} yoins';
 
                 FlxTween.tween(yoinsEarnedTxt, {alpha: 1, y: yoinsEarnedTxt.y - 10}, 0.3, {ease: FlxEase.quartOut});
                 new FlxTimer().start(2.05, function(tmr:FlxTimer)
