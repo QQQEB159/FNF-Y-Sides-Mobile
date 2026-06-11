@@ -81,7 +81,7 @@ class CreditsStateYSides extends MusicBeatState
 				},
 				{
 					icon: 'x',
-					link: 'SFoxyDAC'
+					link: 'https://x.com/SFoxyDAC'
 				}
 			],
 			color: 0xFFDC7D6F
@@ -117,7 +117,7 @@ class CreditsStateYSides extends MusicBeatState
 			socialMedias: [
 				{
 					icon: 'yt',
-					link: 'https://www.youtube.com/@https://www.youtube.com/@FlashMan07'
+					link: 'https://www.youtube.com/@FlashMan07'
 				}
 			],
 			color: 0xFF912197
