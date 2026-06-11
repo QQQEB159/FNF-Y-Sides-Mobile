@@ -31,6 +31,8 @@ class BeatenSongs
                 }
             }
 
+            if(!beatenSongs.exists('settings-bf')) beatenSongs.set('settings-bf', false);
+
             FlxG.save.data.beatenSongs = beatenSongs;
             FlxG.save.flush();
         }
