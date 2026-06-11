@@ -421,16 +421,18 @@ class ShopSubState extends MusicBeatSubstate
             }
         }
 
-        //if(FlxG.keys.justPressed.TAB)
-        //{
-        //    var oldMoney = money;
-        //    addMoney(100);
-        //    FlxTween.num(oldMoney, money, 0.7, {ease: FlxEase.quartOut}, function(v:Float)
-        //    {
-        //        moneyBox.money = Std.int(v);
-        //    });
-        //    moneyBox.updateWidth('$money');
-        //}
+        #if debug
+            if(FlxG.keys.justPressed.TAB)
+            {
+                var oldMoney = money;
+                addMoney(100);
+                FlxTween.num(oldMoney, money, 0.7, {ease: FlxEase.quartOut}, function(v:Float)
+                {
+                    moneyBox.money = Std.int(v);
+                });
+                moneyBox.updateWidth('$money');
+            }
+        #end
     }
 
     var moneyTween:FlxTween;
