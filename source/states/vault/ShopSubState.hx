@@ -60,11 +60,12 @@ class ShopSubState extends MusicBeatSubstate
     }
 
     public static var itemsListArr:Array<Dynamic> = [ // Name - Price - Stars - Image name
-        ['Picostola', 150, 4, 'picostola'],
-        ['Tricky Sign', 150, 3, 'tricky'],
-        ['Tennis Racket', 175, 3, 'racket'],
-        ['Banana', 125, 3, 'banana'],
-        ['Mic Bulb', 100, 3, 'micbulb']
+        ['Picostola', 300, 5, 'picostola'],
+        ['Tricky Sign', 250, 4, 'tricky'],
+        ['Tennis Racket', 175, 4, 'racket'],
+        ['Banana', 150, 4, 'banana'],
+        ['Mic Bulb', 150, 4, 'micbulb'],
+        ['Gear', 100, 3, 'micbulb']
     ];
     var itemsListGrp:FlxTypedGroup<ItemShop>;
 
@@ -496,9 +497,10 @@ class ShopSubState extends MusicBeatSubstate
             case 'Tricky Sign': GameProgress.completeTask(6);
             case 'Tennis Racket': GameProgress.completeTask(7);
             case 'Mic Bulb': GameProgress.completeTask(8);
+            case 'Gear': GameProgress.completeTask(9);
         }
 
-        if(hasBoughtAllItems()) GameProgress.completeTask(10);
+        if(hasBoughtAllItems()) GameProgress.completeTask(11);
 
         FlxG.sound.play(Paths.sound('vault/shop/confirmPurchase'));
         if(moneyTween != null) moneyTween.cancel();

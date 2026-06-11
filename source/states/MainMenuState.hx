@@ -50,6 +50,9 @@ class MainMenuState extends MusicBeatState
         'gallery'
     ];
     var menuItemsRightGrp:FlxTypedGroup<MenuItemObj>;
+
+    var optNewSpr:FlxSprite;
+
     var curColumn:Column = LEFT;
     var menuItemsAngle:Int = 1;
     var menuItemsAngleReverse:Int = -1;
@@ -199,6 +202,19 @@ class MainMenuState extends MusicBeatState
         menuItemsRightGrp = new FlxTypedGroup<MenuItemObj>();
         add(menuItemsRightGrp);
 
+        optNewSpr = new FlxSprite();
+        optNewSpr.frames = Paths.getSparrowAtlas('freePlay/NEW/newNoti');
+        optNewSpr.animation.addByPrefix('idle', 'idle', 12, true);
+        optNewSpr.animation.play('idle', true);
+        optNewSpr.antialiasing = ClientPrefs.data.antialiasing;
+        optNewSpr.visible = false;
+        add(optNewSpr);
+
+        if(ShopSubState.isItemUnlocked('Gear') && !FlxG.save.data.gaveGearToRobot)
+        {
+            optNewSpr.visible = true;
+        }
+
         for(i in 0...menuItemsLeftArr.length)
         {
             var item = new MenuItemObj(0, 80 + (i * 220));
@@ -253,6 +269,15 @@ class MainMenuState extends MusicBeatState
             item.x = rightBar.x + (rightBar.width / 2) - (item.width / 2) - 30;
             item.ID = i;
             item.angle = i == 1 ? menuItemsAngleReverse : menuItemsAngle;
+
+            if(menuItemsRightArr[i] == 'options')
+            {
+                //optNewSpr.setPosition(item.x + item.width - optNewSpr.width + 10, item.y + optNewSpr.height / 2);
+                optNewSpr.x = FlxG.width;
+                optNewSpr.y = 75;
+
+                FlxTween.tween(optNewSpr, {x: FlxG.width - optNewSpr.width - 60}, 0.7, {ease: FlxEase.quartOut});
+            }
 
             var targetX:Float = FlxG.width - rightBar.width + (rightBar.width - 350) + (rightBar.width / 2) - (item.width / 2) - 30;
             if(i == 1) targetX += 70; // lil offset :)
@@ -576,6 +601,7 @@ class MainMenuState extends MusicBeatState
                     FlxTween.tween(rightBarThorns, {x: FlxG.width + 80 - rightBarThorns.width + 1}, 0.35, {ease: FlxEase.quartIn});
                     FlxTween.tween(circle2, {x: FlxG.width + 400 - (circle2.width / 1.8)}, 0.35, {ease: FlxEase.quartIn});
                     FlxTween.tween(item, {x: curColumn == LEFT ? item.x - 450 : item.x + 450}, 0.35, {ease: FlxEase.quartIn});
+                    if(option == 'options') FlxTween.tween(optNewSpr, {x: FlxG.width}, 0.35, {ease: FlxEase.quartIn});
                 });
 
             // special anims
@@ -654,6 +680,8 @@ class MainMenuState extends MusicBeatState
             if(obj == item) continue;
             FlxTween.tween(obj, {alpha: 0, y: obj.y + 10}, 0.2);
         }
+
+        if(option != 'options') FlxTween.tween(optNewSpr, {alpha: 0}, 0.35, {ease: FlxEase.quartIn});
     }
 
     function getTargetState(opt:String):Dynamic {

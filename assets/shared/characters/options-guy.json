@@ -1,44 +1,52 @@
 {
 	"animations": [
 		{
-			"offsets": [0, 0],
 			"loop": true,
-			"fps": 12,
+			"offsets": [0, 0],
 			"anim": "idle",
-			"indices": [],
-			"name": "idle"
+			"fps": 12,
+			"name": "idle",
+			"indices": []
+		},
+		{
+			"loop": true,
+			"offsets": [0, 0],
+			"anim": "happy",
+			"fps": 6,
+			"name": "happy",
+			"indices": []
+		},
+		{
+			"loop": true,
+			"offsets": [-1, 1],
+			"anim": "shocked",
+			"fps": 6,
+			"name": "shocked",
+			"indices": []
+		},
+		{
+			"loop": true,
+			"offsets": [1, 0],
+			"anim": "laugh",
+			"fps": 6,
+			"name": "laugh",
+			"indices": []
+		},
+		{
+			"loop": true,
+			"offsets": [6, 0],
+			"anim": "question",
+			"fps": 6,
+			"name": "question",
+			"indices": []
 		},
 		{
 			"offsets": [0, 0],
-			"loop": true,
-			"fps": 6,
-			"anim": "happy",
 			"indices": [],
-			"name": "happy"
-		},
-		{
-			"offsets": [-1, 1],
-			"loop": true,
 			"fps": 6,
-			"anim": "shocked",
-			"indices": [],
-			"name": "shocked"
-		},
-		{
-			"offsets": [1, 0],
+			"anim": "talk",
 			"loop": true,
-			"fps": 6,
-			"anim": "laugh",
-			"indices": [],
-			"name": "laugh"
-		},
-		{
-			"offsets": [6, 0],
-			"loop": true,
-			"fps": 6,
-			"anim": "question",
-			"indices": [],
-			"name": "question"
+			"name": "talk"
 		}
 	],
 	"vocals_file": "",
