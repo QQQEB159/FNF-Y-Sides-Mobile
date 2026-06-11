@@ -51,6 +51,8 @@ class NewStoryMenuState extends MusicBeatState
 	var blurShader:BlurShader;
 	var blurFilter:ShaderFilter;
 
+	var grpLocks:FlxTypedGroup<FlxSprite>;
+
     override function create()
     {
 		Paths.clearStoredMemory();
@@ -149,6 +151,9 @@ class NewStoryMenuState extends MusicBeatState
 		grpWeekText = new FlxTypedGroup<WeekItem>();
 		add(grpWeekText);
 
+		grpLocks = new FlxTypedGroup<FlxSprite>();
+		add(grpLocks);
+
 		var ui_tex = Paths.getSparrowAtlas('campaign_menu_UI_assets');
 		for (i in 0...WeekData.weeksList.length)
 		{
@@ -173,13 +178,14 @@ class NewStoryMenuState extends MusicBeatState
 				// Needs an offset thingie
 				if (isLocked)
 				{
-					var lock:FlxSprite = new FlxSprite(weekThing.width + 10 + weekThing.x);
+					var lock:FlxSprite = new FlxSprite();
 					lock.antialiasing = ClientPrefs.data.antialiasing;
 					lock.frames = ui_tex;
 					lock.animation.addByPrefix('lock', 'lock');
 					lock.animation.play('lock');
 					lock.ID = i;
-					//grpLocks.add(lock);
+					lock.x = weekThing.x + weekThing.width / 2 - lock.width / 2;
+					grpLocks.add(lock);
 
 					weekThing.color = 0xFF777777;
 				}
@@ -243,6 +249,12 @@ class NewStoryMenuState extends MusicBeatState
     override function update(elapsed:Float)
     {
         super.update(elapsed);
+
+		for (num => lock in grpLocks.members)
+		{
+			lock.x = grpWeekText.members[lock.ID].x + grpWeekText.members[lock.ID].width/2 - lock.width/2;
+			lock.y = grpWeekText.members[lock.ID].y + grpWeekText.members[lock.ID].height/2 - lock.height/2;
+		}
 
 		if(!selectedWeek && !goneBack)
 		{
@@ -386,6 +398,11 @@ class NewStoryMenuState extends MusicBeatState
 		});
 
 		grpWeekText.forEach(function(item:WeekItem)
+		{
+			item.x = -600;
+		});
+
+		grpLocks.forEach(function(item:FlxSprite)
 		{
 			item.x = -600;
 		});
