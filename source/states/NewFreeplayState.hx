@@ -693,7 +693,7 @@ class NewFreeplayState extends MusicBeatState
 			}
 		}
 
-        if(category == OG && ShopSubState.isItemUnlocked('Gear') && BeatenSongs.isSongBeaten('options-bf')) addSong('Options', 6, 'options', FlxColor.fromRGB(255, 255, 255));
+        if(category == OG && ShopSubState.isItemUnlocked('Singing Module') && BeatenSongs.isSongBeaten('options-bf')) addSong('Options', 6, 'options', FlxColor.fromRGB(255, 255, 255));
 
 		Mods.loadTopMod();
 

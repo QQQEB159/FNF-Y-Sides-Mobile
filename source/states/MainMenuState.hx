@@ -210,7 +210,7 @@ class MainMenuState extends MusicBeatState
         optNewSpr.visible = false;
         add(optNewSpr);
 
-        if(ShopSubState.isItemUnlocked('Gear') && !FlxG.save.data.gaveGearToRobot)
+        if(ShopSubState.isItemUnlocked('Singing Module') && !FlxG.save.data.gaveGearToRobot)
         {
             optNewSpr.visible = true;
         }

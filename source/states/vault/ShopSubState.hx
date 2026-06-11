@@ -65,7 +65,7 @@ class ShopSubState extends MusicBeatSubstate
         ['Tennis Racket', 175, 4, 'racket'],
         ['Banana', 150, 4, 'banana'],
         ['Mic Bulb', 150, 4, 'micbulb'],
-        ['Gear', 100, 3, 'micbulb']
+        ['Singing Module', 100, 3, 'micbulb']
     ];
     var itemsListGrp:FlxTypedGroup<ItemShop>;
 
@@ -499,7 +499,7 @@ class ShopSubState extends MusicBeatSubstate
             case 'Tricky Sign': GameProgress.completeTask(6);
             case 'Tennis Racket': GameProgress.completeTask(7);
             case 'Mic Bulb': GameProgress.completeTask(8);
-            case 'Gear': GameProgress.completeTask(9);
+            case 'Singing Module': GameProgress.completeTask(9);
         }
 
         if(hasBoughtAllItems()) GameProgress.completeTask(11);

@@ -123,7 +123,7 @@ class OptionsState extends MusicBeatState
 				trace('Main menu music is not playing, starting options menu music!');
 				FlxG.sound.playMusic(Paths.music('optionsMenu'), 0);
 
-				if(ShopSubState.isItemUnlocked('Gear') && !FlxG.save.data.gaveGearToRobot) FlxG.sound.music.fadeIn(1.5, 0, 0.6);
+				if(ShopSubState.isItemUnlocked('Singing Module') && !FlxG.save.data.gaveGearToRobot) FlxG.sound.music.fadeIn(1.5, 0, 0.6);
 				else FlxG.sound.music.fadeIn(1);
 			}
 		}
@@ -153,7 +153,7 @@ class OptionsState extends MusicBeatState
 		blackBehind = new FlxSprite();
 		blackBehind.makeGraphic(FlxG.width, FlxG.height, 0xFF000000);
 		blackBehind.alpha = 0;
-		if(ShopSubState.isItemUnlocked('Gear') && !FlxG.save.data.gaveGearToRobot) FlxTween.tween(blackBehind, {alpha: 0.4}, transDuration, {ease: FlxEase.quartOut});
+		if(ShopSubState.isItemUnlocked('Singing Module') && !FlxG.save.data.gaveGearToRobot) FlxTween.tween(blackBehind, {alpha: 0.4}, transDuration, {ease: FlxEase.quartOut});
 		blackBehind.scrollFactor.set(0, 0);
 		add(blackBehind);
 
@@ -162,7 +162,7 @@ class OptionsState extends MusicBeatState
 		radialLight.antialiasing = ClientPrefs.data.antialiasing;
 		radialLight.blend = ADD;
 		radialLight.alpha = 0;
-		if(ShopSubState.isItemUnlocked('Gear') && !FlxG.save.data.gaveGearToRobot) FlxTween.tween(radialLight, {alpha: 0.4}, transDuration, {ease: FlxEase.quartOut});
+		if(ShopSubState.isItemUnlocked('Singing Module') && !FlxG.save.data.gaveGearToRobot) FlxTween.tween(radialLight, {alpha: 0.4}, transDuration, {ease: FlxEase.quartOut});
 		add(radialLight);
 
 		selectArrow = new FlxSprite();
@@ -171,7 +171,7 @@ class OptionsState extends MusicBeatState
 		selectArrow.animation.play('idle');
 		selectArrow.antialiasing = ClientPrefs.data.antialiasing;
 		selectArrow.alpha = 0;
-		if(ShopSubState.isItemUnlocked('Gear') && !FlxG.save.data.gaveGearToRobot) FlxTween.tween(selectArrow, {alpha: 1}, transDuration, {ease: FlxEase.quartOut});
+		if(ShopSubState.isItemUnlocked('Singing Module') && !FlxG.save.data.gaveGearToRobot) FlxTween.tween(selectArrow, {alpha: 1}, transDuration, {ease: FlxEase.quartOut});
 		add(selectArrow);
 
 		grpOptions = new FlxTypedGroup<Alphabet>();
@@ -341,7 +341,7 @@ class OptionsState extends MusicBeatState
 					dialogueText.y += 10;
 					FlxTween.tween(dialogueBox, {alpha: 0.6, y: dialogueBox.y - 10}, 0.35, {ease: FlxEase.quartOut});
 					FlxTween.tween(dialogueText, {alpha: 1, y: dialogueText.y - 10}, 0.35, {ease: FlxEase.quartOut});
-					if(ShopSubState.isItemUnlocked('Gear'))
+					if(ShopSubState.isItemUnlocked('Singing Module'))
 					{
 						if(FlxG.save.data.gaveGearToRobot == null) FlxG.save.data.gaveGearToRobot = false;
 						if(!FlxG.save.data.gaveGearToRobot)
@@ -389,7 +389,7 @@ class OptionsState extends MusicBeatState
 					dialogueText.y += 10;
 					FlxTween.tween(dialogueBox, {alpha: 0.6, y: dialogueBox.y - 10}, 0.35, {ease: FlxEase.quartOut});
 					FlxTween.tween(dialogueText, {alpha: 1, y: dialogueText.y - 10}, 0.35, {ease: FlxEase.quartOut});
-					if(ShopSubState.isItemUnlocked('Gear'))
+					if(ShopSubState.isItemUnlocked('Singing Module'))
 					{
 						if(FlxG.save.data.gaveGearToRobot == null) FlxG.save.data.gaveGearToRobot = false;
 						if(!FlxG.save.data.gaveGearToRobot)
@@ -449,7 +449,7 @@ class OptionsState extends MusicBeatState
 			FlxTween.tween(blackBackgroundOver, {alpha: 0}, 0.7, {ease: FlxEase.expoOut});
 		}
 
-		if(ShopSubState.isItemUnlocked('Gear'))
+		if(ShopSubState.isItemUnlocked('Singing Module'))
 		{
 			FlxG.mouse.visible = true;
 		}
@@ -586,7 +586,7 @@ class OptionsState extends MusicBeatState
 			FlxG.mouse.visible = false;
 
 			var dialogue:Array<String> = [
-				"Wait! That's my gear.",
+				"Wait! That's my Singing Module.",
 				"Thank you so much for finding it! Now I can activate the singing module I've been missing this whole time...",
 				"Now that you gave it to me, let's see if it still works as it used to. >:)",
 			];
@@ -673,7 +673,7 @@ class OptionsState extends MusicBeatState
 		{
 			currentFrame = character.animation.curAnim.name == 'idle' ? character.animation.curAnim.curFrame : 0;
 
-			if(ShopSubState.isItemUnlocked('Gear'))
+			if(ShopSubState.isItemUnlocked('Singing Module'))
 			{
 				if(FlxG.mouse.overlaps(character))
 				{
