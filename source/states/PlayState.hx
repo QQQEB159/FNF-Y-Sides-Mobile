@@ -5757,7 +5757,12 @@ class PlayState extends MusicBeatState
 			}
 			else // any FC achievements, name should be "weekFileName_nomiss", e.g: "week3_nomiss";
 			{
-
+				switch(name)
+				{
+					case 'beat_tricky': unlock = curSong == 'Tricky';
+					case 'beat_returny': unlock = curSong == 'Returny';
+					case 'beat_ram': unlock = curSong == 'Ram';
+				}
 			}
 
 			if(unlock) Achievements.unlock(name);

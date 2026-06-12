@@ -7,16 +7,25 @@ class BeatenSongs
     public static function init()
     {
 		if(FlxG.save.data.beatenSongs != null)
+        {
+            trace('Loading from saves!');
 			beatenSongs = FlxG.save.data.beatenSongs;
+        }
         else
         {
+            trace('Not found saves. Initialization started...');
+
             // Load bf songs
             for (i in 0...WeekData.weeksList.length)
             {
 			    var leWeek:WeekData = WeekData.weeksLoaded.get(WeekData.weeksList[i]);
 			    for (song in leWeek.songs)
 			    {
-                    if(!beatenSongs.exists('${Paths.formatToSongPath(song[0])}-bf')) beatenSongs.set('${Paths.formatToSongPath(song[0])}-bf', false);
+                    if(!beatenSongs.exists('${Paths.formatToSongPath(song[0])}-bf')) 
+                    {
+                        trace('Added "${Paths.formatToSongPath(song[0])}-bf" in bf section');
+                        beatenSongs.set('${Paths.formatToSongPath(song[0])}-bf', false);
+                    }
                 }
             }
 
@@ -27,14 +36,22 @@ class BeatenSongs
 			    for (song in leWeek.songs)
 			    {
 					if(!song[3]) continue;
-                    if(!beatenSongs.exists('${Paths.formatToSongPath(song[0])}-pico')) beatenSongs.set('${Paths.formatToSongPath(song[0])}-pico', false);
+                    if(!beatenSongs.exists('${Paths.formatToSongPath(song[0])}-pico')) 
+                    {
+                        trace('Added "${Paths.formatToSongPath(song[0])}-pico" in pico section');
+                        beatenSongs.set('${Paths.formatToSongPath(song[0])}-pico', false);
+                    }
                 }
             }
 
             if(!beatenSongs.exists('settings-bf')) beatenSongs.set('settings-bf', false);
 
+            trace('Added "settings-bf" in bf section manually');
+
             FlxG.save.data.beatenSongs = beatenSongs;
             FlxG.save.flush();
+
+            trace('Completed!');
         }
 
         trace(FlxG.save.data.beatenSongs);
