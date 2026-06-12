@@ -2311,6 +2311,7 @@ class PlayState extends MusicBeatState
 	//var allowDebugKeys:Bool = #if debug true #else false #end; 
 	var allowDebugKeys:Bool = true;
 
+	// LIFT
 	var isLiftMechanicEnabled:Bool = true;
 	var liftAmount:Int = 0;
 	var isPressingSpace:Bool = false; var pressConditionDelay:Float = 0.8; var pressConditionTime:Float = 0; var pressConditionSample:Float = 0;
@@ -2321,6 +2322,24 @@ class PlayState extends MusicBeatState
 	var endLiftingSound:FlxSound;
 	var liftingTime:Float = 0;
 	var forcedLiftingSection:Bool = false;
+
+	// TENNIS
+	var isTennisMechanicEnabled:Bool = true;
+	var curBeatStarted:Int = 0;
+	var isCurrentlyPlayingTennis:Bool = false;
+	var justActivatedTennis:Bool = false;
+	var tennisTargetTime:Float = -10000;
+	var tennisEarlyMult:Float = 1;
+	var tennisLateMult:Float = 1;
+	var canHitBall:Bool = false;
+	function activateTennisMechanic()
+	{
+		if(!isTennisMechanicEnabled) return;
+
+		isCurrentlyPlayingTennis = true;
+		justActivatedTennis = true;
+		tennisTargetTime = Conductor.beatToSeconds(curBeat + 4);
+	}
 
 	override public function update(elapsed:Float)
 	{
@@ -2373,6 +2392,23 @@ class PlayState extends MusicBeatState
 			// i need to make sure the health drain is consistent across different framerates (but needs test)
 			// i already did it after like, 1 month lmao :] 
 			if (health > 0.1) applyDifficultyBasedHealthDrain(elapsed, constantHealthDrainAmount, storyDifficultyText.toLowerCase());
+		}
+
+		if(isTennisMechanicEnabled && !inCutscene && !paused)
+		{
+			if(curSong == 'Ram')
+			{
+				canHitBall = (tennisTargetTime > Conductor.songPosition - (Conductor.safeZoneOffset * tennisEarlyMult) && tennisTargetTime < Conductor.songPosition + (Conductor.safeZoneOffset * tennisLateMult));
+				if(canHitBall)
+				{
+					trace('CAN HIT!!!!');
+					if(controls.MECHANIC)
+					{
+						FlxG.sound.play(Paths.sound('tennisSfx/hitamazing'));
+						boyfriend.playAnim('liftUp', true);
+					}
+				}
+			}
 		}
 
 		if(isLiftMechanicEnabled && !watchingMechanicInfo && !inCutscene && !paused)
@@ -3224,6 +3260,9 @@ class PlayState extends MusicBeatState
 						camFollow.y = flValue2;
 					}
 				}
+
+			case 'Hex Mechanic':
+				activateTennisMechanic();
 
 			case 'Alt Idle Animation':
 				var char:Character = dad;
@@ -5396,6 +5435,38 @@ class PlayState extends MusicBeatState
 			return;
 		}
 
+		if(isCurrentlyPlayingTennis)
+		{
+			if(justActivatedTennis) 
+			{
+				justActivatedTennis = false;
+				curBeatStarted = curBeat;
+			}
+
+			if(curSong == 'Ram')
+			{
+				if(curBeat == curBeatStarted)
+				{
+					trace('Beat 1');
+					FlxG.sound.play(Paths.sound('tennisSfx/1stbeat'));
+				}
+				else if(curBeat == curBeatStarted + 1)
+				{
+					trace('Beat 2');
+					FlxG.sound.play(Paths.sound('tennisSfx/2ndbeat'));
+				}
+				else if(curBeat == curBeatStarted + 2)
+				{
+					trace('Beat 3');
+					FlxG.sound.play(Paths.sound('tennisSfx/3rdbeat'));
+				}
+				else if(curBeat == curBeatStarted + 3)
+				{
+					trace('Beat 4 (HIT!)');
+				}
+			}
+		}
+
 		if (generatedMusic)
 			notes.sort(FlxSort.byY, ClientPrefs.data.downScroll ? FlxSort.ASCENDING : FlxSort.DESCENDING);
 
@@ -5425,14 +5496,22 @@ class PlayState extends MusicBeatState
 			gf.dance();
 		if (boyfriend != null && beat % boyfriend.danceEveryNumBeats == 0 && !boyfriend.getAnimationName().startsWith('sing') && !boyfriend.stunned)
 		{
-			if(isLiftMechanicEnabled) {
+			if(isLiftMechanicEnabled && curSong == 'Dad Battle') {
 				if(!startedLift && !forcedLiftingSection)
 				{
 					censorSprite.visible = false;
 					boyfriend.dance();
 				}
 			}
-			else 
+			else if(isTennisMechanicEnabled && curSong == 'Ram')
+			{
+				if(!canHitBall)
+				{
+					censorSprite.visible = false;
+					boyfriend.dance();
+				}
+			}
+			else
 			{
 				censorSprite.visible = false;
 				boyfriend.dance();
