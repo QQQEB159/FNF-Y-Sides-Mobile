@@ -88,7 +88,7 @@ class NewFreeplayState extends MusicBeatState
 		persistentUpdate = true;
 		PlayState.isStoryMode = false;
 		WeekData.reloadWeekFiles(false);
-		BeatenSongs.init();
+		// BeatenSongs.init();
 
         unlockedPico = ShopSubState.isItemUnlocked('Picostola');
 

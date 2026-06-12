@@ -61,7 +61,7 @@ class NewStoryMenuState extends MusicBeatState
 		persistentUpdate = persistentDraw = true;
 		PlayState.isStoryMode = true;
 		WeekData.reloadWeekFiles(true);
-		BeatenSongs.init();
+		// BeatenSongs.init();
 
 		camGame = initPsychCamera();
 		camHUD = new FlxCamera();

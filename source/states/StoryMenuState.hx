@@ -68,7 +68,7 @@ class StoryMenuState extends MusicBeatState
 		persistentUpdate = persistentDraw = true;
 		PlayState.isStoryMode = true;
 		WeekData.reloadWeekFiles(true);
-		BeatenSongs.init();
+		// BeatenSongs.init();
 
 		#if DISCORD_ALLOWED
 		// Updating Discord Rich Presence

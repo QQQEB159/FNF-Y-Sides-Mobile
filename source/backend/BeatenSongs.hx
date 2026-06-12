@@ -59,7 +59,8 @@ class BeatenSongs
 
     public static function beatSong(name:String)
     {
-        if(beatenSongs.exists(name)) beatenSongs.set(name, true);
+        //if(beatenSongs.exists(name)) beatenSongs.set(name, true);
+        beatenSongs.set(name, true); // thanks null safety
         
         trace('Setting $name to true');
         FlxG.save.data.beatenSongs = beatenSongs;

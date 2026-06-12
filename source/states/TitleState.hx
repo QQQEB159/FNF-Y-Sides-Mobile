@@ -102,6 +102,7 @@ class TitleState extends MusicBeatState
 		if(FlxG.save.data.unlockedModSongs == null) FlxG.save.data.unlockedModSongs = NewFreeplayState.unlockedModSongs;
 		ShopSubState.money = FlxG.save.data.money;
 		ShopSubState.boughtItems = FlxG.save.data.boughtItems;
+		BeatenSongs.init();
 		FlxG.save.flush();
 
 		FlxG.save.data.firstTimeTitleState = FlxG.save.data.firstTimeTitleState != null ? FlxG.save.data.firstTimeTitleState : true;
