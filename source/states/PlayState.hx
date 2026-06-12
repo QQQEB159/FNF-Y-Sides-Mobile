@@ -974,6 +974,14 @@ class PlayState extends MusicBeatState
 		songCard.antialiasing = ClientPrefs.data.antialiasing;
 		add(songCard);
 
+		tennisProgressSpr = new FlxSprite();
+		tennisProgressSpr.loadGraphic(Paths.image('hud/hexmechanic/3'));
+		tennisProgressSpr.antialiasing = ClientPrefs.data.antialiasing;
+		tennisProgressSpr.screenCenter(XY);
+		tennisProgressSpr.alpha = 0;
+		tennisProgressSpr.cameras = [camHUD];
+		add(tennisProgressSpr);
+
 		uiGroup.cameras = [camHUD];
 		noteGroup.cameras = [camHUD];
 		comboGroup.cameras = [camHUD];
@@ -2334,6 +2342,7 @@ class PlayState extends MusicBeatState
 	var tennisEarlyMult:Float = 1;
 	var tennisLateMult:Float = 1;
 	var canHitBall:Bool = false;
+	var tennisProgressSpr:FlxSprite; // idk how to name this but it's basically the "3, 2, 1, amazing, awesome..." sprite in the same thing
 	function activateTennisMechanic()
 	{
 		if(!isTennisMechanicEnabled) return;
@@ -2435,6 +2444,19 @@ class PlayState extends MusicBeatState
 						trace('$noteDiff');
 						var daRating:String = getTennisRating(noteDiff);
 						trace('${daRating}');
+
+						tennisProgressSpr.loadGraphic(Paths.image('hud/hexmechanic/$daRating'));
+						
+						FlxTween.cancelTweensOf(tennisProgressSpr);
+
+						tennisProgressSpr.scale.set(0.85, 0.85);
+						FlxTween.tween(tennisProgressSpr, {"scale.x": 1, "scale.y": 1}, Conductor.crochet / 1000, {ease: FlxEase.quintOut, onComplete: function(twn:FlxTween)
+						{
+							new FlxTimer().start(Conductor.crochet / 1000, function(tmr:FlxTimer)
+							{
+								FlxTween.tween(tennisProgressSpr, {alpha: 0}, Conductor.crochet / 1000, {ease: FlxEase.quartOut});
+							});
+						}});
 
 						switch(daRating)
 						{
@@ -5491,16 +5513,37 @@ class PlayState extends MusicBeatState
 				{
 					trace('Beat 1');
 					FlxG.sound.play(Paths.sound('tennisSfx/1stbeat'));
+					
+					tennisProgressSpr.loadGraphic(Paths.image('hud/hexmechanic/3'));
+					
+					FlxTween.cancelTweensOf(tennisProgressSpr);
+
+					tennisProgressSpr.scale.set(0.6, 0.6);
+					FlxTween.tween(tennisProgressSpr, {"scale.x": 0.65, "scale.y": 0.65, alpha: 1}, Conductor.crochet / 1000, {ease: FlxEase.quartOut});
 				}
 				else if(curBeat == curBeatStarted + 1)
 				{
 					trace('Beat 2');
 					FlxG.sound.play(Paths.sound('tennisSfx/2ndbeat'));
+
+					tennisProgressSpr.loadGraphic(Paths.image('hud/hexmechanic/2'));
+
+					FlxTween.cancelTweensOf(tennisProgressSpr);
+
+					tennisProgressSpr.scale.set(0.65, 0.65);
+					FlxTween.tween(tennisProgressSpr, {"scale.x": 0.7, "scale.y": 0.7}, Conductor.crochet / 1000, {ease: FlxEase.quartOut});
 				}
 				else if(curBeat == curBeatStarted + 2)
 				{
 					trace('Beat 3');
 					FlxG.sound.play(Paths.sound('tennisSfx/3rdbeat'));
+
+					tennisProgressSpr.loadGraphic(Paths.image('hud/hexmechanic/1'));
+					
+					FlxTween.cancelTweensOf(tennisProgressSpr);
+
+					tennisProgressSpr.scale.set(0.7, 0.7);
+					FlxTween.tween(tennisProgressSpr, {"scale.x": 0.75, "scale.y": 0.75}, Conductor.crochet / 1000, {ease: FlxEase.quartOut});
 				}
 				else if(curBeat == curBeatStarted + 3)
 				{
