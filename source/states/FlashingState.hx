@@ -448,6 +448,8 @@ class FlashingState extends MusicBeatState
 
 	function selectBindThing()
 	{
+		if(bindNameGrp.members[curSelectedControls] == null || bindAssignedGrp.members[curSelectedControls] == null) return;
+		
 		bindNameGrp.members[curSelectedControls].color = 0xFFF7F16A;
 		bindAssignedGrp.members[curSelectedControls].color = 0xFFF7F16A;
 
