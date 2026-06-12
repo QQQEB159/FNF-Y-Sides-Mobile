@@ -49,4 +49,41 @@ class Rating
 		ratingsData.push(rating);
 		return ratingsData;
 	}
+
+	public static function loadHexMechanicRatings():Array<Rating>
+	{
+		var ratingsData:Array<Rating> = [];
+
+		var rating:Rating = new Rating('amazing');
+		rating.ratingMod = 1;
+		rating.score = 0;
+		rating.noteSplash = false;
+		ratingsData.push(rating);
+
+		var rating:Rating = new Rating('awesome');
+		rating.ratingMod = 0.75;
+		rating.score = 0;
+		rating.noteSplash = false;
+		ratingsData.push(rating);
+
+		var rating:Rating = new Rating('great');
+		rating.ratingMod = 0.5;
+		rating.score = 0;
+		rating.noteSplash = false;
+		ratingsData.push(rating);
+
+		var rating:Rating = new Rating('good');
+		rating.ratingMod = 0.25;
+		rating.score = 0;
+		rating.noteSplash = false;
+		ratingsData.push(rating);
+		return ratingsData;
+
+		var rating:Rating = new Rating('bad');
+		rating.ratingMod = 0;
+		rating.score = 0;
+		rating.noteSplash = false;
+		ratingsData.push(rating);
+		return ratingsData;
+	}
 }

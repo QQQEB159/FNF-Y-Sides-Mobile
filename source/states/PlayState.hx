@@ -215,6 +215,7 @@ class PlayState extends MusicBeatState
 	public var mechanicEnterSprite:FlxSprite;
 
 	public var ratingsData:Array<Rating> = Rating.loadDefault();
+	public var ratingsDataHex:Array<Rating> = Rating.loadHexMechanicRatings();
 
 	private var generatedMusic:Bool = false;
 	public var endingSong:Bool = false;
@@ -2325,6 +2326,7 @@ class PlayState extends MusicBeatState
 
 	// TENNIS
 	var isTennisMechanicEnabled:Bool = true;
+	var wasGoodHit:Bool = false;
 	var curBeatStarted:Int = 0;
 	var isCurrentlyPlayingTennis:Bool = false;
 	var justActivatedTennis:Bool = false;
@@ -2336,9 +2338,30 @@ class PlayState extends MusicBeatState
 	{
 		if(!isTennisMechanicEnabled) return;
 
+		wasGoodHit = false;
 		isCurrentlyPlayingTennis = true;
 		justActivatedTennis = true;
 		tennisTargetTime = Conductor.beatToSeconds(curBeat + 4);
+	}
+
+	function getTennisRating(diff:Float):String
+	{
+		if(diff < 80) {
+			return 'amazing';
+		}
+		if(diff < 160) {
+			return 'awesome';
+		}
+		if(diff < 300) {
+			return 'great';
+		}
+		if(diff < 600) {
+			return 'good';
+		}
+		if(diff >= 600) {
+			return 'bad';
+		}
+		return 'bad';
 	}
 
 	override public function update(elapsed:Float)
@@ -2404,8 +2427,27 @@ class PlayState extends MusicBeatState
 					trace('CAN HIT!!!!');
 					if(controls.MECHANIC)
 					{
-						FlxG.sound.play(Paths.sound('tennisSfx/hitamazing'));
 						boyfriend.playAnim('liftUp', true);
+
+						wasGoodHit = true;
+
+						var noteDiff:Float = Math.abs(tennisTargetTime - Conductor.songPosition + ClientPrefs.data.ratingOffset);
+						trace('$noteDiff');
+						var daRating:String = getTennisRating(noteDiff);
+						trace('${daRating}');
+
+						switch(daRating)
+						{
+							case 'amazing': 
+								FlxG.sound.play(Paths.sound('tennisSfx/hitamazing'));
+							case 'awesome':
+								FlxG.sound.play(Paths.sound('tennisSfx/hitawesome'));
+							case 'great':
+								FlxG.sound.play(Paths.sound('tennisSfx/hitgreat'));
+							case 'good':
+								FlxG.sound.play(Paths.sound('tennisSfx/hitgood'));
+							default:
+						}
 					}
 				}
 			}
