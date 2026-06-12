@@ -981,6 +981,26 @@ class PlayState extends MusicBeatState
 		tennisProgressSpr.alpha = 0;
 		tennisProgressSpr.cameras = [camHUD];
 		add(tennisProgressSpr);
+		
+		tennisExplanationBackground = new FlxSprite();
+		tennisExplanationBackground.loadGraphic(Paths.image('hud/hexmechanic/blackbg'));
+		tennisExplanationBackground.screenCenter(XY);
+		tennisExplanationBackground.alpha = 0;
+		tennisExplanationBackground.scrollFactor.set(0, 0);
+		tennisExplanationBackground.cameras = [camOther];
+		tennisExplanationBackground.antialiasing = ClientPrefs.data.antialiasing;
+		add(tennisExplanationBackground);
+
+		tennisExplanationText = new FlxSprite();
+		tennisExplanationText.loadGraphic(Paths.image('hud/hexmechanic/explanation'));
+		//tennisExplanationText.screenCenter(XY);
+		tennisExplanationText.x = -600;
+		tennisExplanationText.y = FlxG.height - tennisExplanationText.height - 30;
+		//tennisExplanationText.alpha = 0;
+		tennisExplanationText.scrollFactor.set(0, 0);
+		tennisExplanationText.cameras = [camOther];
+		tennisExplanationText.antialiasing = ClientPrefs.data.antialiasing;
+		add(tennisExplanationText);
 
 		uiGroup.cameras = [camHUD];
 		noteGroup.cameras = [camHUD];
@@ -2343,6 +2363,8 @@ class PlayState extends MusicBeatState
 	var tennisLateMult:Float = 1;
 	var canHitBall:Bool = false;
 	var tennisProgressSpr:FlxSprite; // idk how to name this but it's basically the "3, 2, 1, amazing, awesome..." sprite in the same thing
+	var tennisExplanationBackground:FlxSprite;
+	var tennisExplanationText:FlxSprite;
 	function activateTennisMechanic()
 	{
 		if(!isTennisMechanicEnabled) return;
@@ -5411,6 +5433,10 @@ class PlayState extends MusicBeatState
 						blackThing.alpha = 0;
 						FlxTween.tween(blackThingBelow, {alpha: 0}, 15);
 
+						FlxTween.tween(tennisExplanationBackground, {alpha: 1}, 0.6, {ease: FlxEase.quartOut});
+
+						FlxTween.tween(tennisExplanationText, {x: 20}, 0.6, {ease: FlxEase.quartOut});
+
 						songCard.y += 10;
 						FlxTween.tween(songCard, {alpha: 1, y: songCard.y - 10}, 0.3);
 
@@ -5430,6 +5456,10 @@ class PlayState extends MusicBeatState
 						);
 					case 128:
 						FlxTween.tween(songCard, {alpha: 0, y: songCard.y - 10}, 0.3);
+						
+						FlxTween.tween(tennisExplanationBackground, {alpha: 0}, 1.7, {ease: FlxEase.quartIn});
+
+						FlxTween.tween(tennisExplanationText, {x: -600}, 1.7, {ease: FlxEase.quartIn});
 					case 190:
 						isCameraOnForcedPos = false;
 						cameraFollowInstant = false;
