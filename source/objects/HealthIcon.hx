@@ -52,6 +52,7 @@ class HealthIcon extends FlxSprite
 
 				iconOffsets[0] = (width - 150) / iSize;
 				iconOffsets[1] = (height - 150) / iSize;
+				if(char != 'bf') flipX = isPlayer; // so damn y sides og to flip the bf icon :')
 				updateHitbox();
 			}
 			else
