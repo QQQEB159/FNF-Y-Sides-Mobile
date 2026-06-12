@@ -5618,11 +5618,13 @@ class PlayState extends MusicBeatState
 					tennisProgressSpr.scale.set(0.7, 0.7);
 					FlxTween.tween(tennisProgressSpr, {"scale.x": 0.75, "scale.y": 0.75}, Conductor.crochet / 1000, {ease: FlxEase.quartOut});
 
-					// TODO: make thi work as a tween cuz acceleration sucks af
-
-					independientTennisBall.acceleration.y = -2160;
-					independientTennisBall.velocity.y = 1270;
+					//independientTennisBall.acceleration.y = -2160;
+					//independientTennisBall.velocity.y = 1270;
 					FlxTween.tween(independientTennisBall, {x: boyfriend.x}, (Conductor.crochet / 1000), {ease: FlxEase.linear});
+					FlxTween.tween(independientTennisBall, {y: independientTennisBall.y - 60}, (Conductor.crochet / 1000) / 2, {ease: FlxEase.quintOut, onComplete: function(twn:FlxTween)
+					{
+						FlxTween.tween(independientTennisBall, {y: independientTennisBall.y + 60}, (Conductor.crochet / 1000) / 2, {ease: FlxEase.quartIn});
+					}});
 				}
 				else if(curBeat == curBeatStarted + 3)
 				{
