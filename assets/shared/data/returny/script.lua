@@ -52,6 +52,10 @@ function onStepHit()
      
         end
     end
+    
+    if curStep >= 1054 then 
+        setProperty("defaultCamZoom", 1.5)
+    end
 
     if curStep == 1040 then 
         doTweenAlpha('fadein', 'n', 1, 0.5, 'linear')
