@@ -45,10 +45,11 @@
 	"no_antialiasing": false,
 	"image": "characters/aquareal",
 	"position": [4670, 580],
-	"healthicon": "aqua",
+	"healthicon": "aquareal",
 	"flip_x": true,
 	"healthbar_colors": [111, 210, 187],
 	"camera_position": [-130, 30],
+	"icon_offset": [0, -10],
 	"sing_duration": 6,
 	"scale": 1,
 	"_editor_isPlayer": true
