@@ -48,7 +48,7 @@
 	"healthicon": "aqua",
 	"flip_x": true,
 	"healthbar_colors": [111, 210, 187],
-	"camera_position": [-70, -40],
+	"camera_position": [-100, -40],
 	"sing_duration": 6,
 	"scale": 7.5,
 	"_editor_isPlayer": false

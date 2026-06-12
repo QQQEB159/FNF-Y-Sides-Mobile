@@ -2518,6 +2518,7 @@ class PlayState extends MusicBeatState
 				else if(tennisTargetTime < Conductor.songPosition - Conductor.safeZoneOffset && !wasGoodHit)
 				{
 					boyfriend.playAnim('singUPmiss', true);
+					wasGoodHit = true; // forgive me
 
 					independientTennisBall.visible = false;
 					tennisProgressSpr.loadGraphic(Paths.image('hud/hexmechanic/bad'));
