@@ -15,6 +15,7 @@ class SkiStage extends BaseStage
 	var cocoaCloudySky:BGSprite;
 	var sun:BGSprite;
 	var sunLight:BGSprite;
+	var clouds:FlxBackdrop;
 
 	override function create()
 	{
@@ -33,7 +34,7 @@ class SkiStage extends BaseStage
 			add(sun);
 
 			var cloudImg = (PlayState.SONG != null && PlayState.SONG.song == 'Eggnog') ? Paths.image('stages/skiStage/cloudsCloudy') : Paths.image('stages/skiStage/clouds');
-			var clouds:FlxBackdrop = new FlxBackdrop(cloudImg);
+			clouds = new FlxBackdrop(cloudImg);
 			clouds.scrollFactor.set(0.1, 0.1);
 			clouds.setPosition(-1000, -1200);
 			clouds.velocity.set(20, 0);
@@ -59,30 +60,36 @@ class SkiStage extends BaseStage
 		var elevatorLines:BGSprite = new BGSprite('stages/skiStage/elevatorLines', -300, -100, 0.75, 0.75);
 		add(elevatorLines);
 
-		fence = new BGSprite('stages/skiStage/fence', 0, 0, 1, 1);
-		add(fence);
-
 		fenceChar1 = new FlxSprite();
 		fenceChar1.frames = Paths.getSparrowAtlas('stages/skiStage/fenceChar1');
 		fenceChar1.animation.addByPrefix('idle', 'idle', 4, true);
 		fenceChar1.animation.addByPrefix('run', 'run', 4, true);
 		fenceChar1.animation.play('idle');
+		fenceChar1.scrollFactor.set(0.75, 0.75);
 		fenceChar1.antialiasing = ClientPrefs.data.antialiasing;
-		fenceChar1.x = fence.x + fence.width - 885;
-		fenceChar1.y = fence.y + 962 + 25;
 		add(fenceChar1);
 
 		fenceChar2 = new FlxSprite();
 		fenceChar2.frames = Paths.getSparrowAtlas('stages/skiStage/fenceChar2');
 		fenceChar2.animation.addByPrefix('run', 'run', 4, true);
 		fenceChar2.animation.play('run');
+		fenceChar2.scrollFactor.set(0.75, 0.75);
 		fenceChar2.antialiasing = ClientPrefs.data.antialiasing;
-		fenceChar2.x = fence.x + fence.width - 885;
-		fenceChar2.y = fence.y + 1112 + 25;
 		add(fenceChar2);
 
+		fence = new BGSprite('stages/skiStage/fence', 0, 0, 1, 1);
+		add(fence);
+
+		fenceChar1.x = fence.x + fence.width - 885;
+		fenceChar1.y = fence.y + 962 - 115;
+
+		fenceChar2.x = fence.x + fence.width - 885;
+		fenceChar2.y = fence.y + 962 - 115;
+
 		if(PlayState.SONG.song == 'Eggnog') {
-			startFenceCharStuff();
+			fenceChar1.x = fence.x + fence.width - 1440;
+			fenceChar2.x = fence.x + fence.width - 1440;
+			startFenceCharStuff(true);
 		}
 
 		var snow:BGSprite = new BGSprite('stages/skiStage/snow', 0, 0, 1, 1);
@@ -157,7 +164,8 @@ class SkiStage extends BaseStage
 			charactersLeftFront.animation.play('idle');
 			charactersLeftFront.antialiasing = ClientPrefs.data.antialiasing;
 			//charactersLeftFront.x += charactersLeftFront.width;
-			charactersLeftFront.x += -568 + 70 + 500 + 400;
+			charactersLeftFront.scrollFactor.set(1.1, 1.1);
+			charactersLeftFront.x += -568 + 70 + 500 + 400 - 50;
 			charactersLeftFront.y += 48 + 5 + 620 + 200 + 190;
 			add(charactersLeftFront);
 
@@ -167,6 +175,7 @@ class SkiStage extends BaseStage
 			charactersRightFront.animation.play('idle');
 			charactersRightFront.antialiasing = ClientPrefs.data.antialiasing;
 			//charactersRightFront.x += charactersLeft.width - 400;
+			charactersRightFront.scrollFactor.set(1.05, 1.05);
 			charactersRightFront.x += -568 + 2230 + 40 + 40 + 950;
 			charactersRightFront.y += 48 + 115 + 600 + 200 + 175;
 			add(charactersRightFront);
@@ -270,29 +279,36 @@ class SkiStage extends BaseStage
 		switch(curStep)
 		{
 			case 512:
-				if(!ClientPrefs.data.lowQuality)
+				if(PlayState.SONG.song == 'Cocoa')
 				{
-					FlxTween.tween(cocoaCloudySky, {alpha: 1}, 35);
-					FlxTween.tween(sun, {alpha: 0}, 35);
-					FlxTween.tween(sunLight, {alpha: 0}, 35);
-					FlxTween.tween(cocoaLightsCloudy, {alpha: 1}, 35);
-					FlxTween.tween(cocoaShadowCloudy, {alpha: 1}, 35);
-					FlxTween.tween(lights, {alpha: 0}, 35);
-					FlxTween.tween(shadow, {alpha: 0}, 35);
-					FlxTween.num(1, 5, 35, null, function(v:Float)
+					if(!ClientPrefs.data.lowQuality)
 					{
-						snow.intensity = Std.int(v);
-					});
-					
-					FlxTween.num(1000, 300, 35, null, function(v:Float)
-					{
-						snow.randomX = Std.int(v);
-					});
+						FlxTween.tween(cocoaCloudySky, {alpha: 1}, 35);
+						FlxTween.tween(sun, {alpha: 0}, 35);
+						FlxTween.tween(sunLight, {alpha: 0}, 35);
+						FlxTween.tween(cocoaLightsCloudy, {alpha: 1}, 35);
+						FlxTween.tween(cocoaShadowCloudy, {alpha: 1}, 35);
+						FlxTween.tween(lights, {alpha: 0}, 35);
+						FlxTween.tween(shadow, {alpha: 0}, 35);
+						FlxTween.num(2, 5, 35, null, function(v:Float)
+						{
+							snow.intensity = Std.int(v);
+						});
+						FlxTween.num(20, 50, 35, null, function(v:Float)
+						{
+							snow.velocity.x = v;
+						});
+						
+						FlxTween.num(1000, 300, 35, null, function(v:Float)
+						{
+							snow.randomX = Std.int(v);
+						});
 
-					handleCharacterShaders(rimBF);
-					handleCharacterShaders(rimGF);
-					handleCharacterShaders(rimDad);
-					handleCharacterShaders(rimPlayer3);
+						handleCharacterShaders(rimBF);
+						handleCharacterShaders(rimGF);
+						handleCharacterShaders(rimDad);
+						handleCharacterShaders(rimPlayer3);
+					}
 				}
 		}
 	}
@@ -301,62 +317,43 @@ class SkiStage extends BaseStage
 	{
 		if(PlayState.SONG != null)
 		{
-			if(PlayState.SONG.song == 'Eggnog')
-			{
-				if(goneBack)
-				{
-					if(fenceChar1.x > fence.x + fence.width + 885)
-					{
-						fenceChar1.velocity.set(0, 0);
-						fenceChar1.x = fence.x + 710;
-						fenceChar1GoesWithChar2();
-					}
-				}
-				else
-				{
-					if(fenceChar1.x < fence.x + 710)
-					{
-						fenceChar1.velocity.set(0, 0);
-						fenceChar1.x = fence.x + 710;
-						fenceChar1GoesBack();
-					}
-				}
-			}
+
 		}
 	}
 
 	var goneBack:Bool = false;
-	function startFenceCharStuff()
+	function startFenceCharStuff(left:Bool)
 	{
-		new FlxTimer().start(FlxG.random.float(6, 10), function(tmr:FlxTimer)
+		if(left)
 		{
-			fenceChar1.velocity.set(-160, 0);
-			trace('Starting go to left!');
-		});
-	}
-
-	function fenceChar1GoesBack()
-	{
-		trace('STOP LEFT!');
-		new FlxTimer().start(FlxG.random.float(10, 15), function(tmr:FlxTimer)
-		{
-			trace('Starting go to right!');
-			fenceChar1.velocity.set(170, 0);
-		});
-	}
-
-	function fenceChar1GoesWithChar2()
-	{
-		trace('STOP RIGHT!');
-		new FlxTimer().start(FlxG.random.float(8, 12), function(tmr:FlxTimer)
-		{
-			trace('Starting go to TOGHETER!!');
-			fenceChar1.velocity.set(-180, 0);
-			new FlxTimer().start(1, function(tmr:FlxTimer)
+			fenceChar2.flipX = false;
+			fenceChar1.animation.play('run', true);
+			FlxTween.tween(fenceChar1, {x: fenceChar1.x - 985}, 7, {onComplete: function(twn:FlxTween)
 			{
-				fenceChar2.velocity.set(-180, 0);
-			});
-		});
+				fenceChar1.flipX = true;
+				fenceChar1.animation.play('idle', true);
+			}});
+
+			FlxTween.tween(fenceChar2, {x: fenceChar2.x - 985}, 10, {onComplete: function(twn:FlxTween) 
+			{
+				startFenceCharStuff(false);
+			}});
+		}
+		else
+		{
+			fenceChar2.flipX = true;
+			fenceChar1.animation.play('run', true);
+			FlxTween.tween(fenceChar1, {x: fence.x + fence.width - 1440}, 7, {onComplete: function(twn:FlxTween)
+			{
+				fenceChar1.flipX = false;
+				fenceChar1.animation.play('idle', true);
+			}});
+
+			FlxTween.tween(fenceChar2, {x: fence.x + fence.width - 1440}, 10, {onComplete: function(twn:FlxTween) 
+			{
+				startFenceCharStuff(true);
+			}});
+		}
 	}
 
 	function handleCharacterShaders(targetRim:Dynamic) {
