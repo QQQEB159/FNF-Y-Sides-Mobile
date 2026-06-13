@@ -252,6 +252,7 @@ class LimoStageNight extends BaseStage
 			game.gf.shader = rimGF;
 			rimGF.attachedSprite = game.gf;
 			rimGF.distance = 10;
+            if(CharSelectState.currentFreeplaySelectedName == 'pico') rimGF.distance = 15;
 			rimGF.angle = 90;
 
 			game.gf.animation.callback = function()
