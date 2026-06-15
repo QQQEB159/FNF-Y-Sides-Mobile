@@ -1080,24 +1080,6 @@ class PlayState extends MusicBeatState
 			startVideo('week2Cutscene', false, true, false, true);
 		}
 
-		if(curSong == 'Pico' && isStoryMode)
-		{
-			startCallback = null;
-			startVideo('week3Cutscene', false, true, false, true);
-		}
-
-		if(curSong == 'Satin Panties' && isStoryMode)
-		{
-			startCallback = null;
-			startVideo('week4Cutscene', false, true, false, true);
-		}
-
-		if(curSong == 'Cocoa' && isStoryMode)
-		{
-			startCallback = null;
-			startVideo('week5Cutscene', false, true, false, true);
-		}
-
 		if(curSong == 'Dad Battle' && isStoryMode) 
 		{
 			startCallback = null;
