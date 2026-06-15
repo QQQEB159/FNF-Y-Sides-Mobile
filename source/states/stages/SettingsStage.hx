@@ -25,7 +25,7 @@ class SettingsStage extends BaseStage
         icons.velocity.set(-150, -150);
         add(icons);
 
-        floor = new FlxSprite(-400, 200);
+        floor = new FlxSprite(-280, 300);
         floor.loadGraphic(Paths.image('stages/settingsStage/floor'));
         floor.antialiasing = ClientPrefs.data.antialiasing;
         add(floor);
