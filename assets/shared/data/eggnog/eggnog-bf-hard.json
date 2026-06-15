@@ -1,6 +1,7 @@
 {
 	"player1": "bf-christmas",
 	"player2": "dadxmas",
+	"gameOverChar": "bf-xmas-dead",
 	"events": [
 		[
 			4800,

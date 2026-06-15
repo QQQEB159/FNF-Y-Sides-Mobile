@@ -1,6 +1,7 @@
 {
 	"player1": "bf-christmas",
 	"gfVersion": "gf-christmas",
+	"gameOverChar": "bf-xmas-dead",
 	"notes": [
 		{
 			"sectionBeats": 4,

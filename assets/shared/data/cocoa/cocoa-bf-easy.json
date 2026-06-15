@@ -1184,6 +1184,7 @@
 	"song": "Cocoa",
 	"validScore": false,
 	"stage": "skiingStage",
+	"gameOverChar": "bf-xmas-dead",
 	"arrowSkin": "",
 	"needsVoices": true,
 	"speed": 2,

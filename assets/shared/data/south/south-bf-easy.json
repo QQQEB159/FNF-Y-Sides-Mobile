@@ -1088,12 +1088,9 @@
 		}
 	],
 	"gfVersion": "gf-spooky",
-	"gameOverSound": "fnf_loss_sfx_spooky",
 	"player3": "frank",
-	"gameOverLoop": "gameOver",
 	"gameOverChar": "bf-spooky-dead",
 	"song": "South",
-	"gameOverEnd": "gameOverEnd-spooky",
 	"needsVoices": true,
 	"stage": "halloween",
 	"format": "psych_v1_convert",

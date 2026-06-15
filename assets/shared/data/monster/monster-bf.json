@@ -2111,12 +2111,9 @@
 		]
 	],
 	"player2": "monster",
-	"gameOverSound": "fnf_loss_sfx_spooky",
-	"gameOverLoop": "gameOver",
 	"offset": 0,
 	"gameOverChar": "bf-spooky-dead",
 	"song": "Monster",
-	"gameOverEnd": "gameOverEnd-spooky",
 	"needsVoices": true,
 	"stage": "halloweenCreepy",
 	"bpm": 161,

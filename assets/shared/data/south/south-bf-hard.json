@@ -1,6 +1,5 @@
 {
 	"player1": "bf-spooky",
-	"gameOverSound": "fnf_loss_sfx_spooky",
 	"gfVersion": "gf-spooky",
 	"notes": [
 		{
@@ -1197,10 +1196,8 @@
 		]
 	],
 	"player2": "buhi",
-	"gameOverLoop": "gameOver",
 	"player3": "frank",
 	"gameOverChar": "bf-spooky-dead",
-	"gameOverEnd": "gameOverEnd-spooky",
 	"song": "South",
 	"stage": "halloween",
 	"needsVoices": true,

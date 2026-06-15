@@ -2,38 +2,38 @@
 	"animations": [
 		{
 			"loop": false,
-			"offsets": [20, 0],
+			"offsets": [0, 0],
 			"anim": "firstDeath",
-			"fps": 24,
-			"name": "firstdeath",
+			"fps": 16,
+			"name": "ilost",
 			"indices": []
 		},
 		{
 			"loop": true,
-			"offsets": [-125, -363],
+			"offsets": [0, 0],
 			"anim": "deathLoop",
-			"fps": 24,
-			"name": "deathloop",
+			"fps": 4,
+			"name": "loop",
 			"indices": []
 		},
 		{
-			"loop": false,
-			"offsets": [-122, -352],
+			"loop": true,
+			"offsets": [0, 0],
 			"anim": "deathConfirm",
-			"fps": 24,
-			"name": "deathend",
+			"fps": 16,
+			"name": "loop",
 			"indices": []
 		}
 	],
 	"vocals_file": "",
 	"no_antialiasing": false,
-	"image": "characters/BF-Death-Pico",
-	"position": [-50, -340],
+	"image": "characters/bfGameOverNEW",
+	"position": [-12, -5],
 	"healthicon": "face",
 	"flip_x": true,
 	"healthbar_colors": [49, 176, 209],
-	"camera_position": [0, 0],
+	"camera_position": [0, -120],
 	"sing_duration": 4,
-	"scale": 1,
+	"scale": 0.95,
 	"_editor_isPlayer": true
 }
