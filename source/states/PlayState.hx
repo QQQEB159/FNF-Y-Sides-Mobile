@@ -2790,6 +2790,11 @@ class PlayState extends MusicBeatState
 				clockIndicator.angle += 28 * elapsed;
 				clockIndicator2.angle += 56 * elapsed;
 			}
+			else if(SONG.song == 'Settings')
+			{
+				clockIndicator.angle += 102 * elapsed;
+				clockIndicator2.angle += 204 * elapsed;
+			}
 			else
 			{
 				clockIndicator.angle = (curTime / songLength) * 360;
