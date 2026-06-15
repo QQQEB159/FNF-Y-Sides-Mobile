@@ -1170,7 +1170,7 @@ class PlayState extends MusicBeatState
 		returnyGameoverDeathVideo.visible = false;
 		returnyGameoverDeathVideo.finishCallback = function()
 		{
-			MusicBeatState.resetState();
+			if(PlayState.instance == this) MusicBeatState.resetState();
 		}
 		add(returnyGameoverDeathVideo);
 
