@@ -6,10 +6,13 @@ import openfl.filters.ShaderFilter;
 import shaders.BloomShader;
 import shaders.ChromaticAberration;
 import shaders.GlitchFragmentShader;
+import shaders.DropShadowShader;
 
 class SettingsStage extends BaseStage
 {
     var icons:FlxBackdrop;
+    var floor:FlxSprite;
+    var blackTop:FlxSprite;
     override function create()
     {
         var bg = new FlxSprite(-1000, -1000);
@@ -21,6 +24,15 @@ class SettingsStage extends BaseStage
         icons.antialiasing = ClientPrefs.data.antialiasing;
         icons.velocity.set(-150, -150);
         add(icons);
+
+        floor = new FlxSprite(-400, 200);
+        floor.loadGraphic(Paths.image('stages/settingsStage/floor'));
+        floor.antialiasing = ClientPrefs.data.antialiasing;
+        add(floor);
+
+        blackTop = new FlxSprite(-1000, -1000).makeGraphic(3460, 2160, 0xFF000000);
+        blackTop.alpha = 0.76;
+        add(blackTop);
     }
 
 	var deflectiveLensShader:DeflectiveLens;
@@ -31,6 +43,12 @@ class SettingsStage extends BaseStage
     var chromaticAberrationFilter:ShaderFilter;
     var glitchShader:GlitchFragmentShader;
     var glitchFilter:ShaderFilter;
+
+	var rimBF:DropShadowShader;
+	var rimGF:DropShadowShader;
+	var rimDad:DropShadowShader;
+	var rimPlayer3:DropShadowShader;
+
     override function createPost()
     {
         if(ClientPrefs.data.shaders)
@@ -64,6 +82,70 @@ class SettingsStage extends BaseStage
 
 			glitchFilter = new ShaderFilter(glitchShader);
 			FlxG.camera.filters.push(glitchFilter);
+
+            rimBF = new DropShadowShader();
+            rimBF.setAdjustColor(-6, -12, 6, -22);
+            rimBF.color = 0x0;
+            game.boyfriend.shader = rimBF;
+            rimBF.attachedSprite = game.boyfriend;
+            rimBF.angle = 90;
+
+            game.boyfriend.animation.callback = function()
+            {
+                if (game.boyfriend != null)
+                {
+                    rimBF.updateFrameInfo(game.boyfriend.frame);
+                }
+            };
+
+            rimGF = new DropShadowShader();
+            rimGF.setAdjustColor(-6, -12, 6, -22);
+            rimGF.color = 0x0;
+            game.gf.shader = rimGF;
+            rimGF.attachedSprite = game.gf;
+            rimGF.distance = 10;
+            rimGF.angle = 90;
+
+            game.gf.animation.callback = function()
+            {
+                if (game.gf != null)
+                {
+                    rimGF.updateFrameInfo(game.gf.frame);
+                }
+            };
+
+            rimDad = new DropShadowShader();
+            rimDad.setAdjustColor(-6, -12, 6, -22);
+            rimDad.color = 0x0;
+            game.dad.shader = rimDad;
+            rimDad.attachedSprite = game.dad;
+            rimDad.angle = 90;
+
+            game.dad.animation.callback = function()
+            {
+                if (game.dad != null)
+                {
+                    rimDad.updateFrameInfo(game.dad.frame);
+                }
+            };
+
+            if(game.player3 != null)
+            {
+                rimPlayer3 = new DropShadowShader();
+                rimPlayer3.setAdjustColor(-6, -12, 6, -22);
+                rimPlayer3.color = 0x0;
+                game.player3.shader = rimPlayer3;
+                rimPlayer3.attachedSprite = game.player3;
+                rimPlayer3.angle = 90;
+
+                game.player3.animation.callback = function()
+                {
+                    if (game.player3 != null)
+                    {
+                        rimPlayer3.updateFrameInfo(game.player3.frame);
+                    }
+                };
+            }
         }
     }
 
@@ -77,41 +159,61 @@ class SettingsStage extends BaseStage
         switch(curStep)
         {
             case 144:
-			    deflectiveLensShader.distortionScale.value = [0.5];
+                if(ClientPrefs.data.shaders)
+                {
+                    deflectiveLensShader.distortionScale.value = [0.5];
 
-                chromaticAberration.rOffset.value = [0.0015];
-                chromaticAberration.gOffset.value = [0.0];
-                chromaticAberration.bOffset.value = [-0.0015];
+                    chromaticAberration.rOffset.value = [0.0015];
+                    chromaticAberration.gOffset.value = [0.0];
+                    chromaticAberration.bOffset.value = [-0.0015];
 
-                FlxTween.num(1.65, 2, 0.96, {ease: FlxEase.quartOut}, function(v:Float) { bloomShader.dim.value[0] = v; } );
-                FlxTween.num(3, 20, 0.96, {ease: FlxEase.quartOut}, function(v:Float) { bloomShader.Directions.value[0] = v; } );
+                    rimBF.setAdjustColor(0, 0, 0, 0);
+                    rimGF.setAdjustColor(0, 0, 0, 0);
+                    rimDad.setAdjustColor(0, 0, 0, 0);
+                    if(rimPlayer3 != null) rimPlayer3.setAdjustColor(0, 0, 0, 0);
+
+                    blackTop.alpha = 0;
+
+                    FlxTween.num(1.4, 2, 2, {ease: FlxEase.linear}, function(v:Float) { bloomShader.dim.value[0] = v; } );
+                    FlxTween.num(2.6, 20, 2, {ease: FlxEase.linear}, function(v:Float) { bloomShader.Directions.value[0] = v; } );
+                }
             case 528:
-			    deflectiveLensShader.distortionScale.value = [0.55];
+                if(ClientPrefs.data.shaders)
+                {
+                    deflectiveLensShader.distortionScale.value = [0.67];
 
-                chromaticAberration.rOffset.value = [0.002];
-                chromaticAberration.gOffset.value = [0.0];
-                chromaticAberration.bOffset.value = [-0.002];
+                    FlxTween.tween(blackTop, {alpha: 0.35}, 0.9);
 
-                icons.velocity.set(-250, -250);
+                    chromaticAberration.rOffset.value = [0.0025];
+                    chromaticAberration.gOffset.value = [0.0];
+                    chromaticAberration.bOffset.value = [-0.0025];
 
-                glitchShader.GLITCH_THR.value = [0.005]; // velocity //// 0.01
-                glitchShader.GLITCH_RECT_DIVISION.value = [7]; // size (more high, more small) name also say it, """""division""""" //// 5
-                glitchShader.GLITCH_RECT_ITR.value = [2]; // its like make it more glitchy ////
+                    icons.velocity.set(-250, -250);
 
-                FlxTween.num(1.65, 2, 0.96, {ease: FlxEase.quartOut}, function(v:Float) { bloomShader.dim.value[0] = v; } );
-                FlxTween.num(3, 20, 0.96, {ease: FlxEase.quartOut}, function(v:Float) { bloomShader.Directions.value[0] = v; } );
+                    glitchShader.GLITCH_THR.value = [0.005]; // velocity //// 0.01
+                    glitchShader.GLITCH_RECT_DIVISION.value = [7]; // size (more high, more small) name also say it, """""division""""" //// 5
+                    glitchShader.GLITCH_RECT_ITR.value = [2]; // its like make it more glitchy ////
+
+                    FlxTween.num(1.4, 2, 2, {ease: FlxEase.linear}, function(v:Float) { bloomShader.dim.value[0] = v; } );
+                    FlxTween.num(2.6, 20, 2, {ease: FlxEase.linear}, function(v:Float) { bloomShader.Directions.value[0] = v; } );
+                }
             case 656:
-			    deflectiveLensShader.distortionScale.value = [0.5];
+                if(ClientPrefs.data.shaders)
+                {
+                    deflectiveLensShader.distortionScale.value = [0.5];
 
-                chromaticAberration.rOffset.value = [0.0015];
-                chromaticAberration.gOffset.value = [0.0];
-                chromaticAberration.bOffset.value = [-0.0015];
+                    chromaticAberration.rOffset.value = [0.0015];
+                    chromaticAberration.gOffset.value = [0.0];
+                    chromaticAberration.bOffset.value = [-0.0015];
 
-                icons.velocity.set(-150, -150);
+                    FlxTween.tween(blackTop, {alpha: 0}, 0.7);
 
-                glitchShader.GLITCH_THR.value = [0.0]; // velocity //// 0.01
-                glitchShader.GLITCH_RECT_DIVISION.value = [0]; // size (more high, more small) name also say it, """""division""""" //// 5
-                glitchShader.GLITCH_RECT_ITR.value = [0]; // its like make it more glitchy ////
+                    icons.velocity.set(-150, -150);
+
+                    glitchShader.GLITCH_THR.value = [0.0]; // velocity //// 0.01
+                    glitchShader.GLITCH_RECT_DIVISION.value = [0]; // size (more high, more small) name also say it, """""division""""" //// 5
+                    glitchShader.GLITCH_RECT_ITR.value = [0]; // its like make it more glitchy ////
+                }
         }
     }
 }

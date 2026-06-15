@@ -1019,10 +1019,11 @@ class PlayState extends MusicBeatState
 		blackThing.alpha = 0;
 		if(curSong == 'Monster') blackThing.alpha = 1;
 		if(curSong == 'Winter Horrorland') blackThing.alpha = 1;
+		if(curSong == 'Settings') blackThing.alpha = 1;
 		blackThing.cameras = [camHUD];
 		add(blackThing);
 
-		if(curSong == 'Monster' || curSong == 'Winter Horrorland') skipCountdown = true;
+		if(curSong == 'Monster' || curSong == 'Winter Horrorland' || curSong == 'Settings') skipCountdown = true;
 
 		startingSong = true;
 
@@ -5523,10 +5524,13 @@ class PlayState extends MusicBeatState
 						FlxTween.tween(songCard, {alpha: 1, y: songCard.y - 10}, 0.3);
 					case 16:
 						FlxTween.tween(songCard, {alpha: 0, y: songCard.y - 10}, 0.3);
+						blackThing.alpha = 0;
 					case 528:
 						setHbFire(true);
 					case 656:
 						setHbFire(false);
+					case 784:
+						blackThing.alpha = 1;
 				}
 		}
 
