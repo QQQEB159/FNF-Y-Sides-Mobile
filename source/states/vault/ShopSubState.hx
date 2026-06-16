@@ -504,7 +504,7 @@ class ShopSubState extends MusicBeatSubstate
             case 'Singing Module': GameProgress.completeTask(9);
         }
 
-        if(hasBoughtAllItems()) GameProgress.completeTask(11);
+        if(hasBoughtAllItems()) GameProgress.completeTask(10);
 
         FlxG.sound.play(Paths.sound('vault/shop/confirmPurchase'));
         if(moneyTween != null) moneyTween.cancel();

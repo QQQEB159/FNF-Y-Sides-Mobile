@@ -160,7 +160,7 @@ class Achievements {
 				return false;
 		}
 
-		GameProgress.completeTask(12);
+		GameProgress.completeTask(11);
 		return true;
 	}
 
