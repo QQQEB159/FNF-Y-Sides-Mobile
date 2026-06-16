@@ -65,7 +65,7 @@ class ShopSubState extends MusicBeatSubstate
         ['Tennis Racket', 175, 4, 'racket'],
         ['Banana', 150, 4, 'banana'],
         ['Mic Bulb', 150, 4, 'micbulb'],
-        ['Singing Module', 100, 3, 'micbulb'],
+        ['Singing Module', 100, 3, 'singing_module'],
         ['Bumbell', 75, 2, 'dumbell'],
         ['Sunglasses', 50, 2, 'sunglasses']
     ];
