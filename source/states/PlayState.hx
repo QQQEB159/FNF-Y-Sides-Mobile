@@ -2358,6 +2358,7 @@ class PlayState extends MusicBeatState
 	var wasGoodHit:Bool = true;
 	var curBeatStarted:Int = 0;
 	var isCurrentlyPlayingTennis:Bool = false;
+	var isHexThrowingBallAnim:Bool = false;
 	var justActivatedTennis:Bool = false;
 	var tennisTargetTime:Float = -10000;
 	var tennisEarlyMult:Float = 1;
@@ -4562,6 +4563,7 @@ class PlayState extends MusicBeatState
 					}
 				}
 
+				if(isHexThrowingBallAnim) canPlay = false;
 				if(canPlay) 
 				{
 					char.playAnim(animToPlay, true);
@@ -5490,12 +5492,12 @@ class PlayState extends MusicBeatState
 						camFollow.y = -1500;
 
 						FlxG.camera.zoom *= 1.15;
-						FlxTween.tween(FlxG.camera, {zoom: defaultCamZoom}, 15, {ease: FlxEase.cubeOut});
+						FlxTween.tween(FlxG.camera, {zoom: defaultCamZoom}, 10, {ease: FlxEase.cubeOut});
 
 						FlxTween.tween(
 							camFollow, 
 							{y: boyfriend.getMidpoint().y - 100 + (boyfriend.cameraPosition[1] + boyfriendCameraOffset[1])}, 
-							15, 
+							10, 
 							{ease: FlxEase.cubeOut}
 						);
 					case 128:
@@ -5599,6 +5601,9 @@ class PlayState extends MusicBeatState
 					independientTennisBall.velocity.set(0, 0);
 					independientTennisBall.acceleration.set(0, 0);
 					independientTennisBall.setPosition(dad.x + dad.width - 50, dad.y + 60);
+					
+					dad.playAnim('prepareball', true);
+					isHexThrowingBallAnim = true;
 
 					tennisProgressSpr.scale.set(0.6, 0.6);
 					FlxTween.tween(tennisProgressSpr, {"scale.x": 0.65, "scale.y": 0.65, alpha: 1}, Conductor.crochet / 1000, {ease: FlxEase.quartOut});
@@ -5609,6 +5614,12 @@ class PlayState extends MusicBeatState
 					FlxG.sound.play(Paths.sound('tennisSfx/2ndbeat'));
 
 					tennisProgressSpr.loadGraphic(Paths.image('hud/hexmechanic/2'));
+
+					dad.playAnim('throwup', true);
+					new FlxTimer().start((Conductor.crochet / 1000) / 2, function(tmr:FlxTimer)
+					{
+						dad.playAnim('prepare', true);
+					});
 
 					FlxTween.cancelTweensOf(tennisProgressSpr);
 
@@ -5628,6 +5639,7 @@ class PlayState extends MusicBeatState
 					FlxG.sound.play(Paths.sound('tennisSfx/3rdbeat'));
 
 					tennisProgressSpr.loadGraphic(Paths.image('hud/hexmechanic/1'));
+					dad.playAnim('hit', true);
 					
 					FlxTween.cancelTweensOf(tennisProgressSpr);
 
@@ -5645,6 +5657,8 @@ class PlayState extends MusicBeatState
 				else if(curBeat == curBeatStarted + 3)
 				{
 					trace('Beat 4 (HIT!)');
+					dad.playAnim('idle', true);
+					isHexThrowingBallAnim = false;
 				}
 			}
 		}
@@ -5701,7 +5715,10 @@ class PlayState extends MusicBeatState
 		}
 		if (dad != null && beat % dad.danceEveryNumBeats == 0 && !dad.getAnimationName().startsWith('sing') && !dad.stunned)
 		{
-			dad.dance();
+			if(curSong == 'Ram' && !isHexThrowingBallAnim)
+			{
+				dad.dance();
+			}
 		}
 
 		if(curSong == 'Monster')

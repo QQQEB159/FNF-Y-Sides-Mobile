@@ -1548,7 +1548,7 @@
 			]
 		]
 	],
-	"player2": "hex",
+	"player2": "hex-real",
 	"offset": 0,
 	"song": "Ram",
 	"needsVoices": true,

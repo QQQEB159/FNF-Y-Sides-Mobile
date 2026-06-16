@@ -1,0 +1,87 @@
+{
+	"animations": [
+		{
+			"loop": false,
+			"offsets": [0, 0],
+			"anim": "idle",
+			"fps": 24,
+			"name": "idle",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [80, -25],
+			"anim": "singLEFT",
+			"fps": 24,
+			"name": "left",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [-72, -149],
+			"anim": "singDOWN",
+			"fps": 24,
+			"name": "down",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [5, 44],
+			"anim": "singUP",
+			"fps": 24,
+			"name": "up",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [-95, -5],
+			"anim": "singRIGHT",
+			"fps": 24,
+			"name": "right",
+			"indices": []
+		},
+		{
+			"offsets": [-30, -78],
+			"loop": false,
+			"fps": 24,
+			"anim": "prepare",
+			"indices": [],
+			"name": "tirar2"
+		},
+		{
+			"offsets": [-4, 33],
+			"loop": false,
+			"fps": 24,
+			"anim": "hit",
+			"indices": [],
+			"name": "tirar3"
+		},
+		{
+			"offsets": [-73, 0],
+			"indices": [1, 2, 3, 4, 5],
+			"fps": 24,
+			"anim": "prepareball",
+			"loop": false,
+			"name": "tirar1"
+		},
+		{
+			"offsets": [-73, 0],
+			"indices": [6, 7, 8, 9, 10, 11, 12, 13, 14],
+			"fps": 24,
+			"anim": "throwup",
+			"loop": false,
+			"name": "tirar1"
+		}
+	],
+	"vocals_file": "",
+	"no_antialiasing": false,
+	"image": "characters/hex",
+	"position": [-30, -130],
+	"healthicon": "dad",
+	"flip_x": false,
+	"healthbar_colors": [97, 181, 180],
+	"camera_position": [0, 0],
+	"sing_duration": 4,
+	"scale": 1,
+	"_editor_isPlayer": false
+}

@@ -5,7 +5,7 @@
 		{
 			"sectionBeats": 4,
 			"sectionNotes": [],
-			"gfSection": true,
+			"gfSection": false,
 			"altAnim": false,
 			"mustHitSection": false,
 			"changeBPM": false,
@@ -14,7 +14,7 @@
 		{
 			"sectionBeats": 4,
 			"sectionNotes": [],
-			"gfSection": true,
+			"gfSection": false,
 			"altAnim": false,
 			"mustHitSection": false,
 			"changeBPM": false,
@@ -23,7 +23,7 @@
 		{
 			"sectionBeats": 4,
 			"sectionNotes": [],
-			"gfSection": true,
+			"gfSection": false,
 			"altAnim": false,
 			"mustHitSection": false,
 			"changeBPM": false,
@@ -32,7 +32,7 @@
 		{
 			"sectionBeats": 4,
 			"sectionNotes": [],
-			"gfSection": true,
+			"gfSection": false,
 			"altAnim": false,
 			"mustHitSection": false,
 			"changeBPM": false,
@@ -41,7 +41,7 @@
 		{
 			"sectionBeats": 4,
 			"sectionNotes": [],
-			"gfSection": true,
+			"gfSection": false,
 			"altAnim": false,
 			"mustHitSection": false,
 			"changeBPM": false,
@@ -50,7 +50,7 @@
 		{
 			"sectionBeats": 4,
 			"sectionNotes": [],
-			"gfSection": true,
+			"gfSection": false,
 			"altAnim": false,
 			"mustHitSection": false,
 			"changeBPM": false,
@@ -59,7 +59,7 @@
 		{
 			"sectionBeats": 4,
 			"sectionNotes": [],
-			"gfSection": true,
+			"gfSection": false,
 			"altAnim": false,
 			"mustHitSection": false,
 			"changeBPM": false,
@@ -68,7 +68,7 @@
 		{
 			"sectionBeats": 4,
 			"sectionNotes": [],
-			"gfSection": true,
+			"gfSection": false,
 			"altAnim": false,
 			"mustHitSection": false,
 			"changeBPM": false,
@@ -77,7 +77,7 @@
 		{
 			"sectionBeats": 4,
 			"sectionNotes": [],
-			"gfSection": true,
+			"gfSection": false,
 			"altAnim": false,
 			"mustHitSection": false,
 			"changeBPM": false,
@@ -86,7 +86,7 @@
 		{
 			"sectionBeats": 4,
 			"sectionNotes": [],
-			"gfSection": true,
+			"gfSection": false,
 			"altAnim": false,
 			"mustHitSection": false,
 			"changeBPM": false,
@@ -95,7 +95,7 @@
 		{
 			"sectionBeats": 4,
 			"sectionNotes": [],
-			"gfSection": true,
+			"gfSection": false,
 			"altAnim": false,
 			"mustHitSection": false,
 			"changeBPM": false,
@@ -104,7 +104,7 @@
 		{
 			"sectionBeats": 4,
 			"sectionNotes": [],
-			"gfSection": true,
+			"gfSection": false,
 			"altAnim": false,
 			"mustHitSection": false,
 			"changeBPM": false,
@@ -1372,7 +1372,7 @@
 		}
 	],
 	"events": [],
-	"player2": "hex",
+	"player2": "hex-real",
 	"offset": 0,
 	"song": "Ram",
 	"needsVoices": true,
