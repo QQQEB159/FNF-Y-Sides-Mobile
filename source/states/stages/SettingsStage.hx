@@ -28,6 +28,7 @@ class SettingsStage extends BaseStage
         floor = new FlxSprite(-280, 300);
         floor.loadGraphic(Paths.image('stages/settingsStage/floor'));
         floor.antialiasing = ClientPrefs.data.antialiasing;
+        floor.blend = ADD;
         add(floor);
 
         blackTop = new FlxSprite(-1000, -1000).makeGraphic(3460, 2160, 0xFF000000);
