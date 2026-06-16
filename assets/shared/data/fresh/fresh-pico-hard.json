@@ -1,6 +1,7 @@
 {
 	"player1": "Pico-Playable-sunset",
 	"player2": "dad-sunset",
+	"gameOverChar": "pico-dead",
 	"events": [
 		[
 			0,

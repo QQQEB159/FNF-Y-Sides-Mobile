@@ -850,6 +850,7 @@ class PlayState extends MusicBeatState
 		iconP2.flipX = dad.flipHealthIcon;
 		iconP2.visible = !ClientPrefs.data.hideHud;
 		iconP2.alpha = ClientPrefs.data.healthBarAlpha;
+		if(curSong == 'Pico' && CharSelectState.currentFreeplaySelectedName == 'pico') iconP2.bops = false;
 		uiGroup.add(iconP2);
 
 		if(use3Player)

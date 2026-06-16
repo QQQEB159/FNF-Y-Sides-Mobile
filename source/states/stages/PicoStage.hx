@@ -41,7 +41,7 @@ class PicoStage extends BaseStage
             car = new FlxSprite();
             //car.makeGraphic(350, 350);
             car.antialiasing = ClientPrefs.data.antialiasing;
-            car.x = 2000;
+            car.x = 2500;
             car.y = bg.y + 1000;
             add(car);
 
@@ -122,7 +122,7 @@ class PicoStage extends BaseStage
         new FlxTimer().start(7, function(tmr:FlxTimer)
         {
             // reset
-            car.x = 2000;
+            car.x = 2500;
             car.y = bg.y + 1000;
             canSpawnCar = true;
         });

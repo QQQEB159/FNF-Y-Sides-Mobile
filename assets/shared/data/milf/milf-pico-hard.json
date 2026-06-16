@@ -1,6 +1,7 @@
 {
 	"player1": "Pico-Playable",
 	"gfVersion": "nene-hair-blow",
+	"gameOverChar": "pico-dead",
 	"notes": [
 		{
 			"sectionBeats": 4,

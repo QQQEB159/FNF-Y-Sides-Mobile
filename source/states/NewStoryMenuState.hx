@@ -278,7 +278,7 @@ class NewStoryMenuState extends MusicBeatState
 				changeDifficulty(1);
 			}
 
-			if(controls.BACK)
+			if(controls.BACK && !stopspamming)
 			{
 				goneBack = true;
 
@@ -433,6 +433,8 @@ class NewStoryMenuState extends MusicBeatState
 
 			item.x = oldItemX;
 			item.y = oldItemY;
+
+			CharSelectState.currentFreeplaySelectedName = 'bf';
 
 			FlxTween.num(0, 5, 0.9, {ease: FlxEase.quartOut}, function(v:Float)
 			{

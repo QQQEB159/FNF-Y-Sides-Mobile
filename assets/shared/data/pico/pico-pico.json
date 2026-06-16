@@ -1574,11 +1574,8 @@
 		}
 	],
 	"player2": "Pico-cardboard",
-	"gameOverSound": "fnf_loss_sfx_pico",
-	"gameOverLoop": "gameOver",
-	"gameOverChar": "bf-dead-pico",
+	"gameOverChar": "pico-dead",
 	"song": "Pico",
-	"gameOverEnd": "gameOverEnd-pico",
 	"needsVoices": true,
 	"stage": "picoBG",
 	"bpm": 156,

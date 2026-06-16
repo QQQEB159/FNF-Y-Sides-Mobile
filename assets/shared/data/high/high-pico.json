@@ -1507,6 +1507,7 @@
 		}
 	],
 	"gfVersion": "nene-hair-blow",
+	"gameOverChar": "pico-dead",
 	"offset": 0,
 	"song": "High",
 	"stage": "limo",

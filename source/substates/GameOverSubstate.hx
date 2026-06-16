@@ -127,7 +127,9 @@ class GameOverSubstate extends MusicBeatSubstate
 		retryButton.antialiasing = ClientPrefs.data.antialiasing;
 		retryButton.alpha = 0;
 		retryButton.x = boyfriend.getGraphicMidpoint().x - (retryButton.width / 2) + 40;
+		if(CharSelectState.currentFreeplaySelectedName == 'pico') retryButton.x = boyfriend.getGraphicMidpoint().x - (retryButton.width / 2) + 40 + 130;
 		retryButton.y = boyfriend.y + 250 - retryButton.height - 0;
+		if(CharSelectState.currentFreeplaySelectedName == 'pico') retryButton.y += -40;
 		add(retryButton);
 
 		coolLight = new FlxSprite();
@@ -141,6 +143,7 @@ class GameOverSubstate extends MusicBeatSubstate
 		coolLight.updateHitbox();
 		//coolLight.y += -36;
 		coolLight.x = boyfriend.getGraphicMidpoint().x - (coolLight.width / 2);
+		if(CharSelectState.currentFreeplaySelectedName == 'pico') coolLight.x = boyfriend.getGraphicMidpoint().x - (coolLight.width / 2) + 130;
 		coolLight.y = boyfriend.y + 250 - 400;
 		add(coolLight);
 
@@ -220,7 +223,7 @@ class GameOverSubstate extends MusicBeatSubstate
 		PlayState.instance.callOnScripts('onGameOverStart', []);
 		FlxG.sound.music.loadEmbedded(Paths.music(loopSoundName), true);
 
-		if(characterName == 'pico-dead')
+		if(characterName == 'pico-dead-og')
 		{
 			overlay = new FlxSprite(boyfriend.x + 205, boyfriend.y - 80);
 			overlay.frames = Paths.getSparrowAtlas('Pico_Death_Retry');

@@ -1,6 +1,7 @@
 {
 	"player1": "Pico-Playable-sunset",
 	"gfVersion": "nene-sunset",
+	"gameOverChar": "pico-dead",
 	"notes": [
 		{
 			"sectionBeats": 4,
