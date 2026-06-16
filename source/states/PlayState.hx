@@ -5719,6 +5719,10 @@ class PlayState extends MusicBeatState
 			{
 				dad.dance();
 			}
+			else
+			{
+				dad.dance();
+			}
 		}
 
 		if(curSong == 'Monster')
