@@ -2,11 +2,11 @@
 	"animations": [
 		{
 			"offsets": [0, 0],
-			"loop": true,
-			"fps": 16,
+			"loop": false,
+			"fps": 24,
 			"anim": "deathConfirm",
 			"indices": [],
-			"name": "loop"
+			"name": "deathConfirm"
 		},
 		{
 			"offsets": [0, 0],
