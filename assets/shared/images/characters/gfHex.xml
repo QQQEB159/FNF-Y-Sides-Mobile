@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TextureAtlas imagePath="gfHex.png">
+<SubTexture name="idle0000" x="401" y="580" width="400" height="566" frameX="-6" frameY="-39" frameWidth="394" frameHeight="601" />
+<SubTexture name="idle0001" x="0" y="580" width="401" height="568" frameX="-4" frameY="-37" frameWidth="394" frameHeight="601" />
+<SubTexture name="idle0002" x="0" y="0" width="389" height="580" frameX="-14" frameY="-24" frameWidth="394" frameHeight="601" />
+<SubTexture name="idle0003" x="389" y="0" width="387" height="580" frameX="-16" frameY="-24" frameWidth="394" frameHeight="601" />
+<SubTexture name="idle0004" x="389" y="0" width="387" height="580" frameX="-16" frameY="-24" frameWidth="394" frameHeight="601" />
+<SubTexture name="idle0005" x="776" y="0" width="394" height="577" frameX="-10" frameY="-27" frameWidth="394" frameHeight="601" />
+</TextureAtlas>

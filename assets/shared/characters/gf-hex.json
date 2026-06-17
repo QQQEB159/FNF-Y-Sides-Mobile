@@ -1,0 +1,24 @@
+{
+	"animations": [
+		{
+			"offsets": [0, 0],
+			"loop": false,
+			"fps": 12,
+			"anim": "idle",
+			"name": "idle"
+		}
+	],
+	"vocals_file": "",
+	"no_antialiasing": false,
+	"image": "characters/gfHex",
+	"position": [0, 0],
+	"healthicon": "gf",
+	"icon_offset": [10, 20],
+	"flip_x": false,
+	"flip_health_icon": false,
+	"healthbar_colors": [44, 84, 134],
+	"camera_position": [-180, 80],
+	"sing_duration": 6.1,
+	"scale": 0.9,
+	"_editor_isPlayer": false
+}

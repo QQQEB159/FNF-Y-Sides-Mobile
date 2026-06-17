@@ -38,17 +38,17 @@ class HexStage extends BaseStage
 			light2.blend = ADD;
             add(light2);
         }
-	}
 
-	override function createPost()
-	{
         var glass:BGSprite = new BGSprite('stages/hexStage/glass', -1350, -1020 + 1453, 1, 1);
 		glass.blend = ADD;
 		add(glass);
         
         var street:BGSprite = new BGSprite('stages/hexStage/street', -1350, -1020 + 1433, 1, 1);
 		add(street);
+	}
 
+	override function createPost()
+	{
 		if(!ClientPrefs.data.lowQuality)
 		{
             var light:BGSprite = new BGSprite('stages/hexStage/light', -1360 + 40, -1020 + 368, 1.2, 1.2);
