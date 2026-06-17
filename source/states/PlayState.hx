@@ -2516,6 +2516,8 @@ class PlayState extends MusicBeatState
 					boyfriend.playAnim('singUPmiss', true);
 					wasGoodHit = true; // forgive me
 
+					FlxG.sound.play(Paths.sound('tennisSfx/hitfail'));
+
 					independientTennisBall.visible = false;
 					tennisProgressSpr.loadGraphic(Paths.image('hud/hexmechanic/bad'));
 					
