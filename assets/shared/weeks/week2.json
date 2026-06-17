@@ -1,7 +1,7 @@
 {
 	"songs": [
 		["Spookeez", "frank", [233, 234, 255]],
-		["South", "frank", [233, 234, 255]],
+		["South", "frank", [233, 234, 255], true],
 		["Monster", "monster", [153, 51, 102]]
 	],
 

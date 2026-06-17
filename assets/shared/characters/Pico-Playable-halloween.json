@@ -1,0 +1,117 @@
+{
+	"animations": [
+		{
+			"loop": false,
+			"offsets": [0, 0],
+			"anim": "idle",
+			"fps": 24,
+			"name": "idle",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [2, -4],
+			"anim": "singLEFT",
+			"fps": 24,
+			"name": "right0",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [1, -6],
+			"anim": "singLEFTmiss",
+			"fps": 24,
+			"name": "rightmiss",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [47, -31],
+			"anim": "singDOWN",
+			"fps": 24,
+			"name": "down0",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [-4, 22],
+			"anim": "singUP",
+			"fps": 24,
+			"name": "up0",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [19, -5],
+			"anim": "singRIGHT",
+			"fps": 24,
+			"name": "left0",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [50, -11],
+			"anim": "singDOWNmiss",
+			"fps": 24,
+			"name": "downmiss",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [-8, 23],
+			"anim": "singUPmiss",
+			"fps": 24,
+			"name": "upmiss",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [24, 0],
+			"anim": "singRIGHTmiss",
+			"fps": 24,
+			"name": "leftmiss",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [-56, 3],
+			"anim": "shoot",
+			"fps": 24,
+			"name": "shoot",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [0, 0],
+			"anim": "burp",
+			"fps": 24,
+			"name": "burp",
+			"indices": []
+		},
+		{
+			"offsets": [0, 0],
+			"loop": true,
+			"fps": 24,
+			"anim": "papichulo",
+			"indices": [],
+			"name": "papichulo"
+		}
+	],
+	"vocals_file": "",
+	"no_antialiasing": false,
+	"image": "characters/pico_hallohey",
+	"position": [-10, 0],
+	"healthicon": "pico",
+	"flip_x": false,
+	"healthbar_colors": [254, 0, 103],
+	"camera_position": [-40, 50],
+	"icon_offset": [-20, -20],
+	"censor_offset_idle": [140, 170],
+	"censor_offset_left": [80, 160],
+	"censor_offset_down": [90, 190],
+	"censor_offset_up": [130, 140],
+	"censor_offset_right": [160, 150],
+	"sing_duration": 4,
+	"scale": 0.97,
+	"_editor_isPlayer": true
+}

@@ -1,0 +1,29 @@
+{
+	"animations": [
+		{
+			"offsets": [0, 0],
+			"loop": false,
+			"fps": 24,
+			"anim": "danceLeft",
+			"name": "danceLeft"
+		},
+		{
+			"offsets": [-7, 0],
+			"loop": false,
+			"fps": 24,
+			"anim": "danceRight",
+			"name": "danceRight"
+		}
+	],
+	"vocals_file": "",
+	"no_antialiasing": false,
+	"image": "characters/nene_hallohey",
+	"position": [0, 100],
+	"healthicon": "gf",
+	"flip_x": false,
+	"healthbar_colors": [44, 84, 134],
+	"camera_position": [-180, 80],
+	"sing_duration": 6.1,
+	"scale": 0.92,
+	"_editor_isPlayer": false
+}
