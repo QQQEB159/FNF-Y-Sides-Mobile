@@ -5605,6 +5605,7 @@ class PlayState extends MusicBeatState
 					independientTennisBall.setPosition(dad.x + dad.width - 50, dad.y + 60);
 					
 					dad.playAnim('prepareball', true);
+					dad.specialAnim = true;
 					isHexThrowingBallAnim = true;
 
 					tennisProgressSpr.scale.set(0.6, 0.6);
@@ -5618,6 +5619,7 @@ class PlayState extends MusicBeatState
 					tennisProgressSpr.loadGraphic(Paths.image('hud/hexmechanic/2'));
 
 					dad.playAnim('throwup', true);
+					dad.specialAnim = true;
 					new FlxTimer().start((Conductor.crochet / 1000) / 2, function(tmr:FlxTimer)
 					{
 						dad.playAnim('prepare', true);
@@ -5642,6 +5644,7 @@ class PlayState extends MusicBeatState
 
 					tennisProgressSpr.loadGraphic(Paths.image('hud/hexmechanic/1'));
 					dad.playAnim('hit', true);
+					dad.specialAnim = true;
 					
 					FlxTween.cancelTweensOf(tennisProgressSpr);
 
@@ -5660,6 +5663,7 @@ class PlayState extends MusicBeatState
 				{
 					trace('Beat 4 (HIT!)');
 					dad.playAnim('idle', true);
+					dad.specialAnim = false;
 					isHexThrowingBallAnim = false;
 				}
 			}
@@ -5721,7 +5725,7 @@ class PlayState extends MusicBeatState
 			{
 				dad.dance();
 			}
-			else
+			else if(curSong != 'Ram')
 			{
 				dad.dance();
 			}

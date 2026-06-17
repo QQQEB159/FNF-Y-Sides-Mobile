@@ -58,7 +58,7 @@
 		},
 		{
 			"offsets": [-73, 0],
-			"indices": [1, 2, 3, 4, 5],
+			"indices": [1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
 			"fps": 24,
 			"anim": "prepareball",
 			"loop": false,
