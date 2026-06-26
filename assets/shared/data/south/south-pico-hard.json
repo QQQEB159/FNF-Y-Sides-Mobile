@@ -2476,12 +2476,9 @@
 		}
 	],
 	"gfVersion": "nene-halloween",
-	"gameOverSound": "fnf_loss_sfx_spooky",
 	"player3": "frank",
-	"gameOverLoop": "gameOver",
 	"gameOverChar": "bf-spooky-dead",
 	"song": "South",
-	"gameOverEnd": "gameOverEnd-spooky",
 	"needsVoices": true,
 	"stage": "halloweenPico",
 	"format": "psych_v1_convert",

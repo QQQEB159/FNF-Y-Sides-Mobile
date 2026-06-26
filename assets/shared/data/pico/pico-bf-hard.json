@@ -912,11 +912,7 @@
 		}
 	],
 	"player2": "Pico",
-	"gameOverSound": "fnf_loss_sfx_pico",
-	"gameOverLoop": "gameOver",
-	"gameOverChar": "bf-dead-pico",
 	"song": "Pico",
-	"gameOverEnd": "gameOverEnd-pico",
 	"needsVoices": true,
 	"stage": "picoBG",
 	"bpm": 150,

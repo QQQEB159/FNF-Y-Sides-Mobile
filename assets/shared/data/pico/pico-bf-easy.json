@@ -1,6 +1,5 @@
 {
 	"player1": "bf",
-	"gameOverSound": "fnf_loss_sfx_pico",
 	"player2": "Pico",
 	"notes": [
 		{
@@ -865,9 +864,6 @@
 			]
 		]
 	],
-	"gameOverLoop": "gameOver",
-	"gameOverChar": "bf-dead-pico",
-	"gameOverEnd": "gameOverEnd-pico",
 	"song": "Pico",
 	"stage": "picoBG",
 	"needsVoices": true,
