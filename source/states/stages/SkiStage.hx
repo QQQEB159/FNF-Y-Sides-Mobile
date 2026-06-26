@@ -304,10 +304,13 @@ class SkiStage extends BaseStage
 							snow.randomX = Std.int(v);
 						});
 
-						handleCharacterShaders(rimBF);
-						handleCharacterShaders(rimGF);
-						handleCharacterShaders(rimDad);
-						handleCharacterShaders(rimPlayer3);
+						if(ClientPrefs.data.shaders)
+						{
+							handleCharacterShaders(rimBF);
+							handleCharacterShaders(rimGF);
+							handleCharacterShaders(rimDad);
+							handleCharacterShaders(rimPlayer3);
+						}
 					}
 				}
 		}
