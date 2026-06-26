@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="risa.png">
+	<!-- Created with Adobe Animate version 22.0.2.168 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="risa0000" x="0" y="0" width="614" height="621" frameX="-6" frameY="-4" frameWidth="624" frameHeight="625"/>
+	<SubTexture name="risa0001" x="0" y="0" width="614" height="621" frameX="-6" frameY="-4" frameWidth="624" frameHeight="625"/>
+	<SubTexture name="risa0002" x="614" y="0" width="624" height="625"/>
+	<SubTexture name="risa0003" x="614" y="0" width="624" height="625"/>
+	<SubTexture name="risa0004" x="1238" y="0" width="624" height="625"/>
+	<SubTexture name="risa0005" x="1238" y="0" width="624" height="625"/>
+	<SubTexture name="risa0006" x="0" y="625" width="624" height="625"/>
+	<SubTexture name="risa0007" x="0" y="625" width="624" height="625"/>
+	<SubTexture name="risa0008" x="1238" y="0" width="624" height="625"/>
+	<SubTexture name="risa0009" x="1238" y="0" width="624" height="625"/>
+	<SubTexture name="risa0010" x="0" y="625" width="624" height="625"/>
+	<SubTexture name="risa0011" x="0" y="625" width="624" height="625"/>
+	<SubTexture name="risa0012" x="1238" y="0" width="624" height="625"/>
+	<SubTexture name="risa0013" x="1238" y="0" width="624" height="625"/>
+	<SubTexture name="risa0014" x="0" y="625" width="624" height="625"/>
+</TextureAtlas>
