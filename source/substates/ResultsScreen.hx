@@ -408,6 +408,11 @@ class ResultsScreen extends MusicBeatSubstate
                         {
                             BeatenSongs.beatSong('${Paths.formatToSongPath(PlayState.instance.curSong)}-${CharSelectState.currentFreeplaySelectedName}');
 
+                            if(BeatenSongs.isSongBeaten('improbable-outset-bf') && BeatenSongs.isSongBeaten('madness-bf')) 
+                            {
+                                Achievements.unlock('beat_tricky');
+                            }
+
                             FlxTransitionableState.skipNextTransIn = true;
                             FlxTransitionableState.skipNextTransOut = true;
                             MusicBeatState.switchState(new NewFreeplayState(CharSelectState.currentFreeplaySelectedName == 'pico'));

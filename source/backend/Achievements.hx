@@ -42,9 +42,9 @@ class Achievements {
 		createAchievement('week5_nomiss',				{name: "Santa, gimme gifts!", description: "Beat Week 5 on Hard with no Misses."});
 		createAchievement('weekTest_nomissfreeplay',	{name: "Thanks for testing!", description: "Play test with no Misses."});
 		createAchievement('unlock_pico',				{name: "Welcome to the group!", description: "Unlock Pico as a playable character."});
-		createAchievement('beat_tricky',				{name: "YOU BEAT CLOWN!", description: "Beat Tricky on Hard"});
-		createAchievement('beat_returny',				{name: "Springfunked!", description: "Beat Groon on Hard"});
-		createAchievement('beat_ram',					{name: "Well played, funker!", description: "Beat Hex on Hard"});
+		createAchievement('beat_tricky',				{name: "YOU BEAT CLOWN!", description: "Beat Tricky"});
+		createAchievement('beat_returny',				{name: "Springfunked!", description: "Beat Groon"});
+		createAchievement('beat_ram',					{name: "Well played, funker!", description: "Beat Hex"});
 		createAchievement('50misses',					{name: "Buy new hands...", description: "Get 50 misses in a song"});
 		createAchievement('10deaths',					{name: "Go play anything else please.", description: "Die 10 times in the same song"});
 		createAchievement('dumbbells',					{name: "Stop playing with those dumbbells", description: "Lift dumbbells 50 times.", maxScore: 50, maxDecimals: 0});

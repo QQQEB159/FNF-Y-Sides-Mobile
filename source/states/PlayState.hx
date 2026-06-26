@@ -6047,7 +6047,7 @@ class PlayState extends MusicBeatState
 			{
 				switch(name)
 				{
-					case 'beat_tricky': unlock = curSong == 'Tricky';
+					// case 'beat_tricky': unlock = beaten; -> not here, it's two songs needed, not only one
 					case 'beat_returny': unlock = curSong == 'Returny';
 					case 'beat_ram': unlock = curSong == 'Ram';
 				}

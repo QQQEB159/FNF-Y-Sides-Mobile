@@ -46,7 +46,7 @@
 	"image": "characters/tiky",
 	"position": [-170, -160],
 	"healthicon": "tiki",
-	"icon_offset": [10, 25],
+	"icon_offset": [10, 0],
 	"flip_x": false,
 	"healthbar_colors": [161, 161, 161],
 	"camera_position": [-20, -10],

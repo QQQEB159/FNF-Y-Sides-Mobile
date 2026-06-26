@@ -1,35 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TextureAtlas imagePath="iconstriki.png">
+<TextureAtlas imagePath="iconsysides.png">
 	<!-- Created with Adobe Animate version 22.0.2.168 -->
 	<!-- http://www.adobe.com/products/animate.html -->
-	<SubTexture name="idle10000" x="0" y="0" width="189" height="180"/>
-	<SubTexture name="idle10001" x="0" y="0" width="189" height="180"/>
-	<SubTexture name="idle10002" x="0" y="0" width="189" height="180"/>
-	<SubTexture name="idle10003" x="189" y="0" width="189" height="180"/>
-	<SubTexture name="idle10004" x="189" y="0" width="189" height="180"/>
-	<SubTexture name="idle10005" x="189" y="0" width="189" height="180"/>
-	<SubTexture name="idle20000" x="378" y="0" width="189" height="180"/>
-	<SubTexture name="idle20001" x="378" y="0" width="189" height="180"/>
-	<SubTexture name="idle20002" x="378" y="0" width="189" height="180"/>
-	<SubTexture name="idle20003" x="567" y="0" width="189" height="180"/>
-	<SubTexture name="idle20004" x="567" y="0" width="189" height="180"/>
-	<SubTexture name="idle20005" x="567" y="0" width="189" height="180"/>
-	<SubTexture name="idle20006" x="756" y="0" width="189" height="180"/>
-	<SubTexture name="idle20007" x="756" y="0" width="189" height="180"/>
-	<SubTexture name="idle20008" x="756" y="0" width="189" height="180"/>
-	<SubTexture name="idle20009" x="0" y="180" width="189" height="180"/>
-	<SubTexture name="idle20010" x="0" y="180" width="189" height="180"/>
-	<SubTexture name="idle20011" x="0" y="180" width="189" height="180"/>
-	<SubTexture name="trans10000" x="0" y="0" width="189" height="180"/>
-	<SubTexture name="trans10001" x="189" y="180" width="189" height="180"/>
-	<SubTexture name="trans10002" x="189" y="180" width="189" height="180"/>
-	<SubTexture name="trans10003" x="378" y="180" width="189" height="180"/>
-	<SubTexture name="trans10004" x="378" y="180" width="189" height="180"/>
-	<SubTexture name="trans10005" x="378" y="0" width="189" height="180"/>
-	<SubTexture name="trans20000" x="378" y="0" width="189" height="180"/>
-	<SubTexture name="trans20001" x="378" y="180" width="189" height="180"/>
-	<SubTexture name="trans20002" x="378" y="180" width="189" height="180"/>
-	<SubTexture name="trans20003" x="189" y="180" width="189" height="180"/>
-	<SubTexture name="trans20004" x="189" y="180" width="189" height="180"/>
-	<SubTexture name="trans20005" x="0" y="0" width="189" height="180"/>
+	<SubTexture name="lose_loop0000" x="0" y="0" width="189" height="180"/>
+	<SubTexture name="lose_loop0001" x="0" y="0" width="189" height="180"/>
+	<SubTexture name="lose_loop0002" x="0" y="0" width="189" height="180"/>
+	<SubTexture name="lose_loop0003" x="189" y="0" width="189" height="180"/>
+	<SubTexture name="lose_loop0004" x="189" y="0" width="189" height="180"/>
+	<SubTexture name="lose_loop0005" x="189" y="0" width="189" height="180"/>
+	<SubTexture name="lose_loop0006" x="378" y="0" width="189" height="180"/>
+	<SubTexture name="lose_loop0007" x="378" y="0" width="189" height="180"/>
+	<SubTexture name="lose_loop0008" x="378" y="0" width="189" height="180"/>
+	<SubTexture name="lose_loop0009" x="567" y="0" width="189" height="180"/>
+	<SubTexture name="lose_loop0010" x="567" y="0" width="189" height="180"/>
+	<SubTexture name="lose_loop0011" x="567" y="0" width="189" height="180"/>
+	<SubTexture name="lose_to_normal0000" x="0" y="0" width="189" height="180"/>
+	<SubTexture name="lose_to_normal0001" x="378" y="180" width="189" height="180"/>
+	<SubTexture name="lose_to_normal0002" x="378" y="180" width="189" height="180"/>
+	<SubTexture name="lose_to_normal0003" x="189" y="180" width="189" height="180"/>
+	<SubTexture name="lose_to_normal0004" x="189" y="180" width="189" height="180"/>
+	<SubTexture name="lose_to_normal0005" x="756" y="0" width="189" height="180"/>
+	<SubTexture name="normal_loop0000" x="756" y="0" width="189" height="180"/>
+	<SubTexture name="normal_loop0001" x="756" y="0" width="189" height="180"/>
+	<SubTexture name="normal_loop0002" x="756" y="0" width="189" height="180"/>
+	<SubTexture name="normal_loop0003" x="0" y="180" width="189" height="180"/>
+	<SubTexture name="normal_loop0004" x="0" y="180" width="189" height="180"/>
+	<SubTexture name="normal_loop0005" x="0" y="180" width="189" height="180"/>
+	<SubTexture name="normal_to_lose0000" x="756" y="0" width="189" height="180"/>
+	<SubTexture name="normal_to_lose0001" x="189" y="180" width="189" height="180"/>
+	<SubTexture name="normal_to_lose0002" x="189" y="180" width="189" height="180"/>
+	<SubTexture name="normal_to_lose0003" x="378" y="180" width="189" height="180"/>
+	<SubTexture name="normal_to_lose0004" x="378" y="180" width="189" height="180"/>
+	<SubTexture name="normal_to_lose0005" x="0" y="0" width="189" height="180"/>
 </TextureAtlas>
