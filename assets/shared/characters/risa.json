@@ -1,52 +1,44 @@
 {
 	"animations": [
 		{
-			"offsets": [5, 170],
-			"loop": true,
-			"fps": 14,
-			"anim": "idle",
-			"indices": [],
-			"name": "idle"
-		},
-		{
 			"loop": false,
-			"offsets": [0, 420],
-			"anim": "singUP",
-			"fps": 20,
-			"name": "up",
+			"offsets": [0, 8],
+			"anim": "idle",
+			"fps": 24,
+			"name": "idle",
 			"indices": []
 		},
 		{
 			"loop": false,
-			"offsets": [40, 171],
+			"offsets": [2, 9],
 			"anim": "singLEFT",
-			"fps": 20,
+			"fps": 24,
 			"name": "left",
 			"indices": []
 		},
 		{
 			"loop": false,
-			"offsets": [12, -41],
+			"offsets": [0, -172],
 			"anim": "singDOWN",
-			"fps": 20,
+			"fps": 24,
 			"name": "down",
 			"indices": []
 		},
 		{
 			"loop": false,
-			"offsets": [-49, 178],
+			"offsets": [-11, 18],
 			"anim": "singRIGHT",
-			"fps": 16,
+			"fps": 24,
 			"name": "right",
 			"indices": []
 		},
 		{
-			"offsets": [7, 170],
+			"offsets": [17, -83],
 			"indices": [],
 			"fps": 24,
-			"anim": "1",
+			"anim": "singUP",
 			"loop": false,
-			"name": "aparecion"
+			"name": "risa0"
 		}
 	],
 	"vocals_file": "",
@@ -55,8 +47,8 @@
 		0,
 		0
 	],
-	"image": "characters/monsteroscuro",
-	"position": [60, 210],
+	"image": "characters/risa",
+	"position": [-100, -340],
 	"icon_offset": [
 		0,
 		0
@@ -75,13 +67,13 @@
 		0
 	],
 	"flip_x": false,
-	"healthbar_colors": [243, 255, 110],
+	"healthbar_colors": [153, 51, 102],
 	"censor_offset_up": [
 		0,
 		0
 	],
-	"camera_position": [-140, -140],
+	"camera_position": [0, 0],
 	"sing_duration": 4,
-	"scale": 0.9,
+	"scale": 1.1,
 	"_editor_isPlayer": false
 }
