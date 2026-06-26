@@ -263,6 +263,8 @@ class CharSelectState extends MusicBeatState
         {
             if(selectedCharacter)
             {
+                if(!FlxG.sound.music.playing) return; // this means we are in the middle of the transition and we don't want lofi music in the freeplay menu (already experienced this and not funny.) -madera
+
                 trace('SELECTED CHAR TRUE! Reverse anim...');
                 selectedCharacter = false;
                 acceptTimer.cancel();
