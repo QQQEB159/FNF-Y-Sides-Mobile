@@ -683,6 +683,8 @@ class TitleState extends MusicBeatState
 				resetShaderEffect();
 			}
 
+			if(skippedIntro) return;
+
 			switch (sickBeats)
 			{
 				case 1:
