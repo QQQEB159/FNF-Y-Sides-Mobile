@@ -274,16 +274,9 @@
 			]
 		],
 		[
-			88091.4242127057,
-			[
-				["Change Character", "dad", "risa"]
-			]
-		],
-		[
 			88743.5981257492,
 			[
-				["smooth_camera_zoom", "0.7", "0.9, quartOut"],
-				["Change Character", "dad", "monster"]
+				["smooth_camera_zoom", "0.7", "0.9, quartOut"]
 			]
 		],
 		[

@@ -5240,6 +5240,9 @@ class PlayState extends MusicBeatState
 							strumLineNotes.members[i].alpha = 0;
 						}
 
+						monsterClone.playAnim('1', true);
+						monsterClone.specialAnim = true;
+
 						FlxTween.tween(blackThing, {alpha: 0}, 3);
 					case 320:
 						FlxTween.tween(redVignetteIntro, {alpha: 0.65}, 22);
