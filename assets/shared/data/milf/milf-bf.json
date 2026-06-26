@@ -89,7 +89,6 @@
 			115764.705882353,
 			[
 				["smooth_camera_zoom", "0.4", "0.7, quartOut"],
-				["Change Character", "gf", "gf-car alt"]
 			]
 		],
 		[
@@ -330,7 +329,6 @@
 			127058.823529412,
 			[
 				["camera_flash", "1", ""],
-				["Change Character", "gf", "gf-car"]
 			]
 		],
 		[
