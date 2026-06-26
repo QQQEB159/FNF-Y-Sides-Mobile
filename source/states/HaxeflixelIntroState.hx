@@ -27,6 +27,7 @@ class HaxeflixelIntroState extends MusicBeatState
         sugarntCrewLogo.frames = Paths.getSparrowAtlas('intro/sugarntCrew-logo');
         sugarntCrewLogo.animation.addByPrefix('idle', 'idle', 24, false);
         sugarntCrewLogo.antialiasing = ClientPrefs.data.antialiasing;
+        sugarntCrewLogo.screenCenter();
         sugarntCrewLogo.visible = false;
         sugarntCrewLogo.scale.set(1.2, 1.2);
         add(sugarntCrewLogo);
