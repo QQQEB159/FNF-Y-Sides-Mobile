@@ -105,6 +105,12 @@
 	"flip_x": false,
 	"healthbar_colors": [254, 0, 103],
 	"camera_position": [-40, 50],
+	"icon_offset": [-20, -20],
+	"censor_offset_idle": [140, 170],
+	"censor_offset_left": [80, 160],
+	"censor_offset_down": [90, 190],
+	"censor_offset_up": [130, 140],
+	"censor_offset_right": [160, 150],
 	"sing_duration": 4,
 	"scale": 0.97,
 	"_editor_isPlayer": true
