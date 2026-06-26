@@ -1,52 +1,52 @@
 {
 	"animations": [
 		{
-			"offsets": [5, 170],
 			"loop": true,
-			"fps": 14,
+			"offsets": [5, 170],
 			"anim": "idle",
-			"indices": [],
-			"name": "idle"
+			"fps": 14,
+			"name": "idle",
+			"indices": []
 		},
 		{
-			"loop": false,
 			"offsets": [0, 420],
+			"loop": false,
+			"fps": 20,
 			"anim": "singUP",
-			"fps": 20,
-			"name": "up",
-			"indices": []
+			"indices": [],
+			"name": "up"
 		},
 		{
-			"loop": false,
 			"offsets": [40, 171],
+			"loop": false,
+			"fps": 20,
 			"anim": "singLEFT",
-			"fps": 20,
-			"name": "left",
-			"indices": []
+			"indices": [],
+			"name": "left"
 		},
 		{
-			"loop": false,
 			"offsets": [12, -41],
-			"anim": "singDOWN",
+			"loop": false,
 			"fps": 20,
-			"name": "down",
-			"indices": []
+			"anim": "singDOWN",
+			"indices": [],
+			"name": "down"
 		},
 		{
-			"loop": false,
 			"offsets": [-49, 178],
-			"anim": "singRIGHT",
+			"loop": false,
 			"fps": 16,
-			"name": "right",
-			"indices": []
+			"anim": "singRIGHT",
+			"indices": [],
+			"name": "right"
 		},
 		{
 			"offsets": [7, 170],
-			"indices": [],
+			"indices": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
 			"fps": 24,
 			"anim": "1",
 			"loop": false,
-			"name": "aparecion"
+			"name": "aparecion0"
 		}
 	],
 	"vocals_file": "",
