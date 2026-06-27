@@ -583,6 +583,13 @@ class NewStoryMenuState extends MusicBeatState
 		character.loadGraphic(Paths.image('storymenu/new/characters/${leWeek.weekCharacters[0]}'));
         character.screenCenter();
 		character.y += 40;
+		
+		// ofssets (yes, hardcoded. go look smth else)
+		switch(leWeek.weekCharacters[0])
+		{
+			case 'dadmom': character.y += -40;
+			default: // nothing lmao 
+		}
 
         characterY = character.y;
 
