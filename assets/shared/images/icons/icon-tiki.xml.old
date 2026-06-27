@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="iconsysides.png">
+	<!-- Created with Adobe Animate version 22.0.2.168 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="lose_loop0000" x="0" y="0" width="189" height="180"/>
+	<SubTexture name="lose_loop0001" x="0" y="0" width="189" height="180"/>
+	<SubTexture name="lose_loop0002" x="0" y="0" width="189" height="180"/>
+	<SubTexture name="lose_loop0003" x="189" y="0" width="189" height="180"/>
+	<SubTexture name="lose_loop0004" x="189" y="0" width="189" height="180"/>
+	<SubTexture name="lose_loop0005" x="189" y="0" width="189" height="180"/>
+	<SubTexture name="lose_loop0006" x="378" y="0" width="189" height="180"/>
+	<SubTexture name="lose_loop0007" x="378" y="0" width="189" height="180"/>
+	<SubTexture name="lose_loop0008" x="378" y="0" width="189" height="180"/>
+	<SubTexture name="lose_loop0009" x="567" y="0" width="189" height="180"/>
+	<SubTexture name="lose_loop0010" x="567" y="0" width="189" height="180"/>
+	<SubTexture name="lose_loop0011" x="567" y="0" width="189" height="180"/>
+	<SubTexture name="lose_to_normal0000" x="0" y="0" width="189" height="180"/>
+	<SubTexture name="lose_to_normal0001" x="378" y="180" width="189" height="180"/>
+	<SubTexture name="lose_to_normal0002" x="378" y="180" width="189" height="180"/>
+	<SubTexture name="lose_to_normal0003" x="189" y="180" width="189" height="180"/>
+	<SubTexture name="lose_to_normal0004" x="189" y="180" width="189" height="180"/>
+	<SubTexture name="lose_to_normal0005" x="756" y="0" width="189" height="180"/>
+	<SubTexture name="normal_loop0000" x="756" y="0" width="189" height="180"/>
+	<SubTexture name="normal_loop0001" x="756" y="0" width="189" height="180"/>
+	<SubTexture name="normal_loop0002" x="756" y="0" width="189" height="180"/>
+	<SubTexture name="normal_loop0003" x="0" y="180" width="189" height="180"/>
+	<SubTexture name="normal_loop0004" x="0" y="180" width="189" height="180"/>
+	<SubTexture name="normal_loop0005" x="0" y="180" width="189" height="180"/>
+	<SubTexture name="normal_to_lose0000" x="756" y="0" width="189" height="180"/>
+	<SubTexture name="normal_to_lose0001" x="189" y="180" width="189" height="180"/>
+	<SubTexture name="normal_to_lose0002" x="189" y="180" width="189" height="180"/>
+	<SubTexture name="normal_to_lose0003" x="378" y="180" width="189" height="180"/>
+	<SubTexture name="normal_to_lose0004" x="378" y="180" width="189" height="180"/>
+	<SubTexture name="normal_to_lose0005" x="0" y="0" width="189" height="180"/>
+</TextureAtlas>
