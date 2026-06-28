@@ -12,7 +12,7 @@ class GameProgress
         ['Unlock Madness', false],
         ['Unlock R.A.M', false],
         ['Unlock Test', false],
-        ['Unlock Settings'],
+        ['Unlock Settings', false],
         ['Buy all items', false],
         ['Get all trophies', false],
         ['Talk to Madera', false]
