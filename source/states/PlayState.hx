@@ -1007,10 +1007,14 @@ class PlayState extends MusicBeatState
 		add(tennisExplanationBackground);
 
 		tennisExplanationText = new FlxSprite();
-		tennisExplanationText.loadGraphic(Paths.image('hud/hexmechanic/explanation'));
-		//tennisExplanationText.screenCenter(XY);
-		tennisExplanationText.x = -600;
-		tennisExplanationText.y = FlxG.height - tennisExplanationText.height - 30;
+		//tennisExplanationText.loadGraphic(Paths.image('hud/hexmechanic/explanation'));
+		tennisExplanationText.frames = Paths.getSparrowAtlas('hud/hexmechanic/mechanicText');
+		tennisExplanationText.animation.addByPrefix('idle', 'idle', 4, true);
+		tennisExplanationText.animation.play('idle', true);
+		tennisExplanationText.screenCenter(XY);
+		tennisExplanationText.alpha = 0;
+		//tennisExplanationText.x = -600;
+		//tennisExplanationText.y = FlxG.height - tennisExplanationText.height - 30;
 		//tennisExplanationText.alpha = 0;
 		tennisExplanationText.scrollFactor.set(0, 0);
 		tennisExplanationText.cameras = [camOther];
@@ -4710,7 +4714,7 @@ class PlayState extends MusicBeatState
 	
 					if(canPlay) char.playAnim(animToPlay, true);
 					char.holdTimer = 0;
-					
+
 					boyfriendTennisClone.visible = false;
 					boyfriend.visible = true;
 
@@ -5502,13 +5506,17 @@ class PlayState extends MusicBeatState
 			case 'Ram-bf':
 				switch(curStep)
 				{
+					case 1:
+						tennisExplanationText.y += 10;
+						FlxTween.tween(tennisExplanationText, {alpha: 1, y: tennisExplanationText.y - 10}, 0.6, {ease: FlxEase.quartOut});
 					case 64:
 						blackThing.alpha = 0;
 						FlxTween.tween(blackThingBelow, {alpha: 0}, 15);
 
-						FlxTween.tween(tennisExplanationBackground, {alpha: 1}, 0.6, {ease: FlxEase.quartOut});
+						tennisExplanationText.alpha = 0;
 
-						FlxTween.tween(tennisExplanationText, {x: 20}, 0.6, {ease: FlxEase.quartOut});
+						//FlxTween.tween(tennisExplanationBackground, {alpha: 1}, 0.6, {ease: FlxEase.quartOut});
+						//FlxTween.tween(tennisExplanationText, {x: 20}, 0.6, {ease: FlxEase.quartOut});
 
 						songCard.y += 10;
 						FlxTween.tween(songCard, {alpha: 1, y: songCard.y - 10}, 0.3);
@@ -5530,9 +5538,8 @@ class PlayState extends MusicBeatState
 					case 128:
 						FlxTween.tween(songCard, {alpha: 0, y: songCard.y - 10}, 0.3);
 						
-						FlxTween.tween(tennisExplanationBackground, {alpha: 0}, 1.7, {ease: FlxEase.quartIn});
-
-						FlxTween.tween(tennisExplanationText, {x: -600}, 1.7, {ease: FlxEase.quartIn});
+						//FlxTween.tween(tennisExplanationBackground, {alpha: 0}, 1.7, {ease: FlxEase.quartIn});
+						//FlxTween.tween(tennisExplanationText, {x: -600}, 1.7, {ease: FlxEase.quartIn});
 					case 190:
 						isCameraOnForcedPos = false;
 						cameraFollowInstant = false;
@@ -5679,9 +5686,9 @@ class PlayState extends MusicBeatState
 					//independientTennisBall.acceleration.y = -2160;
 					//independientTennisBall.velocity.y = 1270;
 					FlxTween.tween(independientTennisBall, {x: boyfriend.x}, (Conductor.crochet / 1000), {ease: FlxEase.linear});
-					FlxTween.tween(independientTennisBall, {y: independientTennisBall.y - 60}, (Conductor.crochet / 1000) / 2, {ease: FlxEase.quintOut, onComplete: function(twn:FlxTween)
+					FlxTween.tween(independientTennisBall, {y: independientTennisBall.y - 10}, (Conductor.crochet / 1000) * 0.25, {ease: FlxEase.quintOut, onComplete: function(twn:FlxTween)
 					{
-						FlxTween.tween(independientTennisBall, {y: independientTennisBall.y + 125}, (Conductor.crochet / 1000) / 2, {ease: FlxEase.quartIn});
+						FlxTween.tween(independientTennisBall, {y: boyfriend.y + 125}, (Conductor.crochet / 1000) * 0.75, {ease: FlxEase.smoothStepIn});
 					}});
 				}
 				else if(curBeat == curBeatStarted + 3)

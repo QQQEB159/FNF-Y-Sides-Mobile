@@ -2,8 +2,8 @@
 <TextureAtlas imagePath="bfTennisSPR.png">
 <SubTexture name="miss0000" x="0" y="0" width="402" height="415" frameX="-6" frameY="-18" frameWidth="395" frameHeight="415" />
 <SubTexture name="miss0001" x="402" y="0" width="402" height="415" frameX="-6" frameY="-18" frameWidth="395" frameHeight="415" />
-<SubTexture name="perfect0000" x="804" y="0" width="392" height="415" frameX="-11" frameY="-17" frameWidth="395" frameHeight="415" />
-<SubTexture name="perfect0001" x="0" y="415" width="391" height="415" frameX="-11" frameY="-17" frameWidth="395" frameHeight="415" />
+<SubTexture name="perfect0003" x="804" y="0" width="392" height="415" frameX="-11" frameY="-17" frameWidth="395" frameHeight="415" />
 <SubTexture name="perfect0002" x="0" y="415" width="391" height="415" frameX="-11" frameY="-17" frameWidth="395" frameHeight="415" />
-<SubTexture name="perfect0003" x="391" y="415" width="402" height="415" frameX="-6" frameY="-18" frameWidth="395" frameHeight="415" />
+<SubTexture name="perfect0001" x="0" y="415" width="391" height="415" frameX="-11" frameY="-17" frameWidth="395" frameHeight="415" />
+<SubTexture name="perfect0000" x="391" y="415" width="402" height="415" frameX="-6" frameY="-18" frameWidth="395" frameHeight="415" />
 </TextureAtlas>
