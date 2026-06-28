@@ -87,13 +87,13 @@ class CreditsStateYSides extends MusicBeatState
 			color: 0xFFDC7D6F
 		},
 		{
-			name: 'ItsTapiiii',
-			icon: 'tapi',
+			name: 'CloudyWave',
+			icon: 'cloudy',
 			roles: ['Co-Director', 'Musician', 'Charter'],
 			socialMedias: [
 				{
 					icon: 'yt',
-					link: 'https://www.youtube.com/@ItsTapiiii'
+					link: 'https://www.youtube.com/@Cltp_fla'
 				}
 			],
 			color: 0xFF363676
