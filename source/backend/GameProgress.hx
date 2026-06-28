@@ -35,4 +35,43 @@ class GameProgress
         FlxG.save.data.todoTasks = todoTasks;
         FlxG.save.flush();
     }
+
+    public static function reset()
+    {
+        FlxG.sound.play(Paths.sound('confirmMenu'));
+
+        todoTasks = [
+            ['Beat Week 1', false],
+            ['Beat Week 2', false],
+            ['Beat Week 3', false],
+            ['Beat Week 4', false],
+            ['Beat Week 5', false],
+            ['Unlock Pico', false],
+            ['Unlock Madness', false],
+            ['Unlock R.A.M', false],
+            ['Unlock Test', false],
+            ['Unlock Settings', false],
+            ['Buy all items', false],
+            ['Get all trophies', false],
+            ['Talk to Madera', false]
+        ];
+
+        FlxG.save.data.todoTasks = [
+            ['Beat Week 1', false],
+            ['Beat Week 2', false],
+            ['Beat Week 3', false],
+            ['Beat Week 4', false],
+            ['Beat Week 5', false],
+            ['Unlock Pico', false],
+            ['Unlock Madness', false],
+            ['Unlock R.A.M', false],
+            ['Unlock Test', false],
+            ['Unlock Settings', false],
+            ['Buy all items', false],
+            ['Get all trophies', false],
+            ['Talk to Madera', false]
+        ];
+        
+        FlxG.save.flush();
+    }
 }

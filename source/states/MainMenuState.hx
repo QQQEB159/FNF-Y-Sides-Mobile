@@ -5,6 +5,8 @@ import states.gallery.NewGalleryState;
 import states.gallery.GalleryState;
 import states.vault.VaultState;
 import options.OptionsState;
+import backend.GameProgress;
+import states.vault.ShopSubState;
 
 enum Column
 {
@@ -413,6 +415,14 @@ class MainMenuState extends MusicBeatState
             else if(FlxG.keys.justPressed.ANY) usingMouse = false;
             
             FlxG.mouse.visible = usingMouse;
+
+            #if develop
+            if(FlxG.keys.pressed.SHIFT && FlxG.keys.justPressed.R)
+            {
+                GameProgress.reset();
+                ShopSubState.reset();
+            }
+            #end
 
             mouseBehaviour(elapsed);
 

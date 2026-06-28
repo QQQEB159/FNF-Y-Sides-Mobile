@@ -48,6 +48,11 @@ class ShopSubState extends MusicBeatSubstate
         return true;
     }
 
+    public static function reset():Void
+    {
+        boughtItems.clear();
+    }
+
     public static var money:Int;
 
     public static function addMoney(value:Int)
