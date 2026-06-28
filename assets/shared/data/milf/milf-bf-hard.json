@@ -88,7 +88,7 @@
 		[
 			115764.705882353,
 			[
-				["smooth_camera_zoom", "0.4", "0.7, quartOut"],
+				["smooth_camera_zoom", "0.4", "0.7, quartOut"]
 			]
 		],
 		[
@@ -328,7 +328,7 @@
 		[
 			127058.823529412,
 			[
-				["camera_flash", "1", ""],
+				["camera_flash", "1", ""]
 			]
 		],
 		[
