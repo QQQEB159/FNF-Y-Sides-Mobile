@@ -4710,6 +4710,9 @@ class PlayState extends MusicBeatState
 	
 					if(canPlay) char.playAnim(animToPlay, true);
 					char.holdTimer = 0;
+					
+					boyfriendTennisClone.visible = false;
+					boyfriend.visible = true;
 
 					if(note.noteType == 'Hey!')
 					{
