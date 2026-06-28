@@ -161,7 +161,7 @@ class CreditsStateYSides extends MusicBeatState
 			socialMedias: [
 				{
 					icon: 'yt',
-					link: 'https://www.youtube.com/@jaba6969'
+					link: 'https://www.youtube.com/@jabansl'
 				}
 			],
 			color: 0xFFB8519D
