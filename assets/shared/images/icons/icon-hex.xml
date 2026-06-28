@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TextureAtlas imagePath="icon-hex.png">
+<SubTexture name="normal_loop0000" x="0" y="0" width="162" height="162" frameX="0" frameY="0" frameWidth="142" frameHeight="142" />
+<SubTexture name="normal_loop0001" x="0" y="0" width="162" height="162" frameX="0" frameY="0" frameWidth="142" frameHeight="142" />
+<SubTexture name="normal_loop0002" x="0" y="0" width="162" height="162" frameX="0" frameY="0" frameWidth="142" frameHeight="142" />
+<SubTexture name="normal_loop0003" x="0" y="0" width="162" height="162" frameX="0" frameY="0" frameWidth="142" frameHeight="142" />
+<SubTexture name="normal_loop0004" x="162" y="0" width="162" height="162" frameX="0" frameY="0" frameWidth="142" frameHeight="142" />
+<SubTexture name="normal_loop0005" x="162" y="0" width="162" height="162" frameX="0" frameY="0" frameWidth="142" frameHeight="142" />
+<SubTexture name="normal_loop0006" x="162" y="0" width="162" height="162" frameX="0" frameY="0" frameWidth="142" frameHeight="142" />
+<SubTexture name="normal_loop0007" x="162" y="0" width="162" height="162" frameX="0" frameY="0" frameWidth="142" frameHeight="142" />
+<SubTexture name="normal_to_lose0000" x="0" y="162" width="162" height="162" frameX="0" frameY="0" frameWidth="142" frameHeight="142" />
+<SubTexture name="normal_to_lose0001" x="0" y="162" width="162" height="162" frameX="0" frameY="0" frameWidth="142" frameHeight="142" />
+<SubTexture name="normal_to_lose0002" x="162" y="162" width="162" height="162" frameX="0" frameY="0" frameWidth="142" frameHeight="142" />
+<SubTexture name="normal_to_lose0003" x="162" y="162" width="162" height="162" frameX="0" frameY="0" frameWidth="142" frameHeight="142" />
+<SubTexture name="lose_loop0000" x="324" y="0" width="162" height="162" frameX="0" frameY="0" frameWidth="142" frameHeight="142" />
+<SubTexture name="lose_loop0001" x="324" y="0" width="162" height="162" frameX="0" frameY="0" frameWidth="142" frameHeight="142" />
+<SubTexture name="lose_loop0002" x="324" y="0" width="162" height="162" frameX="0" frameY="0" frameWidth="142" frameHeight="142" />
+<SubTexture name="lose_loop0003" x="324" y="0" width="162" height="162" frameX="0" frameY="0" frameWidth="142" frameHeight="142" />
+<SubTexture name="lose_loop0004" x="324" y="162" width="162" height="162" frameX="0" frameY="0" frameWidth="142" frameHeight="142" />
+<SubTexture name="lose_loop0005" x="324" y="162" width="162" height="162" frameX="0" frameY="0" frameWidth="142" frameHeight="142" />
+<SubTexture name="lose_loop0006" x="324" y="162" width="162" height="162" frameX="0" frameY="0" frameWidth="142" frameHeight="142" />
+<SubTexture name="lose_loop0007" x="324" y="162" width="162" height="162" frameX="0" frameY="0" frameWidth="142" frameHeight="142" />
+<SubTexture name="lose_to_normal0000" x="162" y="162" width="162" height="162" frameX="0" frameY="0" frameWidth="142" frameHeight="142" />
+<SubTexture name="lose_to_normal0001" x="162" y="162" width="162" height="162" frameX="0" frameY="0" frameWidth="142" frameHeight="142" />
+<SubTexture name="lose_to_normal0002" x="0" y="162" width="162" height="162" frameX="0" frameY="0" frameWidth="142" frameHeight="142" />
+<SubTexture name="lose_to_normal0003" x="0" y="162" width="162" height="162" frameX="0" frameY="0" frameWidth="142" frameHeight="142" />
+</TextureAtlas>
