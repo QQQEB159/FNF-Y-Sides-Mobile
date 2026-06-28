@@ -236,11 +236,11 @@ class NewFreeplayState extends MusicBeatState
         add(hint);
         
         bombox = new FlxSprite(705, 315);
-        bombox.frames = Paths.getSparrowAtlas('freePlay/NEW/char/${CharSelectState.currentFreeplaySelectedName}/bombox');
+        bombox.frames = Paths.getSparrowAtlas('freePlay/NEW/char/bf/bombox');
         bombox.animation.addByPrefix('idle', 'idle', 12, false);
         bombox.animation.play('idle', true, true);
         bombox.antialiasing = ClientPrefs.data.antialiasing;
-        if(CharSelectState.currentFreeplaySelectedName == 'pico') bombox.y += -95;
+        // if(CharSelectState.currentFreeplaySelectedName == 'pico') bombox.y += -95;
         transOptions.set(bombox, {
             initialProperties: [
                 "x" => FlxG.width
