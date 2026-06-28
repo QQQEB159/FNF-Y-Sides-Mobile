@@ -1,12 +1,12 @@
 package states;
 
-import objects.VideoSprite;
 import shaders.BloomShader;
 import openfl.filters.ShaderFilter;
 
 class HaxeflixelIntroState extends MusicBeatState
 {
-    var videoCutscene:VideoSprite;
+    var haxeFlixelLogo:FlxSprite;
+    var haxeFlixelLogoSfx:FlxSound;
     var sugarntCrewLogo:FlxSprite;
     var sugarntCrewLogoSfx:FlxSound;
     var bloomShader:BloomShader;
@@ -19,9 +19,14 @@ class HaxeflixelIntroState extends MusicBeatState
 		var bgcolor = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, 0xFF120125);
 		add(bgcolor);
 
-        videoCutscene = new VideoSprite(Paths.video('haxeflixelIntro'), false, false, false);
-        videoCutscene.play();
-        add(videoCutscene);
+        haxeFlixelLogo = new FlxSprite();
+        haxeFlixelLogo.frames = Paths.getSparrowAtlas('intro/haxeFlixelIntro');
+        haxeFlixelLogo.animation.addByPrefix('idle', 'haxeFlixelIntro idle', 24, false);
+        haxeFlixelLogo.animation.play('idle', true);
+        haxeFlixelLogo.alpha = 0.0001;
+        haxeFlixelLogo.antialiasing = ClientPrefs.data.antialiasing;
+        haxeFlixelLogo.screenCenter();
+        add(haxeFlixelLogo);
 
         sugarntCrewLogo = new FlxSprite();
         sugarntCrewLogo.frames = Paths.getSparrowAtlas('intro/sugarntCrew-logo');
@@ -39,6 +44,17 @@ class HaxeflixelIntroState extends MusicBeatState
         sugarntCrewLogoSfx.loadEmbedded(Paths.sound('intro/sugarntCrewLogoIntro'));
 		FlxG.sound.list.add(sugarntCrewLogoSfx);
 
+        haxeFlixelLogoSfx = new FlxSound();
+        haxeFlixelLogoSfx.loadEmbedded(Paths.sound('intro/haxeFlixelLogoIntro'));
+		FlxG.sound.list.add(haxeFlixelLogoSfx);
+
+        new FlxTimer().start(0.8, function(tmr:FlxTimer)
+        {
+            haxeFlixelLogo.alpha = 1;
+            haxeFlixelLogo.animation.play('idle', true);
+            haxeFlixelLogoSfx.play();
+        });
+
         if(ClientPrefs.data.shaders && ClientPrefs.data.flashing)
         {
 		    bloomShader = new BloomShader();
@@ -52,11 +68,11 @@ class HaxeflixelIntroState extends MusicBeatState
             // better no, like, the shader prompt it's the following thing that appears lmao
         }
 
-        videoCutscene.finishCallback = function()
+        haxeFlixelLogo.animation.finishCallback = function(name:String)
         {
             // MusicBeatState.switchState(new TitleState());
 
-            videoCutscene.visible = false;
+            haxeFlixelLogo.visible = false;
             sugarntCrewLogo.visible = true;
             sugarntCrewLogo.animation.play('idle', true);
 
@@ -103,8 +119,6 @@ class HaxeflixelIntroState extends MusicBeatState
                     });
                 }
             }
-
-            videoCutscene = null;
         }
     }
 }
