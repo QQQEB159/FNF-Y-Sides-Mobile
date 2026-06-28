@@ -1021,6 +1021,7 @@ class PlayState extends MusicBeatState
 		if(curSong == 'Monster') blackThing.alpha = 1;
 		if(curSong == 'Winter Horrorland') blackThing.alpha = 1;
 		if(curSong == 'Settings') blackThing.alpha = 1;
+		if(curSong == 'Ram') blackThing.alpha = 1;
 		blackThing.cameras = [camHUD];
 		add(blackThing);
 

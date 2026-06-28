@@ -748,7 +748,14 @@
 			69473.6842105262,
 			[
 				["smooth_camera_zoom", "1.3", "16, linear"],
-				["Camera Follow Pos", "870", "180"]
+				["Play Animation", "wtf", "dad"],
+				["smooth_camera_zoom", "1.3", "16, linear"]
+			]
+		],
+		[
+			69999.9999999999,
+			[
+				["Play Animation", "omg", "dad"]
 			]
 		],
 		[

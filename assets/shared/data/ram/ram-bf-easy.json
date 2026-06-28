@@ -1371,7 +1371,191 @@
 			"bpm": 140
 		}
 	],
-	"events": [],
+	"events": [
+		[
+			6857.14285714286,
+			[
+				["camera_flash", "1", ""]
+			]
+		],
+		[
+			19285.7142857143,
+			[
+				["Hex Mechanic", "", ""]
+			]
+		],
+		[
+			20571.4285714286,
+			[
+				["smooth_camera_zoom", "0.6", "1.5, quartOut"]
+			]
+		],
+		[
+			32571.4285714286,
+			[
+				["smooth_camera_zoom", "0.65", "1.2, quartOut"]
+			]
+		],
+		[
+			33000,
+			[
+				["Hex Mechanic", "", ""]
+			]
+		],
+		[
+			34285.7142857143,
+			[
+				["smooth_camera_zoom", "0.5", "1.2, quartOut"],
+				["camera_flash", "1", ""]
+			]
+		],
+		[
+			48000,
+			[
+				["smooth_camera_zoom", "0.65", "0.89, quartOut"]
+			]
+		],
+		[
+			50142.8571428572,
+			[
+				["Hex Mechanic", "", ""]
+			]
+		],
+		[
+			53571.4285714286,
+			[
+				["Hex Mechanic", "", ""]
+			]
+		],
+		[
+			61714.2857142858,
+			[
+				["smooth_camera_zoom", "0.7", "0.89, quartOut"],
+				["camera_flash", "1", ""]
+			]
+		],
+		[
+			63857.1428571429,
+			[
+				["Hex Mechanic", "", ""]
+			]
+		],
+		[
+			67285.7142857143,
+			[
+				["Hex Mechanic", "", ""]
+			]
+		],
+		[
+			74142.8571428572,
+			[
+				["Hex Mechanic", "", ""]
+			]
+		],
+		[
+			75428.5714285715,
+			[
+				["smooth_camera_zoom", "0.75", "0.89, quartOut"]
+			]
+		],
+		[
+			81000,
+			[
+				["Hex Mechanic", "", ""]
+			]
+		],
+		[
+			87857.1428571429,
+			[
+				["Hex Mechanic", "", ""]
+			]
+		],
+		[
+			88285.7142857143,
+			[
+				["smooth_camera_zoom", "0.8", "0.39, quartOut"]
+			]
+		],
+		[
+			89142.8571428571,
+			[
+				["smooth_camera_zoom", "0.6", "0.98, quartOut"],
+				["camera_flash", "1", ""]
+			]
+		],
+		[
+			94714.2857142857,
+			[
+				["Hex Mechanic", "", ""]
+			]
+		],
+		[
+			102857.142857143,
+			[
+				["smooth_camera_zoom", "0.65", "0.98, quartOut"]
+			]
+		],
+		[
+			105428.571428571,
+			[
+				["smooth_camera_zoom", "0.75", "0.38, quartOut"]
+			]
+		],
+		[
+			106285.714285714,
+			[
+				["smooth_camera_zoom", "0.7", "0.58, quartOut"]
+			]
+		],
+		[
+			112285.714285714,
+			[
+				["smooth_camera_zoom", "0.75", "0.38, quartOut"]
+			]
+		],
+		[
+			113142.857142857,
+			[
+				["smooth_camera_zoom", "0.7", "0.58, quartOut"]
+			]
+		],
+		[
+			115285.714285714,
+			[
+				["Hex Mechanic", "", ""]
+			]
+		],
+		[
+			116571.428571429,
+			[
+				["smooth_camera_zoom", "0.75", "1.18, quartOut"]
+			]
+		],
+		[
+			127071.428571428,
+			[
+				["smooth_camera_zoom", "0.77", "0.67, quartOut"]
+			]
+		],
+		[
+			128571.428571428,
+			[
+				["smooth_camera_zoom", "0.75", "0.67, quartOut"]
+			]
+		],
+		[
+			129000,
+			[
+				["Hex Mechanic", "", ""]
+			]
+		],
+		[
+			130285.714285714,
+			[
+				["smooth_camera_zoom", "0.65", "1.27, quartOut"]
+			]
+		]
+	],
 	"player2": "hex-real",
 	"offset": 0,
 	"song": "Ram",

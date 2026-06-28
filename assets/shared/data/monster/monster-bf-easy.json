@@ -1449,31 +1449,32 @@
 		[
 			5962.73291925466,
 			[
-				["camera_flash", "1"]
+				["camera_flash", "1"],
+				["Play Animation", "1", "dad"]
 			]
 		],
 		[
 			18074.5341614907,
 			[
-				["lyrics", "I'll chew the lies", "32"]
+				["lyrics", "You can't deny", "32"]
 			]
 		],
 		[
-			19658.3850931677,
+			19472.049689441,
 			[
-				["lyrics", "you tried to hide", "32"]
+				["lyrics", "I feel your eye", "32"]
 			]
 		],
 		[
-			21149.0683229814,
+			20962.7329192547,
 			[
-				["lyrics", "Swallow hope", "32"]
+				["lyrics", "Feeling my gaze", "32"]
 			]
 		],
 		[
-			22546.5838509317,
+			22453.4161490683,
 			[
-				["lyrics", "leave none alive", "32"]
+				["lyrics", "until you die", "32"]
 			]
 		],
 		[
@@ -1483,27 +1484,39 @@
 			]
 		],
 		[
-			30093.1677018634,
+			30000,
 			[
-				["lyrics", "Their eyes go empty", "32"]
+				["lyrics", "Don't be scared", "32"]
 			]
 		],
 		[
-			31304.347826087,
+			30910.7142857143,
 			[
-				["lyrics", "when I grin", "32"]
+				["lyrics", "and pull out", "32"]
+			]
+		],
+		[
+			31583.850931677,
+			[
+				["lyrics", "your", "32"]
+			]
+		],
+		[
+			31956.5217391304,
+			[
+				["lyrics", "skin", "32"]
 			]
 		],
 		[
 			32981.3664596273,
 			[
-				["lyrics", "They know the end, the", "32"]
+				["lyrics", "I know it's mine", "32"]
 			]
 		],
 		[
-			34378.8819875776,
+			34099.3788819876,
 			[
-				["lyrics", "moment I begin", "32"]
+				["lyrics", "The moment I begin", "32"]
 			]
 		],
 		[
@@ -1515,31 +1528,43 @@
 		[
 			41925.4658385093,
 			[
-				["lyrics", "You run", "32"]
+				["lyrics", "You cry", "32"]
 			]
 		],
 		[
 			42763.9751552795,
 			[
-				["lyrics", "You trip", "32"]
+				["lyrics", "You beg", "32"]
 			]
 		],
 		[
 			43416.149068323,
 			[
-				["lyrics", "I take my time", "32"]
+				["lyrics", "You're out of time", "32"]
 			]
 		],
 		[
 			44906.8322981367,
 			[
-				["lyrics", "Your heartbeat's counting", "32"]
+				["lyrics", "Before you know", "32"]
 			]
 		],
 		[
-			46211.1801242236,
+			45838.5093167702,
 			[
-				["lyrics", "down in mine", "32"]
+				["lyrics", "I am ringing", "32"]
+			]
+		],
+		[
+			46490.6832298137,
+			[
+				["lyrics", "god's", "32"]
+			]
+		],
+		[
+			46956.5217391304,
+			[
+				["lyrics", "CHIME!", "32"]
 			]
 		],
 		[
@@ -1555,42 +1580,6 @@
 			]
 		],
 		[
-			54409.9378881988,
-			[
-				["lyrics", "", "32"]
-			]
-		],
-		[
-			54649.8447204969,
-			[
-				["lyrics", "HA!", "32"]
-			]
-		],
-		[
-			54913.0434782609,
-			[
-				["lyrics", "HA! HA!", "32"]
-			]
-		],
-		[
-			55183.2298136646,
-			[
-				["lyrics", "HAAA!", "32"]
-			]
-		],
-		[
-			55581.5217391304,
-			[
-				["lyrics", "HAAA! HAAA!", "32"]
-			]
-		],
-		[
-			55879.6583850932,
-			[
-				["lyrics", "HAAAAAA!!", "32"]
-			]
-		],
-		[
 			56645.9627329193,
 			[
 				["camera_flash", "1", ""]
@@ -1603,15 +1592,21 @@
 			]
 		],
 		[
-			56832.298136646,
+			56669.2546583851,
 			[
-				["lyrics", "Flip your switches, hide the light", "32"]
+				["lyrics", "Will I kill you\"", "32"]
+			]
+		],
+		[
+			57577.6397515528,
+			[
+				["lyrics", "I might", "32"]
 			]
 		],
 		[
 			58229.8136645963,
 			[
-				["lyrics", "Shadows hum beneath the night", "32"]
+				["lyrics", "If I do, will be on spite!", "32"]
 			]
 		],
 		[
@@ -1623,25 +1618,31 @@
 		[
 			62795.0310559006,
 			[
-				["lyrics", "Walk the alley, feel it press", "32"]
+				["lyrics", "Everything you do", "32"]
 			]
 		],
 		[
-			64099.3788819876,
+			64285.7142857143,
 			[
-				["lyrics", "Footsteps tremble in my dress", "32"]
+				["lyrics", "I love spying you two!", "32"]
 			]
 		],
 		[
 			65869.5652173913,
 			[
-				["lyrics", "I'm not hungry for your bones", "32"]
+				["lyrics", "I don't care what you think", "32"]
 			]
 		],
 		[
-			67080.7453416149,
+			66894.4099378882,
 			[
-				["lyrics", "Just the music in my tones", "32"]
+				["lyrics", "I just announce what it's", "32"]
+			]
+		],
+		[
+			68198.7577639752,
+			[
+				["lyrics", "TRUE", "32"]
 			]
 		],
 		[
@@ -1653,25 +1654,31 @@
 		[
 			74360.9022556391,
 			[
-				["lyrics", "When your final note has flown", "32"]
+				["lyrics", "And now i'm gonna", "32"]
 			]
 		],
 		[
-			75588.9724310777,
+			75238.0952380953,
 			[
-				["lyrics", "I'll keep the hum, you'll keep the bone", "32"]
+				["lyrics", "eat your GIRLFRIEND!", "32"]
 			]
 		],
 		[
-			77080.2005012532,
+			76641.6040100251,
 			[
-				["lyrics", "Metaphors and moonlit meat", "32"]
+				["lyrics", "I'm gonna make you see", "32"]
+			]
+		],
+		[
+			77518.7969924812,
+			[
+				["lyrics", "how her bones", "32"]
 			]
 		],
 		[
 			78395.9899749374,
 			[
-				["lyrics", "A tidy, tame midnight treat.", "32"]
+				["lyrics", "BLEND!", "32"]
 			]
 		],
 		[
@@ -1689,43 +1696,25 @@
 		[
 			81290.1819766809,
 			[
-				["lyrics", "it slow. Let your little", "32"]
+				["lyrics", "with me!", "32"]
+			]
+		],
+		[
+			82035.5235915877,
+			[
+				["lyrics", "Such excitement", "32"]
 			]
 		],
 		[
 			82967.2006102212,
 			[
-				["lyrics", "tremors show", "32"]
+				["lyrics", "I can't hide my glee!", "32"]
 			]
 		],
 		[
 			84271.5484363082,
 			[
 				["lyrics", "", "32"]
-			]
-		],
-		[
-			87439.2502996622,
-			[
-				["lyrics", "HA!", "32"]
-			]
-		],
-		[
-			87811.9211071156,
-			[
-				["lyrics", "HA! HA!", "32"]
-			]
-		],
-		[
-			88091.4242127057,
-			[
-				["lyrics", "HA! HA! HA!", "32"]
-			]
-		],
-		[
-			88370.9273182957,
-			[
-				["lyrics", "HA! HA! HA! HAAAA!", "32"]
 			]
 		],
 		[
@@ -1737,19 +1726,25 @@
 		[
 			88929.9335294759,
 			[
-				["lyrics", "Serve me rhythm, warm", "32"]
+				["lyrics", "Oh my dear", "32"]
 			]
 		],
 		[
-			90234.2813555628,
+			89675.2751443827,
 			[
-				["lyrics", "and sweet... stir the night", "32"]
+				["lyrics", "Thy hands will bright", "32"]
+			]
+		],
+		[
+			91165.9583741963,
+			[
+				["lyrics", "OH GOD, alright!", "32"]
 			]
 		],
 		[
 			91911.2999891032,
 			[
-				["lyrics", "into my treat", "32"]
+				["lyrics", "OH GOD, alright!", "32"]
 			]
 		],
 		[
@@ -1761,31 +1756,31 @@
 		[
 			93401.9832189168,
 			[
-				["lyrics", "Whispered laughter", "32"]
+				["lyrics", "I'm no crazy", "32"]
 			]
 		],
 		[
-			94706.3310450038,
+			94147.3248338237,
 			[
-				["lyrics", "candlelight", "32"]
+				["lyrics", "I never was", "32"]
 			]
 		],
 		[
-			95638.0080636373,
+			95451.6726599106,
 			[
-				["lyrics", "I'll steep your heartbeat", "32"]
+				["lyrics", "Your ignorance", "32"]
 			]
 		],
 		[
-			96383.3496785442,
+			96197.0142748174,
 			[
-				["lyrics", "through", "32"]
+				["lyrics", "is what", "32"]
 			]
 		],
 		[
-			96942.3558897243,
+			96569.6850822709,
 			[
-				["lyrics", "the night", "32"]
+				["lyrics", "makes my head", "32"]
 			]
 		],
 		[
@@ -1795,7 +1790,13 @@
 			]
 		],
 		[
-			98246.7037158112,
+			97703.2254549417,
+			[
+				["lyrics", "BUZ!", "32"]
+			]
+		],
+		[
+			98433.0391195379,
 			[
 				["lyrics", "", "32"]
 			]
@@ -1827,13 +1828,13 @@
 		[
 			100690.99378882,
 			[
-				["lyrics", "I crawl inside", "32, D40000"]
+				["lyrics", "Your last chance", "32, D40000"]
 			]
 		],
 		[
-			102072.572736188,
+			101897.134139697,
 			[
-				["lyrics", "your broken home", "32, D40000"]
+				["lyrics", "to take it south", "32, D40000"]
 			]
 		],
 		[
@@ -1843,9 +1844,9 @@
 			]
 		],
 		[
-			103651.520104609,
+			103476.081508118,
 			[
-				["lyrics", "Where all your screams", "32, D40000"]
+				["lyrics", "Become blind and", "32, D40000"]
 			]
 		],
 		[
@@ -1861,21 +1862,39 @@
 			]
 		],
 		[
+			104890.555192329,
+			[
+				["lyrics", "come to my mouth", "32, D40000"]
+			]
+		],
+		[
 			106283.099051978,
 			[
 				["Add Camera Zoom", "0.03", "0.03"]
 			]
 		],
 		[
-			106721.695543206,
+			106297.718935019,
 			[
-				["lyrics", "I know your face", "32, D40000"]
+				["lyrics", "I'm tired", "32, D40000"]
+			]
+		],
+		[
+			107248.011332679,
+			[
+				["lyrics", "of this", "32, D40000"]
 			]
 		],
 		[
 			108037.48501689,
 			[
-				["lyrics", "I know your fear", "32, D40000"]
+				["lyrics", "FA-", "32, D40000"]
+			]
+		],
+		[
+			108300.642911627,
+			[
+				["lyrics", "FACADE", "32, D40000"]
 			]
 		],
 		[
@@ -1885,15 +1904,15 @@
 			]
 		],
 		[
-			109528.713087065,
+			109090.116595837,
 			[
-				["lyrics", "I taste your panic", "32, D40000"]
+				["lyrics", "Don't you think", "32, D40000"]
 			]
 		],
 		[
-			110493.625367767,
+			110142.748174785,
 			[
-				["lyrics", "when I'm near", "32, D40000"]
+				["lyrics", "this is odd\"", "32, D40000"]
 			]
 		],
 		[
@@ -1909,15 +1928,27 @@
 			]
 		],
 		[
-			112335.730630925,
+			111984.853437943,
 			[
-				["lyrics", "I am the monster", "32, D40000"]
+				["lyrics", "You know that", "32, D40000"]
 			]
 		],
 		[
-			113739.239402855,
+			113300.642911627,
 			[
-				["lyrics", "in the dark", "32, D40000"]
+				["lyrics", "CAN'T", "32, D40000"]
+			]
+		],
+		[
+			113651.520104609,
+			[
+				["lyrics", "CAN'T DE-", "32, D40000"]
+			]
+		],
+		[
+			114002.397297592,
+			[
+				["lyrics", "CAN'T DENY!", "32, D40000"]
 			]
 		],
 		[
@@ -1927,15 +1958,15 @@
 			]
 		],
 		[
-			115055.028876539,
+			114718.771566598,
 			[
-				["lyrics", "I leave my shadow,", "32, D40000"]
+				["lyrics", "You know well", "32, D40000"]
 			]
 		],
 		[
-			116107.660455487,
+			115756.783262504,
 			[
-				["lyrics", "leave my mark", "32, D40000"]
+				["lyrics", "that I feel", "32, D40000"]
 			]
 		],
 		[
@@ -1945,9 +1976,27 @@
 			]
 		],
 		[
+			116458.537648469,
+			[
+				["lyrics", "YOUR", "32, D40000"]
+			]
+		],
+		[
+			116809.414841451,
+			[
+				["lyrics", "YOUR EYE!", "32, D40000"]
+			]
+		],
+		[
 			117511.169227416,
 			[
 				["Add Camera Zoom", "0.03", "0.03"]
+			]
+		],
+		[
+			117525.789110457,
+			[
+				["lyrics", "I pray so you both", "32, D40000"]
 			]
 		],
 		[
@@ -1963,21 +2012,40 @@
 			]
 		],
 		[
+			118929.297882387,
+			[
+				["lyrics", "see my gaze...", "32, D40000"]
+			]
+		],
+		[
 			120318.186771276,
 			[
 				["Add Camera Zoom", "0.03", "0.03"]
 			]
 		],
 		[
-			120581.344666013,
+			120332.806654317,
 			[
-				["lyrics", "Now hear them cry", "32, D40000"]
+				["lyrics", "Because we know", "32, D40000"]
+			]
+		],
+		[
+			121546.256946715,
+			[
+				["lyrics", "that they", "32, D40000"]
 			]
 		],
 		[
 			121721.695543206,
 			[
-				["lyrics", "now hear them break", "32, D40000"]
+				["lyrics", "now hear them break", "32, D40000"],
+				["smooth_camera_zoom", "0.75", "1.21, sineOut"]
+			]
+		],
+		[
+			122335.730630925,
+			[
+				["lyrics", "will soon...", "32, D40000"]
 			]
 		],
 		[
@@ -1987,7 +2055,19 @@
 			]
 		],
 		[
-			123563.800806364,
+			123139.824198177,
+			[
+				["lyrics", "DIE!", "36, D40000"]
+			]
+		],
+		[
+			123154.444081218,
+			[
+				["smooth_camera_zoom", "0.8", "1.85, quartOut"]
+			]
+		],
+		[
+			124528.713087066,
 			[
 				["lyrics", "", "32, D40000"]
 			]
@@ -2020,48 +2100,6 @@
 			137160.292034434,
 			[
 				["Add Camera Zoom", "0.03", "0.03"]
-			]
-		],
-		[
-			140230.467473031,
-			[
-				["lyrics", "HA!", "32, D40000"]
-			]
-		],
-		[
-			140493.625367767,
-			[
-				["lyrics", "HA! HAA!", "32, D40000"]
-			]
-		],
-		[
-			140807.221858995,
-			[
-				["lyrics", "HA! HAA! HAA!", "32, D40000"]
-			]
-		],
-		[
-			141107.660455487,
-			[
-				["lyrics", "HA! HAA! HAA! HAA!", "32, D40000"]
-			]
-		],
-		[
-			141458.537648469,
-			[
-				["lyrics", "HAAA!!", "32, D40000"]
-			]
-		],
-		[
-			141934.414841452,
-			[
-				["lyrics", "HAAA!! HAAA!!", "32, D40000"]
-			]
-		],
-		[
-			142774.327122153,
-			[
-				["lyrics", "", "32, D40000"]
 			]
 		]
 	],
