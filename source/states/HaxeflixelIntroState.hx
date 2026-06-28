@@ -35,6 +35,7 @@ class HaxeflixelIntroState extends MusicBeatState
         sugarntCrewLogo.screenCenter();
         sugarntCrewLogo.visible = false;
         sugarntCrewLogo.scale.set(1.2, 1.2);
+        sugarntCrewLogo.x += -13;
         add(sugarntCrewLogo);
 
         FlxTransitionableState.skipNextTransIn = true;
