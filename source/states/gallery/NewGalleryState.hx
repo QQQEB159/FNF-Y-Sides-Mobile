@@ -91,15 +91,18 @@ class NewGalleryState extends MusicBeatState
         glitchEffect = value;
         if(value)
         {
-            FlxTween.num(0.025, 0, 0.3, {ease: FlxEase.quartOut}, function(v:Float)
+            if(ClientPrefs.data.shaders)
             {
-                dubswitcherShader.intensity.value[0] = v;
-            });
+                FlxTween.num(0.025, 0, 0.3, {ease: FlxEase.quartOut}, function(v:Float)
+                {
+                    dubswitcherShader.intensity.value[0] = v;
+                });
 
-            FlxTween.num(-0.1, 0, 0.3, {ease: FlxEase.quartOut}, function(v:Float)
-            {
-                colorSwapShader.uTime.value[1] = v;
-            });
+                FlxTween.num(-0.1, 0, 0.3, {ease: FlxEase.quartOut}, function(v:Float)
+                {
+                    colorSwapShader.uTime.value[1] = v;
+                });
+            }
 
             FlxTween.cancelTweensOf(bg);
             FlxTween.cancelTweensOf(FlxG.camera);
@@ -108,15 +111,18 @@ class NewGalleryState extends MusicBeatState
         }
         else
         {
-            FlxTween.num(0, 0.025, 0.3, {ease: FlxEase.quartOut}, function(v:Float)
+            if(ClientPrefs.data.shaders)
             {
-                dubswitcherShader.intensity.value[0] = v;
-            });
+                FlxTween.num(0, 0.025, 0.3, {ease: FlxEase.quartOut}, function(v:Float)
+                {
+                    dubswitcherShader.intensity.value[0] = v;
+                });
 
-            FlxTween.num(0, -0.1, 0.3, {ease: FlxEase.quartOut}, function(v:Float)
-            {
-                colorSwapShader.uTime.value[1] = v;
-            });
+                FlxTween.num(0, -0.1, 0.3, {ease: FlxEase.quartOut}, function(v:Float)
+                {
+                    colorSwapShader.uTime.value[1] = v;
+                });
+            }
 
             FlxTween.cancelTweensOf(bg);
             FlxTween.cancelTweensOf(FlxG.camera);
@@ -401,15 +407,18 @@ class NewGalleryState extends MusicBeatState
                 FlxTween.cancelTweensOf(galleryTheme);
                 FlxTween.tween(galleryTheme, {alpha: 1}, tweenTransSpeed, {ease: FlxEase.quartOut});
 
-                FlxTween.num(0.025, 0, 0.3, {ease: FlxEase.quartOut}, function(v:Float)
+                if(ClientPrefs.data.shaders)
                 {
-                    dubswitcherShader.intensity.value[0] = v;
-                });
+                    FlxTween.num(0.025, 0, 0.3, {ease: FlxEase.quartOut}, function(v:Float)
+                    {
+                        dubswitcherShader.intensity.value[0] = v;
+                    });
 
-                FlxTween.num(-0.1, 0, 0.3, {ease: FlxEase.quartOut}, function(v:Float)
-                {
-                    colorSwapShader.uTime.value[1] = v;
-                });
+                    FlxTween.num(-0.1, 0, 0.3, {ease: FlxEase.quartOut}, function(v:Float)
+                    {
+                        colorSwapShader.uTime.value[1] = v;
+                    });
+                }
 
                 FlxTween.cancelTweensOf(bg);
                 FlxTween.cancelTweensOf(FlxG.camera);
