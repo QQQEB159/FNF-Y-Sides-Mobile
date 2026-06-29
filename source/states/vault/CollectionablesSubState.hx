@@ -249,9 +249,6 @@ class CollectionablesSubState extends MusicBeatSubstate
             loadingFigurineAnim(picoFigurine);
         });
 
-		gotPlatinium = Achievements.checkPlatiniumAchievement();
-		if(!gotPlatinium) platiniumAchievement.color = 0xFF000000;
-
         progressItemsGrp = new FlxTypedGroup<ProgressItem>();
         add(progressItemsGrp);
 
@@ -371,6 +368,10 @@ class CollectionablesSubState extends MusicBeatSubstate
         super.update(elapsed);
 
         handleMouseBehaviour(elapsed);
+
+		gotPlatinium = Achievements.checkPlatiniumAchievement();
+		if(!gotPlatinium) platiniumAchievement.color = 0xFF000000;
+        else platiniumAchievement.color = 0xFFFFFFFF;
 
         if(FlxG.mouse.justPressed && unlockedClick1WhileHere && Achievements.isUnlocked('click'))
         {
