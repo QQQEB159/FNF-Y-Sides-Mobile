@@ -71,9 +71,33 @@ class CreditsStateYSides extends MusicBeatState
 			color: 0xFF424452
 		},
 		{
+			name: 'CloudyWave',
+			icon: 'cloudy',
+			roles: ['Musician', 'Charter'],
+			socialMedias: [
+				{
+					icon: 'yt',
+					link: 'https://www.youtube.com/@Cltp_fla'
+				}
+			],
+			color: 0xFF363676
+		},
+		{
+			name: 'JabaNSL',
+			icon: 'jaba',
+			roles: ['Musician', 'Charter'],
+			socialMedias: [
+				{
+					icon: 'yt',
+					link: 'https://www.youtube.com/@jabansl'
+				}
+			],
+			color: 0xFFB8519D
+		},
+		{
 			name: 'SFoxyDAC',
 			icon: 'foxy',
-			roles: ['Co-Director', 'Artist', 'Animator', 'Musician', 'Voice Actor'],
+			roles: ['Animator', 'Musician'],
 			socialMedias: [
 				{
 					icon: 'yt',
@@ -85,30 +109,6 @@ class CreditsStateYSides extends MusicBeatState
 				}
 			],
 			color: 0xFFDC7D6F
-		},
-		{
-			name: 'CloudyWave',
-			icon: 'cloudy',
-			roles: ['Co-Director', 'Musician', 'Charter'],
-			socialMedias: [
-				{
-					icon: 'yt',
-					link: 'https://www.youtube.com/@Cltp_fla'
-				}
-			],
-			color: 0xFF363676
-		},
-		{
-			name: 'Zhadnii',
-			icon: 'ema',
-			roles: ['Musician'],
-			socialMedias: [
-				{
-					icon: 'yt',
-					link: 'https://www.youtube.com/@zhadnii_'
-				}
-			],
-			color: 0xFF3A3A75
 		},
 		{
 			name: 'FlashMan07',
@@ -155,18 +155,6 @@ class CreditsStateYSides extends MusicBeatState
 			color: 0xFF1A8758
 		},
 		{
-			name: 'JabaNSL',
-			icon: 'jaba',
-			roles: ['Musician', 'Charter'],
-			socialMedias: [
-				{
-					icon: 'yt',
-					link: 'https://www.youtube.com/@jabansl'
-				}
-			],
-			color: 0xFFB8519D
-		},
-		{
 			name: 'EliAnima',
 			icon: 'elianimador',
 			roles: ['Musician'],
@@ -181,6 +169,18 @@ class CreditsStateYSides extends MusicBeatState
 				}
 			],
 			color: 0xFFFFDD8E
+		},
+		{
+			name: 'Zhadnii',
+			icon: 'ema',
+			roles: ['Musician'],
+			socialMedias: [
+				{
+					icon: 'yt',
+					link: 'https://www.youtube.com/@zhadnii_'
+				}
+			],
+			color: 0xFF3A3A75
 		},
 		{
 			name: 'Dyscarn',
