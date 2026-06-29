@@ -279,7 +279,7 @@ class CollectionablesSubState extends MusicBeatSubstate
 
 	function loadingFigurineAnim(targetFigurine:FlxSprite)
 	{
-		FlxTween.tween(targetFigurine, {alpha: 1, y: FlxG.height - targetFigurine.height - 30}, 0.5, {ease: FlxEase.quartOut, onComplete: function(twn:FlxTween)
+		FlxTween.tween(targetFigurine, {y: FlxG.height - targetFigurine.height - 30}, 0.5, {ease: FlxEase.quartOut, onComplete: function(twn:FlxTween)
 		{
 			FlxTween.tween(targetFigurine, {y: FlxG.height - targetFigurine.height - 20}, 0.41, {ease: FlxEase.expoIn, onComplete: function(twn:FlxTween)
 			{
@@ -372,18 +372,21 @@ class CollectionablesSubState extends MusicBeatSubstate
 
         handleMouseBehaviour(elapsed);
 
-        if(FlxG.mouse.justPressed && unlockedClick1WhileHere)
+        if(FlxG.mouse.justPressed && unlockedClick1WhileHere && Achievements.isUnlocked('click'))
         {
+            unlockedClick1WhileHere = false;
             onUnlock(bfFigurine);
         }
 
-        if(FlxG.mouse.justPressed && unlockedClick2WhileHere)
+        if(FlxG.mouse.justPressed && unlockedClick2WhileHere && Achievements.isUnlocked('click2'))
         {
+            unlockedClick2WhileHere = false;
             onUnlock(gfFigurine);
         }
 
-        if(FlxG.mouse.justPressed && unlockedClick3WhileHere)
+        if(FlxG.mouse.justPressed && unlockedClick3WhileHere && Achievements.isUnlocked('click3'))
         {
+            unlockedClick3WhileHere = false;
             onUnlock(picoFigurine);
         }
 
@@ -795,6 +798,9 @@ class AwardItem extends FlxSpriteGroup
             final score:Float = Achievements.getScore(awardName);
             awardProgressText.text = '${score}/${achievementData.maxScore}';
             final value:Float = score / achievementData.maxScore;
+            if(score == achievementData.maxScore) {
+                awardLogo.loadGraphic(Paths.image('achievements/$awardName'));
+            }
             return value;
         });
         awardProgressBar.visible = false;
