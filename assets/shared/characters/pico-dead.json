@@ -27,12 +27,36 @@
 	],
 	"vocals_file": "",
 	"no_antialiasing": false,
+	"censor_offset_right": [
+		0,
+		0
+	],
 	"image": "characters/picoDeath-V2",
-	"position": [-305, -119],
+	"position": [-585, -179],
+	"icon_offset": [
+		0,
+		0
+	],
 	"healthicon": "face",
+	"censor_offset_down": [
+		0,
+		0
+	],
+	"censor_offset_idle": [
+		0,
+		0
+	],
+	"censor_offset_left": [
+		0,
+		0
+	],
 	"flip_x": false,
 	"healthbar_colors": [49, 176, 209],
-	"camera_position": [0, -70],
+	"censor_offset_up": [
+		0,
+		0
+	],
+	"camera_position": [70, -70],
 	"sing_duration": 4,
 	"scale": 1,
 	"_editor_isPlayer": true

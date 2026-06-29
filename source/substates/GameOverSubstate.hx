@@ -94,8 +94,9 @@ class GameOverSubstate extends MusicBeatSubstate
 			boyfriend = new Character(PlayState.instance.boyfriend.getPosition().x, PlayState.instance.boyfriend.getPosition().y, characterName, true);
 			//boyfriend.x += boyfriend.positionArray[0] - PlayState.instance.boyfriend.positionArray[0];
 			//boyfriend.y += boyfriend.positionArray[1] - PlayState.instance.boyfriend.positionArray[1];
-			boyfriend.x += boyfriend.positionArray[0];
-			boyfriend.y += boyfriend.positionArray[1];
+			boyfriend.x += boyfriend.positionArray[0] - PlayState.instance.boyfriend.positionArray[0];
+			boyfriend.y += boyfriend.positionArray[1] - PlayState.instance.boyfriend.positionArray[1];
+			// if(PlayState.instance.boyfriend.shader != null) boyfriend.shader = PlayState.instance.boyfriend.shader;
 
 		}
 		boyfriend.skipDance = true;
@@ -113,8 +114,9 @@ class GameOverSubstate extends MusicBeatSubstate
 			boyfriendHey = new Character(PlayState.instance.boyfriend.getPosition().x, PlayState.instance.boyfriend.getPosition().y, targetName, true);
 			//boyfriend.x += boyfriend.positionArray[0] - PlayState.instance.boyfriend.positionArray[0];
 			//boyfriend.y += boyfriend.positionArray[1] - PlayState.instance.boyfriend.positionArray[1];
-			boyfriendHey.x += boyfriendHey.positionArray[0];
-			boyfriendHey.y += boyfriendHey.positionArray[1];
+			boyfriendHey.x += boyfriendHey.positionArray[0] - PlayState.instance.boyfriend.positionArray[0];
+			boyfriendHey.y += boyfriendHey.positionArray[1] - PlayState.instance.boyfriend.positionArray[1];
+			// if(PlayState.instance.boyfriend.shader != null) boyfriendHey.shader = PlayState.instance.boyfriend.shader;
 			boyfriendHey.visible = false;
 		}
 		boyfriendHey.skipDance = true;
@@ -196,10 +198,7 @@ class GameOverSubstate extends MusicBeatSubstate
 		//FlxG.camera.scroll.set();
 		//FlxG.camera.target = null;
 
-		new FlxTimer().start(firstDeathDelay, function(tmr:FlxTimer)
-		{
-			boyfriend.playAnim('firstDeath');
-		});
+		boyfriend.playAnim('firstDeath');
 
 		if(camFollow == null) 
 		{
@@ -372,6 +371,8 @@ class GameOverSubstate extends MusicBeatSubstate
 	{
 		if (!isEnding)
 		{
+			FlxTimer.globalManager.clear();
+			
 			FlxTween.cancelTweensOf(retryButton);
 
 			FlxTween.tween(retryButton, {alpha: 0, y: retryButton.y + 10}, 1.2, {ease: FlxEase.quartOut});
