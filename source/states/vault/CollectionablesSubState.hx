@@ -31,6 +31,9 @@ class CollectionablesSubState extends MusicBeatSubstate
     // awards thingie
     var awardItemsGrp:FlxTypedGroup<AwardItem>;
 	var platiniumAchievement:FlxSprite;
+    var bfFigurine:FlxSprite; // 1000 clicks
+    var gfFigurine:FlxSprite; // 2000 clicks
+    var picoFigurine:FlxSprite; // 3000 clicks
 	var gotPlatinium:Bool = false;
 	var confetti:FlxSprite;
     public static var collectionableCamera:FlxCamera;
@@ -41,6 +44,10 @@ class CollectionablesSubState extends MusicBeatSubstate
     // progress thingie
     var progressItemsGrp:FlxTypedGroup<ProgressItem>;
 
+    var unlockedClick1WhileHere:Bool = false;
+    var unlockedClick2WhileHere:Bool = false;
+    var unlockedClick3WhileHere:Bool = false;
+
     override function create()
     {
         super.create();
@@ -48,6 +55,10 @@ class CollectionablesSubState extends MusicBeatSubstate
         bg = new FlxSprite();
         bg.makeGraphic(1280, 720, 0xFF000000);
         add(bg);
+
+        if(!Achievements.isUnlocked('click')) unlockedClick1WhileHere = true;
+        if(!Achievements.isUnlocked('click2')) unlockedClick2WhileHere = true;
+        if(!Achievements.isUnlocked('click3')) unlockedClick3WhileHere = true;
 
         collectBackground = new FlxSprite();
         collectBackground.makeGraphic(750, 541, 0xFFB19BE7);
@@ -185,6 +196,59 @@ class CollectionablesSubState extends MusicBeatSubstate
 		//confetti.screenCenter();
 		add(confetti);
 
+        bfFigurine = new FlxSprite();
+        bfFigurine.loadGraphic(Paths.image('vault/collectionables/figurines/bf'));
+        bfFigurine.antialiasing = ClientPrefs.data.antialiasing;
+        bfFigurine.scale.set(0.3, 0.3);
+        bfFigurine.updateHitbox();
+        bfFigurine.x = 10;
+        bfFigurine.y = FlxG.height - bfFigurine.height - 20;
+        add(bfFigurine);
+
+        gfFigurine = new FlxSprite();
+        gfFigurine.loadGraphic(Paths.image('vault/collectionables/figurines/gf'));
+        gfFigurine.antialiasing = ClientPrefs.data.antialiasing;
+        gfFigurine.scale.set(0.3, 0.3);
+        gfFigurine.updateHitbox();
+        gfFigurine.x = bfFigurine.x + bfFigurine.width + 10;
+        gfFigurine.y = FlxG.height - gfFigurine.height - 20;
+        add(gfFigurine);
+
+        picoFigurine = new FlxSprite();
+        picoFigurine.loadGraphic(Paths.image('vault/collectionables/figurines/pico'));
+        picoFigurine.antialiasing = ClientPrefs.data.antialiasing;
+        picoFigurine.scale.set(0.3, 0.3);
+        picoFigurine.updateHitbox();
+        picoFigurine.x = gfFigurine.x + gfFigurine.width + 10;
+        picoFigurine.y = FlxG.height - picoFigurine.height - 20;
+        add(picoFigurine);
+
+        if(!Achievements.isUnlocked('click')) 
+        {
+            bfFigurine.scale.set(0, 0);
+            bfFigurine.alpha = 0;
+        }
+        if(!Achievements.isUnlocked('click2')) 
+        {
+            gfFigurine.scale.set(0, 0);
+            gfFigurine.alpha = 0;
+        }
+        if(!Achievements.isUnlocked('click3')) 
+        {
+            picoFigurine.scale.set(0, 0);
+            picoFigurine.alpha = 0;
+        }
+
+        loadingFigurineAnim(bfFigurine);
+        new FlxTimer().start(0.1, function(tmr:FlxTimer)
+        {
+            loadingFigurineAnim(gfFigurine);
+        });
+        new FlxTimer().start(0.2, function(tmr:FlxTimer)
+        {
+            loadingFigurineAnim(picoFigurine);
+        });
+
 		gotPlatinium = Achievements.checkPlatiniumAchievement();
 		if(!gotPlatinium) platiniumAchievement.color = 0xFF000000;
 
@@ -207,6 +271,22 @@ class CollectionablesSubState extends MusicBeatSubstate
         setCurrentPage(currentPage);
         initTransition();
     }
+
+    function onUnlock(targetFigurine:FlxSprite)
+    {
+        FlxTween.tween(targetFigurine, {"scale.x": 0.3, "scale.y": 0.3, alpha: 1}, 0.8, {ease: FlxEase.quartOut});
+    }
+
+	function loadingFigurineAnim(targetFigurine:FlxSprite)
+	{
+		FlxTween.tween(targetFigurine, {alpha: 1, y: FlxG.height - targetFigurine.height - 30}, 0.5, {ease: FlxEase.quartOut, onComplete: function(twn:FlxTween)
+		{
+			FlxTween.tween(targetFigurine, {y: FlxG.height - targetFigurine.height - 20}, 0.41, {ease: FlxEase.expoIn, onComplete: function(twn:FlxTween)
+			{
+				loadingFigurineAnim(targetFigurine);
+			}});
+		}});
+	}
 
 	public static function sortByID(Obj1:Dynamic, Obj2:Dynamic):Int
 		return FlxSort.byValues(FlxSort.ASCENDING, Obj1.ID, Obj2.ID);
@@ -292,6 +372,21 @@ class CollectionablesSubState extends MusicBeatSubstate
 
         handleMouseBehaviour(elapsed);
 
+        if(FlxG.mouse.justPressed && unlockedClick1WhileHere)
+        {
+            onUnlock(bfFigurine);
+        }
+
+        if(FlxG.mouse.justPressed && unlockedClick2WhileHere)
+        {
+            onUnlock(gfFigurine);
+        }
+
+        if(FlxG.mouse.justPressed && unlockedClick3WhileHere)
+        {
+            onUnlock(picoFigurine);
+        }
+
         if(gotPlatinium)
         {
             var mult = FlxMath.lerp(platiniumAchievement.scale.x, platiniumScale, elapsed * 13);
@@ -300,7 +395,7 @@ class CollectionablesSubState extends MusicBeatSubstate
             if(FlxG.mouse.overlaps(platiniumAchievement))
             {
                 platiniumScale = 0.4;
-                if(FlxG.mouse.justPressed)
+                if(FlxG.mouse.justPressed && currentPage == AWARDS)
                 {
                     confetti.alpha = 1;
                     confetti.animation.play('play', true);
@@ -471,6 +566,9 @@ class CollectionablesSubState extends MusicBeatSubstate
                     item.visible = false;
                 });
                 platiniumAchievement.visible = false;
+                bfFigurine.visible = false;
+                gfFigurine.visible = false;
+                picoFigurine.visible = false;
 
                 progressItemsGrp.forEach(function(item:ProgressItem)
                 {
@@ -488,6 +586,9 @@ class CollectionablesSubState extends MusicBeatSubstate
                     item.visible = true;
                 });
                 platiniumAchievement.visible = true;
+                bfFigurine.visible = true;
+                gfFigurine.visible = true;
+                picoFigurine.visible = true;
 
                 progressItemsGrp.forEach(function(item:ProgressItem)
                 {
@@ -505,6 +606,9 @@ class CollectionablesSubState extends MusicBeatSubstate
                     item.visible = false;
                 });
                 platiniumAchievement.visible = false;
+                bfFigurine.visible = false;
+                gfFigurine.visible = false;
+                picoFigurine.visible = false;
                 
                 progressItemsGrp.forEach(function(item:ProgressItem)
                 {

@@ -49,9 +49,9 @@ class Achievements {
 		createAchievement('10deaths',					{name: "Go play anything else please.", description: "Die 10 times in the same song"});
 		createAchievement('dumbbells',					{name: "Stop playing with those dumbbells", description: "Lift dumbbells 50 times.", maxScore: 50, maxDecimals: 0});
 		createAchievement('first_purchase',				{name: "Gimme your yoins!", description: "Purchase an item for the first time."});
-		createAchievement('click',						{name: "The art of clicks", description: "Click 1000 times", maxScore: 1000, maxDecimals: 0, hidden: true});
-		createAchievement('click2',						{name: "Are you seriously still clicking?", description: "Click 2000 times", maxScore: 2000, maxDecimals: 0, hidden: true});
-		createAchievement('click3',						{name: "Stop please...", description: "Click 3000 times", maxScore: 3000, maxDecimals: 0, hidden: true});
+		createAchievement('click',						{name: "The art of clicks", description: "Click 1000 times", maxScore: 1000, maxDecimals: 0});
+		createAchievement('click2',						{name: "Are you seriously still clicking?", description: "Click 2000 times", maxScore: 2000, maxDecimals: 0});
+		createAchievement('click3',						{name: "Stop please...", description: "Click 3000 times", maxScore: 3000, maxDecimals: 0});
 		
 		//dont delete this thing below
 		_originalLength = _sortID + 1;
