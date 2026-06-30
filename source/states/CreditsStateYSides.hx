@@ -202,7 +202,12 @@ class CreditsStateYSides extends MusicBeatState
 			name: 'Inkgamer159',
 			icon: 'ink',
 			roles: ['Build Tester'],
-			socialMedias: [],
+			socialMedias: [
+				{
+					icon: 'yt',
+					link: 'https://www.youtube.com/@Inkgamer2123'
+				}
+			],
 			color: 0xFFFFDC8E
 		},
 		{
