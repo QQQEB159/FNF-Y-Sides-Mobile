@@ -3249,6 +3249,7 @@ class PlayState extends MusicBeatState
 				#end
 
 				boyfriend.visible = false;
+				if(boyfriendTennisClone != null) boyfriendTennisClone.visible = false;
 
 				// FlxTween.num(playbackRate, 0, 0.6, {ease: FlxEase.quartOut}, function(v:Float)
 				// {
