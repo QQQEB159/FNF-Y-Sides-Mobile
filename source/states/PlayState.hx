@@ -5558,6 +5558,15 @@ class PlayState extends MusicBeatState
 						FlxTween.tween(blackThingSupreme, {alpha: 1}, 0.15);
 					case 288:
 						blackThingSupreme.alpha = 0;
+					case 1054:
+						cameraFollowInstant = true;
+						isCameraOnForcedPos = true;
+						FlxG.camera.followLerp = 1;
+					case 1056:
+						FlxG.camera.followLerp = 1;
+					case 1058:
+						isCameraOnForcedPos = false;
+						cameraFollowInstant = false;
 				}
 			case 'Settings-bf':
 				switch(curStep)
