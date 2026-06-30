@@ -478,10 +478,10 @@ class ResultsScreen extends MusicBeatSubstate
                 else
                     yoinsEarnedTxt.text = '+$yoinsEarnedOnSession yoins';
 
-                FlxTween.tween(yoinsEarnedTxt, {alpha: 1, y: yoinsEarnedTxt.y - 10}, 0.3, {ease: FlxEase.quartOut});
+                FlxTween.tween(yoinsEarnedTxt, {alpha: 1, y: yoinsEarnedTxt.y - 15}, 0.3, {ease: FlxEase.quartOut});
                 new FlxTimer().start(2.05, function(tmr:FlxTimer)
                 {
-                    FlxTween.tween(yoinsEarnedTxt, {alpha: 0, y: yoinsEarnedTxt.y + 10}, 0.3, {ease: FlxEase.quartOut});
+                    FlxTween.tween(yoinsEarnedTxt, {alpha: 0, y: yoinsEarnedTxt.y + 15}, 0.3, {ease: FlxEase.quartOut});
                 });
         }
     }
