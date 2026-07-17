@@ -1,7 +1,5 @@
 package shaders;
 
-import flixel.system.FlxAssets.FlxShader;
-
 class BlurShader extends FlxShader
 {
 	@glFragmentSource('

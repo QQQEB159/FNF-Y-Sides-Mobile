@@ -1,10 +1,8 @@
 package shaders;
 
-import flixel.system.FlxAssets.FlxShader;
-
 class DeflectiveLens extends FlxShader
 {
-    @glFragmentSource('
+    @:glFragmentSource('
     
     // Automatically converted with https://github.com/TheLeerName/ShadertoyToFlixel
 

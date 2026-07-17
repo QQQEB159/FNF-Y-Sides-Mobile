@@ -1,10 +1,8 @@
 package shaders;
 
-import flixel.system.FlxAssets.FlxShader;
-
 class GlitchFragmentShader extends FlxShader
 {
-	@glFragmentSource('
+	@:glFragmentSource('
 
 	#pragma header
 	vec2 uv = openfl_TextureCoordv.xy;

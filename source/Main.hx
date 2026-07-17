@@ -2,9 +2,6 @@ package;
 
 import backend.PlayedTime;
 import backend.GameProgress;
-#if android
-import android.content.Context;
-#end
 
 import debug.FPSCounter;
 import backend.Saves;
@@ -18,6 +15,7 @@ import openfl.Lib;
 import openfl.display.Sprite;
 import openfl.events.Event;
 import openfl.display.StageScaleMode;
+import lime.system.System as LimeSystem;
 import lime.app.Application;
 import states.TitleState;
 import states.HaxeflixelIntroState;
@@ -35,11 +33,8 @@ import lime.graphics.Image;
 import backend.ALSoftConfig; // Just to make sure DCE doesn't remove this, since it's not directly referenced anywhere else.
 #end
 
-//crash handler stuff
-#if CRASH_HANDLER
-import openfl.events.UncaughtErrorEvent;
-import haxe.CallStack;
-import haxe.io.Path;
+#if COPYSTATE_ALLOWED
+import states.CopyState;
 #end
 
 import backend.Highscore;
@@ -82,10 +77,23 @@ class Main extends Sprite
 	public static function main():Void
 	{
 		Lib.current.addChild(new Main());
+		#if cpp
+		cpp.NativeGc.enable(true);
+		#elseif hl
+		hl.Gc.enable(true);
+		#end
 	}
 
 	public function new()
 	{
+		#if mobile
+		#if android
+		StorageUtil.requestPermissions();
+		#end
+		Sys.setCwd(StorageUtil.getStorageDirectory());
+		#end
+		backend.CrashHandler.init();
+		
 		super();
 
 		#if windows
@@ -95,12 +103,6 @@ class Main extends Sprite
 		untyped __cpp__("SetProcessDPIAware();");
 		#end
 
-		// Credits to MAJigsaw77 (he's the og author for this code)
-		#if android
-		Sys.setCwd(Path.addTrailingSlash(Context.getExternalFilesDir()));
-		#elseif ios
-		Sys.setCwd(lime.system.System.applicationStorageDirectory);
-		#end
 		#if VIDEOS_ALLOWED
 		hxvlc.util.Handle.init(#if (hxvlc >= "1.8.0")  ['--no-lua'] #end);
 		#end
@@ -177,20 +179,18 @@ class Main extends Sprite
 		Controls.instance = new Controls();
 		ClientPrefs.loadDefaultKeys();
 		#if ACHIEVEMENTS_ALLOWED Achievements.load(); #end
-		var game = new FlxGame(game.width, game.height, game.initialState, game.framerate, game.framerate, game.skipSplash, game.startFullscreen);
+		var game = new FlxGame(game.width, game.height, #if COPYSTATE_ALLOWED !CopyState.checkExistingFiles() ? CopyState : #end game.initialState, game.framerate, game.framerate, game.skipSplash, game.startFullscreen);
 		@:privateAccess
 		game._customSoundTray = backend.CustomSoundTray;
 		addChild(game);
 
-		#if !mobile
 		fpsVar = new FPSCounter(10, 3, 0xFFFFFF);
-		addChild(fpsVar);
+		FlxG.game.addChild(fpsVar);
 		Lib.current.stage.align = "tl";
 		Lib.current.stage.scaleMode = StageScaleMode.NO_SCALE;
 		if(fpsVar != null) {
 			fpsVar.visible = ClientPrefs.data.showFPS;
 		}
-		#end
 
 		#if linux
 		var icon = Image.fromFile("icon.png");
@@ -206,8 +206,9 @@ class Main extends Sprite
 		FlxG.game.focusLostFramerate = 60;
 		FlxG.keys.preventDefaultKeys = [TAB];
 		
-		#if CRASH_HANDLER
-		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrash);
+		#if mobile
+		#if android FlxG.android.preventDefaultKeys = [BACK]; #end
+		LimeSystem.allowScreenTimeout = ClientPrefs.data.screensaver;
 		#end
 
 		#if DISCORD_ALLOWED
@@ -237,54 +238,4 @@ class Main extends Sprite
 			sprite.__cacheBitmapData = null;
 		}
 	}
-
-	// Code was entirely made by sqirra-rng for their fnf engine named "Izzy Engine", big props to them!!!
-	// very cool person for real they don't get enough credit for their work
-	#if CRASH_HANDLER
-	function onCrash(e:UncaughtErrorEvent):Void
-	{
-		var errMsg:String = "";
-		var path:String;
-		var callStack:Array<StackItem> = CallStack.exceptionStack(true);
-		var dateNow:String = Date.now().toString();
-
-		dateNow = dateNow.replace(" ", "_");
-		dateNow = dateNow.replace(":", "'");
-
-		path = "./crash/" + "PsychEngine_" + dateNow + ".txt";
-
-		for (stackItem in callStack)
-		{
-			switch (stackItem)
-			{
-				case FilePos(s, file, line, column):
-					errMsg += file + " (line " + line + ")\n";
-				default:
-					Sys.println(stackItem);
-			}
-		}
-
-		errMsg += "\nUncaught Error: " + e.error;
-		// remove if you're modding and want the crash log message to contain the link
-		// please remember to actually modify the link for the github page to report the issues to.
-		#if officialBuild
-		errMsg += "\nPlease report this error to the GitHub page: https://github.com/ShadowMario/FNF-PsychEngine";
-		#end
-		errMsg += "\n\n> Crash Handler written by: sqirra-rng";
-
-		if (!FileSystem.exists("./crash/"))
-			FileSystem.createDirectory("./crash/");
-
-		File.saveContent(path, errMsg + "\n");
-
-		Sys.println(errMsg);
-		Sys.println("Crash dump saved in " + Path.normalize(path));
-
-		Application.current.window.alert(errMsg, "Error!");
-		#if DISCORD_ALLOWED
-		DiscordClient.shutdown();
-		#end
-		Sys.exit(1);
-	}
-	#end
 }

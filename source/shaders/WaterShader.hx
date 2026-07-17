@@ -1,10 +1,8 @@
 package shaders;
 
-import flixel.system.FlxAssets.FlxShader;
-
 class WaterShader extends FlxShader
 {
-    @glFragmentSource("
+    @:glFragmentSource("
 
 #pragma header
 uniform float iTime;
