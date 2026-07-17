@@ -287,10 +287,10 @@ class PlayState extends MusicBeatState
 
 	#if DISCORD_ALLOWED
 	// Discord RPC variables
-	var storyDifficultyText:String = "";
 	var detailsText:String = "";
 	var detailsPausedText:String = "";
 	#end
+	var storyDifficultyText:String = "";
 
 	//Achievement shit
 	var keysPressed:Array<Int> = [];
