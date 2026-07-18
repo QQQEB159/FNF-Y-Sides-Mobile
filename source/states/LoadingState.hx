@@ -282,6 +282,8 @@ class LoadingState extends MusicBeatState
 			transitioning = true;
 			finishedLoading = true;
 		}
+		
+		addTouchPad('NONE', 'A');
 	}
 
 	function addBehindBar(obj:flixel.FlxBasic)

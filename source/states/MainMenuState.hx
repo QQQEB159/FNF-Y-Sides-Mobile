@@ -385,6 +385,8 @@ class MainMenuState extends MusicBeatState
         }
 
         //openSubState(new backend.IconFadeTransition(4, 'test', true));
+        
+        addTouchPad("NONE", "B");
     }
 
     var circleAngleSpeed:Float = 10;
@@ -751,14 +753,17 @@ class MainMenuState extends MusicBeatState
                 {
                     if(FlxG.mouse.justPressed)
                     {
-                        pressAccept();
-                    }
-                    if(spr.ID == curSelected && curColumn == LEFT) return;
+                        if(spr.ID == curSelected && curColumn == LEFT)
+                        {
+                            pressAccept();
+                            return;
+                        }
 
-                    curColumn = LEFT;
-                    curSelected = spr.ID;
-                    if(!spr.overlaping) changeSelection();
-                    if(!spr.overlaping) spr.overlaping = true;
+                        curColumn = LEFT;
+                        curSelected = spr.ID;
+                        if(!spr.overlaping) changeSelection();
+                        if(!spr.overlaping) spr.overlaping = true;
+                    }
                 }
                 else
                 {
@@ -772,14 +777,17 @@ class MainMenuState extends MusicBeatState
                 {
                     if(FlxG.mouse.justPressed)
                     {
-                        pressAccept();
+                        if(spr.ID == curSelected && curColumn == RIGHT)
+                        {
+                            pressAccept();
+                            return;
+                        }
+    
+                        curColumn = RIGHT;
+                        curSelected = spr.ID;
+                        if(!spr.overlaping && usingMouse) changeSelection();
+                        if(!spr.overlaping) spr.overlaping = true;
                     }
-                    if(spr.ID == curSelected && curColumn == RIGHT) return;
-
-                    curColumn = RIGHT;
-                    curSelected = spr.ID;
-                    if(!spr.overlaping && usingMouse) changeSelection();
-                    if(!spr.overlaping) spr.overlaping = true;
                 }
                 else
                 {

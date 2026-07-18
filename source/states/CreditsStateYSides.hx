@@ -329,6 +329,8 @@ class CreditsStateYSides extends MusicBeatState
 		FlxG.sound.list.add(callMeAGoodBOOOY);
 		callMeAGoodBOOOY.volume = 0;
 		callMeAGoodBOOOY.play();
+		
+		addTouchPad('NONE', 'B_T');
 	}
 
 	var psychScale:Float = 1;
@@ -417,7 +419,7 @@ class CreditsStateYSides extends MusicBeatState
 			rightArrow.color = FlxColor.WHITE;
 		}
 
-		if(FlxG.keys.justPressed.TAB)
+		if(FlxG.keys.justPressed.TAB || touchPad.buttonT.justPressed)
 		{
 			FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;

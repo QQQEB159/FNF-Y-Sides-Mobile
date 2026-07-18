@@ -267,6 +267,9 @@ class CollectionablesSubState extends MusicBeatSubstate
 
         setCurrentPage(currentPage);
         initTransition();
+        
+        addTouchPad('NONE', 'B');
+		addTouchPadCamera();
     }
 
     function onUnlock(targetFigurine:FlxSprite)

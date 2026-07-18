@@ -355,6 +355,9 @@ class VaultState extends MusicBeatState
         {
             startDialogue('Hey! We are finishing to place your progress...');
         }
+        
+        addTouchPad('UP_DOWN', 'A_B');
+		addTouchPadCamera();
     }
 
     var transDuration:Float = 0.65;
@@ -673,6 +676,7 @@ class VaultState extends MusicBeatState
                     var collectionables = new CollectionablesSubState();
                     collectionables.cameras = [camHUD];
                     openSubState(collectionables);
+                    removeTouchPad();
 
                     isOnCollectionables = true;
 
@@ -949,6 +953,7 @@ class VaultState extends MusicBeatState
         var shop = new ShopSubState();
         shop.cameras = [camHUD];
         openSubState(shop);
+        removeTouchPad();
     }
 
     function zoomInToCharacter()
@@ -967,6 +972,10 @@ class VaultState extends MusicBeatState
     override function closeSubState()
     {
         super.closeSubState();
+        
+        removeTouchPad();
+        addTouchPad('UP_DOWN', 'A_B');
+		addTouchPadCamera();
 
         if(isOnCollectionables)
         {

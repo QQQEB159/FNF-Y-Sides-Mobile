@@ -369,7 +369,7 @@ class ResultsScreen extends MusicBeatSubstate
 
 		FlxG.watch.addQuick("beatShit", curBeat);
 
-        if(controls.BACK || controls.ACCEPT)
+        if(controls.BACK || controls.ACCEPT || TouchUtil.justPressed)
         {
             FlxTween.tween(fullBlackBackground, {alpha: 1}, 0.6);
 

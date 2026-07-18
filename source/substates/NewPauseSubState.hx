@@ -89,6 +89,9 @@ class NewPauseSubState extends MusicBeatSubstate
         {
             resumeAngleTarget = v;
         });
+        
+        addTouchPad('LEFT_FULL', 'A');
+        addTouchPadCamera();
     }
 
 	public static var songName:String = null;

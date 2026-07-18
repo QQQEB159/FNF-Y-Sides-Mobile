@@ -39,7 +39,9 @@ class OptionsState extends MusicBeatState
 
 	function openSelectedSubstate(label:String) 
 	{
-		
+		if (label != "Adjust Delay" && label != "Save Files"){
+			removeTouchPad();
+		}
 		iconsPos.insert(0, icons.x);
 		iconsPos.insert(1, icons.y);
 
@@ -60,6 +62,8 @@ class OptionsState extends MusicBeatState
 				openSubState(new options.GameplaySettingsSubState());
 			case 'Adjust Delay':
 				MusicBeatState.switchState(new options.NoteOffsetState());
+			case 'Mobile Options':
+				openSubState(new mobile.options.MobileOptionsSubState());
 			case 'Language':
 				openSubState(new options.LanguageSubState());
 			case 'Save Files':
@@ -455,6 +459,10 @@ class OptionsState extends MusicBeatState
 		}
 
 		initTrans();
+		
+		addTouchPad('UP_DOWN', 'OptionsState');
+		addTouchPadCamera();
+		
 		super.create();
 	}
 
@@ -488,6 +496,10 @@ class OptionsState extends MusicBeatState
 	{
 		super.closeSubState();
 
+		removeTouchPad();
+		addTouchPad('UP_DOWN', 'OptionsState');
+		addTouchPadCamera();
+		
 		icons.setPosition(iconsPos[0], iconsPos[1]);
 		songThing.x = songThingPos[0];
 
@@ -779,6 +791,11 @@ class OptionsState extends MusicBeatState
 				}
 			}
 			else if (controls.ACCEPT) openSelectedSubstate(options[curSelected]);
+			
+			if (touchPad.buttonC.justPressed || FlxG.keys.justPressed.CONTROL && controls.mobileC)
+			{
+				openSubState(new mobile.substates.MobileControlSelectSubState());
+			}
 		}
 
 		if(grpOptions != null)

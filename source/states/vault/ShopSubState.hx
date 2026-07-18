@@ -230,6 +230,9 @@ class ShopSubState extends MusicBeatSubstate
 
         initTransition();
         changeSelection();
+        
+        addTouchPad('UP_DOWN', 'A_B');
+		addTouchPadCamera();
     }
 
     function initTransition()

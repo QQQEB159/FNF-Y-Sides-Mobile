@@ -188,6 +188,9 @@ class FlashingState extends MusicBeatState
 		rgbShader.gOffset.value = [0.0];
 		rgbShader.bOffset.value = [0.0];
 		rgbFilter = new ShaderFilter(rgbShader);
+		
+		addTouchPad("NONE", "A");
+		addTouchPadCamera();
 	}
 
 	override function update(elapsed:Float)
@@ -216,7 +219,7 @@ class FlashingState extends MusicBeatState
 			}
 
 			// in this case i want harcoded ENTER
-			if(FlxG.keys.justPressed.SPACE && !selectedControl)
+			if((FlxG.keys.justPressed.SPACE || touchPad.buttonA.justPressed) && !selectedControl)
 			{
 				leftState = true;
 				var tweenDuration:Float = 1.2;
