@@ -43,7 +43,7 @@
 	],
 	"vocals_file": "",
 	"no_antialiasing": false,
-	"image": "characters/test",
+	"image": "characters/Test",
 	"position": [100, -35],
 	"icon_offset": [-10, 25],
 	"healthicon": "test",

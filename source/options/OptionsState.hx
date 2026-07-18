@@ -24,6 +24,7 @@ class OptionsState extends MusicBeatState
 		'Graphics',
 		'Visuals',
 		'Gameplay',
+		'Mobile Options',
 		'Save Files'
 		#if TRANSLATIONS_ALLOWED , 'Language' #end
 	];
@@ -792,8 +793,9 @@ class OptionsState extends MusicBeatState
 			}
 			else if (controls.ACCEPT) openSelectedSubstate(options[curSelected]);
 			
-			if (touchPad.buttonC.justPressed || FlxG.keys.justPressed.CONTROL && controls.mobileC)
+			if (touchPad != null && touchPad.buttonC.justPressed || FlxG.keys.justPressed.CONTROL && controls.mobileC)
 			{
+				touchPad.active = touchPad.visible = false;
 				openSubState(new mobile.substates.MobileControlSelectSubState());
 			}
 		}
