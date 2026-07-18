@@ -824,6 +824,8 @@ class OptionsState extends MusicBeatState
 					item.targetY = num - curSelected + 2;
 				case 5:
 					item.targetY = num - curSelected + 3;
+				case 6:
+					item.targetY = num - curSelected + 4;
 			}
 
 			if(change == 0) item.snapToPosition();

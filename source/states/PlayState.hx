@@ -3299,6 +3299,7 @@ class PlayState extends MusicBeatState
 					FlxG.sound.music.stop();
 					returnyGameoverDeathVideo.visible = true;
 					returnyGameoverDeathVideo.play();
+					mobileControls.instance.visible = #if !android touchPad.visible = #end false;
 				}
 
 				//Achievements.addScore('10deaths');
