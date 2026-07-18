@@ -816,16 +816,14 @@ class OptionsState extends MusicBeatState
 		{
 			switch(curSelected)
 			{
-				case 0 | 1 | 2:
+				case 0 | 1 | 2 | 3:
 					item.targetY = num - curSelected;
-				case 3:
-					item.targetY = num - curSelected + 1;
 				case 4:
-					item.targetY = num - curSelected + 2;
+					item.targetY = num - curSelected + 1;
 				case 5:
-					item.targetY = num - curSelected + 3;
+					item.targetY = num - curSelected + 2;
 				case 6:
-					item.targetY = num - curSelected + 4;
+					item.targetY = num - curSelected + 3;
 			}
 
 			if(change == 0) item.snapToPosition();
