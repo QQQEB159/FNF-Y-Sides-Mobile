@@ -295,6 +295,9 @@ class FreeplayState extends MusicBeatState
 		
 		changeSelection(true, false);
 		updateTexts();
+		
+		addTouchPad('LEFT_FULL', 'A_B_C');
+		
 		super.create();
 	}
 

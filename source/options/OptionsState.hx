@@ -461,7 +461,7 @@ class OptionsState extends MusicBeatState
 		initTrans();
 		
 		addTouchPad('UP_DOWN', 'OptionsState');
-		addTouchPadCamera();
+		//addTouchPadCamera();
 		
 		super.create();
 	}
@@ -498,7 +498,7 @@ class OptionsState extends MusicBeatState
 
 		removeTouchPad();
 		addTouchPad('UP_DOWN', 'OptionsState');
-		addTouchPadCamera();
+		//addTouchPadCamera();
 		
 		icons.setPosition(iconsPos[0], iconsPos[1]);
 		songThing.x = songThingPos[0];
