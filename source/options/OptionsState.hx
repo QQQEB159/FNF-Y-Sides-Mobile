@@ -648,6 +648,7 @@ class OptionsState extends MusicBeatState
 		}
 		else
 		{
+			FlxG.mouse.visible = false;
 			var songLowercase:String = Paths.formatToSongPath('Settings');
 			var poop:String = Highscore.formatSong(songLowercase, 'bf', 2);
 
