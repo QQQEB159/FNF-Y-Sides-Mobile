@@ -485,7 +485,7 @@ class NewFreeplayState extends MusicBeatState
 
         initTransition();
         
-        addTouchPad('LEFT_FULL', 'A_B_E_Q');
+        addTouchPad('LEFT_FULL', 'A_B_T_E_Q');
     }
 
     public function hasModdedSongs():Bool
@@ -892,7 +892,7 @@ class NewFreeplayState extends MusicBeatState
                 #end
             }
 
-            if(FlxG.keys.justPressed.TAB)
+            if(FlxG.keys.justPressed.TAB || touchPad.buttonT.justPressed)
             {
                 if(!unlockedPico) return;
                 
